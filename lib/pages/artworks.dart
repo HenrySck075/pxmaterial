@@ -27,12 +27,19 @@ class _IllustPageState extends State<IllustPage> {
   Future<List<dynamic>>? ed;
   List<dynamic>? op;
   final _authorIllustsViewCtrl = ScrollController();
+  final _sccvCtrl = ScrollController();
   int illustIndex = 0;
   List<String> authIllustIds = [];
   List<int> range = [0,0];
   List<int> visibleRange = [-1,-1];
-  List<dynamic> authIllustData = [];
+  var authIllustData = VisibleNotifyNotifier([]);
   final current = GlobalKey();
+
+  // related artworks
+  var related = VisibleNotifyNotifier([]);
+  List<dynamic> relatedNextIds = []; // bruh
+  /// to prevent spamming the request
+  bool relatedFetching = false;
 
   void updateRange(int start, int end) {
     if (end >= authIllustIds.length-1) end=authIllustIds.length-1;
@@ -48,24 +55,32 @@ class _IllustPageState extends State<IllustPage> {
       pxRequest("https://www.pixiv.net/ajax/illust/$id"),
       pxRequest("https://www.pixiv.net/ajax/illust/$id/pages"),
     ]);
+    _sccvCtrl.addListener(() {
+      if (_sccvCtrl.position.pixels>=_sccvCtrl.position.maxScrollExtent && relatedNextIds.isNotEmpty) {
+        // there's like several more endpoints that does the EXACT SAME THING as this. dude can you be consistent pls
+        pxRequest("https://www.pixiv.net/ajax/illust/recommend/illusts?illust_ids[]=${relatedNextIds.sublist(0,18).join('&illust_ids[]=')}",otherHeaders: {"Referer":"https://www.pixiv.net/en/artworks/$id"}).then((value) {
+          related.value.addAll(value["illusts"]);
+          relatedNextIds = relatedNextIds.sublist(20);
+          related.notifyListeners();
+        });
+      }
+    });
     _authorIllustsViewCtrl.addListener(() {
 //       print("""Current: ${_authorIllustsViewCtrl.position.pixels} 
 // Max scroll extent: ${_authorIllustsViewCtrl.position.maxScrollExtent}
 // Min scroll extent: ${_authorIllustsViewCtrl.position.minScrollExtent}""");
       if (_authorIllustsViewCtrl.position.pixels>=_authorIllustsViewCtrl.position.maxScrollExtent && range[1]!=authIllustIds.length-1) {
         pxRequest("https://www.pixiv.net/ajax/user/$authorId/illusts?ids[]=${authIllustIds.sublist(range[1]+1,range[1]+8).join('&ids[]=')}").then((value) {
-          authIllustData.addAll(value.values);
-          setState(() {
-            updateRange(visibleRange[1]+1, visibleRange[1]+8);
-          });
+          authIllustData.value.addAll(value.values);
+          updateRange(visibleRange[1]+1, visibleRange[1]+8);
+          authIllustData.notifyListeners();
         });
       }
       if (_authorIllustsViewCtrl.position.pixels==_authorIllustsViewCtrl.position.minScrollExtent && range[1]!=0) {
         pxRequest("https://www.pixiv.net/ajax/user/$authorId/illusts?ids[]=${authIllustIds.sublist(range[0]-8,range[0]-1).join('&ids[]=')}").then((value) {
-          authIllustData.insertAll(0,value.values);
-          setState(() {
-            updateRange(visibleRange[0]-8, visibleRange[0]-1);
-          });
+          authIllustData.value.insertAll(0,value.values);
+          updateRange(visibleRange[0]-8, visibleRange[0]-1);
+          authIllustData.notifyListeners();
         });
       }
     });
@@ -82,6 +97,7 @@ class _IllustPageState extends State<IllustPage> {
         illustIndex = authIllustIds.indexOf(id);
         updateRange(illustIndex-7, illustIndex+7);
         return SingleChildScrollView(
+          controller: _sccvCtrl,
           child: Column(
             crossAxisAlignment:CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -137,6 +153,7 @@ class _IllustPageState extends State<IllustPage> {
               const Divider(),
               // Author view
               futureWidget(
+                // google said this is bad, but idk
                 future: pxRequest("https://www.pixiv.net/ajax/user/${d['userId']}?full=0"), 
                 builder: (ctx, snap) {
                   JSON d = snap.data!;
@@ -157,23 +174,25 @@ class _IllustPageState extends State<IllustPage> {
               futureWidget(
                 future: pxRequest("https://www.pixiv.net/ajax/user/$authorId/illusts?ids[]=${authIllustIds.sublist(range[0],range[1]+1).join('&ids[]=')}"),
                 builder: (context,snap) {
-                  if (authIllustData.isEmpty) authIllustData = [...snap.data!.values];
-                  print(authIllustData.length);
+                  if (authIllustData.value.isEmpty) authIllustData.value = [...snap.data!.values];
                   // Future.delayed(const Duration(milliseconds: 50),()=>_authorIllustsViewCtrl.position.ensureVisible(current.currentContext!.findRenderObject()!));
-                  return ConstrainedBox(
-                    constraints: const BoxConstraints(maxHeight: 120),
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      controller: _authorIllustsViewCtrl,
-                      padding: const EdgeInsets.only(left:2,right:2),
-                      children: [...authIllustData.map((e) => Padding(
-                        padding: const EdgeInsets.only(left:2.0, right:2),
-                        child: PxSimpleArtwork(
-                          key: (e["id"]==id)?current:null,
-                          data: e,
-                          isCurrent: e["id"]==id,
-                        ),
-                      ))],
+                  return ListenableBuilder(
+                    listenable: authIllustData,
+                    builder: (ctx,w)=>ConstrainedBox(
+                      constraints: const BoxConstraints(maxHeight: 120),
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        controller: _authorIllustsViewCtrl,
+                        padding: const EdgeInsets.only(left:2,right:2),
+                        children: [...authIllustData.value.map((e) => Padding(
+                          padding: const EdgeInsets.only(left:2.0, right:2),
+                          child: PxSimpleArtwork(
+                            key: (e["id"]==id)?current:null,
+                            data: e,
+                            isCurrent: e["id"]==id,
+                          ),
+                        ))],
+                      )
                     )
                   );
                 }
@@ -185,7 +204,21 @@ class _IllustPageState extends State<IllustPage> {
                   const Text("Comments",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left),
                   ArtworkComments(illustId: id)
                 ],
-              )
+              ),
+              const Divider(),
+              const Text("Related artworks",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left),
+              futureWidget(
+                future: pxRequest("https://www.pixiv.net/ajax/illust/$id/recommend/init?limit=18"), 
+                builder:(ctx,snap) {
+                  related.value = snap.data!["illusts"];
+                  relatedNextIds = snap.data!["nextIds"];
+                  return ListenableBuilder(
+                    listenable: related,
+                    builder: (ctx,w)=>artworkGrid([...related.value.map((e) => PxArtwork(data: e))])
+                  );
+                } 
+              ),
+              SizedBox(height: 35,)
             ],
           ),
         );
@@ -222,6 +255,7 @@ class _ArtworkCommentsState extends State<ArtworkComments> {
       offset = 3;
       return Column(
         children: [
+          if (comments.isEmpty) const Text("There's no comments yet", textAlign: TextAlign.center,),
           ...List.from(comments.map((v)=>ListTile(
             title: Text(v["userName"]),
             subtitle: v["comment"] == ""?Container(
@@ -237,7 +271,7 @@ class _ArtworkCommentsState extends State<ArtworkComments> {
           ))),
           if(hasNext) FilledButton(onPressed: (){
             
-            pxRequest("https://www.pixiv.net/ajax/illusts/comments/roots?illust_id=${widget.illustId}&offset=${offset}&limit=${limit}").then((v){
+            pxRequest("https://www.pixiv.net/ajax/illusts/comments/roots?illust_id=${widget.illustId}&offset=$offset&limit=$limit").then((v){
               setState(() {
                 comments.addAll(v["comments"]);
                 offset += v["comments"].length as int;

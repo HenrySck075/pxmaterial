@@ -1,5 +1,19 @@
+// Widget builders
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+/// make `notifyListeners` non-protected :trollskullirl:
+class VisibleNotifyNotifier<T> extends ChangeNotifier {
+  T value;
+  VisibleNotifyNotifier(this.value);
+
+  @override
+  /// nerd
+  void notifyListeners() {
+    super.notifyListeners();
+  }
+}
 SizedBox Function(BuildContext, GoRouterState) emptyBuilder()=>(ctx,s)=>const SizedBox(width: 1,height: 1,);
 /// i love when i have to find a fix related to dimensions with all the flex widgets that i know so that it can be inside other flex widgets
 Wrap artworkGrid(List<Widget> h) => Wrap(

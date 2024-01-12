@@ -1,3 +1,5 @@
+// Warning: this is where you can throw all the shit that will be recycled across codes
+// Make sure you made it clean
 
 // ignore_for_file: no_logic_in_create_state
 import 'package:flutter/foundation.dart';
@@ -11,8 +13,9 @@ import 'package:url_launcher/url_launcher.dart';
 export 'package:sofieru/silly.dart';
 import 'package:sofieru/silly.dart';
 
-
 import 'package:shared_preferences/shared_preferences.dart';
+
+String apiVersion = "6c38cc7c723c6ae8b0dc7022d497a1ee751824c0";
 
 GoRouter router = GoRouter(routes: []);
 String cooki = "";
@@ -69,7 +72,7 @@ void navigate(String location, {String method = "push"}) {
     default: 
       r = router.push;
   }
-  r("/en"+location);
+  r(location);
 }
 typedef JSON = Map<String, dynamic>;
 
@@ -98,6 +101,7 @@ Iterable<T> enumerate<T, E>(Iterable<E> iter, T cooker(int index, E e)) sync* {
 Map<String, Future<dynamic>> mentalRetardation = {};
 /// [pxRequest] without postprocess
 Future<http.Response> pxRequestUnprocessed(String url, {Map<String, String> otherHeaders = const {}, String method="GET", Object? body}) {
+  print(url);
   var headers = {
     "cookie": cooki.trim(),
     "referer": "https://www.pixiv.net/en/",
@@ -109,7 +113,7 @@ Future<http.Response> pxRequestUnprocessed(String url, {Map<String, String> othe
   headers.addAll(otherHeaders);
   Future<http.Response> resp;
   print(kIsWeb);
-  url = url+(url.contains("?")?"&":"?")+"lang=en&version=a48f2f681629909b885608393916b81989accf5b";
+  url = url+(url.contains("?")?"&":"?")+"lang=en&version=$apiVersion";
   if (kIsWeb) {
     url="http://localhost:8072/request?url=${Uri.encodeFull(url)}";
     headers = {"headers":jsonEncode(headers)};
@@ -148,7 +152,12 @@ CachedNetworkImage pxImage(String url, {bool includeCircle = false, double? widt
   try {return d();}
   catch (n) {return d();}//try again lmao
 }
-Image pxImageUncached(String url, {bool includeCircle = false, int? width, int? height}) => Image.network(url, width: tryCast<double, int>(width), height: tryCast<double,int>(height), cacheHeight: height, cacheWidth: width, headers: {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, loadingBuilder:  includeCircle?(ctx,w,imgChunk) => const CircularProgressIndicator():null,);
+Image pxImageUncached(String url, {bool includeCircle = false, int? width, int? height}) {
+  var d = ()=>Image.network(url, width: tryCast<double, int>(width), height: tryCast<double,int>(height), cacheHeight: height, cacheWidth: width, headers: {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, loadingBuilder:  includeCircle?(ctx,w,imgChunk) => const CircularProgressIndicator():null,);
+  try {return d();}
+  catch (n) {return d();}//try again lmao
+  
+}
 
 class PxArtwork extends StatefulWidget {
   final Map<String,dynamic> data;
@@ -172,7 +181,8 @@ class _PxArtworkState extends State<PxArtwork> {
       child: Card(
         clipBehavior: Clip.hardEdge,
         child:InkWell(
-          splashColor: Colors.grey.withAlpha(30),
+          borderRadius:BorderRadius.circular(20),
+          splashColor: Colors.blue.withAlpha(30),
           child: Column( 
             mainAxisSize: MainAxisSize.max,
             children: [

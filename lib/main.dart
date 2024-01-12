@@ -18,7 +18,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   updateCookie(await rootBundle.loadString("assets/cookie"));
   updateRouter(GoRouter(
-    initialLocation: "/en",
+    initialLocation: "/",
     errorBuilder: (n,s)=>ShellPage(
       child:Center(
         child: Column(children: [
@@ -32,40 +32,33 @@ void main() async {
       ShellRoute(
         builder: (ctx,st,wid)=>ShellPage(child: wid),
         routes: [
-          GoRoute( 
+          GoRoute(
             path: "/",
-            builder: (ctx,nuhuh)=>FilledButton(onPressed: ()=>ctx.go("/en"), child: const Text("     ")),
-            redirect: (context, state) => state.uri.path.startsWith("/en")?null:"/en${state.uri.path}",
+            builder: (bn,wef)=>const HomePage(),
             routes: [
               GoRoute(
-                path: "en",
-                builder: (bn,wef)=>const HomePage(),
+                path:"following",
+                builder: (no,care)=>LatestFollowingPage()
+              ),
+              GoRoute(
+                path: "artworks/:id",
+                builder: (no, state) =>  IllustPage(id:state.pathParameters["id"]!)
+              ),
+              GoRoute(
+                path: "tags/:tag",
+                builder: (ctx,s)=>const Text("You've found a page that is impossible for me to use as the index page for /tags, wahoo!. Now press back to exit"),
                 routes: [
-                  GoRoute(
-                    path:"following",
-                    builder: (no,care)=>LatestFollowingPage()
-                  ),
-                  GoRoute(
-                    path: "artworks/:id",
-                    builder: (no, state) =>  IllustPage(id:state.pathParameters["id"]!)
-                  ),
-                  GoRoute(
-                    path: "tags/:tag",
-                    builder: (ctx,s)=>Text("You've found a page that is impossible for me to use as the index page for /tags, wahoo!. Now press back to exit"),
+                  ShellRoute(
+                    builder: (ctx,st,w)=>tags.ShellPage(tag: st.pathParameters["tag"]!,child: w,),
                     routes: [
-                      ShellRoute(
-                        builder: (ctx,st,w)=>tags.ShellPage(tag: st.pathParameters["tag"]!,child: w,),
-                        routes: [
-                          GoRoute(path: "top", builder: (ctx,st)=>tags.MainPage(tag: st.pathParameters["tag"]!)),
-                          GoRoute(path: "artworks", builder: (c,st)=>tags.IllustPage(tag: st.pathParameters["tag"]!))
-                        ]
-                      )
+                      GoRoute(path: "top", builder: (ctx,st)=>tags.MainPage(tag: st.pathParameters["tag"]!)),
+                      GoRoute(path: "artworks", builder: (c,st)=>tags.IllustPage(tag: st.pathParameters["tag"]!))
                     ]
                   )
                 ]
-              ),
-            ]
-          )
+                )
+              ]
+            ),
         ]
       )
     ]

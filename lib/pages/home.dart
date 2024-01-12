@@ -49,7 +49,7 @@ String parseDate(String h) {
 class HomePage_Illusts extends StatelessWidget {
   const HomePage_Illusts({super.key});
 
-  Future<dynamic> ok({bool noCache=false})=>pxRequest("https://www.pixiv.net/ajax/top/illust?mode=all&lang=en&version=a48f2f681629909b885608393916b81989accf5b",noCache: noCache);
+  Future<dynamic> ok({bool noCache=false})=>pxRequest("https://www.pixiv.net/ajax/top/illust?mode=all",noCache: noCache);
   
   @override
   Widget build(BuildContext context) {
