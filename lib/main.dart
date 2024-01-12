@@ -34,7 +34,7 @@ void main() async {
         routes: [
           GoRoute( 
             path: "/",
-            builder: emptyBuilder(),
+            builder: (ctx,nuhuh)=>FilledButton(onPressed: ()=>ctx.go("/en"), child: const Text("     ")),
             redirect: (context, state) => state.uri.path.startsWith("/en")?null:"/en${state.uri.path}",
             routes: [
               GoRoute(

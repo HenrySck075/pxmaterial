@@ -1,5 +1,6 @@
 
 // ignore_for_file: no_logic_in_create_state
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -107,8 +108,13 @@ Future<http.Response> pxRequestUnprocessed(String url, {Map<String, String> othe
   debugPrint(cooki);
   headers.addAll(otherHeaders);
   Future<http.Response> resp;
-  Uri parsedUrl = Uri.parse(url+(url.indexOf("?")!=-1?"&":"?")+"lang=en&version=a48f2f681629909b885608393916b81989accf5b");
-  
+  print(kIsWeb);
+  url = url+(url.contains("?")?"&":"?")+"lang=en&version=a48f2f681629909b885608393916b81989accf5b";
+  if (kIsWeb) {
+    url="http://localhost:8072/request?url=${Uri.encodeFull(url)}";
+    headers = {"headers":jsonEncode(headers)};
+  }
+  Uri parsedUrl = Uri.parse(url);
   switch (method.toLowerCase()) {
     case "get": resp = http.get(parsedUrl,headers:headers);
     case "post": resp = http.post(parsedUrl,headers:headers, body: body, encoding: Encoding.getByName("utf-8"));
@@ -137,7 +143,11 @@ T? tryCast<T,O>(O? obj) {
   try {return obj as T;}
   catch (e) {return null;}
 }
-CachedNetworkImage pxImage(String url, {bool includeCircle = false, double? width, double? height}) => CachedNetworkImage(imageUrl: url, width: width, height: height, httpHeaders: {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, placeholder: includeCircle?(context, url) => const CircularProgressIndicator():null,);
+CachedNetworkImage pxImage(String url, {bool includeCircle = false, double? width, double? height}) {
+  var d = ()=>CachedNetworkImage(imageUrl: url, width: width, height: height, httpHeaders: {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, placeholder: includeCircle?(context, url) => const CircularProgressIndicator():null,);
+  try {return d();}
+  catch (n) {return d();}//try again lmao
+}
 Image pxImageUncached(String url, {bool includeCircle = false, int? width, int? height}) => Image.network(url, width: tryCast<double, int>(width), height: tryCast<double,int>(height), cacheHeight: height, cacheWidth: width, headers: {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, loadingBuilder:  includeCircle?(ctx,w,imgChunk) => const CircularProgressIndicator():null,);
 
 class PxArtwork extends StatefulWidget {
@@ -412,16 +422,16 @@ class _PxSimpleArtworkState extends State<PxSimpleArtwork> {
     );
   }
 }
-
-dynamic thumbRemap(dynamic d) {
+dynamic tryConvert(dynamic h) {
+  if (h is Map) return h;
   List<MapEntry<String,dynamic>> nerd = [];
-  d["thumbnails"]["novel"].forEach((v){nerd.add(MapEntry(v["id"], v));});
-  d["thumbnails"]["novel"] = Map.fromEntries(nerd);
-  nerd = [];
-  d["thumbnails"]["illust"].forEach((v){nerd.add(MapEntry(v["id"], v));});
-  print(nerd);
-  d["thumbnails"]["illust"] = Map.fromEntries(nerd);
-  debugPrint("(thumbRemap) "+d["thumbnails"]["illust"].toString());
+  h.forEach((v){nerd.add(MapEntry(v["id"], v));});
+  h = Map.fromEntries(nerd);
+  return h;
+}
+dynamic thumbRemap(dynamic d) {
+  d["thumbnails"]["novel"] = tryConvert(d["thumbnails"]["novel"]);
+  d["thumbnails"]["illust"] = tryConvert(d["thumbnails"]["illust"]);
   return d;
 }
 /// ^^

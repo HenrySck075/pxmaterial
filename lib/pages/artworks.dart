@@ -83,6 +83,7 @@ class _IllustPageState extends State<IllustPage> {
         updateRange(illustIndex-7, illustIndex+7);
         return SingleChildScrollView(
           child: Column(
+            crossAxisAlignment:CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               // The artwork view

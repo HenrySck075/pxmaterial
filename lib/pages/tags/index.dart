@@ -50,14 +50,15 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
   }
   
   @override
-  Widget build(ctx) {
+  Widget build(c) {
     Map<String, String> q = getQueries();
-    var d = ctx.watch<Config>();
-    d.search_options["mode"] = mode;
-    d.search_options["type"] = type;
     var sus = router.routeInformationProvider.value.uri.pathSegments;
     selIdx = habibi.indexOf(sus[sus.length-1]);
-    return futureWidget(
+    var memequery = MediaQuery.of(c);
+    return Consumer<Config>(builder: (ctx,d,c){
+      d.search_options["mode"] = mode;
+      d.search_options["type"] = type;
+      return futureWidget(
       future: pxRequest("https://www.pixiv.net/ajax/search/tags/$tag"), 
       builder: (ctx,snap){
         JSON data = snap.data!;
@@ -98,8 +99,9 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
               child: GestureDetector( 
                 onTap: () =>showDialog(
                   context: context, 
-                  builder: (ctx)=>AlertDialog( 
-                    content: Column( 
+                  builder: (ctx){
+                    var nya = Column( 
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         const Text("Search target"),
                         DropdownMenu(
@@ -112,14 +114,23 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
                           controller: TextEditingController(),
                           initialSelection: mode,
                         ),
-                        FilledButton(
-                          onPressed: ()=>d.update(), 
-                          child: const Text("Apply")
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Column(children:[
+                            FilledButton(
+                              onPressed: (){d.update();Navigator.pop(context);}, 
+                              child: const Text("Apply")
+                            ),
+                            TextButton(
+                              onPressed: ()=>Navigator.pop(context), 
+                              child: const Text("Close")
+                            )
+                          ])
                         )
                       ],
-                    ),
-                  )
-                ),
+                    );
+                    return memequery.size.width<600?Dialog.fullscreen(child: nya):Dialog(child: nya);
+                  }),
                 child: const Text("Search options"),
               ),
             ),
@@ -149,7 +160,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
             ],
           )
         );
-      }
-    );
+      });
+    });
   }
 }
