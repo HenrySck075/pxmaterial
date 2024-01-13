@@ -22,12 +22,11 @@ class ShellPage extends StatefulWidget {
   final Widget child;
   const ShellPage({super.key, required this.tag, required this.child});
 
-  State<ShellPage> createState()=>_ShellPageState(tag:tag,child: child);
+  State<ShellPage> createState()=>_ShellPageState();
 }
 class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
-  final String tag;
-  final Widget child;
-  _ShellPageState({required this.tag,required this.child});
+  late final String tag;
+  late final Widget child;
   int selIdx = 0;
 
   String mode = "all";
@@ -37,6 +36,8 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
   late final TabController _tabCtrl;
   @override
   void initState() {
+    tag = widget.tag;
+    child = widget.child;
     var q = getQueries();
     super.initState();
     mode = q["mode"]??"all";
@@ -51,7 +52,6 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
   
   @override
   Widget build(c) {
-    Map<String, String> q = getQueries();
     var sus = router.routeInformationProvider.value.uri.pathSegments;
     selIdx = habibi.indexOf(sus[sus.length-1]);
     var memequery = MediaQuery.of(c);

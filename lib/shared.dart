@@ -99,39 +99,48 @@ Iterable<T> enumerate<T, E>(Iterable<E> iter, T cooker(int index, E e)) sync* {
   }
 }
 Map<String, Future<dynamic>> mentalRetardation = {};
+var client = http.Client();
 /// [pxRequest] without postprocess
-Future<http.Response> pxRequestUnprocessed(String url, {Map<String, String> otherHeaders = const {}, String method="GET", Object? body}) {
-  print(url);
+Future<http.Response> pxRequestUnprocessed(String url, {
+  Map<String, String> otherHeaders = const {}, String method="GET", Object? body, 
+  void Function(double percent, int total)? onProgress
+}) async {
+  // wait for cookies to not empty (it will never)
+  if (cooki == "") await Future.doWhile(() => Future.delayed(Duration(milliseconds: 500)).then((_) => cooki==""));
+
   var headers = {
     "cookie": cooki.trim(),
     "referer": "https://www.pixiv.net/en/",
     "x-user-id": "76179633",
     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
   };
-  debugPrint(jsonEncode(headers));
-  debugPrint(cooki);
   headers.addAll(otherHeaders);
-  Future<http.Response> resp;
-  print(kIsWeb);
+
   url = url+(url.contains("?")?"&":"?")+"lang=en&version=$apiVersion";
   if (kIsWeb) {
     url="http://localhost:8072/request?url=${Uri.encodeFull(url)}";
     headers = {"headers":jsonEncode(headers)};
   }
+
   Uri parsedUrl = Uri.parse(url);
-  switch (method.toLowerCase()) {
-    case "get": resp = http.get(parsedUrl,headers:headers);
-    case "post": resp = http.post(parsedUrl,headers:headers, body: body, encoding: Encoding.getByName("utf-8"));
-    case "put": resp = http.put(parsedUrl,headers:headers, body: body, encoding: Encoding.getByName("utf-8"));
-    case "patch": resp = http.patch(parsedUrl,headers:headers, body: body, encoding: Encoding.getByName("utf-8"));
-    case "delete": resp = http.delete(parsedUrl,headers:headers, body: body, encoding: Encoding.getByName("utf-8"));
-    case "head": resp = http.head(parsedUrl,headers:headers);
-    default: throw "ik but i cant find OPTIONS anywhere, or you just passed a nonexistent http method";
-  }
+
+  var req = http.Request(method.toUpperCase(),parsedUrl);
+  req.headers.addAll(headers);
+  req.body = body is Map?jsonEncode(body):body.toString();
+  var resp = await client.send(req);
+
+  final List<int> bytes = [];
+  bool done = false;
+  resp.stream.listen((value) {
+    bytes.addAll(value);
+    if (onProgress!=null) onProgress(bytes.length/(resp.contentLength??-1),resp.contentLength??-1);
+  },onDone: ()=>done=true);
+  await Future.doWhile(() => Future.delayed(Duration(milliseconds: 500)).then((_) => !done));
+
   // print("HTTP/"+method);
   // resp.then((value) => print(value.body));
   
-  return resp;
+  return http.Response(String.fromCharCodes(bytes), resp.statusCode, headers: resp.headers);
 }
 Future<dynamic> pxRequest(String url, {Map<String, String> otherHeaders = const {}, String method="GET", Object? body, bool noCache = false}) {
   if (mentalRetardation.containsKey(url) && !noCache) {return mentalRetardation[url]!;}// we dont really needs to null check but dart sucks so
@@ -176,8 +185,8 @@ class _PxArtworkState extends State<PxArtwork> {
     var id = widget.data["illustId"]??widget.data["id"];
     // if (int.tryParse(widget.id)==null) {return Center(child: Text("invalid id"),);}
     return SizedBox(
-      width: 200,
-      height: 300,
+      width: 190,
+      height: 285,
       child: Card(
         clipBehavior: Clip.hardEdge,
         child:InkWell(
@@ -250,7 +259,7 @@ class _PxArtworkState extends State<PxArtwork> {
                 flex: 4,
                 child: ListTile(
                   title: Text(
-                    widget.data["title"],
+                    widget.data["titleCaptionTranslation"]["workTitle"]??widget.data["title"],
                     overflow: TextOverflow.ellipsis,
                   ),
                   subtitle: GestureDetector(

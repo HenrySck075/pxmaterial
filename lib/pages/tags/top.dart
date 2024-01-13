@@ -7,13 +7,12 @@ class MainPage extends StatefulWidget {
   final String tag;
   const MainPage({super.key, required this.tag});
   @override
-  State<MainPage> createState()=>_MainPageState(tag:tag);
+  State<MainPage> createState()=>_MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  final String tag;
+  late final String tag;
   late Future<dynamic> meta;
-  _MainPageState({required this.tag});
   var q = getQueries();
   int page = 1;
   String type = "all";
@@ -22,6 +21,7 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     page = int.parse(q["p"]??"1");
+    tag = widget.tag;
     meta = b();
   }
   @override
