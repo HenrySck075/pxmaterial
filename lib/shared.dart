@@ -1,7 +1,7 @@
-// Warning: this is where you can throw all the shit that will be recycled across codes
-// Make sure you made it clean
-
+// Collection of classes and utilities that will be used across the codebases
 // ignore_for_file: no_logic_in_create_state
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -101,12 +101,13 @@ Iterable<T> enumerate<T, E>(Iterable<E> iter, T cooker(int index, E e)) sync* {
 Map<String, Future<dynamic>> mentalRetardation = {};
 var client = http.Client();
 /// [pxRequest] without postprocess
+Future<void> wait(FutureOr<bool> Function(dynamic) predicate) async => await Future.doWhile(() => Future.delayed(const Duration(milliseconds: 500)).then(predicate));
 Future<http.Response> pxRequestUnprocessed(String url, {
   Map<String, String> otherHeaders = const {}, String method="GET", Object? body, 
   void Function(double percent, int total)? onProgress
 }) async {
   // wait for cookies to not empty (it will never)
-  if (cooki == "") await Future.doWhile(() => Future.delayed(Duration(milliseconds: 500)).then((_) => cooki==""));
+  if (cooki == "") await wait((_) => cooki=="");
 
   var headers = {
     "cookie": cooki.trim(),
@@ -135,8 +136,7 @@ Future<http.Response> pxRequestUnprocessed(String url, {
     bytes.addAll(value);
     if (onProgress!=null) onProgress(bytes.length/(resp.contentLength??-1),resp.contentLength??-1);
   },onDone: ()=>done=true);
-  await Future.doWhile(() => Future.delayed(Duration(milliseconds: 500)).then((_) => !done));
-
+  await wait((h) => !done);
   // print("HTTP/"+method);
   // resp.then((value) => print(value.body));
   

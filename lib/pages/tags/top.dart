@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:number_paginator/number_paginator.dart';
 import 'package:sofieru/shared.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,25 +29,29 @@ class _MainPageState extends State<MainPage> {
       future: meta, 
       builder: (ctx,snap) {
         JSON data = snap.data!;
+        List<JSON> popular = [...data["popular"]["permanent"].expand(data["popular"]["recent"])];
+        popular.shuffle();
+        popular = popular.sublist(0,6);
         return SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const Text("Popular artworks",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              SizedBox(height: 120,child: ListView( 
+                children: [...popular.map((e) => PxArtwork(data: e)),]
+              ),),
               const Text("Illustrations and Manga",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
               Padding(
                 padding: const EdgeInsets.only(left:4, right: 4),
                 child:artworkGrid([...data["illustManga"]["data"].map((v)=>PxSimpleArtwork(data: v))])
               ),
-              NumberPaginator(
-                numberPages: data["illustManga"]["lastPage"],
-                onPageChange: (val){
-                  setState(() {
-                    page = val;
-                    meta = b();
-                  });
-                },
-              )
+              Row( 
+                children: [
+                  OutlinedButton(onPressed: ()=>navigate("tags/$tag/illustrations"), child: const Text("More illusts")),
+                  OutlinedButton(onPressed: ()=>navigate("tags/$tag/manga"), child: const Text("More mangas"))
+                ],
+              ),
             ],
           ),
         );

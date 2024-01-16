@@ -22,3 +22,8 @@ samples, guidance on mobile development, and a full API reference.
 the error is `Connection closed before full header was received`.
 
 You shouldn't really care about it tho since if you reload it will just load the thumbnail like normal
+
+
+
+## TODO
+- Skeletonizer

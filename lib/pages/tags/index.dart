@@ -6,16 +6,8 @@ import 'package:url_launcher/url_launcher.dart';
 // import 'package:sticky_headers/sticky_headers.dart';
 import 'top.dart';
 export 'top.dart';
+export 'illusts.dart';
 import 'package:sofieru/options.dart' as opt;
-
-class IllustPage extends StatelessWidget {
-  final String tag;
-  const IllustPage({super.key, required this.tag});
-  @override
-  Widget build(ctx) {
-    return SizedBox();
-  }
-}
 
 class ShellPage extends StatefulWidget {
   final String tag;
@@ -118,7 +110,10 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
                           padding: const EdgeInsets.all(8),
                           child: Column(children:[
                             FilledButton(
-                              onPressed: (){d.update();Navigator.pop(context);}, 
+                              onPressed: (){
+                                navigate("${GoRouter.of(context).routeInformationProvider.value.uri.path}?mode=$mode&type=$type",method: "replace");
+                                Navigator.pop(context);
+                              }, 
                               child: const Text("Apply")
                             ),
                             TextButton(
@@ -129,7 +124,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
                         )
                       ],
                     );
-                    return memequery.size.width<600?Dialog.fullscreen(child: nya):Dialog(child: nya);
+                    return Dialog(child: nya);
                   }),
                 child: const Text("Search options"),
               ),

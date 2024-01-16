@@ -1,5 +1,4 @@
 
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/services.dart';
@@ -7,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'shared.dart';
 import 'pages/home/index.dart' as home;
-import 'pages/following.dart';
+import 'pages/following/index.dart';
 import 'pages/artworks.dart';
 import 'pages/tags/index.dart' as tags;
 
@@ -64,7 +63,8 @@ void main() async {
                 builder: (ctx,st,w)=>tags.ShellPage(tag: st.pathParameters["tag"]!,child: w,),
                 routes: [
                   GoRoute(path: "top", builder: (ctx,st)=>tags.MainPage(tag: st.pathParameters["tag"]!)),
-                  GoRoute(path: "artworks", builder: (c,st)=>tags.IllustPage(tag: st.pathParameters["tag"]!))
+                  GoRoute(path: "illustrations", builder: (c,st)=>tags.IllustPage(tag: st.pathParameters["tag"]!)),
+                  GoRoute(path: "manga", builder: (c,st)=>Placeholder())
                 ]
               )
             ]
@@ -113,7 +113,8 @@ class _ShellPageState extends State<ShellPage> {
     "ShellRoute is a broken stuff",
     "n",
     "if you guys know more funny thing to add here pls do it",
-    "At 100% speed, does this look possible to you?"
+    "At 100% speed, does this look possible to you?",
+    "What really makes Mel does that?"
   ];
   String MadeWithNerdByHenrysck075 = "";
   @override
@@ -159,8 +160,8 @@ class _ShellPageState extends State<ShellPage> {
         selectedIndex: pageIndex,
         onDestinationSelected: (value) {
           if (pageIndex!=0 && value==0) {
-            showDialog(context: context, builder: (n)=>AlertDialog(title: Text("Heads up"),content: Text("Please do not use this to navigate back to /illust. Use the navigate icon instead. This should be fixed asap", softWrap: true,),));
-            return;
+            // showDialog(context: context, builder: (n)=>AlertDialog(title: Text("Heads up"),content: Text("Please do not use this to navigate back to /illust. Use the navigate icon instead. This should be fixed asap", softWrap: true,),));
+            // return;
           }
           if (!l.contains(value)){
             setState(() {
@@ -196,7 +197,7 @@ class _ShellPageState extends State<ShellPage> {
             )
           ), icon: const Icon(Icons.navigation)),
           IconButton(onPressed: (){
-            Clipboard.setData(ClipboardData(text: router.routeInformationProvider.value.uri.path)).then((value) => ScaffoldMessenger.of(context).showSnackBar(
+            Clipboard.setData(ClipboardData(text: GoRouter.of(context).routeInformationProvider.value.uri.path)).then((value) => ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text("Current path URL copied to clipboard!"))
             ));
           }, icon: const Icon(Icons.link))
