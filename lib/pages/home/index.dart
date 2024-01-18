@@ -33,7 +33,7 @@ class _ShellPageState extends State<ShellPage> {
         selectedIndex: d==-1?0:d,
         onDestinationSelected: (a)=>navigate(h[a]),
       ),
-      body: Padding(padding: const EdgeInsets.all(4),child:widget.child,)
+      body: Padding(padding: const EdgeInsets.all(8),child:widget.child,)
     );
   }
 }

@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'shared.dart';
 import 'pages/home/index.dart' as home;
 import 'pages/following/index.dart';
-import 'pages/artworks.dart';
+import 'pages/view/artworks.dart' show IllustPage;
 import 'pages/tags/index.dart' as tags;
 
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   updateCookie(await rootBundle.loadString("assets/cookie"));
   updateRouter(GoRouter(
-    initialLocation: "/illust",
+    initialLocation: "/home/illust",
     errorBuilder: (n,s)=>ShellPage(
       child:Center(
         child: Column(children: [
@@ -32,21 +32,24 @@ void main() async {
       ShellRoute(
         builder: (ctx,st,wid)=>ShellPage(child: wid),
         routes: [
-          GoRoute(path: "/",builder: emptyBuilder(),redirect: (e,w)=>"/illust"),
-          ShellRoute(routes: [
-            GoRoute(
-              path: "/illust",
-              builder: (nuh,uh)=>home.IllustsPage()
-            ),
-            GoRoute(
-              path: "/manga",
-              builder: (nuh,uh)=>const Placeholder()
-            ),
-            GoRoute(
-              path: "/novels",
-              builder: (nuh,uh)=>const Placeholder()
-            )
-          ], builder: (context, state, child) => home.ShellPage(child: child),),
+          GoRoute(path: "/",builder: emptyBuilder(),redirect: (e,w)=>"/home/illust"),
+          GoRoute(path: "/home",builder: emptyBuilder(),routes: [
+            ShellRoute(routes: [
+              GoRoute(
+                path: "illust",
+                builder: (nuh,uh)=>home.IllustsPage()
+              ),
+              GoRoute(
+                path: "manga",
+                builder: (nuh,uh)=>const Placeholder()
+              ),
+              GoRoute(
+                path: "novels",
+                builder: (nuh,uh)=>const Placeholder()
+              )
+            ], builder: (context, state, child) => home.ShellPage(child: child),),
+           
+          ]),
           GoRoute(
             path:"/following",
             builder: (no,care)=>LatestFollowingPage()
@@ -88,8 +91,14 @@ class MyApp extends StatelessWidget {
         title: 'the app',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+          colorScheme: ColorScheme.fromSeed(seedColor: Color(0xff0495f6)),
         ),
+        darkTheme: ThemeData(
+          useMaterial3: true,
+          brightness: Brightness.dark,
+          colorScheme: ColorScheme.fromSeed(seedColor: Color(0xff0495f6)),
+        ),
+        themeMode: ThemeMode.system,
         routerConfig: router,
       ),
     );
@@ -107,20 +116,22 @@ class ShellPage extends StatefulWidget {
 class _ShellPageState extends State<ShellPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   int pageIndex = 0;
-  List<String> e = ["/illust","/following"];
+  List<String> e = ["/home/illust","/following"];
   List<String> minecraft = [
-    "mococo",
+    "mococo is very cute",
+    "mococo is very very cute",
+    "mococo is very very very cute",
     "ShellRoute is a broken stuff",
     "n",
     "if you guys know more funny thing to add here pls do it",
     "At 100% speed, does this look possible to you?",
-    "What really makes Mel does that?"
+    "What really makes Mel does that?",
+    "check steam"
   ];
   String MadeWithNerdByHenrysck075 = "";
   @override
-  void initState(){MadeWithNerdByHenrysck075 = minecraft[Random().nextInt(minecraft.length)];}
-  @override
   Widget build(BuildContext context) {
+    MadeWithNerdByHenrysck075 = minecraft[Random().nextInt(minecraft.length)];
     List<Widget> navs = [
       Padding(
         padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),

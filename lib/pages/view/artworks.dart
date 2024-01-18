@@ -6,8 +6,8 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../shared.dart';
-import 'package:go_router/go_router.dart';
+import 'package:sofieru/shared.dart';
+import 'shared.dart';
 
 
 class IllustPage extends StatefulWidget {
@@ -202,7 +202,7 @@ class _IllustPageState extends State<IllustPage> {
               Column(
                 children: [
                   const Text("Comments",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left),
-                  ArtworkComments(illustId: id)
+                  Comments(id: id)
                 ],
               ),
               const Divider(),
@@ -223,64 +223,6 @@ class _IllustPageState extends State<IllustPage> {
           ),
         );
       }),
-    );
-  }
-}
-class ArtworkComments extends StatefulWidget {
-  final String illustId;
-  const ArtworkComments({super.key, required this.illustId});
-  @override
-  State<ArtworkComments> createState() => _ArtworkCommentsState();
-}
-
-class _ArtworkCommentsState extends State<ArtworkComments> {
-  List<dynamic> comments = [];
-  Future<dynamic>? theReq;
-  int offset = 0;
-  int limit = 3;
-  bool hasNext = true;
-  @override
-  void initState() {
-    super.initState();
-    theReq = pxRequest("https://www.pixiv.net/ajax/illusts/comments/roots?illust_id=${widget.illustId}&offset=${offset}&limit=${limit}").then((v){
-      hasNext = v["hasNext"];
-      return v["comments"];
-    });
-  }
-  @override
-  Widget build(context) {
-    return futureWidget(future: theReq!, builder: (context, snapshot) {
-      comments = snapshot.data;
-      limit = 50;
-      offset = 3;
-      return Column(
-        children: [
-          if (comments.isEmpty) const Text("There's no comments yet", textAlign: TextAlign.center,),
-          ...List.from(comments.map((v)=>ListTile(
-            title: Text(v["userName"]),
-            subtitle: v["comment"] == ""?Container(
-              foregroundDecoration: BoxDecoration(borderRadius: BorderRadius.circular(4)),
-              child: Container(
-                alignment: Alignment.centerLeft,
-                width: 96,
-                height: 96,
-                child: pxImageUncached("https://s.pximg.net/common/images/stamp/generated-stamps/${v['stampId']}_s.jpg", width: 96, height: 96)
-              )
-            ):HtmlWidget(p(v["comment"])),
-            leading: CircleAvatar(backgroundImage: pxImageUncached(v["img"]).image,) 
-          ))),
-          if(hasNext) FilledButton(onPressed: (){
-            
-            pxRequest("https://www.pixiv.net/ajax/illusts/comments/roots?illust_id=${widget.illustId}&offset=$offset&limit=$limit").then((v){
-              setState(() {
-                comments.addAll(v["comments"]);
-                offset += v["comments"].length as int;
-                hasNext = v["hasNext"];
-              });
-            });
-          }, child: const Text("Show more"))
-        ],
-      );}
     );
   }
 }
