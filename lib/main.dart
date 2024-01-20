@@ -57,7 +57,15 @@ void main() async {
           ),
           GoRoute(
             path: "/artworks/:id",
-            builder: (no, state) =>  IllustPage(id:state.pathParameters["id"]!)
+            builder: (no, state) => IllustPage(id:state.pathParameters["id"]!)
+          ),
+          GoRoute(
+            path: "/novels/:id",
+            builder: (no, state) => NovelPage(id:state.pathParameters["id"]!)
+          ),
+          GoRoute(
+            path: "/series/:id",
+            builder: (no, state) => Placeholder()
           ),
           GoRoute(
             path: "/novels/:id",
