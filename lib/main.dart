@@ -8,6 +8,7 @@ import 'shared.dart';
 import 'pages/home/index.dart' as home;
 import 'pages/following/index.dart';
 import 'pages/view/artworks.dart' show IllustPage;
+import 'pages/view/novels.dart' show NovelPage;
 import 'pages/tags/index.dart' as tags;
 
 import 'package:flutter/material.dart';
@@ -56,7 +57,15 @@ void main() async {
           ),
           GoRoute(
             path: "/artworks/:id",
-            builder: (no, state) =>  IllustPage(id:state.pathParameters["id"]!)
+            builder: (no, state) => IllustPage(id:state.pathParameters["id"]!)
+          ),
+          GoRoute(
+            path: "/novels/:id",
+            builder: (no, state) => NovelPage(id:state.pathParameters["id"]!)
+          ),
+          GoRoute(
+            path: "/series/:id",
+            builder: (no, state) => Placeholder()
           ),
           GoRoute(
             path: "/tags/:tag",
