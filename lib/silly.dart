@@ -51,7 +51,11 @@ Image pxImageUncached(String url, {bool includeCircle = false, int? width, int? 
   try {return d();}
   catch (n) {return d();}//try again lmao
 }
-
+String hm(int seconds) {
+  int m = (seconds/60).floor()%60;
+  int h = (m/60).floor();
+  return (h==0?"":"$h hrs ")+(m==0?"":"$m mins");
+}
 class PxNovel extends StatefulWidget {
   final Map<String,dynamic> data;
   int rank;
@@ -64,41 +68,54 @@ class _PxNovelState extends State<PxNovel> {
   @override
   Widget build(ctx) {
     var id = widget.data["id"];
+    TextStyle kiss = const TextStyle(color: Colors.grey, fontSize: 10);
+    Padding pad(Widget h)=>Padding(padding: EdgeInsets.only(left: 4,right: 4),child: h,);
 
     return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 300, minHeight:120, maxHeight:120),
+      constraints: const BoxConstraints(maxWidth: 400, minHeight:150, maxHeight:150),
       child: Card( 
         clipBehavior: Clip.hardEdge,  
         child:GestureDetector(
           onTap: () => navigate("/novels/$id"),
-          child: Column( 
-            children: [
-              ListTile( 
-                leading: Container(
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration( 
-                    borderRadius: BorderRadius.circular(4)
-                  ),
-                  child: Stack(children: [
-                    pxImage(widget.data["url"]),
-                    if (widget.rank != 0) Positioned(
-                      top:4, left:4,
-                      child:SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: Container(
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color:widget.rank==1?Colors.yellow.shade700:widget.rank==2?Colors.grey[300]:widget.rank==3?Colors.brown:Colors.grey.withOpacity(0.5)),
-                          child:Center(child: Text(widget.rank.toString())), 
-                        ),
-                      )
-                    ),
-                  ])
+          child: ListTile( 
+            leading: SizedBox(
+              width: 70,
+              child: Container(
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration( 
+                  borderRadius: BorderRadius.circular(4)
                 ),
-                title: Text(widget.data["title"], style: const TextStyle(fontWeight: FontWeight.bold),),
-                subtitle: Text(widget.data["description"], style: const TextStyle(color: Colors.grey),),
-              )
-            ],
-          ),
+                child: Stack(children: [
+                  pxImage(widget.data["url"]),
+                  if (widget.rank != 0) Positioned(
+                    top:4, left:4,
+                    child:SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: Container(
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color:widget.rank==1?Colors.yellow.shade700:widget.rank==2?Colors.grey[300]:widget.rank==3?Colors.brown:Colors.grey.withOpacity(0.5)),
+                        child:Center(child: Text(widget.rank.toString())), 
+                      ),
+                    )
+                  ),
+                ])
+              ),
+            ),
+            title: Text(widget.data["title"], style: const TextStyle(fontWeight: FontWeight.bold),maxLines: 2,overflow: TextOverflow.ellipsis,),
+            subtitle: Column( 
+              children: [
+                Flexible(flex: 4,child: Text(widget.data["description"], style: const TextStyle(color: Colors.grey),maxLines: 3,overflow: TextOverflow.ellipsis)),
+                Row(
+                  children: [
+                    pad(Text(widget.data["useWordCount"]?widget.data["wordCount"].toString()+" word(s)":widget.data["textCount"].toString()+" character(s)", style: kiss)),
+                    pad(Text(hm(widget.data["readingTime"]), style: kiss)),
+                    pad(Text(widget.data["bookmarkCount"].toString(), style: kiss)),
+                  ],
+                ),
+                SizedBox(height: 8,),
+              ]
+            )
+          )
         )
       ),
     );

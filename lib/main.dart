@@ -2,14 +2,17 @@
 import 'dart:math';
 
 import 'package:flutter/services.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
 
 import 'shared.dart';
+
+// Routes
 import 'pages/home/index.dart' as home;
 import 'pages/following/index.dart';
 import 'pages/view/artworks.dart' show IllustPage;
 import 'pages/view/novels.dart' show NovelPage;
 import 'pages/tags/index.dart' as tags;
+import 'pages/discovery/index.dart' as discovery;
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +20,8 @@ import 'package:go_router/go_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final pa = GlobalKey<NavigatorState>();
+  final shellKeys = List.generate(3,(fhujioae)=>GlobalKey<NavigatorState>());
   updateCookie(await rootBundle.loadString("assets/cookie"));
   updateRouter(GoRouter(
     initialLocation: "/home/illust",
@@ -31,56 +36,70 @@ void main() async {
     ),
     routes: <RouteBase>[
       ShellRoute(
+        parentNavigatorKey: pa,
         builder: (ctx,st,wid)=>ShellPage(child: wid),
         routes: [
-          GoRoute(path: "/",builder: emptyBuilder(),redirect: (e,w)=>"/home/illust"),
-          GoRoute(path: "/home",builder: emptyBuilder(),routes: [
-            ShellRoute(routes: [
+          ShellRoute(
+            parentNavigatorKey: null,
+            routes: [
               GoRoute(
-                path: "illust",
-                builder: (nuh,uh)=>home.IllustsPage()
+                parentNavigatorKey: shellKeys[0],
+                path: "/",
+                builder: (nuh,uh)=>const home.IllustsPage()
               ),
               GoRoute(
-                path: "manga",
+                parentNavigatorKey: shellKeys[0],
+                path: "/manga",
                 builder: (nuh,uh)=>const Placeholder()
               ),
               GoRoute(
-                path: "novels",
-                builder: (nuh,uh)=>const Placeholder()
+                parentNavigatorKey: shellKeys[0],
+                path: "/novel",
+                builder: (nuh,uh)=>const home.NovelsPage()
               )
-            ], builder: (context, state, child) => home.ShellPage(child: child),),
-           
-          ]),
+            ], 
+            builder: (context, state, child) => home.ShellPage(child: child),
+          ),  
           GoRoute(
+            parentNavigatorKey: pa,
             path:"/following",
             builder: (no,care)=>LatestFollowingPage()
           ),
+          ShellRoute( 
+            parentNavigatorKey: pa,
+            routes: [
+              GoRoute(
+                path: "/discovery",builder: (ctx,s)=>Placeholder(),
+                parentNavigatorKey: shellKeys[1],
+              )
+            ], builder: (context, state, child) => discovery.DiscoveryPage()
+          ),
           GoRoute(
+            parentNavigatorKey: pa,
             path: "/artworks/:id",
             builder: (no, state) => IllustPage(id:state.pathParameters["id"]!)
           ),
           GoRoute(
+            parentNavigatorKey: pa,
             path: "/novels/:id",
             builder: (no, state) => NovelPage(id:state.pathParameters["id"]!)
           ),
           GoRoute(
+            parentNavigatorKey: pa,
             path: "/series/:id",
             builder: (no, state) => Placeholder()
           ),
           GoRoute(
-            path: "/novels/:id",
-            builder: (no, state) =>  NovelPage(id:state.pathParameters["id"]!)
-          ),
-          GoRoute(
+            parentNavigatorKey: pa,
             path: "/tags/:tag",
             builder: (ctx,s)=>const Text("You've found a page that is impossible for me to use as the index page for /tags, wahoo!. Now press back to exit"),
             routes: [
               ShellRoute(
                 builder: (ctx,st,w)=>tags.ShellPage(tag: st.pathParameters["tag"]!,child: w,),
                 routes: [
-                  GoRoute(path: "top", builder: (ctx,st)=>tags.MainPage(tag: st.pathParameters["tag"]!)),
-                  GoRoute(path: "illustrations", builder: (c,st)=>tags.IllustPage(tag: st.pathParameters["tag"]!)),
-                  GoRoute(path: "manga", builder: (c,st)=>Placeholder())
+                  GoRoute(parentNavigatorKey: shellKeys[2],path: "top", builder: (ctx,st)=>tags.MainPage(tag: st.pathParameters["tag"]!)),
+                  GoRoute(parentNavigatorKey: shellKeys[2],path: "illustrations", builder: (c,st)=>tags.IllustPage(tag: st.pathParameters["tag"]!)),
+                  GoRoute(parentNavigatorKey: shellKeys[2],path: "manga", builder: (c,st)=>Placeholder())
                 ]
               )
             ]
@@ -104,12 +123,13 @@ class MyApp extends StatelessWidget {
         title: 'the app',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Color(0xff0495f6)),
+          brightness: Brightness.light,
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff0495f6),brightness: Brightness.light,),
         ),
         darkTheme: ThemeData(
           useMaterial3: true,
           brightness: Brightness.dark,
-          colorScheme: ColorScheme.fromSeed(seedColor: Color(0xff0495f6)),
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff0495f6),brightness: Brightness.dark,),
         ),
         themeMode: ThemeMode.system,
         routerConfig: router,

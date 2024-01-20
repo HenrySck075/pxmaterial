@@ -1,7 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:sofieru/shared.dart';
-export 'illust.dart';
+export 'illust.dart' show IllustsPage;
+export 'novel.dart' show NovelsPage;
 class ShellPage extends StatefulWidget {
   Widget child;
   ShellPage({super.key, required this.child});
@@ -13,7 +14,7 @@ class _ShellPageState extends State<ShellPage> {
   List<String> h = ["/illust","/manga","/novel"];
   @override
   Widget build(context) {
-    var d = h.indexOf(router.routeInformationProvider.value.uri.path);
+    var d = h.indexOf(router.routeInformationProvider.value.uri.path.substring(5));
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         destinations: const [
@@ -31,7 +32,9 @@ class _ShellPageState extends State<ShellPage> {
           )
         ],
         selectedIndex: d==-1?0:d,
-        onDestinationSelected: (a)=>navigate(h[a]),
+        onDestinationSelected: (a){
+          navigate("/home"+h[a]);
+        },
       ),
       body: Padding(padding: const EdgeInsets.all(8),child:widget.child,)
     );
