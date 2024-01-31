@@ -207,6 +207,7 @@ class _PxArtworkState extends State<PxArtwork> {
                   )
                 ],
               ),
+              Spacer(),
               Flexible(
                 flex: 4,
                 child: ListTile(

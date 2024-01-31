@@ -28,7 +28,7 @@ void main() async {
     errorBuilder: (n,s)=>ShellPage(
       child:Center(
         child: Column(children: [
-          Image.asset("assets/decoren.jpg"),
+          Text("Not yet ;)")
           Text(s.error?.message??""),
           FilledButton(onPressed: ()=>n.pop(), child: const Text("Take me back"))
         ])
@@ -155,11 +155,14 @@ class _ShellPageState extends State<ShellPage> {
     "mococo is very very cute",
     "mococo is very very very cute",
     "ShellRoute is a broken stuff",
-    "n",
+    "nvm i fixed it",
     "if you guys know more funny thing to add here pls do it",
     "At 100% speed, does this look possible to you?",
     "What really makes Mel does that?",
-    "check steam"
+    "check steam",
+    "dash spider jumpscare",
+    "really the mikeneko & mafu stuff is crazy (gd reference), if someone asked me who i will support i will say mike and also convinced them with a game theory-quality explaination",
+    "dont trust the guy above for the 'game theory-quality explaination' part he has none :nerd:"
   ];
   String MadeWithNerdByHenrysck075 = "";
   @override
@@ -218,7 +221,7 @@ class _ShellPageState extends State<ShellPage> {
         children: navs
       ),
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        // backgroundColor: Theme.of(context).colorScheme.background,
         title: SearchAnchor(
           builder: (ctx,ctrl) => SearchBar( 
             padding: const MaterialStatePropertyAll(EdgeInsets.only(bottom: 4)),
@@ -247,7 +250,10 @@ class _ShellPageState extends State<ShellPage> {
           }, icon: const Icon(Icons.link))
         ],
       ),
-      body: widget.child
+      body: Container(
+        decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)))
+        child:widget.child
+      )
     );
   }
 }
