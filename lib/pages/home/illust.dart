@@ -48,6 +48,19 @@ class IllustsPage extends StatelessWidget {
                 ),
                 FilledButton(child: const Text("Show all"),onPressed: ()=>navigate("/following")),
                 const SizedBox(height: 50,),
+                ...concat2d(
+                  List.from(mainresp["page"]["recommendByTag"].map((e)=>[
+                    GestureDetector( 
+                      onTap: ()=>navigate("/tags/${e['tag']}"),
+                      child: Text("#${mainresp['tagTranslation'][e['tag']]?['en']??e['tag']} artworks",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))
+                    ),
+                    SizedBox(height:280,child:ListView( 
+                      scrollDirection: Axis.horizontal,
+                      children: List.from(e["ids"].map((i)=>PxArtwork(data: getData(i)))),
+                    )),
+                    const SizedBox(height: 50,),
+                  ])
+                ))
               ]
             ),
           )

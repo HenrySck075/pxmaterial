@@ -24,7 +24,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
   String mode = "all";
   String type = "all";
 
-  List<String> habibi = ["top","artworks","manga","novels","users"];
+  List<String> habibi = ["","illustrations","manga","novels","users"];
   late final TabController _tabCtrl;
   @override
   void initState() {
@@ -44,9 +44,9 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
   
   @override
   Widget build(c) {
-    var sus = router.routeInformationProvider.value.uri.pathSegments;
+    var sus = GoRouter.of(c).routeInformationProvider.value.uri.pathSegments;
     selIdx = habibi.indexOf(sus[sus.length-1]);
-    var memequery = MediaQuery.of(c);
+    if (selIdx == -1) {selIdx = 0;}
     return Consumer<Config>(builder: (ctx,d,c){
       d.search_options["mode"] = mode;
       d.search_options["type"] = type;
@@ -58,7 +58,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
           headerSliverBuilder: (ctx,v)=>[
             SliverList(
               delegate:SliverChildListDelegate([
-                Container(
+                 if (data["pixpedia"]["image"]!=null) Container(
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
                   clipBehavior: Clip.hardEdge,
                   width: 120,

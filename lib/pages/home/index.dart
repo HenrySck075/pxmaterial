@@ -11,10 +11,10 @@ class ShellPage extends StatefulWidget {
   State<ShellPage> createState()=>_ShellPageState();
 }
 class _ShellPageState extends State<ShellPage> {
-  List<String> h = ["/illust","/manga","/novel"];
+  List<String> h = ["/","/manga","/novel"];
   @override
   Widget build(context) {
-    var d = h.indexOf(router.routeInformationProvider.value.uri.path.substring(5));
+    var d = h.indexOf(router.routeInformationProvider.value.uri.path);
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         destinations: const [
@@ -33,7 +33,7 @@ class _ShellPageState extends State<ShellPage> {
         ],
         selectedIndex: d==-1?0:d,
         onDestinationSelected: (a){
-          navigate("/home"+h[a]);
+          navigate(h[a]);
         },
       ),
       body: Padding(padding: const EdgeInsets.all(8),child:widget.child,)

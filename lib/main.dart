@@ -24,11 +24,11 @@ void main() async {
   final shellKeys = List.generate(3,(fhujioae)=>GlobalKey<NavigatorState>());
   updateCookie(await rootBundle.loadString("assets/cookie"));
   updateRouter(GoRouter(
-    initialLocation: "/home/illust",
+    initialLocation: "/",
     errorBuilder: (n,s)=>ShellPage(
       child:Center(
         child: Column(children: [
-          Text("Not yet ;)")
+          Text("Not yet ;)"),
           Text(s.error?.message??""),
           FilledButton(onPressed: ()=>n.pop(), child: const Text("Take me back"))
         ])
@@ -36,11 +36,12 @@ void main() async {
     ),
     routes: <RouteBase>[
       ShellRoute(
-        parentNavigatorKey: pa,
+        navigatorKey: pa,
         builder: (ctx,st,wid)=>ShellPage(child: wid),
         routes: [
           ShellRoute(
-            parentNavigatorKey: null,
+            parentNavigatorKey: pa,
+            navigatorKey: shellKeys[0],
             routes: [
               GoRoute(
                 parentNavigatorKey: shellKeys[0],
@@ -67,12 +68,17 @@ void main() async {
           ),
           ShellRoute( 
             parentNavigatorKey: pa,
+            navigatorKey: shellKeys[1],
             routes: [
               GoRoute(
-                path: "/discovery",builder: (ctx,s)=>Placeholder(),
+                path: "/discovery",builder: (ctx,s)=>discovery.Works(),
                 parentNavigatorKey: shellKeys[1],
-              )
-            ], builder: (context, state, child) => discovery.DiscoveryPage()
+              ),
+              GoRoute(
+                path: "/discovery/users",builder: (ctx,s)=>Placeholder(),
+                parentNavigatorKey: shellKeys[1],
+              ),
+            ], builder: (context, state, child) => discovery.DiscoveryPage(child: child,)
           ),
           GoRoute(
             parentNavigatorKey: pa,
@@ -89,19 +95,14 @@ void main() async {
             path: "/series/:id",
             builder: (no, state) => Placeholder()
           ),
-          GoRoute(
+          ShellRoute(
+            builder: (ctx,st,w)=>tags.ShellPage(tag: st.pathParameters["tag"]!,child: w,),
             parentNavigatorKey: pa,
-            path: "/tags/:tag",
-            builder: (ctx,s)=>const Text("You've found a page that is impossible for me to use as the index page for /tags, wahoo!. Now press back to exit"),
+            navigatorKey: shellKeys[2],
             routes: [
-              ShellRoute(
-                builder: (ctx,st,w)=>tags.ShellPage(tag: st.pathParameters["tag"]!,child: w,),
-                routes: [
-                  GoRoute(parentNavigatorKey: shellKeys[2],path: "top", builder: (ctx,st)=>tags.MainPage(tag: st.pathParameters["tag"]!)),
-                  GoRoute(parentNavigatorKey: shellKeys[2],path: "illustrations", builder: (c,st)=>tags.IllustPage(tag: st.pathParameters["tag"]!)),
-                  GoRoute(parentNavigatorKey: shellKeys[2],path: "manga", builder: (c,st)=>Placeholder())
-                ]
-              )
+              GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag", builder: (ctx,st)=>tags.MainPage(tag: st.pathParameters["tag"]!)),
+              GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/illustrations", builder: (c,st)=>tags.IllustPage(tag: st.pathParameters["tag"]!)),
+              GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/manga", builder: (c,st)=>Placeholder())
             ]
           )
         ]
@@ -149,7 +150,7 @@ class ShellPage extends StatefulWidget {
 class _ShellPageState extends State<ShellPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   int pageIndex = 0;
-  List<String> e = ["/home/illust","/following"];
+  List<String> e = ["/","/following"];
   List<String> minecraft = [
     "mococo is very cute",
     "mococo is very very cute",
@@ -189,34 +190,20 @@ class _ShellPageState extends State<ShellPage> {
         child: Divider(),
       ),
 
-      Padding(
-        padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
-        child: Text(
-          'Other services',
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
-      ),
       const Text("© pixiv",style: TextStyle(color: Colors.grey, fontSize: 8),),
       Text(MadeWithNerdByHenrysck075,softWrap: true,style: const TextStyle(color: Colors.grey, fontSize: 8),),
     ];
-    List<int> l = List.generate(11,(v)=>navs.length-v-3);
     context.watch<Config>().init();
     // var appState = context.watch<MyAppState>();
     return Scaffold(
       drawer: NavigationDrawer(
         selectedIndex: pageIndex,
         onDestinationSelected: (value) {
-          if (pageIndex!=0 && value==0) {
-            // showDialog(context: context, builder: (n)=>AlertDialog(title: Text("Heads up"),content: Text("Please do not use this to navigate back to /illust. Use the navigate icon instead. This should be fixed asap", softWrap: true,),));
-            // return;
-          }
-          if (!l.contains(value)){
-            setState(() {
-              pageIndex = value;
-              print(e[value]);
-              navigate(e[value],method: "push");
-            });
-          }
+          setState(() {
+            pageIndex = value;
+            print(e[value]);
+            navigate(e[value],method: "push");
+          });
         },
         children: navs
       ),
@@ -251,7 +238,7 @@ class _ShellPageState extends State<ShellPage> {
         ],
       ),
       body: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)))
+        decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
         child:widget.child
       )
     );

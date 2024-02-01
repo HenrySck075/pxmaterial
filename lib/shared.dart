@@ -12,7 +12,11 @@ export 'package:sofieru/silly.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String apiVersion = "6c38cc7c723c6ae8b0dc7022d497a1ee751824c0";
-
+List<T> concat2d<T>(List<Iterable<T>> inp) {
+  List<T> tri = [];
+  inp.forEach((element) {tri.addAll(element); });
+  return tri;
+}
 GoRouter router = GoRouter(routes: []);
 String cooki = "";
 void updateCookie(String die) {

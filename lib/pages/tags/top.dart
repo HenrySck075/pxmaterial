@@ -29,7 +29,9 @@ class _MainPageState extends State<MainPage> {
       future: meta, 
       builder: (ctx,snap) {
         JSON data = snap.data!;
-        List<JSON> popular = [...data["popular"]["permanent"].expand(data["popular"]["recent"])];
+        List<dynamic> popular = data["popular"]["permanent"];
+        popular.addAll(data["popular"]["recent"]);
+        debugPrint(data["popular"]);
         popular.shuffle();
         popular = popular.sublist(0,6);
         return SingleChildScrollView(

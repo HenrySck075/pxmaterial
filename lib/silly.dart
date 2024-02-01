@@ -144,97 +144,100 @@ class _PxArtworkState extends State<PxArtwork> {
         child:InkWell(
           borderRadius:BorderRadius.circular(20),
           splashColor: Colors.blue.withAlpha(30),
-          child: Column( 
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Stack(
-                children: [
-                  GestureDetector(
-                    onTap: (){navigate("/artworks/"+id);},
-                    child:pxImage(widget.data["url"]),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: GestureDetector(
-                      onTap:(){
-                        pxRequest("https://www.pixiv.net/ajax/illusts/bookmarks/add",body: {"illust_id":id, "comment":"", "restrict": 0, "tags": []},method: "post");
-                        setState(() {
-                          bookmarked = !bookmarked;
-                          print("imagine bookmarked");
-                        });
-                      },
-                      child:Icon(Icons.favorite,color: bookmarked?Colors.red:Colors.white),
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 8),
+            child: Column( 
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Stack(
+                  children: [
+                    GestureDetector(
+                      onTap: (){navigate("/artworks/"+id);},
+                      child:pxImage(widget.data["url"]),
                     ),
-                  ),
-                  const Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Icon(Icons.favorite_outline)
-                  ),
-                  if (widget.rank != 0) Positioned(
-                    top:4, left:4,
-                    child:SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color:widget.rank==1?Colors.yellow.shade700:widget.rank==2?Colors.grey[300]:widget.rank==3?Colors.brown:Colors.grey.withOpacity(0.5)),
-                        child:Center(child: Text(widget.rank.toString())), 
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: GestureDetector(
+                        onTap:(){
+                          pxRequest("https://www.pixiv.net/ajax/illusts/bookmarks/add",body: {"illust_id":id, "comment":"", "restrict": 0, "tags": []},method: "post");
+                          setState(() {
+                            bookmarked = !bookmarked;
+                            print("imagine bookmarked");
+                          });
+                        },
+                        child:Icon(Icons.favorite,color: bookmarked?Colors.red:Colors.white),
                       ),
+                    ),
+                    const Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Icon(Icons.favorite_outline)
+                    ),
+                    if (widget.rank != 0) Positioned(
+                      top:4, left:4,
+                      child:SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: Container(
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color:widget.rank==1?Colors.yellow.shade700:widget.rank==2?Colors.grey[300]:widget.rank==3?Colors.brown:Colors.grey.withOpacity(0.5)),
+                          child:Center(child: Text(widget.rank.toString())), 
+                        ),
+                      )
+                    ),
+                    if (widget.data["xRestrict"] == 1) Positioned(
+                      top:4, left:4,
+                      child:SizedBox(
+                        width: 36,
+                        height: 24,
+                        child: Container(
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color:const Color(0xFFFF4060)),
+                          child:const Center(child: Text("R-18",style: TextStyle(color: Colors.white))), 
+                        ),
+                      )
+                    ),
+                    if (widget.data["pageCount"]!=1) Positioned(
+                      top:4,right:4,
+                      child: SizedBox(
+                        width:24,
+                        height:24,
+                        child: Container(
+                          decoration: BoxDecoration(color: Colors.grey.withOpacity(0.5),borderRadius: BorderRadius.circular(4)),
+                          child: Center(child: Text(widget.data["pageCount"].toString()))
+                        ),
+                      )
                     )
-                  ),
-                  if (widget.data["xRestrict"] == 1) Positioned(
-                    top:4, left:4,
-                    child:SizedBox(
-                      width: 36,
-                      height: 24,
-                      child: Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color:const Color(0xFFFF4060)),
-                        child:const Center(child: Text("R-18",style: TextStyle(color: Colors.white))), 
+                  ],
+                ),
+                Spacer(),
+                Flexible(
+                  flex: 4,
+                  child: ListTile(
+                    title: Text(
+                      widget.data["titleCaptionTranslation"]["workTitle"]??widget.data["title"],
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: GestureDetector(
+                      onTap: ()=>showDialog(context: context, builder: (b)=>AuthorInfo(userId: widget.data["userId"],)),
+                      child: Row(
+                        children: [
+                          CircleAvatar(backgroundImage: pxImageUncached(widget.data["profileImageUrl"]).image),
+                          const SizedBox.square(dimension:10),
+                          Flexible(
+                            flex:4,
+                            child: Text(
+                              widget.data["userName"],
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          )
+                        ],
                       ),
-                    )
-                  ),
-                  if (widget.data["pageCount"]!=1) Positioned(
-                    top:4,right:4,
-                    child: SizedBox(
-                      width:24,
-                      height:24,
-                      child: Container(
-                        decoration: BoxDecoration(color: Colors.grey.withOpacity(0.5),borderRadius: BorderRadius.circular(4)),
-                        child: Center(child: Text(widget.data["pageCount"].toString()))
-                      ),
-                    )
-                  )
-                ],
-              ),
-              Spacer(),
-              Flexible(
-                flex: 4,
-                child: ListTile(
-                  title: Text(
-                    widget.data["titleCaptionTranslation"]["workTitle"]??widget.data["title"],
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  subtitle: GestureDetector(
-                    onTap: ()=>showDialog(context: context, builder: (b)=>AuthorInfo(userId: widget.data["userId"],)),
-                    child: Row(
-                      children: [
-                        CircleAvatar(backgroundImage: pxImageUncached(widget.data["profileImageUrl"]).image),
-                        const SizedBox.square(dimension:10),
-                        Flexible(
-                          flex:4,
-                          child: Text(
-                            widget.data["userName"],
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        )
-                      ],
                     ),
                   ),
                 ),
-              ),
-            ]
-          ),
+              ]
+            ),
+          )
         )
       ),
     );
