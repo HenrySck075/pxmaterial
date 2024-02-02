@@ -146,7 +146,7 @@ class _IllustPageState extends State<IllustPage> {
                           if (t.containsKey("translation")) Flexible(flex:4,child: Text("(${t['translation']['en']})",style: const TextStyle(color: Colors.grey, fontSize: 10),overflow: TextOverflow.ellipsis))
                         ]
                       ),
-                      onPressed: ()=>navigate("/tags/${t['tag']}/artworks?"+(t["xRestrict"]==1?"mode=r18":"")),))),
+                      onPressed: ()=>navigate("/tags/${t['tag']}?"+(t["xRestrict"]==1?"mode=r18":"")),))),
                   )
                 ]),
               ),
