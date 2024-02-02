@@ -100,7 +100,7 @@ void main() async {
             parentNavigatorKey: pa,
             navigatorKey: shellKeys[2],
             routes: [
-              GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag", builder: (ctx,st)=>tags.MainPage(tag: st.pathParameters["tag"]!)),
+              GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag", builder: (ctx,st)=>SizedBox(width:1,height:1)),
               GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/illustrations", builder: (c,st)=>tags.IllustPage(tag: st.pathParameters["tag"]!)),
               GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/manga", builder: (c,st)=>Placeholder())
             ]

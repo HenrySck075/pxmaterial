@@ -36,16 +36,18 @@ class IllustsPage extends StatelessWidget {
                 // Recommended Illusts
                 const Text("Recommended works",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                 artworkGrid(List.from(mainresp["page"]["recommend"]["ids"].map((id)=>PxArtwork(data:getData(id))))),
+                const SizedBox(height: 8,),
                 FilledButton(child: const Text("Show all"),onPressed: ()=>navigate("/discovery"),),
                 const SizedBox(height: 50,),
                 // Ranking
-                const Text("Daily ranking",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                header("Daily ranking"),
                 Text(parseDate(mainresp["page"]["ranking"]["date"]),style: const TextStyle(fontSize: 10,color: Colors.grey)),
                 artworkGrid(List.generate(4, ((index) {
                     var i = mainresp["page"]["ranking"]["items"][index];
                     return PxArtwork(data:getData(i["id"]),rank:int.parse(i["rank"]));
                   }))
                 ),
+                const SizedBox(height: 8,),
                 FilledButton(child: const Text("Show all"),onPressed: ()=>navigate("/following")),
                 const SizedBox(height: 50,),
                 ...concat2d(

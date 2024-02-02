@@ -11,6 +11,13 @@ export 'package:sofieru/silly.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Header text
+Padding header(String label)=>Padding(padding: const EdgeInsets.all(4),child:Text(label,style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)));
+Uri currentRouteURI() {
+  final RouteMatch lastMatch = router.routerDelegate.currentConfiguration.last;
+  final RouteMatchList matchList = lastMatch is ImperativeRouteMatch ? lastMatch.matches : router.routerDelegate.currentConfiguration;
+  return matchList.uri;
+}
 String apiVersion = "6c38cc7c723c6ae8b0dc7022d497a1ee751824c0";
 List<T> concat2d<T>(List<Iterable<T>> inp) {
   List<T> tri = [];

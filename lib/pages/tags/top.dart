@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:sofieru/shared.dart';
 import 'package:go_router/go_router.dart';
@@ -31,16 +33,16 @@ class _MainPageState extends State<MainPage> {
         JSON data = snap.data!;
         List<dynamic> popular = data["popular"]["permanent"];
         popular.addAll(data["popular"]["recent"]);
-        debugPrint(data["popular"]);
+        debugPrint(jsonEncode(data["popular"]));
         popular.shuffle();
-        popular = popular.sublist(0,6);
+        if (popular.isNotEmpty) popular = popular.sublist(0,6);
         return SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text("Popular artworks",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-              SizedBox(height: 120,child: ListView( 
+              if (popular.isNotEmpty) const Text("Popular artworks",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              if (popular.isNotEmpty) SizedBox(height: 120,child: ListView( 
                 children: [...popular.map((e) => PxArtwork(data: e)),]
               ),),
               const Text("Illustrations and Manga",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),

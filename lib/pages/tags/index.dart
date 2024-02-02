@@ -5,7 +5,7 @@ import 'package:sofieru/shared.dart';
 import 'package:url_launcher/url_launcher.dart';
 // import 'package:sticky_headers/sticky_headers.dart';
 import 'top.dart';
-export 'top.dart';
+import 'illusts.dart';
 export 'illusts.dart';
 import 'package:sofieru/options.dart' as opt;
 
@@ -44,7 +44,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
   
   @override
   Widget build(c) {
-    var sus = GoRouter.of(c).routeInformationProvider.value.uri.pathSegments;
+    var sus = currentRouteURI().pathSegments;
     selIdx = habibi.indexOf(sus[sus.length-1]);
     if (selIdx == -1) {selIdx = 0;}
     return Consumer<Config>(builder: (ctx,d,c){
@@ -146,9 +146,9 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
             controller: _tabCtrl,
             children: [
               MainPage(tag:tag),
-              // IllustPage(tag:tag),
+              IllustPage(tag:tag),
               // Placeholder(),
-              Placeholder(),
+              // Placeholder(),
               Placeholder(),
               Placeholder(),
               Placeholder(),
