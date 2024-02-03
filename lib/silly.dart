@@ -41,16 +41,10 @@ FutureBuilder<T> futureWidget<T>({required Future<T>? future, required AsyncWidg
     return builder(ctx, snap);
   });
 }
-CachedNetworkImage pxImage(String url, {bool includeCircle = false, double? width, double? height}) {
-  CachedNetworkImage d()=>CachedNetworkImage(imageUrl: url, width: width, height: height, httpHeaders: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, placeholder: includeCircle?(context, url) => const CircularProgressIndicator():null,);
-  try {return d();}
-  catch (n) {return d();}//try again lmao
-}
-Image pxImageUncached(String url, {bool includeCircle = false, int? width, int? height}) {
-  Image d()=>Image.network(url, width: tryCast<double, int>(width), height: tryCast<double,int>(height), cacheHeight: height, cacheWidth: width, headers: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, loadingBuilder:  includeCircle?(ctx,w,imgChunk) => const CircularProgressIndicator():null,);
-  try {return d();}
-  catch (n) {return d();}//try again lmao
-}
+CachedNetworkImage pxImage(String url, {bool includeCircle = false, double? width, double? height}) => CachedNetworkImage(imageUrl: url, width: width, height: height, httpHeaders: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, placeholder: includeCircle?(context, url) => const CircularProgressIndicator():null,);
+
+Image pxImageUncached(String url, {bool includeCircle = false, int? width, int? height}) => Image.network(url, width: tryCast<double, int>(width), height: tryCast<double,int>(height), cacheHeight: height, cacheWidth: width, headers: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, loadingBuilder:  includeCircle?(ctx,w,imgChunk) => const CircularProgressIndicator():null,);
+
 String hm(int seconds) {
   int m = (seconds/60).floor()%60;
   int h = (m/60).floor();
@@ -145,7 +139,7 @@ class _PxArtworkState extends State<PxArtwork> {
           borderRadius:BorderRadius.circular(20),
           splashColor: Colors.blue.withAlpha(30),
           child: Padding(
-            padding: EdgeInsets.only(bottom: 8),
+            padding: EdgeInsets.only(bottom: 40),
             child: Column( 
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -393,3 +387,8 @@ class _PxSimpleArtworkState extends State<PxSimpleArtwork> {
   }
 }
 PxSimpleArtwork AuthorInfoArtwork({Key? key, dynamic data}) => PxSimpleArtwork(data: data, key: key,authorInfo: true,);
+/// i woulx love to tell them to remove pixivision from /novel or just make them novel-related
+class pixivision extends StatelessWidget {
+  @override
+  Widget build(ctx) => Placeholder()
+}

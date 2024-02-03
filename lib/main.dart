@@ -1,5 +1,6 @@
 
 import 'dart:math';
+import 'dart:io';
 
 import 'package:flutter/services.dart';
 // import 'package:url_launcher/url_launcher.dart';
@@ -13,6 +14,7 @@ import 'pages/view/artworks.dart' show IllustPage;
 import 'pages/view/novels.dart' show NovelPage;
 import 'pages/tags/index.dart' as tags;
 import 'pages/discovery/index.dart' as discovery;
+import 'pages/1984.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +26,8 @@ void main() async {
   final shellKeys = List.generate(3,(fhujioae)=>GlobalKey<NavigatorState>());
   updateCookie(await rootBundle.loadString("assets/cookie"));
   updateRouter(GoRouter(
-    initialLocation: "/",
+    initialLocation: Platform.environment["pxmat_playground"]==null?"/":"/pg",
+    observers: [],
     errorBuilder: (n,s)=>ShellPage(
       child:Center(
         child: Column(children: [
@@ -39,6 +42,10 @@ void main() async {
         navigatorKey: pa,
         builder: (ctx,st,wid)=>ShellPage(child: wid),
         routes: [
+          GoRoute(
+            parentNavigatorKey: pa,
+            builder:(ctx,st)=>Playground()
+          ),
           ShellRoute(
             parentNavigatorKey: pa,
             navigatorKey: shellKeys[0],
@@ -68,15 +75,18 @@ void main() async {
           ),
           ShellRoute( 
             parentNavigatorKey: pa,
-            navigatorKey: shellKeys[1],
+            navigatorKey: shellKeys[1], 
             routes: [
-              GoRoute(
-                path: "/discovery",builder: (ctx,s)=>discovery.Works(),
+              ShellRoute(
                 parentNavigatorKey: shellKeys[1],
+                builder: (context, state, child) => discovery.Works(),
+                routes: [
+                  GoRoute(path: "/discovery",builder: (ctx,s)=>Placeholder()),
+                  GoRoute(path: "/novel/discovery",builder: (ctx,s)=>Placeholder()),
+                ]
               ),
               GoRoute(
                 path: "/discovery/users",builder: (ctx,s)=>Placeholder(),
-                parentNavigatorKey: shellKeys[1],
               ),
             ], builder: (context, state, child) => discovery.DiscoveryPage(child: child,)
           ),
@@ -96,12 +106,12 @@ void main() async {
             builder: (no, state) => Placeholder()
           ),
           ShellRoute(
-            builder: (ctx,st,w)=>tags.ShellPage(tag: st.pathParameters["tag"]!,child: w,),
+            builder: (ctx,st,w)=>tags.ShellPage(tag: st.pathParameters["tag"]!),
             parentNavigatorKey: pa,
             navigatorKey: shellKeys[2],
             routes: [
               GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag", builder: (ctx,st)=>SizedBox(width:1,height:1)),
-              GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/illustrations", builder: (c,st)=>tags.IllustPage(tag: st.pathParameters["tag"]!)),
+              GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/illustrations", builder: (c,st)=>Placeholder()),//tags.IllustPage(tag: st.pathParameters["tag"]!)),
               GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/manga", builder: (c,st)=>Placeholder())
             ]
           )
@@ -121,7 +131,7 @@ class MyApp extends StatelessWidget {
       create: (context) => Config(),
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
-        title: 'the app',
+        title: 'pixiv Material Design Concept', // doesnt work on desktop
         theme: ThemeData(
           useMaterial3: true,
           brightness: Brightness.light,
@@ -167,6 +177,11 @@ class _ShellPageState extends State<ShellPage> {
   ];
   String MadeWithNerdByHenrysck075 = "";
   @override
+  void initState() {
+    super.initState();
+    setTitle("pixiv Material Design Concept - As if Google did it (/j)");
+  }
+  @override
   Widget build(BuildContext context) {
     MadeWithNerdByHenrysck075 = minecraft[Random().nextInt(minecraft.length)];
     List<Widget> navs = [
@@ -209,17 +224,23 @@ class _ShellPageState extends State<ShellPage> {
       ),
       appBar: AppBar(
         // backgroundColor: Theme.of(context).colorScheme.background,
-        title: SearchAnchor(
-          builder: (ctx,ctrl) => SearchBar( 
-            padding: const MaterialStatePropertyAll(EdgeInsets.only(bottom: 4)),
-            // backgroundColor: MaterialStatePropertyAll(Theme.of(context).cardColor),
-            elevation: const MaterialStatePropertyAll(1),
-            onTap: ctrl.openView,
-          ), 
-          suggestionsBuilder: (dontcare,ctrl)=>[
-            const Text("Number 15, Burger King Foot Lettuce")
-          ],
-        ),
+        title: Row(children:[
+          IconButton(
+            onPressed: ()=>router.pop(),
+            icon: const Icon(Icons.arrow_left)
+          ),
+          SearchAnchor(
+            builder: (ctx,ctrl) => SearchBar( 
+              padding: const MaterialStatePropertyAll(EdgeInsets.only(bottom: 4)),
+              // backgroundColor: MaterialStatePropertyAll(Theme.of(context).cardColor),
+              elevation: const MaterialStatePropertyAll(1),
+              onTap: ctrl.openView,
+            ), 
+            suggestionsBuilder: (dontcare,ctrl)=>[
+              const Text("Number 15, Burger King Foot Lettuce")
+            ],
+          ),
+        ]),
         actions: [
           IconButton(onPressed: ()=>showDialog(
             context: context, 
@@ -231,7 +252,7 @@ class _ShellPageState extends State<ShellPage> {
             )
           ), icon: const Icon(Icons.navigation)),
           IconButton(onPressed: (){
-            Clipboard.setData(ClipboardData(text: GoRouter.of(context).routeInformationProvider.value.uri.path)).then((value) => ScaffoldMessenger.of(context).showSnackBar(
+            Clipboard.setData(ClipboardData(text: currentRouteURI().path)).then((value) => ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text("Current path URL copied to clipboard!"))
             ));
           }, icon: const Icon(Icons.link))

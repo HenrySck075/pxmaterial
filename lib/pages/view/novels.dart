@@ -84,11 +84,12 @@ class _NovelPageState extends State<NovelPage> {
   Widget build(context) {
     return Scaffold(
       body: futureWidget(future: ed!, builder: (context,dd) {
-        JSON d = dd.data!;
-        authorId = d["userId"];
-        authNovelIds = [...d["userNovels"].keys];
+        JSON data = dd.data!;
+        authorId = data["userId"];
+        authNovelIds = [...data["userNovels"].keys];
         novelIndex = authNovelIds.indexOf(id);
         updateRange(novelIndex-7, novelIndex+7);
+        setTitle(data["alt"]+" - pixiv");
         return SingleChildScrollView(
           controller: _sccvCtrl,
           child: Column(
@@ -96,7 +97,7 @@ class _NovelPageState extends State<NovelPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               // The artwork view
-              Text(d["content"],softWrap: true,),
+              Text(data["content"],softWrap: true,),
               const Divider(),
               // Toolbar
               Row(
@@ -115,12 +116,12 @@ class _NovelPageState extends State<NovelPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(d["title"], style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),),
-                  HtmlWidget(d["description"],onTapUrl: (mimk)async => launchUrl(Uri.parse(mimk))),
+                  Text(data["title"], style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),),
+                  HtmlWidget(data["description"],onTapUrl: (mimk)async => launchUrl(Uri.parse(mimk))),
                   const SizedBox(height: 10,),
                   Wrap(
                     spacing: 8,
-                    children: List.from(d["tags"]["tags"].map((t)=>ActionChip(
+                    children: List.from(data["tags"]["tags"].map((t)=>ActionChip(
                       label: Row(
                         mainAxisSize: MainAxisSize.min,
                         children:[
@@ -136,7 +137,7 @@ class _NovelPageState extends State<NovelPage> {
               // Author view
               futureWidget(
                 // google said this is bad, but idk
-                future: pxRequest("https://www.pixiv.net/ajax/user/${d['userId']}?full=0"), 
+                future: pxRequest("https://www.pixiv.net/ajax/user/${data['userId']}?full=0"), 
                 builder: (ctx, snap) {
                   JSON d = snap.data!;
                   return GestureDetector(

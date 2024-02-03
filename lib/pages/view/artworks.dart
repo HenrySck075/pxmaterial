@@ -14,20 +14,19 @@ class IllustPage extends StatefulWidget {
   final String id;
   const IllustPage({super.key, required this.id});
   @override
-  State<IllustPage> createState() => _IllustPageState(id:id);
+  State<IllustPage> createState() => _IllustPageState();
 }
 
 class _IllustPageState extends State<IllustPage> {
-  final String id;
+  late final String id;
   String authorId = "";
-  _IllustPageState({required this.id});
   // Future<JSON>? data;
   bool shownAll = false;
   // Future<List<Map<String,String>>>? op;
   Future<List<dynamic>>? ed;
   List<dynamic>? op;
   final _authorIllustsViewCtrl = ScrollController();
-  final _sccvCtrl = ScrollController();
+  final _scsvCtrl = ScrollController();
   int illustIndex = 0;
   List<String> authIllustIds = [];
   List<int> range = [0,0];
@@ -51,12 +50,13 @@ class _IllustPageState extends State<IllustPage> {
   @override
   void initState() {
     super.initState();
+    id = widget.id;
     ed = Future.wait([
       pxRequest("https://www.pixiv.net/ajax/illust/$id"),
       pxRequest("https://www.pixiv.net/ajax/illust/$id/pages"),
     ]);
-    _sccvCtrl.addListener(() {
-      if (_sccvCtrl.position.pixels>=_sccvCtrl.position.maxScrollExtent && relatedNextIds.isNotEmpty) {
+    _scsvCtrl.addListener(() {
+      if (_scsvCtrl.position.pixels>=_scsvCtrl.position.maxScrollExtent && relatedNextIds.isNotEmpty) {
         // there's like several more endpoints that does the EXACT SAME THING as this. dude can you be consistent pls
         pxRequest("https://www.pixiv.net/ajax/illust/recommend/illusts?illust_ids[]=${relatedNextIds.sublist(0,18).join('&illust_ids[]=')}",otherHeaders: {"Referer":"https://www.pixiv.net/en/artworks/$id"}).then((value) {
           related.value.addAll(value["illusts"]);
@@ -89,29 +89,32 @@ class _IllustPageState extends State<IllustPage> {
   Widget build(context) {
     return Scaffold(
       body: futureWidget(future: ed!, builder: (context,dd) {
-        JSON d = dd.data![0];
+        JSON data = dd.data![0];
         List<dynamic> gang = dd.data![1];
         op = (shownAll?gang:[gang[0]]);
-        authorId = d["userId"];
-        authIllustIds = [...d["userIllusts"].keys];
+        authorId = data["userId"];
+        authIllustIds = [...data["userIllusts"].keys];
         illustIndex = authIllustIds.indexOf(id);
         updateRange(illustIndex-7, illustIndex+7);
+        setTitle(data["alt"]+" - pixiv");
         return SingleChildScrollView(
-          controller: _sccvCtrl,
+          controller: _scsvCtrl,
           child: Column(
             crossAxisAlignment:CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               // The artwork view
-              Column(children: List.from(enumerate(op!, (idx,i)=>Padding(
-                padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                child: GestureDetector(
-                    onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (builder)=>ArtworkImageView(data: i,heroTag: "${id}_p$idx",))),
-                    child:Hero(tag: "${id}_p$idx", child: pxImage(i["urls"]["regular"]))
-                  ),
-                )))
-              ),
-              if (d["pageCount"]>1) FilledButton(child: Text(shownAll?"Collapse":"Show all"),onPressed: ()=>setState((){
+              Center(child:Column(
+                children: List.from(enumerate(op!, (idx,i)=>Padding(
+                  padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                  child: GestureDetector(
+                      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (builder)=>ArtworkImageView(data: i,heroTag: "${id}_p$idx",))),
+                      child:Hero(tag: "${id}_p$idx", child: pxImage(i["urls"]["regular"]))
+                    ),
+                  ))
+                )
+              )),
+              if (data["pageCount"]>1) FilledButton(child: Text(shownAll?"Collapse":"Show all"),onPressed: ()=>setState((){
                 op=(shownAll?gang:[gang[0]]);
                 shownAll=!shownAll;
               })),
@@ -133,12 +136,12 @@ class _IllustPageState extends State<IllustPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(d["title"], style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),),
-                  HtmlWidget(d["description"],onTapUrl: (mimk)async => launchUrl(Uri.parse(mimk))),
+                  Text(data["title"], style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),),
+                  HtmlWidget(data["description"],onTapUrl: (mimk)async => launchUrl(Uri.parse(mimk))),
                   const SizedBox(height: 10,),
                   Wrap(
                     spacing: 8,
-                    children: List.from(d["tags"]["tags"].map((t)=>ActionChip(
+                    children: List.from(data["tags"]["tags"].map((t)=>ActionChip(
                       label: Row(
                         mainAxisSize: MainAxisSize.min,
                         children:[
@@ -154,7 +157,7 @@ class _IllustPageState extends State<IllustPage> {
               // Author view
               futureWidget(
                 // google said this is bad, but idk
-                future: pxRequest("https://www.pixiv.net/ajax/user/${d['userId']}?full=0"), 
+                future: pxRequest("https://www.pixiv.net/ajax/user/${data['userId']}?full=0"), 
                 builder: (ctx, snap) {
                   JSON d = snap.data!;
                   return GestureDetector(

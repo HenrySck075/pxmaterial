@@ -15,19 +15,23 @@ class _WorksState extends State<Works> with TickerProviderStateMixin{
     _tabCtrl = TabController(length: 2, vsync: this);
   }
   @override 
-  Widget build(ctx) => NestedScrollView(
-    headerSliverBuilder: (ctx,what) => [
-      SliverToBoxAdapter(child: TabBar(
+  Widget build(ctx) {
+    _tabCtrl.index=ture.indexOf(currentRouteURI().path);
+    return NestedScrollView(
+      headerSliverBuilder: (ctx,what) => [
+        SliverToBoxAdapter(child: TabBar(
+          controller: _tabCtrl,
+          tabs: const [
+            Tab(text: "Illusts & Manga"),
+            Tab(text: "Novels"),
+          ],
+          onTap: (v)=>navigate(ture[v]))
+        )
+      ],
+      body: TabBarView(
         controller: _tabCtrl,
-        tabs: const [
-          Tab(text: "Illusts & Manga"),
-          Tab(text: "Novels"),
-        ]),
-      )
-    ],
-    body: TabBarView(
-      controller: _tabCtrl,
-      children: [IllustManga(),Placeholder()]
-    ),
-  );
+        children: [IllustManga(),Placeholder()]
+      ),
+    );
+  }
 }

@@ -1,23 +1,60 @@
 // Collection of classes and utilities that will be used across the codebases
 // ignore_for_file: no_logic_in_create_state
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/retry.dart';
 export 'package:sofieru/silly.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:window_size/window_size.dart';
+/// set app's title
+/// i love hoisting
+Future<void> setTitle(String title) async {
+  if (Platform.isAndroid||Platform.isIOS) {
+    await SystemChrome.setApplicationSwitcherDescription(ApplicationSwitcherDescription(label: title));
+  }
+  else {
+    setWindowTitle(title);
+  };
+  routeObserver.addUrl(currentRouteURI().path, title);
+}
 
+/// Listens to navigation change to modify the title
+class kita extends NavigatorObserver {
+  Map<String, String> urls = {};
+  void didSmth(Route route) {
+    String url = route.settings.name??"/";
+    if (urls.keys.contains(url)) setTitle(urls[url]??"pixiv Material Design Concept");
+  }
+  @override
+  void didPop(Route nocare, Route? r) => didSmth(r!);
+  @override
+  void didPush(Route r, Route? nocare) => didSmth(r);
+  @override
+  void didRemove(Route nocare, Route? r) => didSmth(r!);
+  @override
+  void didReplace({Route? newRoute, Route? oldRoute}) => didSmth(newRoute!);
+  void addUrl(String url, String title) {
+    urls[url] = title;
+  }
+}
+var routeObserver = kita();
 /// Header text
-Padding header(String label)=>Padding(padding: const EdgeInsets.all(4),child:Text(label,style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)));
+Text header(String label)=>Text(label,style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold));
+
 Uri currentRouteURI() {
   final RouteMatch lastMatch = router.routerDelegate.currentConfiguration.last;
   final RouteMatchList matchList = lastMatch is ImperativeRouteMatch ? lastMatch.matches : router.routerDelegate.currentConfiguration;
   return matchList.uri;
 }
+
 String apiVersion = "6c38cc7c723c6ae8b0dc7022d497a1ee751824c0";
 List<T> concat2d<T>(List<Iterable<T>> inp) {
   List<T> tri = [];
@@ -83,7 +120,7 @@ void navigate(String location, {String method = "push"}) {
 }
 typedef JSON = Map<String, dynamic>;
 
-/// high chance that pixiv will liter these emojis everywhere (they're inconsistent)
+//,/ high chance that pixiv will liter these emojis everywhere (they're inconsistent)
 Map<String, int> emojis = {'normal': 101, 'surprise': 102, 'serious': 103, 'heaven': 104, 'happy': 105, 'excited': 106, 'sing': 107, 'cry': 108, 'normal2': 201, 'shame2': 202, 'love2': 203, 'interesting2': 204, 'blush2': 205, 'fire2': 206, 'angry2': 207, 'shine2': 208, 'panic2': 209, 'normal3': 301, 'satisfaction3': 302, 'surprise3': 303, 'smile3': 304, 'shock3': 305, 'gaze3': 306, 'wink3': 307, 'happy3': 308, 'excited3': 309, 'love3': 310, 'normal4': 401, 'surprise4': 402, 'serious4': 403, 'love4': 404, 'shine4': 405, 'sweat4': 406, 'shame4': 407, 'sleep4': 408, 'heart': 501, 'teardrop': 502, 'star': 503};
 String p(String the) {
   emojis.entries.forEach((e) {
@@ -106,7 +143,7 @@ Iterable<T> enumerate<T, E>(Iterable<E> iter, T cooker(int index, E e)) sync* {
   }
 }
 Map<String, Future<dynamic>> mentalRetardation = {};
-var client = http.Client();
+var client = RetryClient(http.Client());
 /// [pxRequest] without postprocess
 Future<void> wait(FutureOr<bool> Function(dynamic) predicate) async => await Future.doWhile(() => Future.delayed(const Duration(milliseconds: 500)).then(predicate));
 Future<http.Response> pxRequestUnprocessed(String url, {
@@ -152,7 +189,6 @@ Future<http.Response> pxRequestUnprocessed(String url, {
 Future<dynamic> pxRequest(String url, {Map<String, String> otherHeaders = const {}, String method="GET", Object? body, bool noCache = false}) {
   if (mentalRetardation.containsKey(url) && !noCache) {return mentalRetardation[url]!;}// we dont really needs to null check but dart sucks so
   var d = pxRequestUnprocessed(url,otherHeaders: otherHeaders, method: method, body:body).then((v){
-    debugPrint(v.body);
     return jsonDecode(v.body)["body"];
   });
   mentalRetardation[url] = d;

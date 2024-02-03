@@ -26,18 +26,18 @@ class NovelsPage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text("From users that you follows",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                header("From users that you follows"),
                 SizedBox(height:290, child: ListView( 
                   scrollDirection: Axis.horizontal,
                   children: [...mainresp["page"]["follow"].map((id)=>PxNovel(data:getData(id.toString())))],
                 )),
                 // Recommended Illusts
-                const Text("Recommended works",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                header("Recommended works"),
                 artworkGrid(List.from(mainresp["page"]["recommend"]["ids"].map((id)=>PxNovel(data:getData(id))))),
                 FilledButton(child: const Text("Show all"),onPressed: ()=>navigate("/discovery"),),
                 const SizedBox(height: 50,),
                 // Ranking
-                const Text("Daily ranking",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                header("Daily ranking"),
                 Text(parseDate(mainresp["page"]["ranking"]["date"]),style: const TextStyle(fontSize: 10,color: Colors.grey)),
                 artworkGrid(List.generate(4, ((index) {
                     var i = mainresp["page"]["ranking"]["items"][index];

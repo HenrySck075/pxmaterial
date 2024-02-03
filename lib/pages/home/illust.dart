@@ -28,13 +28,13 @@ class IllustsPage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text("From users that you follows",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                header("From users that you follows"),
                 SizedBox(height:290, child: ListView( 
                   scrollDirection: Axis.horizontal,
                   children: [...mainresp["page"]["follow"].map((id)=>PxArtwork(data:getData(id.toString())))],
                 )),
                 // Recommended Illusts
-                const Text("Recommended works",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                header("Recommended works"),
                 artworkGrid(List.from(mainresp["page"]["recommend"]["ids"].map((id)=>PxArtwork(data:getData(id))))),
                 const SizedBox(height: 8,),
                 FilledButton(child: const Text("Show all"),onPressed: ()=>navigate("/discovery"),),
@@ -54,7 +54,7 @@ class IllustsPage extends StatelessWidget {
                   List.from(mainresp["page"]["recommendByTag"].map((e)=>[
                     GestureDetector( 
                       onTap: ()=>navigate("/tags/${e['tag']}"),
-                      child: Text("#${mainresp['tagTranslation'][e['tag']]?['en']??e['tag']} artworks",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))
+                      child: header("#${mainresp['tagTranslation'][e['tag']]?['en']??e['tag']} artworks")
                     ),
                     SizedBox(height:280,child:ListView( 
                       scrollDirection: Axis.horizontal,

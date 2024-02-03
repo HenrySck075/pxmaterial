@@ -11,8 +11,7 @@ import 'package:sofieru/options.dart' as opt;
 
 class ShellPage extends StatefulWidget {
   final String tag;
-  final Widget child;
-  const ShellPage({super.key, required this.tag, required this.child});
+  const ShellPage({super.key, required this.tag});
 
   State<ShellPage> createState()=>_ShellPageState();
 }
@@ -29,7 +28,6 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
   @override
   void initState() {
     tag = widget.tag;
-    child = widget.child;
     var q = getQueries();
     super.initState();
     mode = q["mode"]??"all";
@@ -47,6 +45,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
     var sus = currentRouteURI().pathSegments;
     selIdx = habibi.indexOf(sus[sus.length-1]);
     if (selIdx == -1) {selIdx = 0;}
+    _tabCtrl.index=selIdx;
     return Consumer<Config>(builder: (ctx,d,c){
       d.search_options["mode"] = mode;
       d.search_options["type"] = type;
@@ -60,9 +59,9 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
               delegate:SliverChildListDelegate([
                  if (data["pixpedia"]["image"]!=null) Container(
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                  height: 160,
                   clipBehavior: Clip.hardEdge,
-                  width: 120,
-                  child:pxImage(data["pixpedia"]["image"],height:120)
+                  child:pxImage(data["pixpedia"]["image"])
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
