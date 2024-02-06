@@ -169,7 +169,7 @@ class _IllustPageState extends State<IllustPage> {
                     child: ListTile(
                       title: Text(d["name"]),
                       subtitle: Text("Does${d['acceptRequest']?'':"n't"} accepting requests"),
-                      leading: CircleAvatar(backgroundImage: pxImageUncached(d["image"]).image,) ),
+                      leading: CircleAvatar(backgroundImage: pxImageFlutter(d["image"]).image,) ),
                     );
                   },
                 placeholder: const SizedBox(height: 1,width: 1)
@@ -235,14 +235,17 @@ class ArtworkImageView extends StatelessWidget {
   ArtworkImageView({super.key, required this.data, required this.heroTag});
   void downlo(BuildContext context, String quality) {
     var ext = data["urls"][quality].substring(data["urls"][quality].length-3);
-    ScaffoldMessenger.of(context).showSnackBar(
+    var scaf = ScaffoldMessenger.of(context);
+    scaf.showSnackBar(
       SnackBar(content: Text("Downloading ${heroTag}.${ext}"))
     );
     pxRequestUnprocessed(data["urls"][quality]).then((value){
-      Future.value(ImageGallerySaver.saveImage(value.bodyBytes,name: "${heroTag}.${ext}")).then((value) => ScaffoldMessenger.of(context).showSnackBar(
+      Future.value(ImageGallerySaver.saveImage(value.bodyBytes,name: "${heroTag}.${ext}")).then((value) => scaf.showSnackBar(
         const SnackBar(content: Text("Download completed!"))
       ));
-    });
+    }).catchError((e)=>scaf.showSnackBar(
+        const SnackBar(content: Text("Download (or save) failed. Check the logs for more info."))
+      ));
   }
   @override
   Widget build(context) {

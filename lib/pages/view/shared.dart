@@ -41,10 +41,10 @@ class _CommentsState extends State<Comments> {
                 alignment: Alignment.centerLeft,
                 width: 96,
                 height: 96,
-                child: pxImageUncached("https://s.pximg.net/common/images/stamp/generated-stamps/${v['stampId']}_s.jpg", width: 96, height: 96)
+                child: pxImageFlutter("https://s.pximg.net/common/images/stamp/generated-stamps/${v['stampId']}_s.jpg", width: 96, height: 96)
               )
             ):HtmlWidget(p(v["comment"])),
-            leading: CircleAvatar(backgroundImage: pxImageUncached(v["img"]).image,) 
+            leading: CircleAvatar(backgroundImage: pxImageFlutter(v["img"]).image,) 
           ))),
           if(hasNext) FilledButton(onPressed: (){
             

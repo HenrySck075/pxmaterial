@@ -14,6 +14,7 @@ import 'pages/view/artworks.dart' show IllustPage;
 import 'pages/view/novels.dart' show NovelPage;
 import 'pages/tags/index.dart' as tags;
 import 'pages/discovery/index.dart' as discovery;
+import 'pages/users/index.dart' as users;
 import 'pages/1984.dart';
 
 import 'package:flutter/material.dart';
@@ -23,10 +24,10 @@ import 'package:go_router/go_router.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final pa = GlobalKey<NavigatorState>();
-  final shellKeys = List.generate(3,(fhujioae)=>GlobalKey<NavigatorState>());
+  final shellKeys = List.generate(4,(fhujioae)=>GlobalKey<NavigatorState>());
   updateCookie(await rootBundle.loadString("assets/cookie"));
   updateRouter(GoRouter(
-    initialLocation: Platform.environment["pxmat_playground"]==null?"/":"/pg",
+    initialLocation: "/terminal",
     observers: [],
     errorBuilder: (n,s)=>ShellPage(
       child:Center(
@@ -38,11 +39,21 @@ void main() async {
       )
     ),
     routes: <RouteBase>[
+      GoRoute(
+        path: "/terminal",
+        builder: (ctx,idk)=>AlertDialog(
+          title: const Text("Navigate to"),
+          content: TextField(
+            onSubmitted: (v)=>ctx.go(v),
+          ),
+        )
+      ),
       ShellRoute(
         navigatorKey: pa,
         builder: (ctx,st,wid)=>ShellPage(child: wid),
         routes: [
           GoRoute(
+            path:"/pg",
             parentNavigatorKey: pa,
             builder:(ctx,st)=>Playground()
           ),
@@ -104,6 +115,16 @@ void main() async {
             parentNavigatorKey: pa,
             path: "/series/:id",
             builder: (no, state) => Placeholder()
+          ),
+          ShellRoute(
+            builder: (ctx,st,w)=>users.ShellPage(id: st.pathParameters["id"]!),
+            parentNavigatorKey: pa,
+            navigatorKey: shellKeys[3],
+            routes: [
+              GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id", builder: (ctx,st)=>SizedBox(width:1,height:1)),
+              GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id/illustrations", builder: (c,st)=>Placeholder()),//tags.IllustPage(tag: st.pathParameters["tag"]!)),
+              GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id/manga", builder: (c,st)=>Placeholder())
+            ]
           ),
           ShellRoute(
             builder: (ctx,st,w)=>tags.ShellPage(tag: st.pathParameters["tag"]!),

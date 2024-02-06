@@ -149,7 +149,7 @@ class _NovelPageState extends State<NovelPage> {
                     child: ListTile(
                       title: Text(d["name"]),
                       subtitle: Text("Does${d['acceptRequest']?'':"n't"} accepting requests"),
-                      leading: CircleAvatar(backgroundImage: pxImageUncached(d["image"]).image,) ),
+                      leading: CircleAvatar(backgroundImage: pxImageFlutter(d["image"]).image,) ),
                     );
                   },
                 placeholder: const SizedBox(height: 1,width: 1)
