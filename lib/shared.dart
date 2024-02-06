@@ -22,7 +22,7 @@ Future<void> setTitle(String title) async {
   }
   else {
     setWindowTitle(title);
-  };
+  }
   routeObserver.addUrl(currentRouteURI().path, title);
 }
 
@@ -46,8 +46,6 @@ class kita extends NavigatorObserver {
   }
 }
 var routeObserver = kita();
-/// Header text
-Text header(String label)=>Text(label,style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold));
 
 Uri currentRouteURI() {
   final RouteMatch lastMatch = router.routerDelegate.currentConfiguration.last;
@@ -55,7 +53,7 @@ Uri currentRouteURI() {
   return matchList.uri;
 }
 
-String apiVersion = "6c38cc7c723c6ae8b0dc7022d497a1ee751824c0";
+String apiVersion = "32969157decc4eef43313f7a0a92eea8550aca46";
 List<T> concat2d<T>(List<Iterable<T>> inp) {
   List<T> tri = [];
   inp.forEach((element) {tri.addAll(element); });

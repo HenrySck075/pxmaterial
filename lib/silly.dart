@@ -6,10 +6,18 @@ import 'package:sofieru/shared.dart' show pxRequest, tryCast, navigate, JSON;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+/// Header text
+Text header(String label)=>Text(label,style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold));
 /// make `notifyListeners` non-protected :trollskullirl:
 class VisibleNotifyNotifier<T> extends ChangeNotifier {
-  T value;
-  VisibleNotifyNotifier(this.value);
+  T _value;
+  VisibleNotifyNotifier(this._value);
+
+  T get value => _value;
+  set value(T v) {
+    _value = v;
+    notifyListeners();
+  }
 
   @override
   /// nerd
@@ -302,6 +310,7 @@ class AuthorInfo extends StatelessWidget {
                 ),
                 Spacer(),
                 Row(
+                  mainAxisAlignment:MainAxisAlignment.spaceBetween,
                   children: [...art["illusts"].values.where((v)=>v!=null).map((v)=>AuthorInfoArtwork(data: v))],
                 )
               ],

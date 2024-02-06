@@ -26,40 +26,38 @@ class _MainPageState extends State<MainPage> {
     meta = b();
   }
   @override
-  Widget build(ctx) {
-    return futureWidget(
-      future: meta, 
-      builder: (ctx,snap) {
-        JSON data = snap.data!;
-        List<dynamic> popular = data["popular"]["permanent"];
-        popular.addAll(data["popular"]["recent"]);
-        debugPrint(jsonEncode(data["popular"]));
-        popular.shuffle();
-        if (popular.isNotEmpty) popular = popular.sublist(0,6);
-        return SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              if (popular.isNotEmpty) const Text("Popular artworks",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-              if (popular.isNotEmpty) SizedBox(height: 120,child: ListView( 
-                children: [...popular.map((e) => PxArtwork(data: e)),]
-              ),),
-              const Text("Illustrations and Manga",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-              Padding(
-                padding: const EdgeInsets.only(left:4, right: 4),
-                child:artworkGrid([...data["illustManga"]["data"].map((v)=>PxSimpleArtwork(data: v))])
-              ),
-              Row( 
-                children: [
-                  OutlinedButton(onPressed: ()=>navigate("tags/$tag/illustrations"), child: const Text("More illusts")),
-                  OutlinedButton(onPressed: ()=>navigate("tags/$tag/manga"), child: const Text("More mangas"))
-                ],
-              ),
-            ],
-          ),
-        );
-      }
-    );
-  }
+  Widget build(ctx) => futureWidget(
+    future: meta, 
+    builder: (ctx,snap) {
+      JSON data = snap.data!;
+      List<dynamic> popular = data["popular"]["permanent"];
+      popular.addAll(data["popular"]["recent"]);
+      debugPrint(jsonEncode(data["popular"]));
+      popular.shuffle();
+      if (popular.isNotEmpty) popular = popular.sublist(0,6);
+      return SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (popular.isNotEmpty) header("Popular artworks"),
+            if (popular.isNotEmpty) SizedBox(height: 120,child: ListView( 
+              children: [...popular.map((e) => PxArtwork(data: e)),]
+            ),),
+            const Text("Illustrations and Manga",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            Padding(
+              padding: const EdgeInsets.only(left:4, right: 4),
+              child:artworkGrid([...data["illustManga"]["data"].map((v)=>PxSimpleArtwork(data: v))])
+            ),
+            Row( 
+              children: [
+                OutlinedButton(onPressed: ()=>navigate("tags/$tag/illustrations"), child: const Text("More illusts")),
+                OutlinedButton(onPressed: ()=>navigate("tags/$tag/manga"), child: const Text("More mangas"))
+              ],
+            ),
+          ],
+        ),
+      );
+    }
+  );
 }

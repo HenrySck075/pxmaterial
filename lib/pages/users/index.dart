@@ -1,18 +1,15 @@
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sofieru/shared.dart';
-import 'package:url_launcher/url_launcher.dart';
 // import 'package:sticky_headers/sticky_headers.dart';
-import 'package:sofieru/options.dart' as opt;
 
 import 'home.dart';
 
 class ShellPage extends StatefulWidget {
   final String id;
   const ShellPage({super.key, required this.id});
-
+  @override
   State<ShellPage> createState()=>_ShellPageState();
 }
 class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
@@ -25,6 +22,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
 
   List<String> habibi = ["","illustrations","manga","novels"];
   late final TabController _tabCtrl;
+  final _toggleDesc = VisibleNotifyNotifier(false);
   @override
   void initState() {
     id = widget.id;
@@ -53,6 +51,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
       future: pxRequest("https://www.pixiv.net/ajax/user/$id?full=1"), 
       builder: (ctx,snap){
         JSON data = snap.data!;
+        setTitle('${data["name"]} - pixiv');
         return NestedScrollView( 
           // Reference: Google Contacts
           headerSliverBuilder: (ctx,v)=>[
@@ -70,14 +69,17 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
                   fontSize: 18,
                 )),
                 Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child:Column(
-                      children:[
-                        Text(data["comment"]!=""?data["comment"]:"No description provided"), 
-                        const SizedBox(height:4),
-                        AuthorInfo_Medias(data)
-                      ]
+                  child: ListenableBuilder(listenable: _toggleDesc, builder: (ctx,whar)=>Padding(
+                      padding: const EdgeInsets.all(16),
+                      child:Column(
+                        children:[
+                          data["comment"]!=""?GestureDetector(onTap:(){_toggleDesc.value = !_toggleDesc.value;},child:Text(_toggleDesc.value?data["comment"]:"View")):const Text("No description provided"), 
+                          const SizedBox(height:4),
+                          AuthorInfo_Medias(data),
+                          const SizedBox(height:4),
+                          Text("${data['following']} following")
+                        ]
+                      )
                     )
                   )
                 ),
@@ -98,7 +100,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
           body:TabBarView(
             controller: _tabCtrl,
             children: [
-              HomePage(),
+              HomePage(id:id),
               // IllustPage(tag:tag),
               Placeholder(),
               Placeholder(),

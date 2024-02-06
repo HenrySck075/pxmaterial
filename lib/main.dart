@@ -1,6 +1,5 @@
 
 import 'dart:math';
-import 'dart:io';
 
 import 'package:flutter/services.dart';
 // import 'package:url_launcher/url_launcher.dart';
@@ -43,9 +42,12 @@ void main() async {
         path: "/terminal",
         builder: (ctx,idk)=>AlertDialog(
           title: const Text("Navigate to"),
-          content: TextField(
-            onSubmitted: (v)=>ctx.go(v),
-          ),
+          content: Column(children: [
+            TextField(
+              onSubmitted: (v)=>ctx.go(v),
+            ),
+            FilledButton(onPressed: ()=>ctx.go("/"), child: const Text("meh"))
+          ])
         )
       ),
       ShellRoute(
@@ -92,8 +94,8 @@ void main() async {
                 parentNavigatorKey: shellKeys[1],
                 builder: (context, state, child) => discovery.Works(),
                 routes: [
-                  GoRoute(path: "/discovery",builder: (ctx,s)=>Placeholder()),
-                  GoRoute(path: "/novel/discovery",builder: (ctx,s)=>Placeholder()),
+                  GoRoute(path: "/discovery",builder: (ctx,s)=>const Placeholder()),
+                  GoRoute(path: "/novel/discovery",builder: (ctx,s)=>const Placeholder()),
                 ]
               ),
               GoRoute(
@@ -171,7 +173,7 @@ class MyApp extends StatelessWidget {
 }
 
 class ShellPage extends StatefulWidget {
-  Widget child;
+  final Widget child;
   String path;
   ShellPage({super.key, required this.child, this.path=""});
   @override
