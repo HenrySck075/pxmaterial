@@ -33,6 +33,7 @@ Wrap artworkGrid(List<Widget> h) => Wrap(
   runSpacing: 4,
   children: h,
 );
+
 FutureBuilder<T> futureWidget<T>({required Future<T>? future, required AsyncWidgetBuilder<T> builder, Widget placeholder = const Center(child: CircularProgressIndicator())}) {
   return FutureBuilder<T>(future: future, builder: (ctx, snap) {
     if (snap.data == null) return placeholder;
@@ -147,14 +148,14 @@ class _PxArtworkState extends State<PxArtwork> {
           borderRadius:BorderRadius.circular(20),
           splashColor: Colors.blue.withAlpha(30),
           child: Padding(
-            padding: EdgeInsets.only(bottom: 40),
+            padding: const EdgeInsets.only(bottom: 40),
             child: Column( 
               mainAxisSize: MainAxisSize.max,
               children: [
                 Stack(
                   children: [
                     GestureDetector(
-                      onTap: (){navigate("/artworks/"+id);},
+                      onTap: (){widget.data["illustType"]!=2?navigate("/artworks/$id"):showDialog(context: context, builder: (ctx)=>const AlertDialog(content: Text("Ugoira works not supported yet"),));},
                       child:pxImage(widget.data["url"]),
                     ),
                     Positioned(

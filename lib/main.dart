@@ -27,7 +27,7 @@ void main() async {
   updateCookie(await rootBundle.loadString("assets/cookie"));
   updateRouter(GoRouter(
     initialLocation: "/terminal",
-    observers: [],
+    observers: [routeObserver],
     errorBuilder: (n,s)=>ShellPage(
       child:Center(
         child: Column(children: [
@@ -202,7 +202,6 @@ class _ShellPageState extends State<ShellPage> {
   @override
   void initState() {
     super.initState();
-    setTitle("pixiv Material Design Concept - As if Google did it (/j)");
   }
   @override
   Widget build(BuildContext context) {
@@ -246,7 +245,7 @@ class _ShellPageState extends State<ShellPage> {
         children: navs
       ),
       appBar: AppBar(
-        // backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         title: Row(children:[
           IconButton(
             onPressed: ()=>router.pop(),
@@ -281,8 +280,10 @@ class _ShellPageState extends State<ShellPage> {
           }, icon: const Icon(Icons.link))
         ],
       ),
+      backgroundColor:Theme.of(context).colorScheme.primaryContainer,
       body: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+        decoration: const BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+        clipBehavior: Clip.hardEdge,
         child:widget.child
       )
     );

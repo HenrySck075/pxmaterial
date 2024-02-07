@@ -25,22 +25,25 @@ Future<void> setTitle(String title) async {
   }
   routeObserver.addUrl(currentRouteURI().path, title);
 }
-
+/// for cascade ~~operator~~ syntax
+T returnSelf<T>(T value) => value;
 /// Listens to navigation change to modify the title
 class kita extends NavigatorObserver {
   Map<String, String> urls = {};
-  void didSmth(Route route) {
-    String url = route.settings.name??"/";
+  void didSmth(Route? route) {
+    String url = route?.settings.name??currentRouteURI().path;
+    print(urls.keys.contains(url));
+    print(url);
     if (urls.keys.contains(url)) setTitle(urls[url]??"pixiv Material Design Concept");
   }
   @override
-  void didPop(Route nocare, Route? r) => didSmth(r!);
+  void didPop(Route nocare, Route? r) => didSmth(r);
   @override
   void didPush(Route r, Route? nocare) => didSmth(r);
   @override
-  void didRemove(Route nocare, Route? r) => didSmth(r!);
+  void didRemove(Route nocare, Route? r) => didSmth(r);
   @override
-  void didReplace({Route? newRoute, Route? oldRoute}) => didSmth(newRoute!);
+  void didReplace({Route? newRoute, Route? oldRoute}) => didSmth(newRoute);
   void addUrl(String url, String title) {
     urls[url] = title;
   }
@@ -126,13 +129,12 @@ String p(String the) {
   });
   return the;
 }
-Iterable<T> map<T,E extends Iterable>(E realestate, T toElement(E e)) sync* {
+Iterable<T> map<T,E extends Iterable>(E realestate, T Function(E e) toElement) sync* {
   for (var value in realestate) {
     yield toElement(value);
   }
 }
-Iterable<T> enumerate<T, E>(Iterable<E> iter, T cooker(int index, E e)) sync* {
-  print(iter);
+Iterable<T> enumerate<T, E>(Iterable<E> iter, T Function(int index, E e) cooker) sync* {
   int index = 0;
   final int len = iter.length;
   while (index < len) {
@@ -140,10 +142,11 @@ Iterable<T> enumerate<T, E>(Iterable<E> iter, T cooker(int index, E e)) sync* {
     index+=1;
   }
 }
+
 Map<String, Future<dynamic>> mentalRetardation = {};
-var client = RetryClient(http.Client());
-/// [pxRequest] without postprocess
+var client = RetryClient(http.Client(),retries: 10, delay: (what)=>const Duration(milliseconds:500));
 Future<void> wait(FutureOr<bool> Function(dynamic) predicate) async => await Future.doWhile(() => Future.delayed(const Duration(milliseconds: 500)).then(predicate));
+/// [pxRequest] without postprocess
 Future<http.Response> pxRequestUnprocessed(String url, {
   Map<String, String> otherHeaders = const {}, String method="GET", Object? body, 
   void Function(double percent, int total)? onProgress

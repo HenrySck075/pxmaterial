@@ -109,15 +109,18 @@ class _IllustPageState extends State<IllustPage> {
                   padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
                   child: GestureDetector(
                       onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (builder)=>ArtworkImageView(data: i,heroTag: "${id}_p$idx",))),
-                      child:Hero(tag: "${id}_p$idx", child: pxImage(i["urls"]["regular"]))
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 550),
+                        child: Hero(tag: "${id}_p$idx", child: pxImage(i["urls"]["regular"]))
+                      )
                     ),
                   ))
                 )
               )),
-              if (data["pageCount"]>1) FilledButton(child: Text(shownAll?"Collapse":"Show all"),onPressed: ()=>setState((){
+              if (data["pageCount"]>1) Center(child:FilledButton(child: Text(shownAll?"Collapse":"Show all"),onPressed: ()=>setState((){
                 op=(shownAll?gang:[gang[0]]);
                 shownAll=!shownAll;
-              })),
+              }))),
               const Divider(),
               // Toolbar
               Row(

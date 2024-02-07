@@ -12,6 +12,11 @@ class ShellPage extends StatefulWidget {
 }
 class _ShellPageState extends State<ShellPage> {
   List<String> h = ["/","/manga","/novel"];
+  @override 
+  void initState() {
+    super.initState();
+    setTitle("pixiv Material Design Concept - As if Google did it (/j)");
+  }
   @override
   Widget build(context) {
     var d = h.indexOf(router.routeInformationProvider.value.uri.path);

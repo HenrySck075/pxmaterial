@@ -28,17 +28,20 @@ class _HomePageState extends State<HomePage> {
             if (data["illusts"] is Map || data["manga"] is Map ) ...[
               header("Illustrations and Manga"),
               artworkGrid(
-                data["illusts"].entries.toList() // illust entries
+                returnSelf<List<MapEntry<dynamic, dynamic>>>(data["illusts"].entries.toList() // illust entries
                 ..addAll(data["manga"].entries) // add all manga entries
-                ..sort((e1,e2)=>DateTime.parse(e1["createDate"]).millisecondsSinceEpoch <= DateTime.parse(e2["createDate"]).millisecondsSinceEpoch)
+                ..sort((e1,e2)=>DateTime.parse(e1.value["createDate"]).millisecondsSinceEpoch.compareTo(DateTime.parse(e2.value["createDate"]).millisecondsSinceEpoch)) // sort
+                ).sublist(0,18).map((e) => PxArtwork(data: e.value)).toList()
               )
             ],
+            // similar to above
             if (data["requestPostWorks"]["artworks"] is Map || data["novels"] is Map ) ...[
-              header("Illustrations and Manga"),
+              header("Requested Works"),
               artworkGrid(
-                data["requestPostWorks"]["artworks"].entries.toList() // illust entries
-                ..addAll(data["requestPostWorks"]["novels"].entries) // add all manga entries
-                ..sort((e1,e2)=>DateTime.parse(e1["createDate"]).millisecondsSinceEpoch <= DateTime.parse(e2["createDate"]).millisecondsSinceEpoch)
+                returnSelf<List<MapEntry<dynamic, dynamic>>>(data["requestPostWorks"]["artworks"].entries.toList()
+                ..addAll(data["requestPostWorks"]["novels"].entries)
+                ..sort((e1,e2)=>DateTime.parse(e1.value["createDate"]).millisecondsSinceEpoch.compareTo(DateTime.parse(e2.value["createDate"]).millisecondsSinceEpoch))
+                ).sublist(0,18).map((e) => PxArtwork(data: e.value)).toList()
               )
             ],
           ]

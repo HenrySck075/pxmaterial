@@ -73,7 +73,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
                       padding: const EdgeInsets.all(16),
                       child:Column(
                         children:[
-                          data["comment"]!=""?GestureDetector(onTap:(){_toggleDesc.value = !_toggleDesc.value;},child:Text(_toggleDesc.value?data["comment"]:"View")):const Text("No description provided"), 
+                          data["comment"]!=""?GestureDetector(onTap:(){_toggleDesc.value = !_toggleDesc.value;},child:Text(_toggleDesc.value?data["comment"]:"View description")):const Text("No description provided"), 
                           const SizedBox(height:4),
                           AuthorInfo_Medias(data),
                           const SizedBox(height:4),
