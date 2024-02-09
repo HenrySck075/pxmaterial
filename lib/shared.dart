@@ -9,12 +9,14 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 export 'package:sofieru/silly.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:window_size/window_size.dart';
 /// set app's title
 /// i love hoisting
+Future<bool> HtmlUrlLauncher(mimk) async => launchUrl(Uri.parse(mimk.contains("pixiv.net")?"pxmat"+mimk.substring(5):mimk));
 Future<void> setTitle(String title) async {
   if (Platform.isAndroid||Platform.isIOS) {
     await SystemChrome.setApplicationSwitcherDescription(ApplicationSwitcherDescription(label: title));

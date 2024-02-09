@@ -175,8 +175,9 @@ class _PxArtworkState extends State<PxArtwork> {
                     const Positioned(
                       bottom: 0,
                       right: 0,
-                      child: Icon(Icons.favorite_outline)
+                      child: Icon(Icons.favorite_outline,color:Colors.black)
                     ),
+                    if (widget.data["illustType"]==2) const Positioned.fill(child: Align(alignment: Alignment.center,child: Icon(Icons.play_circle_outlined,size: 24,),)),
                     if (widget.rank != 0) Positioned(
                       top:4, left:4,
                       child:SizedBox(
@@ -374,8 +375,9 @@ class _PxSimpleArtworkState extends State<PxSimpleArtwork> {
         const Positioned(
           bottom: 0,
           right: 0,
-          child: Icon(Icons.favorite_outline)
+          child: Icon(Icons.favorite_outline,color: Colors.black,)
         ),
+        if (widget.data["illustType"]==2) const Positioned.fill(child: Align(alignment: Alignment.center,child: Icon(Icons.play_circle_outlined,size: 24,),)),
         if (widget.data["xRestrict"] == 1) Positioned(
           top:4, left:4,
           child:SizedBox(

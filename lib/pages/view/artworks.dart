@@ -117,7 +117,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
                       onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (builder)=>ArtworkImageView(data: i,heroTag: "${id}_p$idx",))),
                       child: ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 550),
-                        child: Hero(tag: "${id}_p$idx", child: pxImage(i["urls"]["regular"]))
+                        child: Hero(tag: "${id}_p$idx", child: pxImage(i["urls"]["regular"],includeCircle: true))
                       )
                     ),
                   ))
@@ -138,15 +138,20 @@ class _ArtworkPageState extends State<ArtworkPage> {
                 var data = snap.data![1] as Map<String, dynamic>;
                 var zipContent = (snap.data![0] as http.Response).bodyBytes;
                 final archive = arch.ZipDecoder().decodeBytes(zipContent);
-                final curImg = ValueNotifier<Widget>(Container());
+                final curImg = ValueNotifier<Widget>(Center(child: Text("(flickers may occur)"),));
                 final List<dynamic> frames = data["frames"];
                 final total = frames.map((r)=>r["delay"] as int).toList().fold(0,(p,c)=>p+c);
+                List<Image> widgetFrames = [];
+                for (int i = 0; i < frames.length; i++) {
+                  var element = frames[i];
+                  widgetFrames.add(Image.memory(archive.findFile(element["file"])!.content));              
+                }
                 Timer.periodic(Duration(milliseconds:total), (timer) { 
                   int ts = 0;
                   for (int i = 0; i < frames.length; i++) {
                     var element = frames[i];
                     ts+=element["delay"]! as int;
-                    Timer(Duration(milliseconds: ts),()=>curImg.value=Image.memory(archive.findFile(element["file"])!.content));
+                    Timer(Duration(milliseconds: ts),()=>curImg.value=widgetFrames[i]);
                   }
                 });
                 return ListenableBuilder(listenable: curImg, builder: (ctx,w)=>curImg.value,);
@@ -172,7 +177,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text(data["title"], style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),),
-                  HtmlWidget(data["description"],onTapUrl: (mimk)async => launchUrl(Uri.parse(mimk))),
+                  HtmlWidget(data["description"],onTapUrl: HtmlUrlLauncher),
                   const SizedBox(height: 10,),
                   Wrap(
                     spacing: 8,

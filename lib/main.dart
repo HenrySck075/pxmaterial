@@ -2,6 +2,7 @@
 // Original app, services & resources (not including user-made works) belong to pixiv Inc.
 // Do not go insane.
 
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/services.dart';
@@ -25,6 +26,9 @@ import 'package:go_router/go_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // if (Platform.isWindows) {
+  //  registerProtocol('unilinks');
+  //}
   final pa = GlobalKey<NavigatorState>();
   final shellKeys = List.generate(4,(fhujioae)=>GlobalKey<NavigatorState>());
   updateCookie(await rootBundle.loadString("assets/cookie"));
@@ -256,7 +260,7 @@ class _ShellPageState extends State<ShellPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         title: Row(children:[
-          IconButton(
+          if (!(Platform.isIOS||Platform.isAndroid)) IconButton(
             onPressed: ()=>router.pop(),
             icon: const Icon(Icons.arrow_left)
           ),
