@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:sofieru/shared.dart';
@@ -32,7 +34,7 @@ class _IllustPageState extends State<IllustPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text("Works",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-              artworkGrid([...data["illust"]["data"].map((v)=>PxSimpleArtwork(data: v))]),
+              artworkGrid(MediaQuery.sizeOf(ctx).width>840?[...data["illust"]["data"].map((v)=>PxSimpleArtwork(data: v))]:[...data["illust"]["data"].map((v)=>PxArtwork(data: v))]),
               NumberPaginator(
                 numberPages: data["illust"]["lastPage"],
                 onPageChange: (val){

@@ -14,9 +14,11 @@ export 'package:sofieru/silly.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:window_size/window_size.dart';
+
+final kIsMobile = Platform.isIOS||Platform.isAndroid;
 /// set app's title
 /// i love hoisting
-Future<bool> HtmlUrlLauncher(mimk) async => launchUrl(Uri.parse(mimk.contains("pixiv.net")?"pxmat"+mimk.substring(5):mimk));
+Future<bool> HtmlUrlLauncher(String mimk) async => launchUrl(Uri.parse(mimk.contains("pixiv.net")?mimk.replaceFirst("https","pxmat").replaceFirst("www.","").replaceFirst("/en",""):mimk));
 Future<void> setTitle(String title) async {
   if (Platform.isAndroid||Platform.isIOS) {
     await SystemChrome.setApplicationSwitcherDescription(ApplicationSwitcherDescription(label: title));

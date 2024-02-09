@@ -259,23 +259,17 @@ class _ShellPageState extends State<ShellPage> {
       ),
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        title: Row(children:[
-          if (!(Platform.isIOS||Platform.isAndroid)) IconButton(
-            onPressed: ()=>router.pop(),
-            icon: const Icon(Icons.arrow_left)
-          ),
-          SearchAnchor(
-            builder: (ctx,ctrl) => SearchBar( 
-              padding: const MaterialStatePropertyAll(EdgeInsets.only(bottom: 4)),
-              // backgroundColor: MaterialStatePropertyAll(Theme.of(context).cardColor),
-              elevation: const MaterialStatePropertyAll(1),
-              onTap: ctrl.openView,
-            ), 
-            suggestionsBuilder: (dontcare,ctrl)=>[
-              const Text("Number 15, Burger King Foot Lettuce")
-            ],
-          ),
-        ]),
+        title: SearchAnchor(
+          builder: (ctx,ctrl) => SearchBar( 
+            padding: const MaterialStatePropertyAll(EdgeInsets.only(bottom: 4)),
+            // backgroundColor: MaterialStatePropertyAll(Theme.of(context).cardColor),
+            elevation: const MaterialStatePropertyAll(1),
+            onTap: ctrl.openView,
+          ), 
+          suggestionsBuilder: (dontcare,ctrl)=>[
+            const Text("Number 15, Burger King Foot Lettuce")
+          ],
+        ),
         actions: [
           IconButton(onPressed: ()=>showDialog(
             context: context, 
