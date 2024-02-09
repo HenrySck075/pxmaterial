@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'shared.dart';
 import 'package:sofieru/shared.dart';
@@ -42,7 +44,7 @@ class IllustsPage extends StatelessWidget {
                 // Ranking
                 header("Daily ranking"),
                 Text(parseDate(mainresp["page"]["ranking"]["date"]),style: const TextStyle(fontSize: 10,color: Colors.grey)),
-                artworkGrid(List.generate(4, ((index) {
+                artworkGrid(List.generate(math.max(4, (MediaQuery.sizeOf(context).width/194).floor()), ((index) {
                     var i = mainresp["page"]["ranking"]["items"][index];
                     return PxArtwork(data:getData(i["id"]),rank:int.parse(i["rank"]));
                   }))

@@ -1,6 +1,8 @@
 // should we use refactor
 
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'dart:async';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
@@ -8,30 +10,31 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:sofieru/shared.dart';
 import 'shared.dart';
+import 'package:http/http.dart' as http show Response;
+import 'package:archive/archive.dart' as arch;
 
 
-class IllustPage extends StatefulWidget {
+class ArtworkPage extends StatefulWidget {
   final String id;
-  const IllustPage({super.key, required this.id});
+  const ArtworkPage({super.key, required this.id});
   @override
-  State<IllustPage> createState() => _IllustPageState();
+  State<ArtworkPage> createState() => _ArtworkPageState();
 }
 
-class _IllustPageState extends State<IllustPage> {
+class _ArtworkPageState extends State<ArtworkPage> {
   late final String id;
   String authorId = "";
   // Future<JSON>? data;
   bool shownAll = false;
   // Future<List<Map<String,String>>>? op;
-  Future<List<dynamic>>? ed;
   List<dynamic>? op;
-  final _authorIllustsViewCtrl = ScrollController();
+  final _authorArtworksViewCtrl = ScrollController();
   final _scsvCtrl = ScrollController();
   int illustIndex = 0;
-  List<String> authIllustIds = [];
+  List<String> authArtworkIds = [];
   List<int> range = [0,0];
   List<int> visibleRange = [-1,-1];
-  var authIllustData = VisibleNotifyNotifier([]);
+  var authArtworkData = VisibleNotifyNotifier([]);
   final current = GlobalKey();
 
   // related artworks
@@ -41,7 +44,7 @@ class _IllustPageState extends State<IllustPage> {
   bool relatedFetching = false;
 
   void updateRange(int start, int end) {
-    if (end >= authIllustIds.length-1) end=authIllustIds.length-1;
+    if (end >= authArtworkIds.length-1) end=authArtworkIds.length-1;
     if (start <= 0) start=0;
     if (visibleRange[1]==-1||end>visibleRange[1]) visibleRange[1]=end;
     if (visibleRange[0]==-1||start<visibleRange[0]) visibleRange[0]=start;
@@ -51,10 +54,6 @@ class _IllustPageState extends State<IllustPage> {
   void initState() {
     super.initState();
     id = widget.id;
-    ed = Future.wait([
-      pxRequest("https://www.pixiv.net/ajax/illust/$id"),
-      pxRequest("https://www.pixiv.net/ajax/illust/$id/pages"),
-    ]);
     _scsvCtrl.addListener(() {
       if (_scsvCtrl.position.pixels>=_scsvCtrl.position.maxScrollExtent && relatedNextIds.isNotEmpty) {
         // there's like several more endpoints that does the EXACT SAME THING as this. dude can you be consistent pls
@@ -65,36 +64,40 @@ class _IllustPageState extends State<IllustPage> {
         });
       }
     });
-    _authorIllustsViewCtrl.addListener(() {
-//       print("""Current: ${_authorIllustsViewCtrl.position.pixels} 
-// Max scroll extent: ${_authorIllustsViewCtrl.position.maxScrollExtent}
-// Min scroll extent: ${_authorIllustsViewCtrl.position.minScrollExtent}""");
-      if (_authorIllustsViewCtrl.position.pixels>=_authorIllustsViewCtrl.position.maxScrollExtent && range[1]!=authIllustIds.length-1) {
-        pxRequest("https://www.pixiv.net/ajax/user/$authorId/illusts?ids[]=${authIllustIds.sublist(range[1]+1,range[1]+8).join('&ids[]=')}").then((value) {
-          authIllustData.value.addAll(value.values);
+    _authorArtworksViewCtrl.addListener(() {
+//       print("""Current: ${_authorArtworksViewCtrl.position.pixels} 
+// Max scroll extent: ${_authorArtworksViewCtrl.position.maxScrollExtent}
+// Min scroll extent: ${_authorArtworksViewCtrl.position.minScrollExtent}""");
+      if (_authorArtworksViewCtrl.position.pixels>=_authorArtworksViewCtrl.position.maxScrollExtent && range[1]!=authArtworkIds.length-1) {
+        pxRequest("https://www.pixiv.net/ajax/user/$authorId/illusts?ids[]=${authArtworkIds.sublist(range[1]+1,range[1]+8).join('&ids[]=')}").then((value) {
+          authArtworkData.value.addAll(value.values);
           updateRange(visibleRange[1]+1, visibleRange[1]+8);
-          authIllustData.notifyListeners();
+          authArtworkData.notifyListeners();
         });
       }
-      if (_authorIllustsViewCtrl.position.pixels==_authorIllustsViewCtrl.position.minScrollExtent && range[1]!=0) {
-        pxRequest("https://www.pixiv.net/ajax/user/$authorId/illusts?ids[]=${authIllustIds.sublist(range[0]-8,range[0]-1).join('&ids[]=')}").then((value) {
-          authIllustData.value.insertAll(0,value.values);
+      if (_authorArtworksViewCtrl.position.pixels==_authorArtworksViewCtrl.position.minScrollExtent && range[1]!=0) {
+        pxRequest("https://www.pixiv.net/ajax/user/$authorId/illusts?ids[]=${authArtworkIds.sublist(range[0]-8,range[0]-1).join('&ids[]=')}").then((value) {
+          authArtworkData.value.insertAll(0,value.values);
           updateRange(visibleRange[0]-8, visibleRange[0]-1);
-          authIllustData.notifyListeners();
+          authArtworkData.notifyListeners();
         });
       }
     });
   }
   @override
   Widget build(context) {
+    var ed = [
+      pxRequest("https://www.pixiv.net/ajax/illust/$id"),
+      pxRequest("https://www.pixiv.net/ajax/illust/$id/pages"),
+    ];
     return Scaffold(
-      body: futureWidget(future: ed!, builder: (context,dd) {
+      body: futureWidget(future: Future.wait(ed), builder: (context,dd) {
         JSON data = dd.data![0];
         List<dynamic> gang = dd.data![1];
         op = (shownAll?gang:[gang[0]]);
         authorId = data["userId"];
-        authIllustIds = [...data["userIllusts"].keys];
-        illustIndex = authIllustIds.indexOf(id);
+        authArtworkIds = [...data["userIllusts"].keys];
+        illustIndex = authArtworkIds.indexOf(id);
         updateRange(illustIndex-7, illustIndex+7);
         setTitle(data["alt"]+" - pixiv");
         return SingleChildScrollView(
@@ -104,6 +107,9 @@ class _IllustPageState extends State<IllustPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               // The artwork view
+              // the lsp broke when using ternary so dont use it
+              // Static artworks
+              if (data["illustType"]!=2) ...[
               Center(child:Column(
                 children: List.from(enumerate(op!, (idx,i)=>Padding(
                   padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
@@ -120,7 +126,33 @@ class _IllustPageState extends State<IllustPage> {
               if (data["pageCount"]>1) Center(child:FilledButton(child: Text(shownAll?"Collapse":"Show all"),onPressed: ()=>setState((){
                 op=(shownAll?gang:[gang[0]]);
                 shownAll=!shownAll;
-              }))),
+              }))),]
+              // Animated artworks 
+              else ...[
+              Center(
+                child: futureWidget(future: pxRequest("https://www.pixiv.net/ajax/illust/$id/ugoira_meta").then((h)=>Future.wait([
+                pxRequestUnprocessed(h["src"]), // zip file
+                Future.value(h) // the response
+              ])), builder: (ctx,snap){
+                
+                var data = snap.data![1] as Map<String, dynamic>;
+                var zipContent = (snap.data![0] as http.Response).bodyBytes;
+                final archive = arch.ZipDecoder().decodeBytes(zipContent);
+                final curImg = ValueNotifier<Widget>(Container());
+                final List<dynamic> frames = data["frames"];
+                final total = frames.map((r)=>r["delay"] as int).toList().fold(0,(p,c)=>p+c);
+                Timer.periodic(Duration(milliseconds:total), (timer) { 
+                  int ts = 0;
+                  for (int i = 0; i < frames.length; i++) {
+                    var element = frames[i];
+                    ts+=element["delay"]! as int;
+                    Timer(Duration(milliseconds: ts),()=>curImg.value=Image.memory(archive.findFile(element["file"])!.content));
+                  }
+                });
+                return ListenableBuilder(listenable: curImg, builder: (ctx,w)=>curImg.value,);
+
+              })
+              )],
               const Divider(),
               // Toolbar
               Row(
@@ -178,19 +210,19 @@ class _IllustPageState extends State<IllustPage> {
                 placeholder: const SizedBox(height: 1,width: 1)
               ),
               futureWidget(
-                future: pxRequest("https://www.pixiv.net/ajax/user/$authorId/illusts?ids[]=${authIllustIds.sublist(range[0],range[1]+1).join('&ids[]=')}"),
+                future: pxRequest("https://www.pixiv.net/ajax/user/$authorId/illusts?ids[]=${authArtworkIds.sublist(range[0],range[1]+1).join('&ids[]=')}"),
                 builder: (context,snap) {
-                  if (authIllustData.value.isEmpty) authIllustData.value = [...snap.data!.values];
-                  // Future.delayed(const Duration(milliseconds: 50),()=>_authorIllustsViewCtrl.position.ensureVisible(current.currentContext!.findRenderObject()!));
+                  if (authArtworkData.value.isEmpty) authArtworkData.value = [...snap.data!.values];
+                  // Future.delayed(const Duration(milliseconds: 50),()=>_authorArtworksViewCtrl.position.ensureVisible(current.currentContext!.findRenderObject()!));
                   return ListenableBuilder(
-                    listenable: authIllustData,
+                    listenable: authArtworkData,
                     builder: (ctx,w)=>ConstrainedBox(
                       constraints: const BoxConstraints(maxHeight: 120),
                       child: ListView(
                         scrollDirection: Axis.horizontal,
-                        controller: _authorIllustsViewCtrl,
+                        controller: _authorArtworksViewCtrl,
                         padding: const EdgeInsets.only(left:2,right:2),
-                        children: [...authIllustData.value.map((e) => Padding(
+                        children: [...authArtworkData.value.map((e) => Padding(
                           padding: const EdgeInsets.only(left:2.0, right:2),
                           child: PxSimpleArtwork(
                             key: (e["id"]==id)?current:null,

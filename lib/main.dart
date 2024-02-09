@@ -1,3 +1,6 @@
+// pixiv Material Design Concept - :nerd:
+// Original app, services & resources (not including user-made works) belong to pixiv Inc.
+// Do not go insane.
 
 import 'dart:math';
 
@@ -9,7 +12,7 @@ import 'shared.dart';
 // Routes
 import 'pages/home/index.dart' as home;
 import 'pages/following/index.dart';
-import 'pages/view/artworks.dart' show IllustPage;
+import 'pages/view/artworks.dart' show ArtworkPage;
 import 'pages/view/novels.dart' show NovelPage;
 import 'pages/tags/index.dart' as tags;
 import 'pages/discovery/index.dart' as discovery;
@@ -106,7 +109,7 @@ void main() async {
           GoRoute(
             parentNavigatorKey: pa,
             path: "/artworks/:id",
-            builder: (no, state) => IllustPage(id:state.pathParameters["id"]!)
+            builder: (no, state) => ArtworkPage(id:state.pathParameters["id"]!)
           ),
           GoRoute(
             parentNavigatorKey: pa,
@@ -184,7 +187,7 @@ class _ShellPageState extends State<ShellPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   int pageIndex = 0;
   List<String> e = ["/","/following"];
-  List<String> minecraft = [
+  final List<String> minecraft = [
     "mococo is very cute",
     "mococo is very very cute",
     "mococo is very very very cute",
@@ -196,7 +199,12 @@ class _ShellPageState extends State<ShellPage> {
     "check steam",
     "dash spider jumpscare",
     "really the mikeneko & mafu stuff is crazy (gd reference), if someone asked me who i will support i will say mike and also convinced them with a game theory-quality explaination",
-    "dont trust the guy above for the 'game theory-quality explaination' part he has none :nerd:"
+    "dont trust the guy above for the 'game theory-quality explaination' part he has none :nerd:",
+    "limbo",
+    "by MindCap and more",
+    "bah",
+    "newgrounds song on a GD rips when",
+    "All Wrongs Reserved for me in the past"
   ];
   String MadeWithNerdByHenrysck075 = "";
   @override
@@ -229,6 +237,7 @@ class _ShellPageState extends State<ShellPage> {
 
       const Text("© pixiv",style: TextStyle(color: Colors.grey, fontSize: 8),),
       Text(MadeWithNerdByHenrysck075,softWrap: true,style: const TextStyle(color: Colors.grey, fontSize: 8),),
+      const Text("Do not redistribute without crediting authors of this repository and the original app.",style: TextStyle(color: Colors.grey, fontSize: 8),), // - HenrySck075 (Henry Spheria)
     ];
     context.watch<Config>().init();
     // var appState = context.watch<MyAppState>();
@@ -281,10 +290,15 @@ class _ShellPageState extends State<ShellPage> {
         ],
       ),
       backgroundColor:Theme.of(context).colorScheme.primaryContainer,
-      body: Container(
-        decoration: const BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-        clipBehavior: Clip.hardEdge,
-        child:widget.child
+      body: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: currentRouteURI().path.startsWith("/artworks")?1160:double.infinity),
+          child: Container(
+            decoration: const BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+            clipBehavior: Clip.hardEdge,
+            child:widget.child
+          )
+        ) 
       )
     );
   }

@@ -9,7 +9,6 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/retry.dart';
 export 'package:sofieru/silly.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -102,7 +101,7 @@ class Config extends ChangeNotifier {
   }
 }
 
-void navigate(String location, {String method = "push"}) {
+void navigate(String location, {String method = "push", Object? extra}) {
   late var r;
   switch (method) {
     case "push":
@@ -117,7 +116,7 @@ void navigate(String location, {String method = "push"}) {
     default: 
       r = router.push;
   }
-  r(location);
+  r(location,extra:extra);
 }
 typedef JSON = Map<String, dynamic>;
 
@@ -143,8 +142,8 @@ Iterable<T> enumerate<T, E>(Iterable<E> iter, T Function(int index, E e) cooker)
   }
 }
 
-Map<String, Future<dynamic>> mentalRetardation = {};
-var client = RetryClient(http.Client(),retries: 10, delay: (what)=>const Duration(milliseconds:500));
+Map<String, http.Response> _cachedResponse = {};
+var client = http.Client();
 Future<void> wait(FutureOr<bool> Function(dynamic) predicate) async => await Future.doWhile(() => Future.delayed(const Duration(milliseconds: 500)).then(predicate));
 /// [pxRequest] without postprocess
 Future<http.Response> pxRequestUnprocessed(String url, {
@@ -185,23 +184,22 @@ Future<http.Response> pxRequestUnprocessed(String url, {
   // print("HTTP/"+method);
   // resp.then((value) => print(value.body));
   
-  return http.Response(String.fromCharCodes(bytes), resp.statusCode, headers: resp.headers);
+  return _cachedResponse[url] = http.Response(String.fromCharCodes(bytes), resp.statusCode, headers: resp.headers);
 }
 Future<dynamic> pxRequest(String url, {Map<String, String> otherHeaders = const {}, String method="GET", Object? body, bool noCache = false}) {
-  if (mentalRetardation.containsKey(url) && !noCache) {return mentalRetardation[url]!;}// we dont really needs to null check but dart sucks so
+  if (_cachedResponse.containsKey(url) && !noCache) {return Future.value(_cachedResponse[url]!);}// we dont really needs to null check but dart sucks so
   var d = pxRequestUnprocessed(url,otherHeaders: otherHeaders, method: method, body:body).then((v){
     return jsonDecode(v.body)["body"];
   });
-  mentalRetardation[url] = d;
   return d;
 
 }
-T? tryCast<T,O>(O? obj) {
-  try {return obj as T;}
-  catch (e) {return null;}
+T? tryCast<T>(obj) {
+  return obj is T?obj:null;
 }
 
-dynamic tryConvert(dynamic h) {
+/// not to be confused with [tryCast]
+dynamic _tryConvert(dynamic h) {
   if (h is Map) return h;
   List<MapEntry<String,dynamic>> nerd = [];
   h.forEach((v){nerd.add(MapEntry(v["id"], v));});
@@ -209,8 +207,8 @@ dynamic tryConvert(dynamic h) {
   return h;
 }
 dynamic thumbRemap(dynamic d) {
-  d["thumbnails"]["novel"] = tryConvert(d["thumbnails"]["novel"]);
-  d["thumbnails"]["illust"] = tryConvert(d["thumbnails"]["illust"]);
+  d["thumbnails"]["novel"] = _tryConvert(d["thumbnails"]["novel"]);
+  d["thumbnails"]["illust"] = _tryConvert(d["thumbnails"]["illust"]);
   return d;
 }
 /// ^^

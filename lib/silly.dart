@@ -52,7 +52,7 @@ FutureBuilder<T> futureWidget<T>({required Future<T>? future, required AsyncWidg
 }
 CachedNetworkImage pxImage(String url, {bool includeCircle = false, double? width, double? height}) => CachedNetworkImage(imageUrl: url, width: width, height: height, httpHeaders: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, placeholder: includeCircle?(context, url) => const CircularProgressIndicator():null,);
 
-Image pxImageFlutter(String url, {bool includeCircle = false, int? width, int? height}) => Image.network(url, width: tryCast<double, int>(width), height: tryCast<double,int>(height), cacheHeight: height, cacheWidth: width, headers: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, loadingBuilder:  includeCircle?(ctx,w,imgChunk) => const CircularProgressIndicator():null,);
+Image pxImageFlutter(String url, {bool includeCircle = false, int? width, int? height}) => Image.network(url, width: tryCast<double>(width), height: tryCast<double>(height), cacheHeight: height, cacheWidth: width, headers: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, loadingBuilder:  includeCircle?(ctx,w,imgChunk) => const CircularProgressIndicator():null,);
 
 String hm(int seconds) {
   int m = (seconds/60).floor()%60;
@@ -138,7 +138,7 @@ class _PxArtworkState extends State<PxArtwork> {
   @override
   Widget build(context) {
     var id = widget.data["illustId"]??widget.data["id"];
-    // if (int.tryParse(widget.id)==null) {return Center(child: Text("invalid id"),);}
+    // if (int.tryParse(id)==null) {return Center(child: Text("invalid id"),);}
     return SizedBox(
       width: 190,
       height: 285,
@@ -155,7 +155,7 @@ class _PxArtworkState extends State<PxArtwork> {
                 Stack(
                   children: [
                     GestureDetector(
-                      onTap: (){widget.data["illustType"]!=2?navigate("/artworks/$id"):showDialog(context: context, builder: (ctx)=>const AlertDialog(content: Text("Ugoira works not supported yet"),));},
+                      onTap: (){navigate("/artworks/$id");},
                       child:pxImage(widget.data["url"]),
                     ),
                     Positioned(
@@ -222,7 +222,6 @@ class _PxArtworkState extends State<PxArtwork> {
                     ),
                     subtitle: GestureDetector(
                       onTap: (){
-                        print("hey guys im mike");
                         showDialog(context: context, builder: (b)=>AuthorInfo(userId: widget.data["userId"],));
                       },
                       child: Row(
