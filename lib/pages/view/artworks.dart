@@ -7,7 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:sofieru/json/ajax/illust/Artwork.dart';
+import 'package:sofieru/json/ajax/user/User.dart';
 import 'package:sofieru/shared.dart';
 import 'shared.dart';
 import 'package:http/http.dart' as http show Response;
@@ -58,7 +59,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
       if (_scsvCtrl.position.pixels>=_scsvCtrl.position.maxScrollExtent && relatedNextIds.isNotEmpty) {
         // there's like several more endpoints that does the EXACT SAME THING as this. dude can you be consistent pls
         pxRequest("https://www.pixiv.net/ajax/illust/recommend/illusts?illust_ids[]=${relatedNextIds.sublist(0,18).join('&illust_ids[]=')}",otherHeaders: {"Referer":"https://www.pixiv.net/en/artworks/$id"}).then((value) {
-          related.value.addAll(value["illusts"]);
+          related.value.addAll(value.illusts);
           relatedNextIds = relatedNextIds.sublist(20);
           related.notifyListeners();
         });
@@ -92,14 +93,14 @@ class _ArtworkPageState extends State<ArtworkPage> {
     ];
     return Scaffold(
       body: futureWidget(future: Future.wait(ed), builder: (context,dd) {
-        JSON data = dd.data![0];
+        var data = Artwork.fromJson(dd.data![0]);
         List<dynamic> gang = dd.data![1];
         op = (shownAll?gang:[gang[0]]);
-        authorId = data["userId"];
-        authArtworkIds = [...data["userIllusts"].keys];
+        authorId = data.userId;
+        authArtworkIds = [...data.userIllusts.keys];
         illustIndex = authArtworkIds.indexOf(id);
         updateRange(illustIndex-7, illustIndex+7);
-        setTitle(data["alt"]+" - pixiv");
+        setTitle(data.alt+" - pixiv");
         return SingleChildScrollView(
           controller: _scsvCtrl,
           child: Column(
@@ -109,7 +110,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
               // The artwork view
               // the lsp broke when using ternary so dont use it
               // Static artworks
-              if (data["illustType"]!=2) ...[
+              if (data.illustType!=2) ...[
               Center(child:Column(
                 children: List.from(enumerate(op!, (idx,i)=>Padding(
                   padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
@@ -117,13 +118,13 @@ class _ArtworkPageState extends State<ArtworkPage> {
                       onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (builder)=>ArtworkImageView(data: i,heroTag: "${id}_p$idx",))),
                       child: ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 550),
-                        child: Hero(tag: "${id}_p$idx", child: pxImage(i["urls"]["regular"],includeCircle: true))
+                        child: Hero(tag: "${id}_p$idx", child: pxImage(i.urls.regular,includeCircle: true))
                       )
                     ),
                   ))
                 )
               )),
-              if (data["pageCount"]>1) Center(child:FilledButton(child: Text(shownAll?"Collapse":"Show all"),onPressed: ()=>setState((){
+              if (data.pageCount>1) Center(child:FilledButton(child: Text(shownAll?"Collapse":"Show all"),onPressed: ()=>setState((){
                 op=(shownAll?gang:[gang[0]]);
                 shownAll=!shownAll;
               }))),]
@@ -131,26 +132,26 @@ class _ArtworkPageState extends State<ArtworkPage> {
               else ...[
               Center(
                 child: futureWidget(future: pxRequest("https://www.pixiv.net/ajax/illust/$id/ugoira_meta").then((h)=>Future.wait([
-                pxRequestUnprocessed(h["src"]), // zip file
+                pxRequestUnprocessed(h.src), // zip file
                 Future.value(h) // the response
               ])), builder: (ctx,snap){
                 
                 var data = snap.data![1] as Map<String, dynamic>;
                 var zipContent = (snap.data![0] as http.Response).bodyBytes;
                 final archive = arch.ZipDecoder().decodeBytes(zipContent);
-                final curImg = ValueNotifier<Widget>(Center(child: Text("(flickers may occur)"),));
+                final curImg = ValueNotifier<Widget>(const Center(child: Text("(flickers may occur)"),));
                 final List<dynamic> frames = data["frames"];
-                final total = frames.map((r)=>r["delay"] as int).toList().fold(0,(p,c)=>p+c);
+                final total = frames.map((r)=>r.delay as int).toList().fold(0,(p,c)=>p+c);
                 List<Image> widgetFrames = [];
                 for (int i = 0; i < frames.length; i++) {
                   var element = frames[i];
-                  widgetFrames.add(Image.memory(archive.findFile(element["file"])!.content));              
+                  widgetFrames.add(Image.memory(archive.findFile(element.file)!.content));              
                 }
                 Timer.periodic(Duration(milliseconds:total), (timer) { 
                   int ts = 0;
                   for (int i = 0; i < frames.length; i++) {
                     var element = frames[i];
-                    ts+=element["delay"]! as int;
+                    ts+=element.delay! as int;
                     Timer(Duration(milliseconds: ts),()=>curImg.value=widgetFrames[i]);
                   }
                 });
@@ -163,7 +164,6 @@ class _ArtworkPageState extends State<ArtworkPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  IconButton(onPressed: ()=>print("Leave this for other uses (i might be dumb)"), icon: const Icon(Icons.download)),
                   IconButton(onPressed: (){
                     Clipboard.setData(ClipboardData(text: "https://www.pixiv.net/en/artworks/$id")).then((value) => ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("Artwork URL copied to clipboard!"))
@@ -176,20 +176,22 @@ class _ArtworkPageState extends State<ArtworkPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(data["title"], style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),),
-                  HtmlWidget(data["description"],onTapUrl: HtmlUrlLauncher),
+                  Text(data.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
+                  const SizedBox(height: 10,),
+                  HtmlWidget(data.description,onTapUrl: HtmlUrlLauncher),
                   const SizedBox(height: 10,),
                   Wrap(
                     spacing: 8,
-                    children: List.from(data["tags"]["tags"].map((t)=>ActionChip(
+                    children: List.from(data.tags.tags.map((t)=>ActionChip(
                       label: Row(
                         mainAxisSize: MainAxisSize.min,
                         children:[
-                          Flexible(flex:4,child: Text(t["tag"],overflow: TextOverflow.ellipsis,style: TextStyle(color: t["tag"].startsWith("R-18")?Colors.red:null),)),
-                          if (t.containsKey("translation")) Flexible(flex:4,child: Text("(${t['translation']['en']})",style: const TextStyle(color: Colors.grey, fontSize: 10),overflow: TextOverflow.ellipsis))
+                          Flexible(flex:4,child: Text(t.tag,overflow: TextOverflow.ellipsis,style: TextStyle(color: t.tag.startsWith("R-18")?Colors.red:null),)),
+                          if (t.translation==null) Flexible(flex:4,child: Text("(${t.translation!['en']})",style: const TextStyle(color: Colors.grey, fontSize: 10),overflow: TextOverflow.ellipsis))
                         ]
                       ),
-                      onPressed: ()=>navigate("/tags/${t['tag']}?"+(t["xRestrict"]==1?"mode=r18":"")),))),
+                      onPressed: ()=>navigate("/tags/${t.tag}?${data.xRestrict==1?'mode=r18':''}"),))
+                    ),
                   )
                 ]),
               ),
@@ -197,23 +199,24 @@ class _ArtworkPageState extends State<ArtworkPage> {
               // Author view
               futureWidget(
                 // google said this is bad, but idk
-                future: pxRequest("https://www.pixiv.net/ajax/user/${data['userId']}?full=0"), 
+                future: pxRequest("https://www.pixiv.net/ajax/user/${data.userId}?full=0"), 
                 builder: (ctx, snap) {
-                  JSON d = snap.data!;
+                  var d = User.fromJson(snap.data!);
                   return GestureDetector(
                     onTap: ()=>showDialog(
                       context: context, 
                       // ignore: prefer_const_constructors
-                      builder: (c) => AuthorInfo(userId: d['userId'])
+                      builder: (c) => AuthorInfo(userId: d.userId)
                     ),
                     child: ListTile(
-                      title: Text(d["name"]),
-                      subtitle: Text("Does${d['acceptRequest']?'':"n't"} accepting requests"),
-                      leading: CircleAvatar(backgroundImage: pxImageFlutter(d["image"]).image,) ),
+                      title: Text(d.name),
+                      subtitle: Text("Does${d.acceptRequest?'':"n't"} accepting requests"),
+                      leading: CircleAvatar(backgroundImage: pxImageFlutter(d.image).image,) ),
                     );
                   },
                 placeholder: const SizedBox(height: 1,width: 1)
               ),
+              // author works
               futureWidget(
                 future: pxRequest("https://www.pixiv.net/ajax/user/$authorId/illusts?ids[]=${authArtworkIds.sublist(range[0],range[1]+1).join('&ids[]=')}"),
                 builder: (context,snap) {
@@ -221,22 +224,28 @@ class _ArtworkPageState extends State<ArtworkPage> {
                   // Future.delayed(const Duration(milliseconds: 50),()=>_authorArtworksViewCtrl.position.ensureVisible(current.currentContext!.findRenderObject()!));
                   return ListenableBuilder(
                     listenable: authArtworkData,
-                    builder: (ctx,w)=>ConstrainedBox(
-                      constraints: const BoxConstraints(maxHeight: 120),
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        controller: _authorArtworksViewCtrl,
-                        padding: const EdgeInsets.only(left:2,right:2),
-                        children: [...authArtworkData.value.map((e) => Padding(
-                          padding: const EdgeInsets.only(left:2.0, right:2),
-                          child: PxSimpleArtwork(
-                            key: (e["id"]==id)?current:null,
-                            data: e,
-                            isCurrent: e["id"]==id,
-                          ),
-                        ))],
-                      )
-                    )
+                    builder: (ctx,w){
+                      Timer(
+                        const Duration(milliseconds: 500), 
+                        ()=>Scrollable.ensureVisible(current.currentContext!)
+                      );
+                      return ConstrainedBox(
+                        constraints: const BoxConstraints(maxHeight: 120),
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          controller: _authorArtworksViewCtrl,
+                          padding: const EdgeInsets.only(left:2,right:2),
+                          children: [...authArtworkData.value.map((e) => Padding(
+                            padding: const EdgeInsets.only(left:2.0, right:2),
+                            child: PxSimpleArtwork(
+                              key: (e.id==id)?current:null,
+                              data: e,
+                              isCurrent: e.id==id,
+                            ),
+                          ))],
+                        )
+                      );
+                    }
                   );
                 }
               ),
@@ -253,8 +262,8 @@ class _ArtworkPageState extends State<ArtworkPage> {
               futureWidget(
                 future: pxRequest("https://www.pixiv.net/ajax/illust/$id/recommend/init?limit=18"), 
                 builder:(ctx,snap) {
-                  related.value = snap.data!["illusts"];
-                  relatedNextIds = snap.data!["nextIds"];
+                  related.value = snap.data!.illusts;
+                  relatedNextIds = snap.data!.nextIds;
                   return ListenableBuilder(
                     listenable: related,
                     builder: (ctx,w)=>artworkGrid([...related.value.map((e) => PxArtwork(data: e))])
@@ -269,17 +278,20 @@ class _ArtworkPageState extends State<ArtworkPage> {
     );
   }
 }
+void ugoiraSave(List<Image> frames, List<int> delay) {
+}
 class ArtworkImageView extends StatelessWidget {
-  JSON data = {};
+  final Artwork data;
   String heroTag;
   ArtworkImageView({super.key, required this.data, required this.heroTag});
   void downlo(BuildContext context, String quality) {
-    var ext = data["urls"][quality].substring(data["urls"][quality].length-3);
+    var ext = data.urls[quality]?.substring(data.urls[quality]!.length-3);
     var scaf = ScaffoldMessenger.of(context);
+    if (ext==null) scaf.showSnackBar(const SnackBar(content: Text("Invalid image size")));
     scaf.showSnackBar(
       SnackBar(content: Text("Downloading ${heroTag}.${ext}"))
     );
-    pxRequestUnprocessed(data["urls"][quality]).then((value){
+    pxRequestUnprocessed(data.urls[quality]!).then((value){
       Future.value(ImageGallerySaver.saveImage(value.bodyBytes,name: "${heroTag}.${ext}")).then((value) => scaf.showSnackBar(
         const SnackBar(content: Text("Download completed!"))
       ));
@@ -320,7 +332,7 @@ class ArtworkImageView extends StatelessWidget {
         child: Center(
           child:Hero(
             tag: heroTag,
-            child: pxImage(data["urls"]["regular"])
+            child: pxImage(data.urls["regular"]!)
           )
         )
       )

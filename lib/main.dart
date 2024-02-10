@@ -2,7 +2,6 @@
 // Original app, services & resources (not including user-made works) belong to pixiv Inc.
 // Do not go insane.
 
-import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/services.dart';
@@ -208,7 +207,8 @@ class _ShellPageState extends State<ShellPage> {
     "by MindCap and more",
     "bah",
     "newgrounds song on a GD rips when",
-    "All Wrongs Reserved for me in the past"
+    "All Wrongs Reserved for me in the past",
+    "jkterjter"
   ];
   String MadeWithNerdByHenrysck075 = "";
   @override
@@ -282,7 +282,7 @@ class _ShellPageState extends State<ShellPage> {
           ), icon: const Icon(Icons.navigation)),
           IconButton(onPressed: (){
             Clipboard.setData(ClipboardData(text: currentRouteURI().path)).then((value) => ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Current path URL copied to clipboard!"))
+              SnackBar(content: Text("Current path URL copied to clipboard! Debug: ${currentRouteURI().path}"))
             ));
           }, icon: const Icon(Icons.link))
         ],

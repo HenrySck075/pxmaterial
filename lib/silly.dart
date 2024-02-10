@@ -2,12 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sofieru/json/ajax/top/illust/Artwork.dart';
 import 'package:sofieru/shared.dart' show pxRequest, tryCast, navigate, JSON;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 /// Header text
-Text header(String label)=>Text(label,style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold));
+Text header(String label)=>Text(label,style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold));
 /// make `notifyListeners` non-protected :trollskullirl:
 class VisibleNotifyNotifier<T> extends ChangeNotifier {
   T _value;
@@ -125,7 +126,7 @@ class _PxNovelState extends State<PxNovel> {
   }
 }
 class PxArtwork extends StatefulWidget {
-  final Map<String,dynamic> data;
+  final Artwork data;
   int rank;
   PxArtwork({super.key, required this.data, this.rank=0});
 
@@ -137,7 +138,7 @@ class _PxArtworkState extends State<PxArtwork> {
   bool bookmarked = false;
   @override
   Widget build(context) {
-    var id = widget.data["illustId"]??widget.data["id"];
+    var id = widget.data.id;
     // if (int.tryParse(id)==null) {return Center(child: Text("invalid id"),);}
     return SizedBox(
       width: 190,
@@ -156,7 +157,7 @@ class _PxArtworkState extends State<PxArtwork> {
                   children: [
                     GestureDetector(
                       onTap: (){navigate("/artworks/$id");},
-                      child:pxImage(widget.data["url"]),
+                      child:pxImage(widget.data.url),
                     ),
                     Positioned(
                       bottom: 0,
@@ -177,7 +178,7 @@ class _PxArtworkState extends State<PxArtwork> {
                       right: 0,
                       child: Icon(Icons.favorite_outline,color:Colors.black)
                     ),
-                    if (widget.data["illustType"]==2) const Positioned.fill(child: Align(alignment: Alignment.center,child: Icon(Icons.play_circle_outlined,size: 24,),)),
+                    if (widget.data.illustType==2) const Positioned.fill(child: Align(alignment: Alignment.center,child: Icon(Icons.play_circle_outlined,size: 24,),)),
                     if (widget.rank != 0) Positioned(
                       top:4, left:4,
                       child:SizedBox(
@@ -189,7 +190,7 @@ class _PxArtworkState extends State<PxArtwork> {
                         ),
                       )
                     ),
-                    if (widget.data["xRestrict"] == 1) Positioned(
+                    if (widget.data.xRestrict == 1) Positioned(
                       top:4, left:4,
                       child:SizedBox(
                         width: 36,
@@ -200,14 +201,14 @@ class _PxArtworkState extends State<PxArtwork> {
                         ),
                       )
                     ),
-                    if (widget.data["pageCount"]!=1) Positioned(
+                    if (widget.data.pageCount!=1) Positioned(
                       top:4,right:4,
                       child: SizedBox(
                         width:24,
                         height:24,
                         child: Container(
                           decoration: BoxDecoration(color: Colors.grey.withOpacity(0.5),borderRadius: BorderRadius.circular(4)),
-                          child: Center(child: Text(widget.data["pageCount"].toString()))
+                          child: Center(child: Text(widget.data.pageCount.toString()))
                         ),
                       )
                     )
@@ -218,21 +219,21 @@ class _PxArtworkState extends State<PxArtwork> {
                   flex: 4,
                   child: ListTile(
                     title: Text(
-                      widget.data["titleCaptionTranslation"]["workTitle"]??widget.data["title"],
+                      widget.data.titleCaptionTranslation.workTitle??widget.data.title,
                       overflow: TextOverflow.ellipsis,
                     ),
                     subtitle: GestureDetector(
                       onTap: (){
-                        showDialog(context: context, builder: (b)=>AuthorInfo(userId: widget.data["userId"],));
+                        showDialog(context: context, builder: (b)=>AuthorInfo(userId: widget.data.userId,));
                       },
                       child: Row(
                         children: [
-                          CircleAvatar(backgroundImage: pxImageFlutter(widget.data["profileImageUrl"]).image),
+                          CircleAvatar(backgroundImage: pxImageFlutter(widget.data.profileImageUrl).image),
                           const SizedBox.square(dimension:10),
                           Flexible(
                             flex:4,
                             child: Text(
-                              widget.data["userName"],
+                              widget.data.userName,
                               overflow: TextOverflow.ellipsis,
                             ),
                           )
@@ -343,7 +344,6 @@ class _PxSimpleArtworkState extends State<PxSimpleArtwork> {
       children: [
         GestureDetector(
           onTap: (){
-            Navigator.pop(context);
             navigate("/artworks/"+id);
           },
           child:Container(

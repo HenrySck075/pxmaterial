@@ -31,9 +31,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="pxmat" />
-                <data android:host="" />
-                <data android:pathPrefix="/en" />
-                <data android:pathPattern=".+" />
+                <data android:host="pixiv.net" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

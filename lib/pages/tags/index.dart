@@ -53,7 +53,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
       future: pxRequest("https://www.pixiv.net/ajax/search/tags/$tag"), 
       builder: (ctx,snap){
         JSON data = snap.data!;
-        return NestedScrollView( 
+        return Scaffold(body:NestedScrollView( 
           headerSliverBuilder: (ctx,v)=>[
             SliverList(
               delegate:SliverChildListDelegate([
@@ -153,7 +153,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
               Placeholder(),
             ],
           )
-        );
+        ));
       });
     });
   }

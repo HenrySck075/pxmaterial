@@ -1,7 +1,7 @@
 import sys
 name = sys.argv[1]
 import json
-from typing import Any
+from typing import Any, Iterable
 classes = {
     "str": "String",
     "int": "int",
@@ -12,27 +12,26 @@ classes = {
     "dict": "Map" # this never happens
 }
 
+defined: dict[str, list[str]] = {}
+"for maps"
+
 d: dict[str,Any] = json.load(open(sys.argv[2],encoding="utf-8"))
 
 output = f"""import 'package:json_annotation/json_annotation.dart';
 part '{name}.g.dart';
 """
-cry = lambda x: x.split("/")[-1]
 def boy(k,v,ld=False):
-    global output
     t = type(v)
     nam = k[0].upper()+k[1:]
-    if t == dict and not ld and not (any(k[0]==i for i in "0123456789") or any(i in k for i in "-/\\[]{}() *&^%#@!'\":;,?=÷×+|<>°•")): 
-        if "schema" not in v: return generate(v,nam)
-        else: 
-            nam = cry(v['schema'])
-            output=f"import '{v['schema']}.dart' show {nam};"+"\n"+output
-            return nam
+    if t == dict and not ld: # normal stuff
+        # if a similar structure is defined, just use that
+        for dk,dv in defined.items():
+            if all(i in dv for i in v.keys()): 
+                return "_"+dk if private else dk
+        # else generate one
+        defined[nam] = list(v.keys())
+        return generate(v,nam)
     if type(v) == list: 
-        if len(v) != 0 and type(v[0]) == dict and "schema" in v[0]:
-            nam = cry(v[0]['schema'])
-            output=f"import '{v[0]['schema']}.dart' show {nam};"+"\n"+output
-            return f"List<{nam}>"
         try: return f"List<{generate(v[0],nam)}>"
         except IndexError: return "List<dynamic>"
     else: return classes[str(t).split("'")[1]]
@@ -60,4 +59,4 @@ def generate(data, name=""):
     return name
     
 generate(d, name)
-open(name+".dart","w",encoding="utf-8").write(output)
+open(name+".dart","w").write(output)
