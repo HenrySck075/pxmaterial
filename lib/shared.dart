@@ -20,13 +20,15 @@ final kIsMobile = Platform.isIOS||Platform.isAndroid;
 /// i love hoisting
 Future<bool> HtmlUrlLauncher(String mimk) async => launchUrl(Uri.parse(mimk.contains("pixiv.net")?mimk.replaceFirst("https","pxmat").replaceFirst("www.","").replaceFirst("/en",""):mimk));
 Future<void> setTitle(String title) async {
-  if (Platform.isAndroid||Platform.isIOS) {
-    await SystemChrome.setApplicationSwitcherDescription(ApplicationSwitcherDescription(label: title));
-  }
-  else {
-    setWindowTitle(title);
-  }
-  routeObserver.addUrl(currentRouteURI().path, title);
+  try {
+    if (kIsMobile) {
+      await SystemChrome.setApplicationSwitcherDescription(ApplicationSwitcherDescription(label: title));
+    }
+    else {
+      setWindowTitle(title);
+    }
+    routeObserver.addUrl(currentRouteURI().path, title);
+  } catch (e) {}
 }
 /// for cascade ~~operator~~ syntax
 T returnSelf<T>(T value) => value;
@@ -146,12 +148,12 @@ Iterable<T> enumerate<T, E>(Iterable<E> iter, T Function(int index, E e) cooker)
   }
 }
 
-Map<String, http.Response> _cachedResponse = {};
+Map<String, (Map<String, dynamic>,http.Response)> _cachedResponse = {};
 var client = http.Client();
 Future<void> wait(FutureOr<bool> Function(dynamic) predicate) async => await Future.doWhile(() => Future.delayed(const Duration(milliseconds: 500)).then(predicate));
 /// [pxRequest] without postprocess
 Future<http.Response> pxRequestUnprocessed(String url, {
-  Map<String, String> otherHeaders = const {}, String method="GET", Object? body, 
+  Map<String, String> otherHeaders = const {}, String method="GET", Object? body, bool noCache = false, 
   void Function(double percent, int total)? onProgress
 }) async {
   // wait for cookies to not empty (it will never)
@@ -163,9 +165,14 @@ Future<http.Response> pxRequestUnprocessed(String url, {
     "x-user-id": "76179633",
     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
   };
+  print("-----");
+  print(url);
+  print(method);
+  print(otherHeaders);
   headers.addAll(otherHeaders);
+  if (_cachedResponse.containsKey(url) && !noCache && _cachedResponse[url]!.$1["headers"] == headers) {return Future.value(_cachedResponse[url]!.$2);}// we dont really needs to null check but dart sucks so
+  
 
-  url = '${url+(url.contains("?")?"&":"?")}lang=en&version=$apiVersion';
   if (kIsWeb) {
     url="http://localhost:8072/request?url=${Uri.encodeFull(url)}";
     headers = {"headers":jsonEncode(headers)};
@@ -188,11 +195,16 @@ Future<http.Response> pxRequestUnprocessed(String url, {
   // print("HTTP/"+method);
   // resp.then((value) => print(value.body));
   
-  return _cachedResponse[url] = http.Response(String.fromCharCodes(bytes), resp.statusCode, headers: resp.headers);
+  return (_cachedResponse[url] = (
+    {
+      "headers": headers
+    },
+    http.Response(String.fromCharCodes(bytes), resp.statusCode, headers: resp.headers)
+  )).$2;
 }
 Future<dynamic> pxRequest(String url, {Map<String, String> otherHeaders = const {}, String method="GET", Object? body, bool noCache = false}) {
-  if (_cachedResponse.containsKey(url) && !noCache) {return Future.value(_cachedResponse[url]!);}// we dont really needs to null check but dart sucks so
-  var d = pxRequestUnprocessed(url,otherHeaders: otherHeaders, method: method, body:body).then((v){
+  url = '${url+(url.contains("?")?"&":"?")}lang=en&version=$apiVersion';
+  var d = pxRequestUnprocessed(url,otherHeaders: otherHeaders, method: method, body:body, noCache: noCache).then((v){
     return jsonDecode(v.body)["body"];
   });
   return d;

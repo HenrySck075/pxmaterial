@@ -24,6 +24,8 @@ class ArtworkPage extends StatefulWidget {
   State<ArtworkPage> createState() => _ArtworkPageState();
 }
 
+/// So the plan is get the data of each individual frame in the zip file
+/// so that we can save some data from downloading all of them over and over again whenever we're requested to do so (e.g. user reenter the page)
 class UgoiraDisplayer extends StatefulWidget {
   final List<dynamic> frames;
   final String url;
@@ -41,21 +43,21 @@ class _UgoiraDisplayerState extends State<UgoiraDisplayer> with TickerProviderSt
   void initState() {
     super.initState();
     total = widget.frames.fold(0, (p, c) => p+(c["delay"] as int));
-    void scheduleUpdate(int delay)=>Timer(Duration(milliseconds:delay), () => _animCtrl.value+=1);
+    void scheduleUpdate(int delay)=>Timer(Duration(milliseconds:delay), () => _animCtrl.value=_animCtrl.value==widget.frames.length-1?0:_animCtrl.value+1);
     _animCtrl = AnimationController(
       vsync: this,
-      upperBound: widget.frames.length as double,
+      upperBound: widget.frames.length+0.0,
       value: 0.5 // A presses
     )..addListener(() {
-      var i = widget.frames[_animCtrl.value as int];
+      var i = widget.frames[_animCtrl.value.round()];
       if (_animCtrl.value == widgetFrames.length) {
         pxRequestUnprocessed(widget.url,otherHeaders: {"Range":"bytes=${i['offset']}-${i['offset']+i['length']}"}).then((value) {
           widgetFrames.add(Image.memory(Uint8List.fromList(arch.ZipFile(arch.InputStream(value.body),arch.ZipFileHeader(arch.InputStream(i["centralDirectory"]))).content)));
-          curImg.value = widgetFrames[_animCtrl.value as int];
+          curImg.value = widgetFrames[_animCtrl.value.round()];
           scheduleUpdate(i["delay"]);
         });
       } else {
-        curImg.value = widgetFrames[_animCtrl.value as int];
+        curImg.value = widgetFrames[_animCtrl.value.round()];
         scheduleUpdate(i["delay"]);
       }
     });
@@ -68,8 +70,8 @@ class _UgoiraDisplayerState extends State<UgoiraDisplayer> with TickerProviderSt
 }
 
 class _ArtworkPageState extends State<ArtworkPage> {
-late final String id;
-String authorId = "";
+  late final String id;
+  String authorId = "";
   // Future<JSON>? data;
   bool shownAll = false;
   // Future<List<Map<String,String>>>? op;
@@ -104,7 +106,7 @@ String authorId = "";
       if (_scsvCtrl.position.pixels>=_scsvCtrl.position.maxScrollExtent && relatedNextIds.isNotEmpty) {
         // there's like several more endpoints that does the EXACT SAME THING as this. dude can you be consistent pls
         pxRequest("https://www.pixiv.net/ajax/illust/recommend/illusts?illust_ids[]=${relatedNextIds.sublist(0,18).join('&illust_ids[]=')}",otherHeaders: {"Referer":"https://www.pixiv.net/en/artworks/$id"}).then((value) {
-          related.value.addAll(value.illusts);
+          related.value.addAll(value["illusts"]);
           relatedNextIds = relatedNextIds.sublist(20);
           related.notifyListeners();
         });
@@ -184,15 +186,21 @@ String authorId = "";
                     final List<dynamic> frames = data["frames"];
                     ///   offset  length (look into the source code)
                     return futureWidget(
-                      future: pxRequestUnprocessed(data["src"],method: "HEAD").then((re) => pxRequestUnprocessed(data["src"],otherHeaders: {"Range":"bytes=${int.parse(re.headers['content-length']!)-(int.parse(frames.last['file'].substring(0,6))*56)-22}-${re.headers['content-length']}"})), // the central directory, will be very important
+                      future: pxRequestUnprocessed(data["src"],method: "HEAD").then((re) { 
+                        var start = int.parse(re.headers['content-length']!)-(int.parse(frames.last['file'].substring(0,6))*56)-22;
+                        var end = int.parse(re.headers['content-length']!);
+                        var content_length = (end-start).toString();
+                        return pxRequestUnprocessed(data["src"],otherHeaders: {"Range":"bytes=$start-$end","content-length":content_length});
+                      }), // the central directory, will be very important
                       builder: (ctx,snap) {
                         var cddata = snap.data!.bodyBytes;
 
                         int cdOffset = 0;
                         List<int> frameOffsets = [cdOffset];
                         int i = 0;
-                        while (cdOffset!=-1) {
-                          cdOffset = cddata.indexOf(50);
+                        while (true) {
+                          cdOffset = cddata.indexOf(80);
+                          if (cdOffset!=-1) break;
                           frameOffsets.insert(0,cddata.sublist(cdOffset+42,cdOffset+45).fold(0, (previousValue, element) => previousValue+element));
                           frames[i]["centralDirectory"] = cddata.sublist(cdOffset,cdOffset+56);
                           cddata = cddata.sublist(cdOffset+57);
@@ -273,10 +281,6 @@ String authorId = "";
                   return ListenableBuilder(
                     listenable: authArtworkData,
                     builder: (ctx,w){
-                      Timer(
-                        const Duration(milliseconds: 500), 
-                        ()=>Scrollable.ensureVisible(current.currentContext!)
-                      );
                       return ConstrainedBox(
                         constraints: const BoxConstraints(maxHeight: 120),
                         child: ListView(

@@ -21,8 +21,8 @@ import 'pages/1984.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
-
+import 'package:go_router/go_router.dart'; 
+void dumpErrorToConsole(details)=>FlutterError.dumpErrorToConsole(details);
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // if (Platform.isWindows) {
@@ -30,6 +30,7 @@ void main() async {
   //}
   final pa = GlobalKey<NavigatorState>();
   final shellKeys = List.generate(4,(fhujioae)=>GlobalKey<NavigatorState>());
+  FlutterError.onError = dumpErrorToConsole;
   updateCookie(await rootBundle.loadString("assets/cookie"));
   updateRouter(GoRouter(
     initialLocation: "/terminal",

@@ -45,7 +45,8 @@ def generate(data, name=""):
     out = "\n@JsonSerializable()\n"+f"class {name} "+"{\n"
     const = f"  {name}("+"{\n"
     fromJson = f"  factory {name}.fromJson(Map<String, dynamic> json) => _${name2}FromJson(json);"
-    toJson = f"Map<String, dynamic> toJson() => _${name2}ToJson(this);"
+    # toJson = f"Map<String, dynamic> toJson() => _${name2}ToJson(this);"
+    toJson = "" # we dont need toJson
     private = True
     for k,v in data.items():
         vt = boy(k,v)
