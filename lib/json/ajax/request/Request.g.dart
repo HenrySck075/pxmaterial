@@ -62,18 +62,11 @@ _PlanTitle _$PlanTitleFromJson(Map<String, dynamic> json) => _PlanTitle(
       planOriginalTitle: json['planOriginalTitle'] as String,
       planOriginalTitleLang: json['planOriginalTitleLang'] as String,
       planTranslationTitle:
-          (json['planTranslationTitle'] as Map<String, dynamic>).map(
+          json['planTranslationTitle'] is! List?(json['planTranslationTitle'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(k,
             _PlanTranslationTitleContent.fromJson(e as Map<String, dynamic>)),
-      ),
+      ):null,
     );
-
-Map<String, dynamic> _$PlanTitleToJson(_PlanTitle instance) =>
-    <String, dynamic>{
-      'planOriginalTitle': instance.planOriginalTitle,
-      'planOriginalTitleLang': instance.planOriginalTitleLang,
-      'planTranslationTitle': instance.planTranslationTitle,
-    };
 
 _PlanTranslationDescriptionContent _$PlanTranslationDescriptionContentFromJson(
         Map<String, dynamic> json) =>
@@ -129,7 +122,7 @@ _Plan _$PlanFromJson(Map<String, dynamic> json) => _Plan(
       planAcceptUgoiraFlg: json['planAcceptUgoiraFlg'] as bool,
       planAcceptMangaFlg: json['planAcceptMangaFlg'] as bool,
       planAcceptNovelFlg: json['planAcceptNovelFlg'] as bool,
-      planCoverImage: json['planCoverImage'] as String?,
+      planCoverImage: json['planCoverImage'] as Map<String, dynamic>?,
       planAiType: json['planAiType'] as int,
     );
 
@@ -180,7 +173,9 @@ Map<String, dynamic> _$WorkToJson(_Work instance) => <String, dynamic>{
 _PostWork _$PostWorkFromJson(Map<String, dynamic> json) => _PostWork(
       postWorkId: json['postWorkId'] as String,
       postWorkType: json['postWorkType'] as String,
-      work: _Work.fromJson(json['work'] as Map<String, dynamic>),
+      work: json['work'] == null
+          ? null
+          : _Work.fromJson(json['work'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$PostWorkToJson(_PostWork instance) => <String, dynamic>{
@@ -192,7 +187,7 @@ Map<String, dynamic> _$PostWorkToJson(_PostWork instance) => <String, dynamic>{
 Request _$RequestFromJson(Map<String, dynamic> json) => Request(
       requestId: json['requestId'] as String,
       planId: json['planId'] as String,
-      fanUserId: json['fanUserId'] as String,
+      fanUserId: json['fanUserId'] as String?,
       creatorUserId: json['creatorUserId'] as String,
       requestStatus: json['requestStatus'] as String,
       requestAcceptStatus: json['requestAcceptStatus'] as String,

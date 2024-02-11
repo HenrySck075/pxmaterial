@@ -2,9 +2,26 @@ import 'package:json_annotation/json_annotation.dart';
 part 'User.g.dart';
 
 @JsonSerializable()
+class _Background {
+  final String? color;
+  final bool isPrivate;
+  final int? repeat;
+  final String? url;
+  _Background({
+    required this.color,
+    required this.isPrivate,
+    required this.repeat,
+    required this.url
+  });
+
+
+  factory _Background.fromJson(Map<String, dynamic> json) => _$BackgroundFromJson(json);
+}
+
+@JsonSerializable()
 class User {
   final int partial;
-  final String comment;
+  final String? comment;
   final bool followedBack;
   final String userId;
   final String name;
@@ -14,7 +31,7 @@ class User {
   final bool isFollowed;
   final bool isMypixiv;
   final bool isBlocking;
-  final String? background;
+  final _Background? background;
   final bool acceptRequest;
   User({
     required this.partial,
@@ -33,5 +50,5 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-  Map<String, dynamic> toJson() => _$UserToJson(this);
+  
 }

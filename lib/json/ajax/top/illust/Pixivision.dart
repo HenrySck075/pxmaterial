@@ -15,5 +15,5 @@ class Pixivision {
   });
 
   factory Pixivision.fromJson(Map<String, dynamic> json) => _$PixivisionFromJson(json);
-  Map<String, dynamic> toJson() => _$PixivisionToJson(this);
+  
 }

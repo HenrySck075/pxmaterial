@@ -3,11 +3,11 @@ part 'TagTranslation.g.dart';
 
 @JsonSerializable()
 class TagTranslationContent {
-  final String en;
-  final String ko;
-  final String zh;
-  final String zh_tw;
-  final String romaji;
+  final String? en;
+  final String? ko;
+  final String? zh;
+  final String? zh_tw;
+  final String? romaji;
   TagTranslationContent({
     required this.en,
     required this.ko,
@@ -17,5 +17,5 @@ class TagTranslationContent {
   });
 
   factory TagTranslationContent.fromJson(Map<String, dynamic> json) => _$TagTranslationContentFromJson(json);
-  Map<String, dynamic> toJson() => _$TagTranslationContentToJson(this);
+  
 }

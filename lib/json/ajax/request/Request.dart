@@ -13,7 +13,7 @@ class _RequestTranslationProposal {
   });
 
   factory _RequestTranslationProposal.fromJson(Map<String, dynamic> json) => _$RequestTranslationProposalFromJson(json);
-  Map<String, dynamic> toJson() => _$RequestTranslationProposalToJson(this);
+  
 }
 @JsonSerializable()
 class _RequestProposal {
@@ -29,7 +29,7 @@ class _RequestProposal {
   });
 
   factory _RequestProposal.fromJson(Map<String, dynamic> json) => _$RequestProposalFromJson(json);
-  Map<String, dynamic> toJson() => _$RequestProposalToJson(this);
+  
 }
 @JsonSerializable()
 class _PlanTranslationTitleContent {
@@ -41,13 +41,13 @@ class _PlanTranslationTitleContent {
   });
 
   factory _PlanTranslationTitleContent.fromJson(Map<String, dynamic> json) => _$PlanTranslationTitleContentFromJson(json);
-  Map<String, dynamic> toJson() => _$PlanTranslationTitleContentToJson(this);
+  
 }
 @JsonSerializable()
 class _PlanTitle {
   final String planOriginalTitle;
   final String planOriginalTitleLang;
-  final Map<String, _PlanTranslationTitleContent> planTranslationTitle;
+  final Map<String, _PlanTranslationTitleContent>? planTranslationTitle;
   _PlanTitle({
     required this.planOriginalTitle,
     required this.planOriginalTitleLang,
@@ -55,7 +55,7 @@ class _PlanTitle {
   });
 
   factory _PlanTitle.fromJson(Map<String, dynamic> json) => _$PlanTitleFromJson(json);
-  Map<String, dynamic> toJson() => _$PlanTitleToJson(this);
+  
 }
 @JsonSerializable()
 class _PlanTranslationDescriptionContent {
@@ -69,7 +69,7 @@ class _PlanTranslationDescriptionContent {
   });
 
   factory _PlanTranslationDescriptionContent.fromJson(Map<String, dynamic> json) => _$PlanTranslationDescriptionContentFromJson(json);
-  Map<String, dynamic> toJson() => _$PlanTranslationDescriptionContentToJson(this);
+  
 }
 @JsonSerializable()
 class _PlanDescription {
@@ -85,7 +85,7 @@ class _PlanDescription {
   });
 
   factory _PlanDescription.fromJson(Map<String, dynamic> json) => _$PlanDescriptionFromJson(json);
-  Map<String, dynamic> toJson() => _$PlanDescriptionToJson(this);
+  
 }
 @JsonSerializable()
 class _Plan {
@@ -102,7 +102,7 @@ class _Plan {
   final bool planAcceptUgoiraFlg;
   final bool planAcceptMangaFlg;
   final bool planAcceptNovelFlg;
-  final String? planCoverImage;
+  final Map<String, dynamic>? planCoverImage;
   final int planAiType;
   _Plan({
     this.currentPlanId,
@@ -123,7 +123,7 @@ class _Plan {
   });
 
   factory _Plan.fromJson(Map<String, dynamic> json) => _$PlanFromJson(json);
-  Map<String, dynamic> toJson() => _$PlanToJson(this);
+  
 }
 @JsonSerializable()
 class _CollaborateStatus {
@@ -139,7 +139,7 @@ class _CollaborateStatus {
   });
 
   factory _CollaborateStatus.fromJson(Map<String, dynamic> json) => _$CollaborateStatusFromJson(json);
-  Map<String, dynamic> toJson() => _$CollaborateStatusToJson(this);
+  
 }
 @JsonSerializable()
 class _Work {
@@ -151,13 +151,13 @@ class _Work {
   });
 
   factory _Work.fromJson(Map<String, dynamic> json) => _$WorkFromJson(json);
-  Map<String, dynamic> toJson() => _$WorkToJson(this);
+  
 }
 @JsonSerializable()
 class _PostWork {
   final String postWorkId;
   final String postWorkType;
-  final _Work work;
+  final _Work? work;
   _PostWork({
     required this.postWorkId,
     required this.postWorkType,
@@ -165,13 +165,13 @@ class _PostWork {
   });
 
   factory _PostWork.fromJson(Map<String, dynamic> json) => _$PostWorkFromJson(json);
-  Map<String, dynamic> toJson() => _$PostWorkToJson(this);
+  
 }
 @JsonSerializable()
 class Request {
   final String requestId;
   final String planId;
-  final String fanUserId;
+  final String? fanUserId;
   final String creatorUserId;
   final String requestStatus;
   final String requestAcceptStatus;
@@ -213,5 +213,5 @@ class Request {
   });
 
   factory Request.fromJson(Map<String, dynamic> json) => _$RequestFromJson(json);
-  Map<String, dynamic> toJson() => _$RequestToJson(this);
+  
 }

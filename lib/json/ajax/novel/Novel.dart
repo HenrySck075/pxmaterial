@@ -11,7 +11,7 @@ class _TitleCaptionTranslation {
   });
 
   factory _TitleCaptionTranslation.fromJson(Map<String, dynamic> json) => _$TitleCaptionTranslationFromJson(json);
-  Map<String, dynamic> toJson() => _$TitleCaptionTranslationToJson(this);
+  
 }
 @JsonSerializable()
 class Novel {
@@ -71,5 +71,5 @@ class Novel {
   });
 
   factory Novel.fromJson(Map<String, dynamic> json) => _$NovelFromJson(json);
-  Map<String, dynamic> toJson() => _$NovelToJson(this);
+  
 }

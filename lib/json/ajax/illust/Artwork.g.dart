@@ -7,11 +7,11 @@ part of 'Artwork.dart';
 // **************************************************************************
 
 _Urls _$UrlsFromJson(Map<String, dynamic> json) => _Urls(
-      mini: json['mini'] as String,
-      thumb: json['thumb'] as String,
-      small: json['small'] as String,
-      regular: json['regular'] as String,
-      original: json['original'] as String,
+      mini: json['mini'] as String?,
+      thumb: json['thumb'] as String?,
+      small: json['small'] as String?,
+      regular: json['regular'] as String?,
+      original: json['original'] as String?,
     );
 
 Map<String, dynamic> _$UrlsToJson(_Urls instance) => <String, dynamic>{
@@ -26,12 +26,12 @@ _TagItem _$TagItemFromJson(Map<String, dynamic> json) => _TagItem(
       tag: json['tag'] as String,
       locked: json['locked'] as bool,
       deletable: json['deletable'] as bool,
-      userId: json['userId'] as String,
-      romaji: json['romaji'] as String,
+      userId: json['userId'] as String?,
+      romaji: json['romaji'] as String?,
       translation: (json['translation'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
-      userName: json['userName'] as String,
+      userName: json['userName'] as String?,
     );
 
 Map<String, dynamic> _$TagItemToJson(_TagItem instance) => <String, dynamic>{
@@ -148,18 +148,58 @@ Map<String, dynamic> _$ExtraDataToJson(_ExtraData instance) =>
       'meta': instance.meta,
     };
 
-_TitleCaptionTranslation _$TitleCaptionTranslationFromJson(
-        Map<String, dynamic> json) =>
-    _TitleCaptionTranslation(
-      workTitle: json['workTitle'] as String?,
-      workCaption: json['workCaption'] as String?,
+_ArtworkLite _$ArtworkLiteFromJson(Map<String, dynamic> json) => _ArtworkLite(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      illustType: json['illustType'] as int,
+      xRestrict: json['xRestrict'] as int,
+      restrict: json['restrict'] as int,
+      sl: json['sl'] as int,
+      url: json['url'] as String,
+      description: json['description'] as String,
+      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
+      userId: json['userId'] as String,
+      userName: json['userName'] as String,
+      width: json['width'] as int,
+      height: json['height'] as int,
+      pageCount: json['pageCount'] as int,
+      isBookmarkable: json['isBookmarkable'] as bool,
+      bookmarkData: json['bookmarkData'] as String?,
+      alt: json['alt'] as String,
+      titleCaptionTranslation: TitleCaptionTranslation.fromJson(
+          json['titleCaptionTranslation'] as Map<String, dynamic>),
+      createDate: json['createDate'] as String,
+      updateDate: json['updateDate'] as String,
+      isUnlisted: json['isUnlisted'] as bool,
+      isMasked: json['isMasked'] as bool,
+      aiType: json['aiType'] as int,
     );
 
-Map<String, dynamic> _$TitleCaptionTranslationToJson(
-        _TitleCaptionTranslation instance) =>
+Map<String, dynamic> _$ArtworkLiteToJson(_ArtworkLite instance) =>
     <String, dynamic>{
-      'workTitle': instance.workTitle,
-      'workCaption': instance.workCaption,
+      'id': instance.id,
+      'title': instance.title,
+      'illustType': instance.illustType,
+      'xRestrict': instance.xRestrict,
+      'restrict': instance.restrict,
+      'sl': instance.sl,
+      'url': instance.url,
+      'description': instance.description,
+      'tags': instance.tags,
+      'userId': instance.userId,
+      'userName': instance.userName,
+      'width': instance.width,
+      'height': instance.height,
+      'pageCount': instance.pageCount,
+      'isBookmarkable': instance.isBookmarkable,
+      'bookmarkData': instance.bookmarkData,
+      'alt': instance.alt,
+      'titleCaptionTranslation': instance.titleCaptionTranslation,
+      'createDate': instance.createDate,
+      'updateDate': instance.updateDate,
+      'isUnlisted': instance.isUnlisted,
+      'isMasked': instance.isMasked,
+      'aiType': instance.aiType,
     };
 
 Artwork _$ArtworkFromJson(Map<String, dynamic> json) => Artwork(
@@ -182,7 +222,11 @@ Artwork _$ArtworkFromJson(Map<String, dynamic> json) => Artwork(
       userName: json['userName'] as String,
       userAccount: json['userAccount'] as String,
       userIllusts: (json['userIllusts'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, Artwork.fromJson(e as Map<String, dynamic>)),
+        (k, e) => MapEntry(
+            k,
+            e == null
+                ? null
+                : _ArtworkLite.fromJson(e as Map<String, dynamic>)),
       ),
       likeData: json['likeData'] as bool,
       width: json['width'] as int,
@@ -210,7 +254,7 @@ Artwork _$ArtworkFromJson(Map<String, dynamic> json) => Artwork(
       bookmarkData: json['bookmarkData'] as String?,
       contestData: json['contestData'] as String?,
       extraData: _ExtraData.fromJson(json['extraData'] as Map<String, dynamic>),
-      titleCaptionTranslation: _TitleCaptionTranslation.fromJson(
+      titleCaptionTranslation: TitleCaptionTranslation.fromJson(
           json['titleCaptionTranslation'] as Map<String, dynamic>),
       isUnlisted: json['isUnlisted'] as bool,
       request: json['request'] as String?,

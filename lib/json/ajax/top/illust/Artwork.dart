@@ -1,18 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
+import '../../shared/TitleCaptionTranslation.dart';
 part 'Artwork.g.dart';
 
-@JsonSerializable()
-class _TitleCaptionTranslation {
-  final String? workTitle;
-  final String? workCaption;
-  _TitleCaptionTranslation({
-    this.workTitle,
-    this.workCaption,
-  });
-
-  factory _TitleCaptionTranslation.fromJson(Map<String, dynamic> json) => _$TitleCaptionTranslationFromJson(json);
-  Map<String, dynamic> toJson() => _$TitleCaptionTranslationToJson(this);
-}
 @JsonSerializable()
 class Artwork {
   final String id;
@@ -32,13 +21,13 @@ class Artwork {
   final bool isBookmarkable;
   final String? bookmarkData;
   final String alt;
-  final _TitleCaptionTranslation titleCaptionTranslation;
+  final TitleCaptionTranslation titleCaptionTranslation;
   final String createDate;
   final String updateDate;
   final bool isUnlisted;
   final bool isMasked;
   final int aiType;
-  final Map<String, String> urls;
+  final Map<String, String>? urls;
   final String profileImageUrl;
   Artwork({
     required this.id,
@@ -64,10 +53,10 @@ class Artwork {
     required this.isUnlisted,
     required this.isMasked,
     required this.aiType,
-    required this.urls,
+    this.urls,
     required this.profileImageUrl,
   });
 
   factory Artwork.fromJson(Map<String, dynamic> json) => _$ArtworkFromJson(json);
-  Map<String, dynamic> toJson() => _$ArtworkToJson(this);
+  
 }

@@ -1,14 +1,15 @@
 import 'package:json_annotation/json_annotation.dart';
-import '../top/illust/Artwork.dart' as lite;
+import 'package:sofieru/json/operator_bracket.dart';
+import '../shared/TitleCaptionTranslation.dart';
 part 'Artwork.g.dart';
 
 @JsonSerializable()
 class _Urls {
-  final String mini;
-  final String thumb;
-  final String small;
-  final String regular;
-  final String original;
+  final String? mini;
+  final String? thumb;
+  final String? small;
+  final String? regular;
+  final String? original;
   _Urls({
     required this.mini,
     required this.thumb,
@@ -18,17 +19,20 @@ class _Urls {
   });
 
   factory _Urls.fromJson(Map<String, dynamic> json) => _$UrlsFromJson(json);
-  Map<String, dynamic> toJson() => _$UrlsToJson(this);
+  
+
+  /// You still have to make sure it exists
+  String? operator [] (String idk) => eval(this, idk);
 }
 @JsonSerializable()
 class _TagItem {
   final String tag;
   final bool locked;
   final bool deletable;
-  final String userId;
-  final String romaji;
+  final String? userId;
+  final String? romaji;
   final Map<String, String>? translation;
-  final String userName;
+  final String? userName;
   _TagItem({
     required this.tag,
     required this.locked,
@@ -40,7 +44,7 @@ class _TagItem {
   });
 
   factory _TagItem.fromJson(Map<String, dynamic> json) => _$TagItemFromJson(json);
-  Map<String, dynamic> toJson() => _$TagItemToJson(this);
+  
 }
 @JsonSerializable()
 class _Tags {
@@ -56,7 +60,7 @@ class _Tags {
   });
 
   factory _Tags.fromJson(Map<String, dynamic> json) => _$TagsFromJson(json);
-  Map<String, dynamic> toJson() => _$TagsToJson(this);
+  
 }
 @JsonSerializable()
 class _Responsive {
@@ -66,7 +70,7 @@ class _Responsive {
   });
 
   factory _Responsive.fromJson(Map<String, dynamic> json) => _$ResponsiveFromJson(json);
-  Map<String, dynamic> toJson() => _$ResponsiveToJson(this);
+  
 }
 @JsonSerializable()
 class _Rectangle {
@@ -76,7 +80,7 @@ class _Rectangle {
   });
 
   factory _Rectangle.fromJson(Map<String, dynamic> json) => _$RectangleFromJson(json);
-  Map<String, dynamic> toJson() => _$RectangleToJson(this);
+  
 }
 @JsonSerializable()
 class _AlternateLanguages {
@@ -88,7 +92,7 @@ class _AlternateLanguages {
   });
 
   factory _AlternateLanguages.fromJson(Map<String, dynamic> json) => _$AlternateLanguagesFromJson(json);
-  Map<String, dynamic> toJson() => _$AlternateLanguagesToJson(this);
+  
 }
 @JsonSerializable()
 class _Ogp {
@@ -104,7 +108,7 @@ class _Ogp {
   });
 
   factory _Ogp.fromJson(Map<String, dynamic> json) => _$OgpFromJson(json);
-  Map<String, dynamic> toJson() => _$OgpToJson(this);
+  
 }
 @JsonSerializable()
 class _Twitter {
@@ -120,7 +124,7 @@ class _Twitter {
   });
 
   factory _Twitter.fromJson(Map<String, dynamic> json) => _$TwitterFromJson(json);
-  Map<String, dynamic> toJson() => _$TwitterToJson(this);
+  
 }
 @JsonSerializable()
 class _Meta {
@@ -142,7 +146,7 @@ class _Meta {
   });
 
   factory _Meta.fromJson(Map<String, dynamic> json) => _$MetaFromJson(json);
-  Map<String, dynamic> toJson() => _$MetaToJson(this);
+  
 }
 @JsonSerializable()
 class _ExtraData {
@@ -152,19 +156,61 @@ class _ExtraData {
   });
 
   factory _ExtraData.fromJson(Map<String, dynamic> json) => _$ExtraDataFromJson(json);
-  Map<String, dynamic> toJson() => _$ExtraDataToJson(this);
+  
 }
 @JsonSerializable()
-class _TitleCaptionTranslation {
-  final String? workTitle;
-  final String? workCaption;
-  _TitleCaptionTranslation({
-    this.workTitle,
-    this.workCaption,
+class _ArtworkLite {
+  final String id;
+  final String title;
+  final int illustType;
+  final int xRestrict;
+  final int restrict;
+  final int sl;
+  final String url;
+  final String description;
+  final List<String> tags;
+  final String userId;
+  final String userName;
+  final int width;
+  final int height;
+  final int pageCount;
+  final bool isBookmarkable;
+  final String? bookmarkData;
+  final String alt;
+  final TitleCaptionTranslation titleCaptionTranslation;
+  final String createDate;
+  final String updateDate;
+  final bool isUnlisted;
+  final bool isMasked;
+  final int aiType;
+  _ArtworkLite({
+    required this.id,
+    required this.title,
+    required this.illustType,
+    required this.xRestrict,
+    required this.restrict,
+    required this.sl,
+    required this.url,
+    required this.description,
+    required this.tags,
+    required this.userId,
+    required this.userName,
+    required this.width,
+    required this.height,
+    required this.pageCount,
+    required this.isBookmarkable,
+    this.bookmarkData,
+    required this.alt,
+    required this.titleCaptionTranslation,
+    required this.createDate,
+    required this.updateDate,
+    required this.isUnlisted,
+    required this.isMasked,
+    required this.aiType,
   });
 
-  factory _TitleCaptionTranslation.fromJson(Map<String, dynamic> json) => _$TitleCaptionTranslationFromJson(json);
-  Map<String, dynamic> toJson() => _$TitleCaptionTranslationToJson(this);
+  factory _ArtworkLite.fromJson(Map<String, dynamic> json) => _$ArtworkLiteFromJson(json);
+  
 }
 @JsonSerializable()
 class Artwork {
@@ -186,7 +232,7 @@ class Artwork {
   final String userId;
   final String userName;
   final String userAccount;
-  final Map<String, lite.Artwork> userIllusts;
+  final Map<String, _ArtworkLite?> userIllusts;
   final bool likeData;
   final int width;
   final int height;
@@ -213,7 +259,7 @@ class Artwork {
   final String? bookmarkData;
   final String? contestData;
   final _ExtraData extraData;
-  final _TitleCaptionTranslation titleCaptionTranslation;
+  final TitleCaptionTranslation titleCaptionTranslation;
   final bool isUnlisted;
   final String? request;
   final int commentOff;
@@ -276,5 +322,5 @@ class Artwork {
   });
 
   factory Artwork.fromJson(Map<String, dynamic> json) => _$ArtworkFromJson(json);
-  Map<String, dynamic> toJson() => _$ArtworkToJson(this);
+  
 }

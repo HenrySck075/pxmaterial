@@ -13,7 +13,7 @@ class _Tags {
   });
 
   factory _Tags.fromJson(Map<String, dynamic> json) => _$TagsFromJson(json);
-  Map<String, dynamic> toJson() => _$TagsToJson(this);
+  
 }
 @JsonSerializable()
 class _Recommend {
@@ -25,7 +25,7 @@ class _Recommend {
   });
 
   factory _Recommend.fromJson(Map<String, dynamic> json) => _$RecommendFromJson(json);
-  Map<String, dynamic> toJson() => _$RecommendToJson(this);
+  
 }
 @JsonSerializable()
 class _RecommendByTag {
@@ -39,7 +39,7 @@ class _RecommendByTag {
   });
 
   factory _RecommendByTag.fromJson(Map<String, dynamic> json) => _$RecommendByTagFromJson(json);
-  Map<String, dynamic> toJson() => _$RecommendByTagToJson(this);
+  
 }
 @JsonSerializable()
 class _RecommendUser {
@@ -53,7 +53,7 @@ class _RecommendUser {
   });
 
   factory _RecommendUser.fromJson(Map<String, dynamic> json) => _$RecommendUserFromJson(json);
-  Map<String, dynamic> toJson() => _$RecommendUserToJson(this);
+  
 }
 @JsonSerializable()
 class _ContestOngoing {
@@ -75,7 +75,7 @@ class _ContestOngoing {
   });
 
   factory _ContestOngoing.fromJson(Map<String, dynamic> json) => _$ContestOngoingFromJson(json);
-  Map<String, dynamic> toJson() => _$ContestOngoingToJson(this);
+  
 }
 @JsonSerializable()
 class _EditorRecommend {
@@ -87,7 +87,7 @@ class _EditorRecommend {
   });
 
   factory _EditorRecommend.fromJson(Map<String, dynamic> json) => _$EditorRecommendFromJson(json);
-  Map<String, dynamic> toJson() => _$EditorRecommendToJson(this);
+  
 }
 @JsonSerializable()
 class _TrendingTags {
@@ -101,7 +101,7 @@ class _TrendingTags {
   });
 
   factory _TrendingTags.fromJson(Map<String, dynamic> json) => _$TrendingTagsFromJson(json);
-  Map<String, dynamic> toJson() => _$TrendingTagsToJson(this);
+  
 }
 @JsonSerializable()
 class Page {
@@ -147,5 +147,5 @@ class Page {
   });
 
   factory Page.fromJson(Map<String, dynamic> json) => _$PageFromJson(json);
-  Map<String, dynamic> toJson() => _$PageToJson(this);
+  
 }

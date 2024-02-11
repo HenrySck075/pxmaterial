@@ -23,7 +23,7 @@ class _Thumbnails {
   });
 
   factory _Thumbnails.fromJson(Map<String, dynamic> json) => _$ThumbnailsFromJson(json);
-  Map<String, dynamic> toJson() => _$ThumbnailsToJson(this);
+  
 }
 @JsonSerializable()
 class IllustTop {
@@ -47,5 +47,5 @@ class IllustTop {
   });
 
   factory IllustTop.fromJson(Map<String, dynamic> json) => _$IllustTopFromJson(json);
-  Map<String, dynamic> toJson() => _$IllustTopToJson(this);
+  
 }

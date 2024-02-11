@@ -2,12 +2,14 @@
 
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:sofieru/json/ajax/illust/Artwork.dart';
+import 'package:sofieru/json/ajax/top/illust/Artwork.dart' as alite;
 import 'package:sofieru/json/ajax/user/User.dart';
 import 'package:sofieru/shared.dart';
 import 'shared.dart';
@@ -22,9 +24,52 @@ class ArtworkPage extends StatefulWidget {
   State<ArtworkPage> createState() => _ArtworkPageState();
 }
 
+class UgoiraDisplayer extends StatefulWidget {
+  final List<dynamic> frames;
+  final String url;
+  UgoiraDisplayer({super.key, required this.frames, required this.url});
+  @override
+  State<UgoiraDisplayer> createState() => _UgoiraDisplayerState();
+}
+
+class _UgoiraDisplayerState extends State<UgoiraDisplayer> with TickerProviderStateMixin {
+  late final AnimationController _animCtrl;
+  late final int total;
+  List<Image> widgetFrames = [];
+  ValueNotifier curImg = ValueNotifier<Widget>(const Center(child: Text("(flickers may occur)"),));
+  @override 
+  void initState() {
+    super.initState();
+    total = widget.frames.fold(0, (p, c) => p+(c["delay"] as int));
+    void scheduleUpdate(int delay)=>Timer(Duration(milliseconds:delay), () => _animCtrl.value+=1);
+    _animCtrl = AnimationController(
+      vsync: this,
+      upperBound: widget.frames.length as double,
+      value: 0.5 // A presses
+    )..addListener(() {
+      var i = widget.frames[_animCtrl.value as int];
+      if (_animCtrl.value == widgetFrames.length) {
+        pxRequestUnprocessed(widget.url,otherHeaders: {"Range":"bytes=${i['offset']}-${i['offset']+i['length']}"}).then((value) {
+          widgetFrames.add(Image.memory(Uint8List.fromList(arch.ZipFile(arch.InputStream(value.body),arch.ZipFileHeader(arch.InputStream(i["centralDirectory"]))).content)));
+          curImg.value = widgetFrames[_animCtrl.value as int];
+          scheduleUpdate(i["delay"]);
+        });
+      } else {
+        curImg.value = widgetFrames[_animCtrl.value as int];
+        scheduleUpdate(i["delay"]);
+      }
+    });
+    _animCtrl.value=0; // start the loop
+  }
+  @override 
+  Widget build(ctx) {
+    return ListenableBuilder(listenable: curImg, builder: (ctx,w)=>curImg.value,);
+  }
+}
+
 class _ArtworkPageState extends State<ArtworkPage> {
-  late final String id;
-  String authorId = "";
+late final String id;
+String authorId = "";
   // Future<JSON>? data;
   bool shownAll = false;
   // Future<List<Map<String,String>>>? op;
@@ -118,7 +163,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
                       onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (builder)=>ArtworkImageView(data: i,heroTag: "${id}_p$idx",))),
                       child: ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 550),
-                        child: Hero(tag: "${id}_p$idx", child: pxImage(i.urls.regular,includeCircle: true))
+                        child: Hero(tag: "${id}_p$idx", child: pxImage(i["urls"]["regular"],includeCircle: true))
                       )
                     ),
                   ))
@@ -131,33 +176,36 @@ class _ArtworkPageState extends State<ArtworkPage> {
               // Animated artworks 
               else ...[
               Center(
-                child: futureWidget(future: pxRequest("https://www.pixiv.net/ajax/illust/$id/ugoira_meta").then((h)=>Future.wait([
-                pxRequestUnprocessed(h.src), // zip file
-                Future.value(h) // the response
-              ])), builder: (ctx,snap){
-                
-                var data = snap.data![1] as Map<String, dynamic>;
-                var zipContent = (snap.data![0] as http.Response).bodyBytes;
-                final archive = arch.ZipDecoder().decodeBytes(zipContent);
-                final curImg = ValueNotifier<Widget>(const Center(child: Text("(flickers may occur)"),));
-                final List<dynamic> frames = data["frames"];
-                final total = frames.map((r)=>r.delay as int).toList().fold(0,(p,c)=>p+c);
-                List<Image> widgetFrames = [];
-                for (int i = 0; i < frames.length; i++) {
-                  var element = frames[i];
-                  widgetFrames.add(Image.memory(archive.findFile(element.file)!.content));              
-                }
-                Timer.periodic(Duration(milliseconds:total), (timer) { 
-                  int ts = 0;
-                  for (int i = 0; i < frames.length; i++) {
-                    var element = frames[i];
-                    ts+=element.delay! as int;
-                    Timer(Duration(milliseconds: ts),()=>curImg.value=widgetFrames[i]);
-                  }
-                });
-                return ListenableBuilder(listenable: curImg, builder: (ctx,w)=>curImg.value,);
+                child: futureWidget(
+                  future: pxRequest("https://www.pixiv.net/ajax/illust/$id/ugoira_meta"), 
+                  builder: (ctx,snap){
+                    
+                    var data = snap.data! as Map<String, dynamic>;
+                    final List<dynamic> frames = data["frames"];
+                    ///   offset  length (look into the source code)
+                    return futureWidget(
+                      future: pxRequestUnprocessed(data["src"],method: "HEAD").then((re) => pxRequestUnprocessed(data["src"],otherHeaders: {"Range":"bytes=${int.parse(re.headers['content-length']!)-(int.parse(frames.last['file'].substring(0,6))*56)-22}-${re.headers['content-length']}"})), // the central directory, will be very important
+                      builder: (ctx,snap) {
+                        var cddata = snap.data!.bodyBytes;
 
-              })
+                        int cdOffset = 0;
+                        List<int> frameOffsets = [cdOffset];
+                        int i = 0;
+                        while (cdOffset!=-1) {
+                          cdOffset = cddata.indexOf(50);
+                          frameOffsets.insert(0,cddata.sublist(cdOffset+42,cdOffset+45).fold(0, (previousValue, element) => previousValue+element));
+                          frames[i]["centralDirectory"] = cddata.sublist(cdOffset,cdOffset+56);
+                          cddata = cddata.sublist(cdOffset+57);
+                          i+=1;
+                        }
+                        for (int i = 0; i < frameOffsets.length-1; i++) {
+                          frames[i]["offset"] = frameOffsets[i];
+                          frames[i]["length"] = frameOffsets[i+1]-frameOffsets[i];
+                        }
+                        return UgoiraDisplayer(frames: frames,url:data["src"]);
+                      } 
+                    );
+                  })
               )],
               const Divider(),
               // Toolbar
@@ -187,7 +235,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
                         mainAxisSize: MainAxisSize.min,
                         children:[
                           Flexible(flex:4,child: Text(t.tag,overflow: TextOverflow.ellipsis,style: TextStyle(color: t.tag.startsWith("R-18")?Colors.red:null),)),
-                          if (t.translation==null) Flexible(flex:4,child: Text("(${t.translation!['en']})",style: const TextStyle(color: Colors.grey, fontSize: 10),overflow: TextOverflow.ellipsis))
+                          if (t.translation?["en"]!=null) Flexible(flex:4,child: Text("(${t.translation!['en']})",style: const TextStyle(color: Colors.grey, fontSize: 10),overflow: TextOverflow.ellipsis))
                         ]
                       ),
                       onPressed: ()=>navigate("/tags/${t.tag}?${data.xRestrict==1?'mode=r18':''}"),))
@@ -238,9 +286,9 @@ class _ArtworkPageState extends State<ArtworkPage> {
                           children: [...authArtworkData.value.map((e) => Padding(
                             padding: const EdgeInsets.only(left:2.0, right:2),
                             child: PxSimpleArtwork(
-                              key: (e.id==id)?current:null,
+                              key: (e["id"]==id)?current:null,
                               data: e,
-                              isCurrent: e.id==id,
+                              isCurrent: e["id"]==id,
                             ),
                           ))],
                         )
@@ -262,11 +310,11 @@ class _ArtworkPageState extends State<ArtworkPage> {
               futureWidget(
                 future: pxRequest("https://www.pixiv.net/ajax/illust/$id/recommend/init?limit=18"), 
                 builder:(ctx,snap) {
-                  related.value = snap.data!.illusts;
-                  relatedNextIds = snap.data!.nextIds;
+                  related.value = snap.data!["illusts"];
+                  relatedNextIds = snap.data!["nextIds"];
                   return ListenableBuilder(
                     listenable: related,
-                    builder: (ctx,w)=>artworkGrid([...related.value.map((e) => PxArtwork(data: e))])
+                    builder: (ctx,w)=>artworkGrid([...related.value.map((e) => PxArtwork(data: alite.Artwork.fromJson(e)))])
                   );
                 } 
               ),
@@ -281,17 +329,17 @@ class _ArtworkPageState extends State<ArtworkPage> {
 void ugoiraSave(List<Image> frames, List<int> delay) {
 }
 class ArtworkImageView extends StatelessWidget {
-  final Artwork data;
+  final JSON data;
   String heroTag;
   ArtworkImageView({super.key, required this.data, required this.heroTag});
   void downlo(BuildContext context, String quality) {
-    var ext = data.urls[quality]?.substring(data.urls[quality]!.length-3);
+    var ext = data["urls"][quality]?.substring(data["urls"][quality]!.length-3);
     var scaf = ScaffoldMessenger.of(context);
     if (ext==null) scaf.showSnackBar(const SnackBar(content: Text("Invalid image size")));
     scaf.showSnackBar(
       SnackBar(content: Text("Downloading ${heroTag}.${ext}"))
     );
-    pxRequestUnprocessed(data.urls[quality]!).then((value){
+    pxRequestUnprocessed(data["urls"][quality]!).then((value){
       Future.value(ImageGallerySaver.saveImage(value.bodyBytes,name: "${heroTag}.${ext}")).then((value) => scaf.showSnackBar(
         const SnackBar(content: Text("Download completed!"))
       ));
@@ -332,7 +380,7 @@ class ArtworkImageView extends StatelessWidget {
         child: Center(
           child:Hero(
             tag: heroTag,
-            child: pxImage(data.urls["regular"]!)
+            child: pxImage(data["urls"]["regular"]!)
           )
         )
       )

@@ -19,5 +19,5 @@ class BoothItem {
   });
 
   factory BoothItem.fromJson(Map<String, dynamic> json) => _$BoothItemFromJson(json);
-  Map<String, dynamic> toJson() => _$BoothItemToJson(this);
+  
 }

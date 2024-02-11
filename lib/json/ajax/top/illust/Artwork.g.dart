@@ -6,20 +6,6 @@ part of 'Artwork.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_TitleCaptionTranslation _$TitleCaptionTranslationFromJson(
-        Map<String, dynamic> json) =>
-    _TitleCaptionTranslation(
-      workTitle: json['workTitle'] as String?,
-      workCaption: json['workCaption'] as String?,
-    );
-
-Map<String, dynamic> _$TitleCaptionTranslationToJson(
-        _TitleCaptionTranslation instance) =>
-    <String, dynamic>{
-      'workTitle': instance.workTitle,
-      'workCaption': instance.workCaption,
-    };
-
 Artwork _$ArtworkFromJson(Map<String, dynamic> json) => Artwork(
       id: json['id'] as String,
       title: json['title'] as String,
@@ -38,14 +24,14 @@ Artwork _$ArtworkFromJson(Map<String, dynamic> json) => Artwork(
       isBookmarkable: json['isBookmarkable'] as bool,
       bookmarkData: json['bookmarkData'] as String?,
       alt: json['alt'] as String,
-      titleCaptionTranslation: _TitleCaptionTranslation.fromJson(
+      titleCaptionTranslation: TitleCaptionTranslation.fromJson(
           json['titleCaptionTranslation'] as Map<String, dynamic>),
       createDate: json['createDate'] as String,
       updateDate: json['updateDate'] as String,
       isUnlisted: json['isUnlisted'] as bool,
       isMasked: json['isMasked'] as bool,
       aiType: json['aiType'] as int,
-      urls: Map<String, String>.from(json['urls'] as Map),
+      urls: json['urls']!=null?Map<String, String>.from(json['urls'] as Map):null,
       profileImageUrl: json['profileImageUrl'] as String,
     );
 

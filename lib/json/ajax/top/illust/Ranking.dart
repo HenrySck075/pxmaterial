@@ -11,7 +11,7 @@ class _Items {
   });
 
   factory _Items.fromJson(Map<String, dynamic> json) => _$ItemsFromJson(json);
-  Map<String, dynamic> toJson() => _$ItemsToJson(this);
+  
 }
 @JsonSerializable()
 class Ranking {
@@ -23,5 +23,5 @@ class Ranking {
   });
 
   factory Ranking.fromJson(Map<String, dynamic> json) => _$RankingFromJson(json);
-  Map<String, dynamic> toJson() => _$RankingToJson(this);
+  
 }

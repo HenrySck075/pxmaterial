@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sofieru/json/ajax/top/illust/Artwork.dart';
 import 'package:sofieru/shared.dart';
 
 class IllustManga extends StatefulWidget {
@@ -29,7 +30,7 @@ class _IllustMangaState extends State<IllustManga> {
       builder:(i,dk)=>SingleChildScrollView( 
         controller: _scsvCtrl,
         child: artworkGrid(
-          List.from(yipee.value.map((e) => PxArtwork(data: e)))
+          List.from(yipee.value.map((e) => PxArtwork(data: Artwork.fromJson(e))))
         ),
       )
     );
