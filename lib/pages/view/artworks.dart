@@ -51,8 +51,13 @@ class _UgoiraDisplayerState extends State<UgoiraDisplayer> with TickerProviderSt
     )..addListener(() {
       var i = widget.frames[_animCtrl.value.round()];
       if (_animCtrl.value == widgetFrames.length) {
-        pxRequestUnprocessed(widget.url,otherHeaders: {"Range":"bytes=${i['offset']}-${i['offset']+i['length']}"}).then((value) {
-          widgetFrames.add(Image.memory(Uint8List.fromList(arch.ZipFile(arch.InputStream(value.body),arch.ZipFileHeader(arch.InputStream(i["centralDirectory"]))).content)));
+        pxRequestUnprocessed(widget.url,otherHeaders: {"Range":"bytes=${i['offset']}-${i['offset']+i['length']-1}"}).then((value) {
+          widgetFrames.add(Image.memory(Uint8List.fromList(arch.ArchiveFile(
+            i["centralDirectory"].sublist(46,46+10).toString(), // name 
+            i["centralDirectory"].sublist(20,23).fold(0,(p,c)=>p+c), // size 
+            value.body,
+            i["centralDirectory"].sublist(10,10).fold(0,(p,c)=>p+c), // compression method (usually deflate but i dont trust pixiv)
+          ).content)));
           curImg.value = widgetFrames[_animCtrl.value.round()];
           scheduleUpdate(i["delay"]);
         });
@@ -187,25 +192,34 @@ class _ArtworkPageState extends State<ArtworkPage> {
                     ///   offset  length (look into the source code)
                     return futureWidget(
                       future: pxRequestUnprocessed(data["src"],method: "HEAD").then((re) { 
-                        var start = int.parse(re.headers['content-length']!)-(int.parse(frames.last['file'].substring(0,6))*56)-22;
-                        var end = int.parse(re.headers['content-length']!);
-                        var content_length = (end-start).toString();
-                        return pxRequestUnprocessed(data["src"],otherHeaders: {"Range":"bytes=$start-$end","content-length":content_length});
+                        var start = int.parse(re.headers['content-length']!)-30000;
+                        var end = int.parse(re.headers['content-length']!)-1;
+                        return pxRequestUnprocessed(data["src"],otherHeaders: {"Range":"bytes=$start-$end","Upgrade-Insecure-Requests":"1"});
                       }), // the central directory, will be very important
                       builder: (ctx,snap) {
                         var cddata = snap.data!.bodyBytes;
 
-                        int cdOffset = 0;
-                        List<int> frameOffsets = [cdOffset];
+                        int cdOffset = cddata.indexOf(80);
+                        while (true) {
+                          var the = cddata.sublist(cdOffset,cdOffset+4);
+                          if (the[0]==80&&the[1]==75&&the[2]==1&&the[3]==2) break;
+                          cdOffset = cddata.indexOf(80,cdOffset+1);
+                        }
+                        int cdStartOffset = cdOffset;
+                        List<int> frameOffsets = [];
                         int i = 0;
                         while (true) {
-                          cdOffset = cddata.indexOf(80);
-                          if (cdOffset!=-1) break;
-                          frameOffsets.insert(0,cddata.sublist(cdOffset+42,cdOffset+45).fold(0, (previousValue, element) => previousValue+element));
+                          if (cdOffset==-1) break;
+                          var the = cddata.sublist(cdOffset,cdOffset+4);
+                          // check if its eocd
+                          if (the[0]==80&&the[1]==75&&the[2]==5&&the[3]==6) break;
+                          frameOffsets.add(cddata.sublist(cdOffset+42,cdOffset+46).fold(0, (previousValue, element) => previousValue+element));
                           frames[i]["centralDirectory"] = cddata.sublist(cdOffset,cdOffset+56);
                           cddata = cddata.sublist(cdOffset+57);
                           i+=1;
+                          cdOffset = cddata.indexOf(80);
                         }
+                        frameOffsets.add(cdStartOffset);
                         for (int i = 0; i < frameOffsets.length-1; i++) {
                           frames[i]["offset"] = frameOffsets[i];
                           frames[i]["length"] = frameOffsets[i+1]-frameOffsets[i];

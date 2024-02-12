@@ -153,22 +153,21 @@ var client = http.Client();
 Future<void> wait(FutureOr<bool> Function(dynamic) predicate) async => await Future.doWhile(() => Future.delayed(const Duration(milliseconds: 500)).then(predicate));
 /// [pxRequest] without postprocess
 Future<http.Response> pxRequestUnprocessed(String url, {
-  Map<String, String> otherHeaders = const {}, String method="GET", Object? body, bool noCache = false, 
+  Map<String, String>? otherHeaders, String method="GET", Object? body, bool noCache = false, 
   void Function(double percent, int total)? onProgress
 }) async {
+  if (otherHeaders == null) {otherHeaders = {};}
   // wait for cookies to not empty (it will never)
-  if (cooki == "") await wait((_) => cooki=="");
 
   var headers = {
-    "cookie": cooki.trim(),
     "referer": "https://www.pixiv.net/en/",
     "x-user-id": "76179633",
     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
   };
-  print("-----");
-  print(url);
-  print(method);
-  print(otherHeaders);
+  // print("-----");
+  // print(url);
+  // print(method);
+  // print(otherHeaders);
   headers.addAll(otherHeaders);
   if (_cachedResponse.containsKey(url) && !noCache && _cachedResponse[url]!.$1["headers"] == headers) {return Future.value(_cachedResponse[url]!.$2);}// we dont really needs to null check but dart sucks so
   
@@ -202,9 +201,11 @@ Future<http.Response> pxRequestUnprocessed(String url, {
     http.Response(String.fromCharCodes(bytes), resp.statusCode, headers: resp.headers)
   )).$2;
 }
-Future<dynamic> pxRequest(String url, {Map<String, String> otherHeaders = const {}, String method="GET", Object? body, bool noCache = false}) {
+Future<dynamic> pxRequest(String url, {Map<String, String>? otherHeaders, String method="GET", Object? body, bool noCache = false}) {
+  otherHeaders ??= {};
   url = '${url+(url.contains("?")?"&":"?")}lang=en&version=$apiVersion';
-  var d = pxRequestUnprocessed(url,otherHeaders: otherHeaders, method: method, body:body, noCache: noCache).then((v){
+  // if (cooki == "") await wait((_) => cooki=="");
+  var d = pxRequestUnprocessed(url,otherHeaders: otherHeaders..addEntries([MapEntry("cookie", cooki.trim())]), method: method, body:body, noCache: noCache).then((v){
     return jsonDecode(v.body)["body"];
   });
   return d;

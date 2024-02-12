@@ -1,4 +1,4 @@
-// Widgets & builders
+// Widgets & builder
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -38,16 +38,16 @@ Wrap artworkGrid(List<Widget> h) => Wrap(
 FutureBuilder<T> futureWidget<T>({required Future<T>? future, required AsyncWidgetBuilder<T> builder, Widget placeholder = const Center(child: CircularProgressIndicator())}) {
   return FutureBuilder<T>(future: future, builder: (ctx, snap) {
     if (snap.data == null) return placeholder;
-    // if (snap.data == null) {return Scaffold(body:Center( 
-    //  child: Column( 
-    //    children: [
-    //      const Text("oops, something goes wrong with the request"),
-    //      const Text("try to figure out what's wrong with your implementation henry", style: TextStyle(fontSize: 12),),
-    //      Text(snap.error.toString(),style: const TextStyle(fontSize: 13),),
-    //      Text(snap.stackTrace.toString(),style: const TextStyle(fontSize: 13),),
-    //    ],
-    //  ),
-    //));}
+    if (snap.hasError) {return Scaffold(body:Center( 
+      child: Column( 
+        children: [
+          const Text("oops, something goes wrong with the request"),
+          const Text("try to figure out what's wrong with your implementation henry", style: TextStyle(fontSize: 12),),
+          Text(snap.error.toString(),style: const TextStyle(fontSize: 13),),
+          Text(snap.stackTrace.toString(),style: const TextStyle(fontSize: 13),),
+        ],
+      ),
+    ));}
     return builder(ctx, snap);
   });
 }
