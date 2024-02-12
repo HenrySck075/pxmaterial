@@ -7,16 +7,18 @@ class IllustManga extends StatefulWidget {
   State<IllustManga> createState()=>_IllustMangaState();
 }
 class _IllustMangaState extends State<IllustManga> {
-  var req = pxRequest("https://www.pixiv.net/ajax/discovery/artworks?mode=all&limit=60");
+  var req = pxRequest("https://www.pixiv.net/ajax/discovery/artworks?mode=all&limit=60",extraData: {"id":1});
   final _scsvCtrl = ScrollController();
   final yipee = VisibleNotifyNotifier<List<dynamic>>([]);
+  int id = 1;
   @override 
   void initState() {
     super.initState();
     _scsvCtrl.addListener(() {
       if (_scsvCtrl.position.pixels>=_scsvCtrl.position.maxScrollExtent) {
-        pxRequest("https://www.pixiv.net/ajax/discovery/artworks?mode=all&limit=60").then((value) {
-          yipee.value.addAll(value["illusts"]);
+        id++;
+        pxRequest("https://www.pixiv.net/ajax/discovery/artworks?mode=all&limit=60",extraData: {"id":id}).then((value) {
+          yipee.value.addAll(value["thumbnails"]["illust"]);
           yipee.notifyListeners();
         });
       }

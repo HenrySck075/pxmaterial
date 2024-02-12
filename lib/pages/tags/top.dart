@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:sofieru/json/ajax/top/illust/Artwork.dart';
 import 'package:sofieru/shared.dart';
-import 'package:go_router/go_router.dart';
 
 class MainPage extends StatefulWidget {
   final String tag;
@@ -41,8 +41,9 @@ class _MainPageState extends State<MainPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             if (popular.isNotEmpty) header("Popular artworks"),
-            if (popular.isNotEmpty) SizedBox(height: 120,child: ListView( 
-              children: [...popular.map((e) => PxArtwork(data: e)),]
+            if (popular.isNotEmpty) SizedBox(height: 280,child: ListView( 
+              scrollDirection: Axis.horizontal,
+              children: [...popular.map((e) => PxArtwork(data: Artwork.fromJson(e))),]
             ),),
             const Text("Illustrations and Manga",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             Padding(

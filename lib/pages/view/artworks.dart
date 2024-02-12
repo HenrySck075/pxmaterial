@@ -24,56 +24,6 @@ class ArtworkPage extends StatefulWidget {
   State<ArtworkPage> createState() => _ArtworkPageState();
 }
 
-/// So the plan is get the data of each individual frame in the zip file
-/// so that we can save some data from downloading all of them over and over again whenever we're requested to do so (e.g. user reenter the page)
-class UgoiraDisplayer extends StatefulWidget {
-  final List<dynamic> frames;
-  final String url;
-  UgoiraDisplayer({super.key, required this.frames, required this.url});
-  @override
-  State<UgoiraDisplayer> createState() => _UgoiraDisplayerState();
-}
-
-class _UgoiraDisplayerState extends State<UgoiraDisplayer> with TickerProviderStateMixin {
-  late final AnimationController _animCtrl;
-  late final int total;
-  List<Image> widgetFrames = [];
-  ValueNotifier curImg = ValueNotifier<Widget>(const Center(child: Text("(flickers may occur)"),));
-  @override 
-  void initState() {
-    super.initState();
-    total = widget.frames.fold(0, (p, c) => p+(c["delay"] as int));
-    void scheduleUpdate(int delay)=>Timer(Duration(milliseconds:delay), () => _animCtrl.value=_animCtrl.value==widget.frames.length-1?0:_animCtrl.value+1);
-    _animCtrl = AnimationController(
-      vsync: this,
-      upperBound: widget.frames.length+0.0,
-      value: 0.5 // A presses
-    )..addListener(() {
-      var i = widget.frames[_animCtrl.value.round()];
-      if (_animCtrl.value == widgetFrames.length) {
-        pxRequestUnprocessed(widget.url,otherHeaders: {"Range":"bytes=${i['offset']}-${i['offset']+i['length']-1}"}).then((value) {
-          widgetFrames.add(Image.memory(Uint8List.fromList(arch.ArchiveFile(
-            i["centralDirectory"].sublist(46,46+10).toString(), // name 
-            i["centralDirectory"].sublist(20,23).fold(0,(p,c)=>p+c), // size 
-            value.body,
-            i["centralDirectory"].sublist(10,10).fold(0,(p,c)=>p+c), // compression method (usually deflate but i dont trust pixiv)
-          ).content)));
-          curImg.value = widgetFrames[_animCtrl.value.round()];
-          scheduleUpdate(i["delay"]);
-        });
-      } else {
-        curImg.value = widgetFrames[_animCtrl.value.round()];
-        scheduleUpdate(i["delay"]);
-      }
-    });
-    _animCtrl.value=0; // start the loop
-  }
-  @override 
-  Widget build(ctx) {
-    return ListenableBuilder(listenable: curImg, builder: (ctx,w)=>curImg.value,);
-  }
-}
-
 class _ArtworkPageState extends State<ArtworkPage> {
   late final String id;
   String authorId = "";
@@ -191,44 +141,33 @@ class _ArtworkPageState extends State<ArtworkPage> {
                     final List<dynamic> frames = data["frames"];
                     ///   offset  length (look into the source code)
                     return futureWidget(
-                      future: pxRequestUnprocessed(data["src"],method: "HEAD").then((re) { 
-                        var start = int.parse(re.headers['content-length']!)-30000;
-                        var end = int.parse(re.headers['content-length']!)-1;
-                        return pxRequestUnprocessed(data["src"],otherHeaders: {"Range":"bytes=$start-$end","Upgrade-Insecure-Requests":"1"});
-                      }), // the central directory, will be very important
+                      future: pxRequestUnprocessed(data["src"],otherHeaders: {"Upgrade-Insecure-Requests":"1"}), 
                       builder: (ctx,snap) {
-                        var cddata = snap.data!.bodyBytes;
-
-                        int cdOffset = cddata.indexOf(80);
-                        while (true) {
-                          var the = cddata.sublist(cdOffset,cdOffset+4);
-                          if (the[0]==80&&the[1]==75&&the[2]==1&&the[3]==2) break;
-                          cdOffset = cddata.indexOf(80,cdOffset+1);
+                        var zipContent = snap.data!.bodyBytes;
+                        final archive = arch.ZipDecoder().decodeBytes(zipContent);
+                        final curImg = ValueNotifier<Widget>(const SizedBox(width:1,height:1,));
+                        final total = frames.map((r)=>r["delay"] as int).toList().fold(0,(p,c)=>p+c);
+                        List<Image> widgetFrames = [];
+                        for (int i = 0; i < frames.length; i++) {
+                          var element = frames[i];
+                          widgetFrames.add(Image.memory(archive.findFile(element["file"])!.content));              
                         }
-                        int cdStartOffset = cdOffset;
-                        List<int> frameOffsets = [];
-                        int i = 0;
-                        while (true) {
-                          if (cdOffset==-1) break;
-                          var the = cddata.sublist(cdOffset,cdOffset+4);
-                          // check if its eocd
-                          if (the[0]==80&&the[1]==75&&the[2]==5&&the[3]==6) break;
-                          frameOffsets.add(cddata.sublist(cdOffset+42,cdOffset+46).fold(0, (previousValue, element) => previousValue+element));
-                          frames[i]["centralDirectory"] = cddata.sublist(cdOffset,cdOffset+56);
-                          cddata = cddata.sublist(cdOffset+57);
-                          i+=1;
-                          cdOffset = cddata.indexOf(80);
-                        }
-                        frameOffsets.add(cdStartOffset);
-                        for (int i = 0; i < frameOffsets.length-1; i++) {
-                          frames[i]["offset"] = frameOffsets[i];
-                          frames[i]["length"] = frameOffsets[i+1]-frameOffsets[i];
-                        }
-                        return UgoiraDisplayer(frames: frames,url:data["src"]);
+                        Timer.periodic(Duration(milliseconds:total), (timer) { 
+                          int ts = 0;
+                          for (int i = 0; i < frames.length; i++) {
+                            var element = frames[i];
+                            ts+=element["delay"]! as int;
+                            Timer(Duration(milliseconds: ts),()=>curImg.value=widgetFrames[i]);
+                          }
+                        });
+                        return futureWidget(future: Future.wait(widgetFrames.map((e)=>precacheImage(e.image, ctx))), builder: (ctx,s)=>ListenableBuilder(listenable: curImg, builder: (ctx,w)=>curImg.value,));
                       } 
                     );
                   })
-              )],
+              ),
+              const Center(child: Text("(flickers may occur)"),)
+              ],
+              
               const Divider(),
               // Toolbar
               Row(

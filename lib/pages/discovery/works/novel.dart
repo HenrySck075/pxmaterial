@@ -15,7 +15,7 @@ class _NovelState extends State<Novel> {
     _scsvCtrl.addListener(() {
       if (_scsvCtrl.position.pixels>=_scsvCtrl.position.maxScrollExtent) {
         pxRequest("https://www.pixiv.net/ajax/discovery/novels?mode=all&limit=30").then((value) {
-          yipee.value.addAll(value["recommendedNovelIds"]);
+          yipee.value.addAll(value["thumbnails"]["novel"]);
           yipee.notifyListeners();
         });
       }

@@ -51,7 +51,12 @@ FutureBuilder<T> futureWidget<T>({required Future<T>? future, required AsyncWidg
     return builder(ctx, snap);
   });
 }
-CachedNetworkImage pxImage(String url, {bool includeCircle = false, double? width, double? height}) => CachedNetworkImage(imageUrl: url, width: width, height: height, httpHeaders: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, placeholder: includeCircle?(context, url) => const CircularProgressIndicator():null,);
+
+
+CachedNetworkImage pxImage(String url, {bool includeCircle = false, double? width, double? height}) => CachedNetworkImage(
+  imageUrl: url, width: width, height: height, httpHeaders: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, placeholder: includeCircle?(context, url) => const CircularProgressIndicator():null,
+  errorWidget: (ctx,u,err)=>pxImage(url,includeCircle: includeCircle, width: width,height: height),
+);
 
 Image pxImageFlutter(String url, {bool includeCircle = false, int? width, int? height}) => Image.network(url, width: tryCast<double>(width), height: tryCast<double>(height), cacheHeight: height, cacheWidth: width, headers: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, loadingBuilder:  includeCircle?(ctx,w,imgChunk) => const CircularProgressIndicator():null,);
 

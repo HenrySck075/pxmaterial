@@ -153,7 +153,7 @@ var client = http.Client();
 Future<void> wait(FutureOr<bool> Function(dynamic) predicate) async => await Future.doWhile(() => Future.delayed(const Duration(milliseconds: 500)).then(predicate));
 /// [pxRequest] without postprocess
 Future<http.Response> pxRequestUnprocessed(String url, {
-  Map<String, String>? otherHeaders, String method="GET", Object? body, bool noCache = false, 
+  Map<String, String>? otherHeaders, String method="GET", Object? body, bool noCache = false, Map<String, dynamic> extraData = const {},
   void Function(double percent, int total)? onProgress
 }) async {
   if (otherHeaders == null) {otherHeaders = {};}
@@ -169,13 +169,11 @@ Future<http.Response> pxRequestUnprocessed(String url, {
   // print(method);
   // print(otherHeaders);
   headers.addAll(otherHeaders);
-  if (_cachedResponse.containsKey(url) && !noCache && _cachedResponse[url]!.$1["headers"] == headers) {return Future.value(_cachedResponse[url]!.$2);}// we dont really needs to null check but dart sucks so
+  if (
+    _cachedResponse.containsKey(url) && !noCache && // cache check
+    _cachedResponse[url]!.$1["headers"] == headers && _cachedResponse[url]!.$1["extraData"] == extraData // extra info check
+  ) {return Future.value(_cachedResponse[url]!.$2);}// we dont really needs to null check but dart sucks so
   
-
-  if (kIsWeb) {
-    url="http://localhost:8072/request?url=${Uri.encodeFull(url)}";
-    headers = {"headers":jsonEncode(headers)};
-  }
 
   Uri parsedUrl = Uri.parse(url);
 
@@ -196,16 +194,17 @@ Future<http.Response> pxRequestUnprocessed(String url, {
   
   return (_cachedResponse[url] = (
     {
-      "headers": headers
+      "headers": headers,
+      "extraData": extraData
     },
     http.Response(String.fromCharCodes(bytes), resp.statusCode, headers: resp.headers)
   )).$2;
 }
-Future<dynamic> pxRequest(String url, {Map<String, String>? otherHeaders, String method="GET", Object? body, bool noCache = false}) {
+Future<dynamic> pxRequest(String url, {Map<String, String>? otherHeaders, String method="GET", Object? body, bool noCache = false, Map<String, dynamic> extraData = const {}}) {
   otherHeaders ??= {};
   url = '${url+(url.contains("?")?"&":"?")}lang=en&version=$apiVersion';
   // if (cooki == "") await wait((_) => cooki=="");
-  var d = pxRequestUnprocessed(url,otherHeaders: otherHeaders..addEntries([MapEntry("cookie", cooki.trim())]), method: method, body:body, noCache: noCache).then((v){
+  var d = pxRequestUnprocessed(url,otherHeaders: otherHeaders..addEntries([MapEntry("cookie", cooki.trim())]), method: method, body:body, noCache: noCache, extraData: extraData).then((v){
     return jsonDecode(v.body)["body"];
   });
   return d;
