@@ -31,7 +31,9 @@ Artwork _$ArtworkFromJson(Map<String, dynamic> json) => Artwork(
       isUnlisted: json['isUnlisted'] as bool,
       isMasked: json['isMasked'] as bool,
       aiType: json['aiType'] as int,
-      urls: json['urls']!=null?Map<String, String>.from(json['urls'] as Map):null,
+      urls: (json['urls'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
       profileImageUrl: json['profileImageUrl'] as String,
     );
 

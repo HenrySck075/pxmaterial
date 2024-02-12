@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sofieru/json/ajax/shared/fucking.dart';
 part 'Request.g.dart';
 
 @JsonSerializable()

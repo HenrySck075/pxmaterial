@@ -42,7 +42,7 @@ IllustTop _$IllustTopFromJson(Map<String, dynamic> json) => IllustTop(
       thumbnails:
           _Thumbnails.fromJson(json['thumbnails'] as Map<String, dynamic>),
       users: (json['users'] as List<dynamic>)
-          .map((e) => User.fromJson(e as Map<String, dynamic>))
+          .map((e) => PartialUser.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

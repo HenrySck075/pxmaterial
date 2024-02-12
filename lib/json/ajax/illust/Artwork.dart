@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sofieru/json/operator_bracket.dart';
+import 'BasedOn.dart';
 import '../shared/TitleCaptionTranslation.dart';
 part 'Artwork.g.dart';
 
@@ -245,7 +246,7 @@ class Artwork {
   final int bookStyle;
   final bool isHowto;
   final bool isOriginal;
-  final List<dynamic> imageResponseOutData;
+  final List<BasedOn> imageResponseOutData;
   final List<dynamic> imageResponseData;
   final int imageResponseCount;
   final String? pollData;

@@ -1,4 +1,4 @@
-import '../../user/User.dart' show User;
+import '../../user/PartialUser.dart' show PartialUser;
 import '../../novel/Novel.dart' show Novel;
 import 'Artwork.dart' show Artwork;
 import '../../request/Request.dart' show Request;
@@ -34,7 +34,7 @@ class IllustTop {
   final List<Request> requests;
   final List<dynamic> sketchLives;
   final _Thumbnails thumbnails;
-  final List<User> users;
+  final List<PartialUser> users;
   IllustTop({
     required this.tagTranslation,
     required this.boothItems,

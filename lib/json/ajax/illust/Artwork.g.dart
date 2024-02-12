@@ -237,10 +237,12 @@ Artwork _$ArtworkFromJson(Map<String, dynamic> json) => Artwork(
       commentCount: json['commentCount'] as int,
       responseCount: json['responseCount'] as int,
       viewCount: json['viewCount'] as int,
-      bookStyle: json["bookStyle"] is int?json['bookStyle']:int.parse(json["bookStyle"]),
+      bookStyle: json['bookStyle'] is int?json['bookStyle']:int.parse(json['bookStyle']),
       isHowto: json['isHowto'] as bool,
       isOriginal: json['isOriginal'] as bool,
-      imageResponseOutData: json['imageResponseOutData'] as List<dynamic>,
+      imageResponseOutData: (json['imageResponseOutData'] as List<dynamic>)
+          .map((e) => BasedOn.fromJson(e as Map<String, dynamic>))
+          .toList(),
       imageResponseData: json['imageResponseData'] as List<dynamic>,
       imageResponseCount: json['imageResponseCount'] as int,
       pollData: json['pollData'] as String?,

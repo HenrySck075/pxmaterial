@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:sofieru/json/ajax/illust/Artwork.dart';
 import 'package:sofieru/json/ajax/top/illust/Artwork.dart' as alite;
-import 'package:sofieru/json/ajax/user/User.dart';
+import 'package:sofieru/json/ajax/user/PartialUser.dart';
 import 'package:sofieru/shared.dart';
 import 'shared.dart';
 import 'package:http/http.dart' as http show Response;
@@ -210,7 +210,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
                 // google said this is bad, but idk
                 future: pxRequest("https://www.pixiv.net/ajax/user/${data.userId}?full=0"), 
                 builder: (ctx, snap) {
-                  var d = User.fromJson(snap.data!);
+                  var d = PartialUser.fromJson(snap.data!);
                   return GestureDetector(
                     onTap: ()=>showDialog(
                       context: context, 
