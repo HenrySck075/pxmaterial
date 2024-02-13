@@ -31,13 +31,23 @@ Map<String, dynamic> _$BackgroundToJson(_Background instance) =>
     };
 
 _Workspace _$WorkspaceFromJson(Map<String, dynamic> json) => _Workspace(
+      userWorkspaceMonitor: json['userWorkspaceMonitor'] as String?,
       userWorkspaceDesktop: json['userWorkspaceDesktop'] as String?,
       userWorkspacePc: json['userWorkspacePc'] as String?,
-      userWorkspaceMonitor: json['userWorkspaceMonitor'] as String?,
       userWorkspaceTool: json['userWorkspaceTool'] as String,
       userWorkspaceTablet: json['userWorkspaceTablet'] as String,
       userWorkspaceMouse: json['userWorkspaceMouse'] as String?,
     );
+
+Map<String, dynamic> _$WorkspaceToJson(_Workspace instance) =>
+    <String, dynamic>{
+      'userWorkspaceMonitor': instance.userWorkspaceMonitor,
+      'userWorkspaceDesktop': instance.userWorkspaceDesktop,
+      'userWorkspacePc': instance.userWorkspacePc,
+      'userWorkspaceTool': instance.userWorkspaceTool,
+      'userWorkspaceTablet': instance.userWorkspaceTablet,
+      'userWorkspaceMouse': instance.userWorkspaceMouse,
+    };
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
       userId: json['userId'] as String,
@@ -60,8 +70,8 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       followedBack: json['followedBack'] as bool,
       comment: json['comment'] as String,
       commentHtml: json['commentHtml'] as String,
-      webpage: json['webpage']==null?null:(json['webpage'] as String),
-      social: json['social'] is List?null:(json['social'] as Map<String, dynamic>).map(
+      webpage: json['webpage'] as String?,
+      social: (json['social'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, _SocialMedia.fromJson(e as Map<String, dynamic>)),
       ),
       canSendMessage: json['canSendMessage'] as bool,

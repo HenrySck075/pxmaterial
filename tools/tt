@@ -1,58 +1,70 @@
  {
-    "userId": "540349",
-    "name": "ちやみ@リクエスト募集中",
-    "image": "https://i.pximg.net/user-profile/img/2021/06/21/17/42/56/20911965_f0c7bfc99c7eb738daad69b2d2123190_50.jpg",
-    "imageBig": "https://i.pximg.net/user-profile/img/2021/06/21/17/42/56/20911965_f0c7bfc99c7eb738daad69b2d2123190_170.jpg",
-    "premium": false,
-    "isFollowed": false,
-    "isMypixiv": false,
-    "isBlocking": false,
-    "background": {
-        "repeat": null,
-        "color": null,
-        "url": "https://i.pximg.net/c/1920x960_80_a2_g5/background/img/2021/06/02/11/06/04/540349_c7ef1ed50d91a9fe5f877aea2210056d.jpg",
-        "isPrivate": false
-    },
-    "sketchLiveId": null,
-    "partial": 1,
-    "acceptRequest": true,
-    "sketchLives": [],
-    "following": 181,
-    "mypixivCount": 38,
-    "followedBack": false,
-    "comment": "絵を描きます、未熟なエロ漫画家。\r\n現在【COMIC阿吽】で漫画を描いてます。\r\nサーグル【無口遮欄】で同人活動してます。\r\nよろしくお願いしますヽ(*´▽`*)ﾉ\r\nメール：chiyami@gmail.com \r\n通販ページ\r\nとら https://goo.gl/7skJtS  \r\nメロン https://goo.gl/rbyLai",
-    "commentHtml": "絵を描きます、未熟なエロ漫画家。<br />現在【COMIC阿吽】で漫画を描いてます。<br />サーグル【無口遮欄】で同人活動してます。<br />よろしくお願いしますヽ(*´▽`*)ﾉ<br />メール：chiyami@gmail.com <br />通販ページ<br />とら <a href=\"/jump.php?https%3A%2F%2Fgoo.gl%2F7skJtS\" target=\"_blank\">https://goo.gl/7skJtS</a>  <br />メロン <a href=\"/jump.php?https%3A%2F%2Fgoo.gl%2FrbyLai\" target=\"_blank\">https://goo.gl/rbyLai</a>",
-    "webpage": "https://www.facebook.com/chiyamiFB/",
-    "social": {
-        "twitter": {
-            "schema": "SocialMedia"
+    "request": {
+        "requestId": "56153",
+        "requestStatus": "complete",
+        "requestProposal": {
+            "requestOriginalProposal": "幼女が箱型のミミックに捕らえられ、大量の催淫ガスが充満した箱の中に両膝をついた状態で拘束され、ミミックの舌が膣内をかき回し強制的に絶頂させられ大好物のトロトロの愛液が大量に溢れ出ているシーンを希望します。\n舌が引き抜かれ、大量の愛液が糸を引いて舌に絡みついている差分があると嬉しいです。\n服はある程度溶かされ、純白ぱんつが脱がされて他の周りの舌に舐められている感じがあると良いです。\nキャラクターは描きやすいもので大丈夫です。\n射精などの行為は無しでお願いします。",
+            "requestOriginalProposalLang": "ja",
+            "requestTranslationProposal": [
+                {
+                    "requestProposal": "I would like to have a scene where a young girl is captured by a box-shaped mimic and strapped down on both knees inside a box filled with a large amount of aphrodisiac gas, and the mimic's tongue stirs her vagina, forcing her to climax and overflowing with her favorite turgid love juice.\nI would be happy if there is a difference where the tongue is pulled out and a lot of love juice is twined around the tongue with a string.\nClothes are melted to some extent, and it is good if there is a feeling that pure white panties are taken off and licked by the tongue around others.\nThe character can be drawn easily.\nPlease no ejaculation or other actions.",
+                    "requestProposalLang": "en"
+                }
+            ]
         },
-        "pawoo": {
-            "schema": "SocialMedia"
+        "requestTags": [
+            "触手",
+            "愛液",
+            "幼女"
+        ],
+        "requestAdultFlg": true,
+        "requestPrice": 0,
+        "role": "others",
+        "postWork": null,
+        "plan": {
+            "currentPlanId": null,
+            "planId": "58087",
+            "creatorUserId": "987497",
+            "planAcceptRequestFlg": false,
+            "planStandardPrice": 10000,
+            "planTitle": {
+                "planOriginalTitle": "Illustrations Terms",
+                "planOriginalTitleLang": "ja",
+                "planTranslationTitle": []
+            },
+            "planDescription": {
+                "planOriginalDescription": "始めてみました！オリジナルだと描きやすいですー！\nイラストの傾向などはpixivの作品を見てね",
+                "planOriginalDescriptionHtml": "始めてみました！オリジナルだと描きやすいですー！<br />イラストの傾向などはpixivの作品を見てね",
+                "planOriginalLang": "ja",
+                "planTranslationDescription": {
+                    "en": {
+                        "planDescription": "I've just started! It's easy to draw original works!\nPlease check out my pixiv work for more information about my illustrations.",
+                        "planDescriptionHtml": "I&#39;ve just started! It&#39;s easy to draw original works!<br />Please check out my pixiv work for more information about my illustrations.",
+                        "planLang": "en"
+                    }
+                }
+            },
+            "planAcceptAdultFlg": true,
+            "planAcceptAnonymousFlg": true,
+            "planAcceptIllustFlg": true,
+            "planAcceptUgoiraFlg": false,
+            "planAcceptMangaFlg": false,
+            "planAcceptNovelFlg": false,
+            "planCoverImage": null,
+            "planAiType": 0
         }
     },
-    "canSendMessage": true,
-    "region": {
-        "schema": "Region"
+    "creator": {
+        "userId": "987497",
+        "userName": "雨美すずめ2日目東H-10b",
+        "profileImg": "https://i.pximg.net/user-profile/img/2020/08/30/10/59/11/19275513_34c56eb8b054bec9fc230f70aea09424_170.jpg"
     },
-    "age": {
-        "schema": "PrivacyInfo"
+    "fan": null,
+    "collaborateStatus": {
+        "collaborating": false,
+        "collaborateAnonymousFlg": false,
+        "collaboratedCnt": 0,
+        "userSamples": []
     },
-    "birthDay": {
-        "schema": "PrivacyInfo"
-    },
-    "gender": {
-        "schema": "PrivacyInfo"
-    },
-    "job": {
-        "schema": "PrivacyInfo"
-    },
-    "workspace": {
-        "userWorkspaceMonitor": "DELL",
-        "userWorkspaceTool": "SAI、CLIP",
-        "userWorkspaceTablet": "WACOM",
-        "userWorkspaceMouse": "Logitech"
-    },
-    "official": false,
-    "group": null
+    "editable": false
 }

@@ -259,7 +259,9 @@ Artwork _$ArtworkFromJson(Map<String, dynamic> json) => Artwork(
       titleCaptionTranslation: TitleCaptionTranslation.fromJson(
           json['titleCaptionTranslation'] as Map<String, dynamic>),
       isUnlisted: json['isUnlisted'] as bool,
-      request: json['request'] as String?,
+      request: json['request'] == null
+          ? null
+          : RequestLite.fromJson(json['request'] as Map<String, dynamic>),
       commentOff: json['commentOff'] as int,
       aiType: json['aiType'] as int,
       reuploadDate: json['reuploadDate'] as String?,

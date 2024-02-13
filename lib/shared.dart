@@ -149,6 +149,9 @@ Iterable<T> enumerate<T, E>(Iterable<E> iter, T Function(int index, E e) cooker)
 }
 
 Map<String, (Map<String, dynamic>,http.Response)> _cachedResponse = {};
+void clearRequestCache(){
+  _cachedResponse = {};
+}
 var client = http.Client();
 Future<void> wait(FutureOr<bool> Function(dynamic) predicate) async => await Future.doWhile(() => Future.delayed(const Duration(milliseconds: 500)).then(predicate));
 /// [pxRequest] without postprocess
@@ -171,7 +174,7 @@ Future<http.Response> pxRequestUnprocessed(String url, {
   headers.addAll(otherHeaders);
   if (
     _cachedResponse.containsKey(url) && !noCache && // cache check
-    _cachedResponse[url]!.$1["headers"] == headers && _cachedResponse[url]!.$1["extraData"] == extraData // extra info check
+    mapEquals(_cachedResponse[url]!.$1["headers"], headers) && mapEquals(_cachedResponse[url]!.$1["extraData"], extraData) // extra info check
   ) {return Future.value(_cachedResponse[url]!.$2);}// we dont really needs to null check but dart sucks so
   
 

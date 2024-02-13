@@ -102,7 +102,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
         authArtworkIds = [...data.userIllusts.keys];
         illustIndex = authArtworkIds.indexOf(id);
         updateRange(illustIndex-7, illustIndex+7);
-        setTitle(data.alt+" - pixiv");
+        setTitle("${data.alt} - pixiv");
         return SingleChildScrollView(
           controller: _scsvCtrl,
           child: Column(
@@ -136,7 +136,6 @@ class _ArtworkPageState extends State<ArtworkPage> {
                 child: futureWidget(
                   future: pxRequest("https://www.pixiv.net/ajax/illust/$id/ugoira_meta"), 
                   builder: (ctx,snap){
-                    
                     var data = snap.data! as Map<String, dynamic>;
                     final List<dynamic> frames = data["frames"];
                     ///   offset  length (look into the source code)
@@ -185,9 +184,9 @@ class _ArtworkPageState extends State<ArtworkPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(data.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
+                  Text(data.titleCaptionTranslation.workTitle??data.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
                   const SizedBox(height: 10,),
-                  HtmlWidget(data.description,onTapUrl: HtmlUrlLauncher),
+                  HtmlWidget(data.titleCaptionTranslation.workCaption??data.description,onTapUrl: HtmlUrlLauncher),
                   const SizedBox(height: 10,),
                   Wrap(
                     spacing: 8,

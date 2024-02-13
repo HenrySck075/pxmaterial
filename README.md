@@ -4,22 +4,20 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 ## Known issues
-- Some illustrations does not have their thumbnail displaying, instead it's a box
-+ It's also kinda weird for me, like we should be able to spam the CDN with no issues whatsoever.
-the error is `Connection closed before full header was received`.
-
-You shouldn't really care about it tho since if you reload it will just load the thumbnail like normal
+- Some illustrations does not have their thumbnail displaying as pixiv randomly closes the cdn connection
 TODO: retry
-- newly-implemented ugoira displaying method currently doesn't work
+- ~~newly-implemented ugoira displaying method currently doesn't work~~ i deleted it. Its last existence is on [this commit](https://github.com/HenrySck075/pxmaterial/commit/98ac1836241f2a8908af751faf8882d349021e9e)
+- `keyReservation.contains(key) is not true`
 
 ## TODO
+- Figure out how to reasonably add more animations 
 - Skeletonizer
 
 # anstion and queswer
 ## Q: why is the project internally called "sofieru" (1) and who is she (2)
 A: 1. i forgor :skull: 2. [this is her](https://www.youtube.com/@sofieruvtuber)
 
-## Q: is the question above an advertisement
+## Q: 
 A: 
 
 ## Q: hi 

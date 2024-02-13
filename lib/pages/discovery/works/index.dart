@@ -16,7 +16,10 @@ class _WorksState extends State<Works> with TickerProviderStateMixin{
   }
   @override 
   Widget build(ctx) {
-    _tabCtrl.index=ture.indexOf(currentRouteURI().path);
+    int idx = ture.indexOf(currentRouteURI().path);
+    if (idx==-1) idx=0;
+    _tabCtrl.index=idx;
+    
     return NestedScrollView(
       headerSliverBuilder: (ctx,what) => [
         SliverToBoxAdapter(child: TabBar(

@@ -34,7 +34,7 @@ void main() async {
   FlutterError.onError = dumpErrorToConsole;
   updateCookie(await rootBundle.loadString("assets/cookie"));
   updateRouter(GoRouter(
-    initialLocation: "/terminal",
+    initialLocation: kDebugMode?"/terminal":"/",
     observers: [routeObserver],
     errorBuilder: (n,s)=>ShellPage(
       child:Center(
@@ -205,7 +205,6 @@ class _ShellPageState extends State<ShellPage> {
     "check steam",
     "dash spider jumpscare",
     "really the mikeneko & mafu stuff is crazy (gd reference), if someone asked me who i will support i will say mike and also convinced them with a game theory-quality explaination",
-    "dont trust the guy above for the 'game theory-quality explaination' part he has none :nerd:",
     "limbo",
     "by MindCap and more",
     "bah",
@@ -285,7 +284,8 @@ class _ShellPageState extends State<ShellPage> {
             Clipboard.setData(ClipboardData(text: currentRouteURI().path)).then((value) => ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Current path URL copied to clipboard! Debug: ${currentRouteURI().path}"))
             ));
-          }, icon: const Icon(Icons.link))
+          }, icon: const Icon(Icons.link)),
+          const IconButton(onPressed: clearRequestCache, icon:Icon(Icons.refresh), tooltip: "Reset request cache (DEBUG)",)
         ],
       ),
       backgroundColor:Theme.of(context).colorScheme.primaryContainer,

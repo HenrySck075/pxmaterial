@@ -1,6 +1,8 @@
 // Widgets & builder
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_context_menu/flutter_context_menu.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sofieru/json/ajax/top/illust/Artwork.dart';
 import 'package:sofieru/json/ajax/user/User.dart';
@@ -146,114 +148,123 @@ class _PxArtworkState extends State<PxArtwork> {
   Widget build(context) {
     var id = widget.data.id;
     // if (int.tryParse(id)==null) {return Center(child: Text("invalid id"),);}
-    return SizedBox(
-      width: 190,
-      height: 285,
-      child: Card(
-        clipBehavior: Clip.hardEdge,
-        child:InkWell(
-          borderRadius:BorderRadius.circular(20),
-          splashColor: Colors.blue.withAlpha(30),
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 40),
-            child: Column( 
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Stack(
-                  children: [
-                    GestureDetector(
-                      onTap: (){navigate("/artworks/$id");},
-                      child:pxImage(widget.data.url),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: GestureDetector(
-                        onTap:(){
-                          pxRequest("https://www.pixiv.net/ajax/illusts/bookmarks/add",body: {"illust_id":id, "comment":"", "restrict": 0, "tags": []},method: "post");
-                          setState(() {
-                            bookmarked = !bookmarked;
-                            print("imagine bookmarked");
-                          });
-                        },
-                        child:Icon(Icons.favorite,color: bookmarked?Colors.red:Colors.white),
+    return ContextMenuRegion(
+      contextMenu:ContextMenu(
+        entries: [
+          MenuItem(label: "Copy URL", icon: Icons.link_outlined,onSelected: ()=>Clipboard.setData(ClipboardData(text: "/artworks/$id")).then((value) => ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Path copied to clipboard!"))
+          ))),
+        ]
+      ), 
+      child: SizedBox(
+        width: 190,
+        height: 285,
+        child: Card(
+          clipBehavior: Clip.hardEdge,
+          child:InkWell(
+            borderRadius:BorderRadius.circular(20),
+            splashColor: Colors.blue.withAlpha(30),
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 40),
+              child: Column( 
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Stack(
+                    children: [
+                      GestureDetector(
+                        onTap: (){navigate("/artworks/$id");},
+                        child:pxImage(widget.data.url),
                       ),
-                    ),
-                    const Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Icon(Icons.favorite_outline,color:Colors.black)
-                    ),
-                    if (widget.data.illustType==2) const Positioned.fill(child: Align(alignment: Alignment.center,child: Icon(Icons.play_circle_outlined,size: 24,),)),
-                    if (widget.rank != 0) Positioned(
-                      top:4, left:4,
-                      child:SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: Container(
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color:widget.rank==1?Colors.yellow.shade700:widget.rank==2?Colors.grey[300]:widget.rank==3?Colors.brown:Colors.grey.withOpacity(0.5)),
-                          child:Center(child: Text(widget.rank.toString())), 
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: GestureDetector(
+                          onTap:(){
+                            pxRequest("https://www.pixiv.net/ajax/illusts/bookmarks/add",body: {"illust_id":id, "comment":"", "restrict": 0, "tags": []},method: "post");
+                            setState(() {
+                              bookmarked = !bookmarked;
+                              print("imagine bookmarked");
+                            });
+                          },
+                          child:Icon(Icons.favorite,color: bookmarked?Colors.red:Colors.white),
                         ),
+                      ),
+                      const Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Icon(Icons.favorite_outline,color:Colors.black)
+                      ),
+                      if (widget.data.illustType==2) const Positioned.fill(child: Align(alignment: Alignment.center,child: Icon(Icons.play_circle_outlined,size: 24,),)),
+                      if (widget.rank != 0) Positioned(
+                        top:4, left:4,
+                        child:SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: Container(
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color:widget.rank==1?Colors.yellow.shade700:widget.rank==2?Colors.grey[300]:widget.rank==3?Colors.brown:Colors.grey.withOpacity(0.5)),
+                            child:Center(child: Text(widget.rank.toString())), 
+                          ),
+                        )
+                      ),
+                      if (widget.data.xRestrict == 1) Positioned(
+                        top:4, left:4,
+                        child:SizedBox(
+                          width: 36,
+                          height: 24,
+                          child: Container(
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color:const Color(0xFFFF4060)),
+                            child:const Center(child: Text("R-18",style: TextStyle(color: Colors.white))), 
+                          ),
+                        )
+                      ),
+                      if (widget.data.pageCount!=1) Positioned(
+                        top:4,right:4,
+                        child: SizedBox(
+                          width:24,
+                          height:24,
+                          child: Container(
+                            decoration: BoxDecoration(color: Colors.grey.withOpacity(0.5),borderRadius: BorderRadius.circular(4)),
+                            child: Center(child: Text(widget.data.pageCount.toString()))
+                          ),
+                        )
                       )
-                    ),
-                    if (widget.data.xRestrict == 1) Positioned(
-                      top:4, left:4,
-                      child:SizedBox(
-                        width: 36,
-                        height: 24,
-                        child: Container(
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color:const Color(0xFFFF4060)),
-                          child:const Center(child: Text("R-18",style: TextStyle(color: Colors.white))), 
+                    ],
+                  ),
+                  const Spacer(),
+                  // weak ahh check ik
+                  Flexible(
+                    flex: 4,
+                    child: ListTile(
+                      title: Text(
+                        widget.data.titleCaptionTranslation.workTitle??widget.data.title,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      subtitle: GestureDetector(
+                        onTap: (){
+                          showDialog(context: context, builder: (b)=>AuthorInfo(userId: widget.data.userId,));
+                        },
+                        child: Row(
+                          children: [if (!currentRouteURI().path.startsWith("/users")) ...[
+                            CircleAvatar(backgroundImage: pxImageFlutter(widget.data.profileImageUrl).image),
+                            const SizedBox.square(dimension:10),
+                            Flexible(
+                              flex:4,
+                              child: Text(
+                                widget.data.userName,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          ] else ...[const SizedBox(height: 40,)]],
                         ),
-                      )
-                    ),
-                    if (widget.data.pageCount!=1) Positioned(
-                      top:4,right:4,
-                      child: SizedBox(
-                        width:24,
-                        height:24,
-                        child: Container(
-                          decoration: BoxDecoration(color: Colors.grey.withOpacity(0.5),borderRadius: BorderRadius.circular(4)),
-                          child: Center(child: Text(widget.data.pageCount.toString()))
-                        ),
-                      )
-                    )
-                  ],
-                ),
-                const Spacer(),
-                // weak ahh check ik
-                if (currentRouteURI().path.startsWith("/users")) Flexible(
-                  flex: 4,
-                  child: ListTile(
-                    title: Text(
-                      widget.data.titleCaptionTranslation.workTitle??widget.data.title,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    subtitle: GestureDetector(
-                      onTap: (){
-                        showDialog(context: context, builder: (b)=>AuthorInfo(userId: widget.data.userId,));
-                      },
-                      child: Row(
-                        children: [
-                          CircleAvatar(backgroundImage: pxImageFlutter(widget.data.profileImageUrl).image),
-                          const SizedBox.square(dimension:10),
-                          Flexible(
-                            flex:4,
-                            child: Text(
-                              widget.data.userName,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          )
-                        ],
                       ),
                     ),
                   ),
-                ),
-              ]
-            ),
+                ]
+              ),
+            )
           )
-        )
-      ),
+        ),
+      )
     );
   }
 }

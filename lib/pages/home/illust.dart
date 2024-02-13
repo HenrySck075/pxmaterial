@@ -59,6 +59,7 @@ class IllustsPage extends StatelessWidget {
         
         // sliver abuse
         Artwork getData(String id) => mainresp.thumbnails.illust[id]!; // it always exist unless you used a wrong variable
+        var random = math.Random();
         return RefreshIndicator(
           onRefresh: () async {
             data = ok(noCache: true);
@@ -93,9 +94,21 @@ class IllustsPage extends StatelessWidget {
                 header("Requested works"),
                 SizedBox(height:380,child:ListView( 
                   scrollDirection: Axis.horizontal,
-                  children: List.from(mainresp.requests.map((i)=>RequestedIllust(data: i,work:getData(i.postWork.postWorkId),getUser: (id)=>mainresp.users.firstWhere((element) => element.userId==id),))),
+                  children: mainresp.requests.map((i)=>RequestedIllust(data: i,work:getData(i.postWork.postWorkId),getUser: (id)=>mainresp.users.firstWhere((element) => element.userId==id),)).toList(),
                 )),
                 const SizedBox(height: 50,),
+                // Popular tags
+                header("Popular tags"),
+                const SizedBox(height: 8,),
+                SizedBox(height:287,child:ListView( 
+                  scrollDirection: Axis.horizontal,
+                  children: mainresp.page.tags.map((e) => Padding(padding: EdgeInsets.only(left: 2,right:2),child:Stack(children: [
+                    Image(image:ResizeImage(pxImageFlutter(getData(e.ids[random.nextInt(e.ids.length)].toString()).url).image,height: 287)),
+                    Positioned(bottom: 40,left: 2,right: 2,child: Text("#${e.tag}",style:const TextStyle(fontSize: 18,fontWeight:FontWeight.bold)),)
+                  ]))).toList()
+                )),
+                const SizedBox(height: 50,),
+                // Recommended works tagged #tag
                 ...concat2d(
                   List.from(mainresp.page.recommendByTag.map((e)=>[
                     GestureDetector( 

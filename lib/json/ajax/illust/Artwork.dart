@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sofieru/json/ajax/illust/RequestLite.dart';
 import 'package:sofieru/json/operator_bracket.dart';
 import 'BasedOn.dart';
 import '../shared/TitleCaptionTranslation.dart';
@@ -262,7 +263,7 @@ class Artwork {
   final _ExtraData extraData;
   final TitleCaptionTranslation titleCaptionTranslation;
   final bool isUnlisted;
-  final String? request;
+  final RequestLite? request;
   final int commentOff;
   final int aiType;
   final String? reuploadDate;
