@@ -31,15 +31,19 @@ class _Background {
 }
 @JsonSerializable()
 class _Workspace {
-  final String userWorkspaceMonitor;
+  final String? userWorkspaceMonitor;
+  final String? userWorkspaceDesktop;
+  final String? userWorkspacePc;
   final String userWorkspaceTool;
   final String userWorkspaceTablet;
-  final String userWorkspaceMouse;
+  final String? userWorkspaceMouse;
   _Workspace({
-    required this.userWorkspaceMonitor,
+    this.userWorkspaceMonitor,
+    this.userWorkspaceDesktop,
+    this.userWorkspacePc,
     required this.userWorkspaceTool,
     required this.userWorkspaceTablet,
-    required this.userWorkspaceMouse,
+    this.userWorkspaceMouse,
   });
 
   factory _Workspace.fromJson(Map<String, dynamic> json) => _$WorkspaceFromJson(json);

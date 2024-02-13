@@ -76,7 +76,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
                         children:[
                           data.comment!=""?GestureDetector(onTap:(){_toggleDesc.value = !_toggleDesc.value;},child:Text(_toggleDesc.value?data.comment:"View description")):const Text("No description provided"), 
                           const SizedBox(height:4),
-                          AuthorInfo_Medias(data),
+                          AuthorInfo_Medias(data,ctx),
                           const SizedBox(height:4),
                           Text("${data.following} following")
                         ]
@@ -92,13 +92,13 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
                   Tab(text:"Illusts"),
                   Tab(text:"Manga"),
                   Tab(text:"Novel"),
-                ],onTap: (v)=>navigate("/user/$id/${habibi[v]}"),
+                ],onTap: (v)=>navigate("/users/$id/${habibi[v]}"),
                 controller: _tabCtrl,
               ),content:const SizedBox(width:1,height:1,),
             )),
           ],
           // d
-          body:TabBarView(
+          body:Scaffold(body: TabBarView(
             controller: _tabCtrl,
             children: [
               HomePage(id:id),
@@ -107,7 +107,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
               Placeholder(),
               Placeholder(),
             ],
-          )
+          ))
         );
       });
     });

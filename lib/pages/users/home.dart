@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sofieru/json/ajax/top/illust/Artwork.dart';
 import 'package:sofieru/shared.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,17 +32,16 @@ class _HomePageState extends State<HomePage> {
                 returnSelf<List<MapEntry<dynamic, dynamic>>>((data["illusts"] is Map?data["illusts"].entries.toList():[]) // illust entries
                 ..addAll(data["manga"] is Map?data["manga"].entries:[]) // add all manga entries
                 ..sort((e1,e2)=>DateTime.parse(e1.value["createDate"]).millisecondsSinceEpoch.compareTo(DateTime.parse(e2.value["createDate"]).millisecondsSinceEpoch)) // sort
-                ).sublist(0,18).map((e) => PxArtwork(data: e.value)).toList()
+                ).sublist(0,18).map((e) => PxArtwork(data: Artwork.fromJson(e.value))).toList()
               )
             ],
             // similar to above
-            if (data["requestPostWorks"]["artworks"] is Map || data["novels"] is Map ) ...[
+            ...[
               header("Requested Works"),
               artworkGrid(
-                returnSelf<List<MapEntry<dynamic, dynamic>>>(data["requestPostWorks"]["artworks"].entries.toList()
-                ..addAll(data["requestPostWorks"]["novels"].entries)
-                ..sort((e1,e2)=>DateTime.parse(e1.value["createDate"]).millisecondsSinceEpoch.compareTo(DateTime.parse(e2.value["createDate"]).millisecondsSinceEpoch))
-                ).sublist(0,18).map((e) => PxArtwork(data: e.value)).toList()
+                returnSelf<List<dynamic>>(data["requestPostWorks"]["artworks"].toList()
+                ..sort((e1,e2)=>DateTime.parse(e1["createDate"]).millisecondsSinceEpoch.compareTo(DateTime.parse(e2["createDate"]).millisecondsSinceEpoch))
+                ).map((e) => PxArtwork(data: Artwork.fromJson(e))).toList()
               )
             ],
           ]

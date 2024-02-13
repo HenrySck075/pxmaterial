@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sofieru/json/ajax/top/illust/Artwork.dart';
 import 'package:sofieru/json/ajax/user/User.dart';
-import 'package:sofieru/shared.dart' show pxRequest, tryCast, navigate, JSON;
+import 'package:sofieru/shared.dart' show pxRequest, tryCast, navigate, JSON, currentRouteURI;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -220,8 +220,9 @@ class _PxArtworkState extends State<PxArtwork> {
                     )
                   ],
                 ),
-                Spacer(),
-                Flexible(
+                const Spacer(),
+                // weak ahh check ik
+                if (currentRouteURI().path.startsWith("/users")) Flexible(
                   flex: 4,
                   child: ListTile(
                     title: Text(
@@ -264,24 +265,28 @@ Map<String,String> _svgs = {
   "pawoo": '<svg viewBox="0 0 32 32" class="sc-1lf740w-0 jBiLko"><path d="M10.3476651,20.4315053 C10.236482,20.1792053 10.1733587,19.8903171 10.1733587,19.5833313 C10.1733587,18.5973729 10.8244928,17.7980957 11.6277074,17.7980957 C12.4309221,17.7980957 13.0820562,18.5973729 13.0820562,19.5833313 C13.0820562,20.3254493 12.7131643,20.9618053 12.1881895,21.231173 C12.819893,21.2267209 13.5009406,21.0038384 13.9222139,20.4926667 C14.3477875,19.976277 14.5364049,19.090237 14.5364049,18.2444046 C14.5364049,16.5948203 13.4764192,15.2575681 12.1688604,15.2575681 C10.8613017,15.2575681 9.80131596,16.5948203 9.80131596,18.2444046 C9.80131596,19.0237627 9.91081955,19.8357213 10.2983538,20.3675564 C10.3141301,20.3892071 10.3305786,20.4105263 10.3476651,20.4315053 Z M8.13963596,11.0814764 C8.8405586,10.089699 10.2489357,8.48847029 11.698583,7.6886383 C13.1482303,6.88880632 15.2673577,6.22130239 18.2564056,6.46548663 C21.2454536,6.70967086 22.8162796,7.96301699 23.5927252,8.58716521 C24.3691709,9.21131343 25.365798,10.5724763 25.9412244,12.2185477 C26.5166508,13.864619 27.0041475,15.5937822 26.9990127,18.2190273 C26.9938779,20.8442725 26.4501111,22.9685845 25.1117422,24.1927619 C25.0779164,24.2237017 25.0437394,24.2540809 25.0092259,24.2838991 C23.6781605,25.433881 21.8465608,25.7492991 20.3552956,25.1953478 C18.825363,24.6270329 18.4868407,24.0816021 18.0402519,22.9515738 C17.5936631,21.8215455 17.4095505,20.0833607 17.4119551,18.8539433 C17.4143598,17.6245259 17.4847587,17.4976298 17.4859864,16.8699608 C17.4872141,16.2422917 17.0925209,16.2866811 17.0181495,16.8545227 C16.943778,17.4223642 16.8999846,18.1219102 16.8991489,18.5491704 C16.8980863,19.0924745 16.9318342,20.5023058 17.0095249,21.2639909 C17.0872155,22.0256759 17.3250405,23.186485 17.5639667,23.742337 C17.8028929,24.2981891 18.2596324,24.969782 18.2596324,24.969782 C18.2596324,24.969782 17.2268799,25.5232236 15.1979421,25.5638493 C13.1690043,25.604475 12.0354896,25.5888525 10.3448228,25.4037017 C8.65415608,25.2185509 6.60359439,24.7683126 5.23999895,24.2321671 C3.87640351,23.6960216 3.18815991,23.2009837 2.22325411,22.3077434 C1.25834832,21.414503 0.483604407,20.0592237 1.3922294,19.429012 C2.30085438,18.7988004 2.60049796,19.3514851 3.02157079,19.6960499 C3.2957586,19.9204183 3.83490894,20.4853046 4.65914893,20.7784678 C5.48338892,21.0716311 5.7352815,21.0703736 6.17206905,20.7754677 C6.77989521,20.3650817 6.49337645,18.1572476 6.49481705,17.6582474 C6.49625766,17.1592472 6.42964834,15.4386273 6.79203089,14.1605028 C7.15441345,12.8823783 7.43871331,12.0732538 8.13963596,11.0814764 Z"></path></svg>',
   "message": '<svg viewBox="0 0 32 32" class="sc-1l12h90-0 dShozY"><path d="M28,10.7981496 L16,18.7981496 L4,10.7981496 L4,9 C4,7.8954305 4.8954305,7 6,7 L26,7 C27.1045695,7 28,7.8954305 28,9 L28,10.7981496 Z M28,13.2018504 L28,23 C28,24.1045695 27.1045695,25 26,25 L6,25 C4.8954305,25 4,24.1045695 4,23 L4,13.2018504 L16,21.2018504 L28,13.2018504 Z"></path></svg>'
 };
-Row AuthorInfo_Medias(User dd)=>Row(
-  mainAxisAlignment: MainAxisAlignment.center,
-  mainAxisSize: MainAxisSize.min,
-  children: [
-    if (dd.webpage!=null) Padding(
-      padding: const EdgeInsets.only(left:2.0,right:2.0),
-      child: IconButton(onPressed: ()=>launchUrl(Uri.parse(dd.webpage!)), icon: SvgPicture.string(_svgs["webpage"]!,width: 24,height: 24,)),
-    ),
-    if (dd.social!=null)...List.from(dd.social!.entries.map((me)=>Padding(
-      padding: const EdgeInsets.only(left:2.0,right:2.0),
-      child: IconButton(onPressed:()=>launchUrl(Uri.parse(me.value.url)), icon: SvgPicture.string(_svgs[me.key]!,width: 24,height: 24,)),
-    ))),
-    if (dd.canSendMessage) Padding(
-      padding: const EdgeInsets.only(left:2.0,right:2.0),
-      child: IconButton(onPressed:()=>null,icon:SvgPicture.string(_svgs["message"]!,width: 24,height: 24,)),
-    )
-  ],
-);
+Row AuthorInfo_Medias(User dd,BuildContext ctx){
+  var th = Theme.of(ctx);
+  ColorFilter svgColorFilter = ColorFilter.mode(th.brightness==Brightness.dark?Colors.white:Colors.black, BlendMode.srcIn);
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      if (dd.webpage!=null) Padding(
+        padding: const EdgeInsets.only(left:2.0,right:2.0),
+        child: IconButton(onPressed: ()=>launchUrl(Uri.parse(dd.webpage!)), icon: SvgPicture.string(_svgs["webpage"]!,width: 24,height: 24,colorFilter:svgColorFilter)),
+      ),
+      if (dd.social!=null)...List.from(dd.social!.entries.map((me)=>Padding(
+        padding: const EdgeInsets.only(left:2.0,right:2.0),
+        child: IconButton(onPressed:()=>launchUrl(Uri.parse(me.value.url)), icon: SvgPicture.string(_svgs[me.key]!,width: 24,height: 24,colorFilter:svgColorFilter)),
+      ))),
+      if (dd.canSendMessage) Padding(
+        padding: const EdgeInsets.only(left:2.0,right:2.0),
+        child: IconButton(onPressed:()=>null,icon:SvgPicture.string(_svgs["message"]!,width: 24,height: 24,colorFilter:svgColorFilter)),
+      )
+    ],
+  );
+}
 class AuthorInfo extends StatelessWidget {
   final String userId;
   const AuthorInfo({super.key,required this.userId});
@@ -310,7 +315,7 @@ class AuthorInfo extends StatelessWidget {
                 CircleAvatar(backgroundImage: pxImageFlutter(dd.imageBig,width: 45, height: 45).image),
                 Text(dd.name,style: const TextStyle(fontWeight: FontWeight.bold),),
                 Flexible(flex:4,child: Text(dd.comment!=""?dd.comment:"No description provided",style: const TextStyle(fontSize:12),overflow: TextOverflow.ellipsis,)),
-                AuthorInfo_Medias(dd),
+                AuthorInfo_Medias(dd,ctx),
                 const SizedBox(height: 12,),
                 FilledButton(
                   onPressed: ()=>navigate("/users/${dd.userId}"), 

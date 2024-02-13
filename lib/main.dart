@@ -133,7 +133,8 @@ void main() async {
             routes: [
               GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id", builder: (ctx,st)=>SizedBox(width:1,height:1)),
               GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id/illustrations", builder: (c,st)=>Placeholder()),//tags.IllustPage(tag: st.pathParameters["tag"]!)),
-              GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id/manga", builder: (c,st)=>Placeholder())
+              GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id/manga", builder: (c,st)=>Placeholder()),
+              GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id/novels", builder: (c,st)=>Placeholder())
             ]
           ),
           ShellRoute(

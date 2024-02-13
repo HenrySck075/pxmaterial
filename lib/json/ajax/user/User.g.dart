@@ -31,19 +31,13 @@ Map<String, dynamic> _$BackgroundToJson(_Background instance) =>
     };
 
 _Workspace _$WorkspaceFromJson(Map<String, dynamic> json) => _Workspace(
-      userWorkspaceMonitor: json['userWorkspaceMonitor'] as String,
+      userWorkspaceDesktop: json['userWorkspaceDesktop'] as String?,
+      userWorkspacePc: json['userWorkspacePc'] as String?,
+      userWorkspaceMonitor: json['userWorkspaceMonitor'] as String?,
       userWorkspaceTool: json['userWorkspaceTool'] as String,
       userWorkspaceTablet: json['userWorkspaceTablet'] as String,
-      userWorkspaceMouse: json['userWorkspaceMouse'] as String,
+      userWorkspaceMouse: json['userWorkspaceMouse'] as String?,
     );
-
-Map<String, dynamic> _$WorkspaceToJson(_Workspace instance) =>
-    <String, dynamic>{
-      'userWorkspaceMonitor': instance.userWorkspaceMonitor,
-      'userWorkspaceTool': instance.userWorkspaceTool,
-      'userWorkspaceTablet': instance.userWorkspaceTablet,
-      'userWorkspaceMouse': instance.userWorkspaceMouse,
-    };
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
       userId: json['userId'] as String,
