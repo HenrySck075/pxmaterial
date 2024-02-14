@@ -24,8 +24,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
   String mode = "all";
   String type = "all";
 
-  
-  late final TabController _tabCtrl;
+  TabController? _tabCtrl;
   final _toggleDesc = VisibleNotifyNotifier(false);
   @override
   void initState() {
@@ -34,11 +33,10 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
     super.initState();
     mode = q["mode"]??"all";
     type = q["type"]??"all";
-    _tabCtrl = TabController(length: 4, vsync: this);
   }
   @override
   void dispose() {
-    _tabCtrl.dispose();
+    _tabCtrl!.dispose();
     super.dispose();
   }
   
@@ -64,10 +62,11 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
           if (displayNovelTab) const ("novels",Tab(text:"Novel")),
           if (displayRequestTab) const ("request",Tab(text:"Requests"))
         ];
+        _tabCtrl = TabController(length: habibi.length, vsync: this);
         var sus = currentRouteURI().pathSegments;
         selIdx = habibi.indexWhere((e)=>e.$1==sus[sus.length-1]);
         if (selIdx == -1) {selIdx = 0;}
-        _tabCtrl.index=selIdx;
+        _tabCtrl!.index=selIdx;
         setTitle('${data.name} - pixiv');
         return NestedScrollView( 
           // Reference: Google Contacts

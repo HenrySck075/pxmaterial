@@ -3,7 +3,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
@@ -148,7 +147,7 @@ Iterable<T> enumerate<T, E>(Iterable<E> iter, T Function(int index, E e) cooker)
   }
 }
 
-Map<String, (Map<String, dynamic>,http.Response)> _cachedResponse = {};
+Map<String, http.Response> _cachedResponse = {};
 void clearRequestCache(){
   _cachedResponse = {};
 }
@@ -172,10 +171,7 @@ Future<http.Response> pxRequestUnprocessed(String url, {
   // print(method);
   // print(otherHeaders);
   headers.addAll(otherHeaders);
-  if (
-    _cachedResponse.containsKey(url) && !noCache && // cache check
-    mapEquals(_cachedResponse[url]!.$1["headers"], headers) && mapEquals(_cachedResponse[url]!.$1["extraData"], extraData) // extra info check
-  ) {return Future.value(_cachedResponse[url]!.$2);}// we dont really needs to null check but dart sucks so
+  if (_cachedResponse.containsKey(url) && !noCache) {return Future.value(_cachedResponse[url]!);}// we dont really needs to null check but dart sucks so
   
 
   Uri parsedUrl = Uri.parse(url);
@@ -195,13 +191,7 @@ Future<http.Response> pxRequestUnprocessed(String url, {
   // print("HTTP/"+method);
   // resp.then((value) => print(value.body));
   
-  return (_cachedResponse[url] = (
-    {
-      "headers": headers,
-      "extraData": extraData
-    },
-    http.Response(String.fromCharCodes(bytes), resp.statusCode, headers: resp.headers)
-  )).$2;
+  return (_cachedResponse[url] = http.Response(String.fromCharCodes(bytes), resp.statusCode, headers: resp.headers));
 }
 Future<dynamic> pxRequest(String url, {Map<String, String>? otherHeaders, String method="GET", Object? body, bool noCache = false, Map<String, dynamic> extraData = const {}}) {
   otherHeaders ??= {};

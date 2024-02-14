@@ -23,7 +23,7 @@ import 'pages/1984.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart'; 
-void dumpErrorToConsole(details)=>FlutterError.dumpErrorToConsole(details);
+void dumpErrorToConsole(details)=>FlutterError.dumpErrorToConsole(details,forceReport:true);
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // if (Platform.isWindows) {

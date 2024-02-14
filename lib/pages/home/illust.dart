@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:image/image.dart' as img show copyCrop, Image ;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sofieru/json/ajax/top/illust/Artwork.dart';
@@ -102,8 +103,20 @@ class IllustsPage extends StatelessWidget {
                 const SizedBox(height: 8,),
                 SizedBox(height:287,child:ListView( 
                   scrollDirection: Axis.horizontal,
-                  children: mainresp.page.tags.map((e) => Padding(padding: EdgeInsets.only(left: 2,right:2),child:Stack(children: [
-                    Image(image:ResizeImage(pxImageFlutter(getData(e.ids[random.nextInt(e.ids.length)].toString()).url).image,height: 287)),
+                  children: mainresp.page.tags.map((e) => Padding(padding: const EdgeInsets.only(left: 2,right:2),child:Stack(children: [
+                    Builder(builder: (ctx){
+                      var h = pxImageFlutter(getData(e.ids[random.nextInt(e.ids.length)].toString()).url,height: 287);
+                      h = img.copyCrop(img.Image.fromBytes, x: h.width/2-(183/2), y: y, width: width, height: height)
+                      return Container(
+                        decoration: const BoxDecoration( 
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          gradient: LinearGradient(colors: [Colors.transparent, Colors.black38], begin: Alignment(0,0.8), end: Alignment.bottomCenter)
+                        ),
+                        width: 183,
+                        clipBehavior: Clip.hardEdge,
+                        child: h
+                      );
+                    }),
                     Positioned(bottom: 40,left: 2,right: 2,child: Text("#${e.tag}",style:const TextStyle(fontSize: 18,fontWeight:FontWeight.bold)),)
                   ]))).toList()
                 )),

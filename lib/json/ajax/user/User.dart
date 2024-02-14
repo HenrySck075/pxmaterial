@@ -77,7 +77,7 @@ class User {
   final PrivacyInfo birthDay;
   final PrivacyInfo gender;
   final PrivacyInfo job;
-  final _Workspace workspace;
+  final _Workspace? workspace;
   final bool official;
   final String? group;
   User({

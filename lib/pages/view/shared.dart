@@ -32,8 +32,8 @@ class _CommentsState extends State<Comments> {
       offset = 3;
       return Column(
         children: [
-          if (comments.isEmpty) const Text("There's no comments yet", textAlign: TextAlign.center,),
-          ...List.from(comments.map((v)=>ListTile(
+          if (comments.isEmpty) const Text("There's no comments yet", textAlign: TextAlign.center,)
+          else ...List.from(comments.map((v)=>ListTile(
             title: Text(v["userName"]),
             subtitle: v["comment"] == ""?Container(
               foregroundDecoration: BoxDecoration(borderRadius: BorderRadius.circular(4)),
@@ -44,7 +44,7 @@ class _CommentsState extends State<Comments> {
                 child: pxImageFlutter("https://s.pximg.net/common/images/stamp/generated-stamps/${v['stampId']}_s.jpg", width: 96, height: 96)
               )
             ):HtmlWidget(p(v["comment"])),
-            leading: CircleAvatar(backgroundImage: pxImageFlutter(v["img"]).image,) 
+            leading: GestureDetector(onTap:()=>navigate("/users/${v['userId']}"),child:CircleAvatar(backgroundImage: pxImageFlutter(v["img"]).image,))
           ))),
           if(hasNext) FilledButton(onPressed: (){
             
