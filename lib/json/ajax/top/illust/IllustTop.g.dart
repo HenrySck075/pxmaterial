@@ -6,25 +6,6 @@ part of 'IllustTop.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_Thumbnails _$ThumbnailsFromJson(Map<String, dynamic> json) => _Thumbnails(
-      illust: (json['illust'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, Artwork.fromJson(e as Map<String, dynamic>)),
-      ),
-      novel: (json['novel'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, Novel.fromJson(e as Map<String, dynamic>)),
-      ),
-      novelDraft: json['novelDraft'] as List<dynamic>,
-      novelSeries: json['novelSeries'] as List<dynamic>,
-    );
-
-Map<String, dynamic> _$ThumbnailsToJson(_Thumbnails instance) =>
-    <String, dynamic>{
-      'illust': instance.illust,
-      'novel': instance.novel,
-      'novelDraft': instance.novelDraft,
-      'novelSeries': instance.novelSeries,
-    };
-
 IllustTop _$IllustTopFromJson(Map<String, dynamic> json) => IllustTop(
       tagTranslation: (json['tagTranslation'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(
@@ -40,7 +21,7 @@ IllustTop _$IllustTopFromJson(Map<String, dynamic> json) => IllustTop(
           .toList(),
       sketchLives: json['sketchLives'] as List<dynamic>,
       thumbnails:
-          _Thumbnails.fromJson(json['thumbnails'] as Map<String, dynamic>),
+          ThumbnailsRemap.fromJson(json['thumbnails'] as Map<String, dynamic>),
       users: (json['users'] as List<dynamic>)
           .map((e) => PartialUser.fromJson(e as Map<String, dynamic>))
           .toList(),

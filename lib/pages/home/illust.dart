@@ -106,7 +106,7 @@ class IllustsPage extends StatelessWidget {
                   children: mainresp.page.tags.map((e) => Padding(padding: const EdgeInsets.only(left: 2,right:2),child:Stack(children: [
                     Builder(builder: (ctx){
                       var h = pxImageFlutter(getData(e.ids[random.nextInt(e.ids.length)].toString()).url,height: 287);
-                      h = img.copyCrop(img.Image.fromBytes, x: h.width/2-(183/2), y: y, width: width, height: height)
+                      h = img.copyCrop(img.Image.fromBytes, x: 287/2-(183/2), y: 0, width: 183, height: 287);
                       return Container(
                         decoration: const BoxDecoration( 
                           borderRadius: BorderRadius.all(Radius.circular(20)),

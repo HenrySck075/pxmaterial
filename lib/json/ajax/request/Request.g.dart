@@ -62,7 +62,7 @@ _PlanTitle _$PlanTitleFromJson(Map<String, dynamic> json) => _PlanTitle(
       planOriginalTitle: json['planOriginalTitle'] as String,
       planOriginalTitleLang: json['planOriginalTitleLang'] as String,
       planTranslationTitle:
-          ifNullfies<Map<String, dynamic>>(json['planTranslationTitle'])?.map(
+          (json['planTranslationTitle'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k,
             _PlanTranslationTitleContent.fromJson(e as Map<String, dynamic>)),
       ),

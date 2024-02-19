@@ -80,7 +80,9 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       birthDay: PrivacyInfo.fromJson(json['birthDay'] as Map<String, dynamic>),
       gender: PrivacyInfo.fromJson(json['gender'] as Map<String, dynamic>),
       job: PrivacyInfo.fromJson(json['job'] as Map<String, dynamic>),
-      workspace: json['workspace']==null?null:_Workspace.fromJson(json['workspace'] as Map<String, dynamic>),
+      workspace: json['workspace'] == null
+          ? null
+          : _Workspace.fromJson(json['workspace'] as Map<String, dynamic>),
       official: json['official'] as bool,
       group: json['group'] as String?,
     );

@@ -107,7 +107,7 @@ void main() async {
                 ]
               ),
               GoRoute(
-                path: "/discovery/users",builder: (ctx,s)=>Placeholder(),
+                path: "/discovery/users",builder: (ctx,s)=>const Placeholder(),
               ),
             ], builder: (context, state, child) => discovery.DiscoveryPage(child: child,)
           ),
@@ -124,6 +124,11 @@ void main() async {
           GoRoute(
             parentNavigatorKey: pa,
             path: "/series/:id",
+            builder: (no, state) => const Placeholder()
+          ),
+          GoRoute(
+            parentNavigatorKey: pa,
+            path: "/requests/:id",
             builder: (no, state) => Placeholder()
           ),
           ShellRoute(
@@ -131,10 +136,12 @@ void main() async {
             parentNavigatorKey: pa,
             navigatorKey: shellKeys[3],
             routes: [
-              GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id", builder: (ctx,st)=>SizedBox(width:1,height:1)),
-              GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id/illustrations", builder: (c,st)=>Placeholder()),//tags.IllustPage(tag: st.pathParameters["tag"]!)),
-              GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id/manga", builder: (c,st)=>Placeholder()),
-              GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id/novels", builder: (c,st)=>Placeholder())
+              GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id", builder: (ctx,st)=>const SizedBox(width:1,height:1)),
+              GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id/illustrations", builder: (c,st)=>const Placeholder()),//tags.IllustPage(tag: st.pathParameters["tag"]!)),
+              GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id/manga", builder: (c,st)=>const Placeholder()),
+              GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id/novels", builder: (c,st)=>const Placeholder()),
+              GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id/requestss", builder: (c,st)=>const Placeholder()),
+              GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id/bookmarks", builder: (c,st)=>const Placeholder()) // TODI: make this ShellPage
             ]
           ),
           ShellRoute(
@@ -143,10 +150,14 @@ void main() async {
             navigatorKey: shellKeys[2],
             routes: [
               GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag", builder: (ctx,st)=>SizedBox(width:1,height:1)),
-              GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/illustrations", builder: (c,st)=>Placeholder()),//tags.IllustPage(tag: st.pathParameters["tag"]!)),
-              GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/manga", builder: (c,st)=>Placeholder())
+              GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/illustrations", builder: (c,st)=>const Placeholder()),//tags.IllustPage(tag: st.pathParameters["tag"]!)),
+              GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/manga", builder: (c,st)=>const Placeholder()),
+              GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/novels", builder: (c,st)=>const Placeholder()),
+              GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/users", builder: (c,st)=>const Placeholder()),
+
             ]
-          )
+          ),
+
         ]
       )
     ]
@@ -290,13 +301,12 @@ class _ShellPageState extends State<ShellPage> {
       ),
       backgroundColor:Theme.of(context).colorScheme.primaryContainer,
       body: Center(
-        child: ConstrainedBox(
+        child: Container(
+          // duration: Durations.medium2,
+          decoration: const BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
           constraints: BoxConstraints(maxWidth: currentRouteURI().path.startsWith("/artworks")?1160:double.infinity),
-          child: Container(
-            decoration: const BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-            clipBehavior: Clip.hardEdge,
-            child:widget.child
-          )
+          clipBehavior: Clip.hardEdge,
+          child:widget.child
         ) 
       )
     );

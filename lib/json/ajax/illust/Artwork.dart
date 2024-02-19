@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sofieru/json/ajax/illust/RequestLite.dart';
+import 'package:sofieru/json/ajax/request/RequestLite.dart' show RequestLite;
 import 'package:sofieru/json/operator_bracket.dart';
 import 'BasedOn.dart';
 import '../shared/TitleCaptionTranslation.dart';
