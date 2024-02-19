@@ -60,24 +60,6 @@ Map<String, dynamic> _$TagsToJson(_Tags instance) => <String, dynamic>{
       'writable': instance.writable,
     };
 
-_Responsive _$ResponsiveFromJson(Map<String, dynamic> json) => _Responsive(
-      url: json['url'] as String,
-    );
-
-Map<String, dynamic> _$ResponsiveToJson(_Responsive instance) =>
-    <String, dynamic>{
-      'url': instance.url,
-    };
-
-_Rectangle _$RectangleFromJson(Map<String, dynamic> json) => _Rectangle(
-      url: json['url'] as String,
-    );
-
-Map<String, dynamic> _$RectangleToJson(_Rectangle instance) =>
-    <String, dynamic>{
-      'url': instance.url,
-    };
-
 _AlternateLanguages _$AlternateLanguagesFromJson(Map<String, dynamic> json) =>
     _AlternateLanguages(
       ja: json['ja'] as String,
@@ -90,31 +72,20 @@ Map<String, dynamic> _$AlternateLanguagesToJson(_AlternateLanguages instance) =>
       'en': instance.en,
     };
 
-_Ogp _$OgpFromJson(Map<String, dynamic> json) => _Ogp(
+_EmbedMeta _$EmbedMetaFromJson(Map<String, dynamic> json) => _EmbedMeta(
       description: json['description'] as String,
       image: json['image'] as String,
       title: json['title'] as String,
-      type: json['type'] as String,
+      type: json['type'] as String?,
+      card: json['card'] as String?,
     );
 
-Map<String, dynamic> _$OgpToJson(_Ogp instance) => <String, dynamic>{
+Map<String, dynamic> _$EmbedMetaToJson(_EmbedMeta instance) =>
+    <String, dynamic>{
       'description': instance.description,
       'image': instance.image,
       'title': instance.title,
       'type': instance.type,
-    };
-
-_Twitter _$TwitterFromJson(Map<String, dynamic> json) => _Twitter(
-      description: json['description'] as String,
-      image: json['image'] as String,
-      title: json['title'] as String,
-      card: json['card'] as String,
-    );
-
-Map<String, dynamic> _$TwitterToJson(_Twitter instance) => <String, dynamic>{
-      'description': instance.description,
-      'image': instance.image,
-      'title': instance.title,
       'card': instance.card,
     };
 
@@ -125,8 +96,8 @@ _Meta _$MetaFromJson(Map<String, dynamic> json) => _Meta(
       alternateLanguages: _AlternateLanguages.fromJson(
           json['alternateLanguages'] as Map<String, dynamic>),
       descriptionHeader: json['descriptionHeader'] as String,
-      ogp: _Ogp.fromJson(json['ogp'] as Map<String, dynamic>),
-      twitter: _Twitter.fromJson(json['twitter'] as Map<String, dynamic>),
+      ogp: _EmbedMeta.fromJson(json['ogp'] as Map<String, dynamic>),
+      twitter: _EmbedMeta.fromJson(json['twitter'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$MetaToJson(_Meta instance) => <String, dynamic>{
@@ -148,7 +119,19 @@ Map<String, dynamic> _$ExtraDataToJson(_ExtraData instance) =>
       'meta': instance.meta,
     };
 
-_ArtworkLite _$ArtworkLiteFromJson(Map<String, dynamic> json) => _ArtworkLite(
+_BookmarkData _$BookmarkDataFromJson(Map<String, dynamic> json) =>
+    _BookmarkData(
+      id: json['id'] as String,
+      private: json['private'] as bool,
+    );
+
+Map<String, dynamic> _$BookmarkDataToJson(_BookmarkData instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'private': instance.private,
+    };
+
+ArtworkLite _$ArtworkLiteFromJson(Map<String, dynamic> json) => ArtworkLite(
       id: json['id'] as String,
       title: json['title'] as String,
       illustType: json['illustType'] as int,
@@ -164,7 +147,10 @@ _ArtworkLite _$ArtworkLiteFromJson(Map<String, dynamic> json) => _ArtworkLite(
       height: json['height'] as int,
       pageCount: json['pageCount'] as int,
       isBookmarkable: json['isBookmarkable'] as bool,
-      bookmarkData: json['bookmarkData'] as String?,
+      bookmarkData: json['bookmarkData'] == null
+          ? null
+          : _BookmarkData.fromJson(
+              json['bookmarkData'] as Map<String, dynamic>),
       alt: json['alt'] as String,
       titleCaptionTranslation: TitleCaptionTranslation.fromJson(
           json['titleCaptionTranslation'] as Map<String, dynamic>),
@@ -175,7 +161,7 @@ _ArtworkLite _$ArtworkLiteFromJson(Map<String, dynamic> json) => _ArtworkLite(
       aiType: json['aiType'] as int,
     );
 
-Map<String, dynamic> _$ArtworkLiteToJson(_ArtworkLite instance) =>
+Map<String, dynamic> _$ArtworkLiteToJson(ArtworkLite instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
@@ -222,11 +208,8 @@ Artwork _$ArtworkFromJson(Map<String, dynamic> json) => Artwork(
       userName: json['userName'] as String,
       userAccount: json['userAccount'] as String,
       userIllusts: (json['userIllusts'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(
-            k,
-            e == null
-                ? null
-                : _ArtworkLite.fromJson(e as Map<String, dynamic>)),
+        (k, e) => MapEntry(k,
+            e == null ? null : ArtworkLite.fromJson(e as Map<String, dynamic>)),
       ),
       likeData: json['likeData'] as bool,
       width: json['width'] as int,
@@ -253,8 +236,11 @@ Artwork _$ArtworkFromJson(Map<String, dynamic> json) => Artwork(
       fanboxPromotion: json['fanboxPromotion'] as String?,
       contestBanners: json['contestBanners'] as List<dynamic>,
       isBookmarkable: json['isBookmarkable'] as bool,
-      bookmarkData: json['bookmarkData'] as String?,
-      contestData: json['contestData'] as String?,
+      bookmarkData: json['bookmarkData'] == null
+          ? null
+          : _BookmarkData.fromJson(
+              json['bookmarkData'] as Map<String, dynamic>),
+      contestData: json['contestData'] as Map<String, dynamic>?,
       extraData: _ExtraData.fromJson(json['extraData'] as Map<String, dynamic>),
       titleCaptionTranslation: TitleCaptionTranslation.fromJson(
           json['titleCaptionTranslation'] as Map<String, dynamic>),
@@ -272,9 +258,6 @@ Map<String, dynamic> _$ArtworkToJson(Artwork instance) => <String, dynamic>{
       'illustId': instance.illustId,
       'illustTitle': instance.illustTitle,
       'illustComment': instance.illustComment,
-      'id': instance.id,
-      'title': instance.title,
-      'description': instance.description,
       'illustType': instance.illustType,
       'createDate': instance.createDate,
       'uploadDate': instance.uploadDate,

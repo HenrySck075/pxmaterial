@@ -141,7 +141,7 @@ void main() async {
               GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id/manga", builder: (c,st)=>const Placeholder()),
               GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id/novels", builder: (c,st)=>const Placeholder()),
               GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id/requestss", builder: (c,st)=>const Placeholder()),
-              GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id/bookmarks", builder: (c,st)=>const Placeholder()) // TODI: make this ShellPage
+              GoRoute(parentNavigatorKey: shellKeys[3],path: "/users/:id/bookmarks", builder: (c,st)=>const Placeholder()) // TODO: make this ShellPage
             ]
           ),
           ShellRoute(
@@ -150,7 +150,7 @@ void main() async {
             navigatorKey: shellKeys[2],
             routes: [
               GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag", builder: (ctx,st)=>SizedBox(width:1,height:1)),
-              GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/illustrations", builder: (c,st)=>const Placeholder()),//tags.IllustPage(tag: st.pathParameters["tag"]!)),
+              GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/illustrations", builder: (c,st)=>const Placeholder()),
               GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/manga", builder: (c,st)=>const Placeholder()),
               GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/novels", builder: (c,st)=>const Placeholder()),
               GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/users", builder: (c,st)=>const Placeholder()),

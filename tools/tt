@@ -1,70 +1,221 @@
- {
-    "request": {
-        "requestId": "56153",
-        "requestStatus": "complete",
-        "requestProposal": {
-            "requestOriginalProposal": "幼女が箱型のミミックに捕らえられ、大量の催淫ガスが充満した箱の中に両膝をついた状態で拘束され、ミミックの舌が膣内をかき回し強制的に絶頂させられ大好物のトロトロの愛液が大量に溢れ出ているシーンを希望します。\n舌が引き抜かれ、大量の愛液が糸を引いて舌に絡みついている差分があると嬉しいです。\n服はある程度溶かされ、純白ぱんつが脱がされて他の周りの舌に舐められている感じがあると良いです。\nキャラクターは描きやすいもので大丈夫です。\n射精などの行為は無しでお願いします。",
-            "requestOriginalProposalLang": "ja",
-            "requestTranslationProposal": [
-                {
-                    "requestProposal": "I would like to have a scene where a young girl is captured by a box-shaped mimic and strapped down on both knees inside a box filled with a large amount of aphrodisiac gas, and the mimic's tongue stirs her vagina, forcing her to climax and overflowing with her favorite turgid love juice.\nI would be happy if there is a difference where the tongue is pulled out and a lot of love juice is twined around the tongue with a string.\nClothes are melted to some extent, and it is good if there is a feeling that pure white panties are taken off and licked by the tongue around others.\nThe character can be drawn easily.\nPlease no ejaculation or other actions.",
-                    "requestProposalLang": "en"
-                }
+{
+    "completeRequestIdsIllust": [
+        "183683",
+        "189597",
+        "189006",
+        "194394",
+        "195631",
+        "191187",
+        "203583",
+        "196519",
+        "189661",
+        "189414",
+        "204551",
+        "202506",
+        "195244",
+        "195474",
+        "193567",
+        "191780",
+        "188572",
+        "191457",
+        "184706",
+        "205260",
+        "199049",
+        "183739",
+        "191316",
+        "195275"
+    ],
+    "completeRequestIdsManga": [
+        "65977",
+        "71039",
+        "84484",
+        "35322",
+        "102154",
+        "93646",
+        "126922",
+        "194844",
+        "166582",
+        "85",
+        "57582",
+        "180314",
+        "102706",
+        "71480",
+        "120456",
+        "88417",
+        "67882",
+        "187973",
+        "131523",
+        "161407",
+        "127849",
+        "112071",
+        "163498",
+        "93323"
+    ],
+    "completeRequestIdsNovels": [
+        "191666",
+        "192400",
+        "192033",
+        "198756",
+        "195006",
+        "196272",
+        "185611",
+        "190541",
+        "181246",
+        "194397",
+        "191540",
+        "190549",
+        "186011",
+        "201127",
+        "201641",
+        "195241",
+        "189039",
+        "201994",
+        "202504",
+        "193340",
+        "202588",
+        "189371",
+        "180594",
+        "193866"
+    ],
+    "inProgressRequestIds": [
+        "208297",
+        "208293",
+        "208295",
+        "208280",
+        "208216",
+        "208283",
+        "208266",
+        "208272",
+        "208265",
+        "208273",
+        "208268",
+        "208274"
+    ],
+    "newerCreatorUserIds": [
+        "548270",
+        "9598964",
+        "47786",
+        "77842996",
+        "15750133",
+        "32990017",
+        "69924361",
+        "41589780",
+        "103193174",
+        "87630493",
+        "16314650",
+        "28708591"
+    ],
+    "followCreatorUserIds": [],
+    "recommendIllustIdsByCreatorAcceptingRequest": [
+        "73531660",
+        "90917306",
+        "91849208",
+        "94674908",
+        "102404052",
+        "82655099",
+        "85888530",
+        "112576797",
+        "96326970",
+        "102631308",
+        "94092533",
+        "106756827"
+    ],
+    "userList": [
+        {
+            "id": "548270",
+            "illustIds": [
+                "116121483",
+                "114818672",
+                "114033832"
             ]
         },
-        "requestTags": [
-            "触手",
-            "愛液",
-            "幼女"
-        ],
-        "requestAdultFlg": true,
-        "requestPrice": 0,
-        "role": "others",
-        "postWork": null,
-        "plan": {
-            "currentPlanId": null,
-            "planId": "58087",
-            "creatorUserId": "987497",
-            "planAcceptRequestFlg": false,
-            "planStandardPrice": 10000,
-            "planTitle": {
-                "planOriginalTitle": "Illustrations Terms",
-                "planOriginalTitleLang": "ja",
-                "planTranslationTitle": []
-            },
-            "planDescription": {
-                "planOriginalDescription": "始めてみました！オリジナルだと描きやすいですー！\nイラストの傾向などはpixivの作品を見てね",
-                "planOriginalDescriptionHtml": "始めてみました！オリジナルだと描きやすいですー！<br />イラストの傾向などはpixivの作品を見てね",
-                "planOriginalLang": "ja",
-                "planTranslationDescription": {
-                    "en": {
-                        "planDescription": "I've just started! It's easy to draw original works!\nPlease check out my pixiv work for more information about my illustrations.",
-                        "planDescriptionHtml": "I&#39;ve just started! It&#39;s easy to draw original works!<br />Please check out my pixiv work for more information about my illustrations.",
-                        "planLang": "en"
-                    }
-                }
-            },
-            "planAcceptAdultFlg": true,
-            "planAcceptAnonymousFlg": true,
-            "planAcceptIllustFlg": true,
-            "planAcceptUgoiraFlg": false,
-            "planAcceptMangaFlg": false,
-            "planAcceptNovelFlg": false,
-            "planCoverImage": null,
-            "planAiType": 0
+        {
+            "id": "9598964",
+            "illustIds": [
+                "116116745",
+                "116053168",
+                "116021489"
+            ]
+        },
+        {
+            "id": "47786",
+            "illustIds": [
+                "115395506",
+                "114949228",
+                "114826065"
+            ]
+        },
+        {
+            "id": "77842996",
+            "illustIds": [
+                "115726821",
+                "115526301",
+                "114175046"
+            ]
+        },
+        {
+            "id": "15750133",
+            "illustIds": [
+                "116119121",
+                "116118727",
+                "114725847"
+            ]
+        },
+        {
+            "id": "32990017",
+            "illustIds": [
+                "116019767",
+                "115721977",
+                "112400245"
+            ]
+        },
+        {
+            "id": "69924361",
+            "illustIds": [
+                "116018094",
+                "115264767",
+                "114963472"
+            ]
+        },
+        {
+            "id": "41589780",
+            "illustIds": [
+                "113295098",
+                "112260631",
+                "112082486"
+            ]
+        },
+        {
+            "id": "103193174",
+            "illustIds": [
+                "116111950",
+                "116097136",
+                "116090019"
+            ]
+        },
+        {
+            "id": "87630493",
+            "illustIds": [
+                "116101945",
+                "114479646",
+                "113061850"
+            ]
+        },
+        {
+            "id": "16314650",
+            "illustIds": [
+                "116109958",
+                "116067890",
+                "116009493"
+            ]
+        },
+        {
+            "id": "28708591",
+            "illustIds": [
+                "116110887",
+                "115839872",
+                "114010477"
+            ]
         }
-    },
-    "creator": {
-        "userId": "987497",
-        "userName": "雨美すずめ2日目東H-10b",
-        "profileImg": "https://i.pximg.net/user-profile/img/2020/08/30/10/59/11/19275513_34c56eb8b054bec9fc230f70aea09424_170.jpg"
-    },
-    "fan": null,
-    "collaborateStatus": {
-        "collaborating": false,
-        "collaborateAnonymousFlg": false,
-        "collaboratedCnt": 0,
-        "userSamples": []
-    },
-    "editable": false
+    ]
 }

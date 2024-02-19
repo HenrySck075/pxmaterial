@@ -11,6 +11,7 @@ TODO: retry
 
 ## TODO
 - Figure out how to reasonably add more animations 
+- Commenting thw JSON payloads 
 - Skeletonizer
 
 # anstion and queswer

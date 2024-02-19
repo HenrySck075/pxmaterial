@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:image/image.dart' as img show copyCrop, Image ;
 import 'package:flutter/material.dart';
@@ -106,7 +107,7 @@ class IllustsPage extends StatelessWidget {
                   children: mainresp.page.tags.map((e) => Padding(padding: const EdgeInsets.only(left: 2,right:2),child:Stack(children: [
                     Builder(builder: (ctx){
                       var h = pxImageFlutter(getData(e.ids[random.nextInt(e.ids.length)].toString()).url,height: 287);
-                      h = img.copyCrop(img.Image.fromBytes, x: 287/2-(183/2), y: 0, width: 183, height: 287);
+                      // var h5n1 = img.copyCrop(img.Image.fromBytes(width: h.width, height: h.height, bytes: h), x: 287/2-(183/2), y: 0, width: 183, height: 287);
                       return Container(
                         decoration: const BoxDecoration( 
                           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -114,7 +115,7 @@ class IllustsPage extends StatelessWidget {
                         ),
                         width: 183,
                         clipBehavior: Clip.hardEdge,
-                        child: h
+                        child: h//Image.memory(h5n1.toUint8List())
                       );
                     }),
                     Positioned(bottom: 40,left: 2,right: 2,child: Text("#${e.tag}",style:const TextStyle(fontSize: 18,fontWeight:FontWeight.bold)),)
