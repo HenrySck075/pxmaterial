@@ -3,6 +3,25 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+# Installation (read this before complaining on r/github smh smh)
+- Get the code 
+```
+git clone https://github.com/HenrySck075/pxmaterial
+cd pxmaterial
+```
+- Run the app
+```
+# For debugging & bug reporting
+flutter run
+
+# For just having cool looking shi
+# see "flutter build -h" for available targets
+flutter build {target}
+# which will then be placed in "build/{target}/release/"
+```
+- Complain 
+the issues tab
+
 ## Known issues
 - Some illustrations does not have their thumbnail displaying as pixiv randomly closes the cdn connection
 TODO: retry
@@ -11,8 +30,8 @@ TODO: retry
 
 ## TODO
 - Figure out how to reasonably add more animations 
-- Commenting thw JSON payloads 
-- Skeletonizer
+- Commenting the JSON payloads 
+- Ditching json\_serializable for the god [json2dart.py](tools/json2dart.py), which means i have to do the above again
 
 # anstion and queswer
 ## Q: why is the project internally called "sofieru" (1) and who is she (2)
