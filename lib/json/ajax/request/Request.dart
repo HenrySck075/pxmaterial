@@ -178,7 +178,7 @@ class Request {
   final String requestAcceptStatus;
   final String requestPostWorkType;
   final int requestPrice;
-  final _RequestProposal requestProposal;
+  final _RequestProposal? requestProposal;
   final List<String> requestTags;
   final bool requestAdultFlg;
   final bool requestAnonymousFlg;

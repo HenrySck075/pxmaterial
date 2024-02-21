@@ -1,7 +1,0 @@
-{
-  "page": {"schema":"Page"},
-  "requests": [{"schema": "../../../request/RequestLite"}],
-  "tagTranslation": {"ayaya":{"schema": "../../../shared/TagTranslation"}},
-  "thumbnails": {"schema": "../../../shared/Thumbnails"},
-  "users": {"schema": "../../../user/User"}
-}

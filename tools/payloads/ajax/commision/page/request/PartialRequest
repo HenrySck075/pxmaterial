@@ -1,0 +1,110 @@
+{
+  "$emptiable": [
+    "requestProposal"
+  ],
+  "requestId": "199694",
+  "planId": "381080",
+  "fanUserId": null,
+  "creatorUserId": "6949405",
+  "requestStatus": "complete",
+  "requestAcceptStatus": "success",
+  "requestPostWorkType": "illust",
+  "requestPrice": 0,
+  "requestProposal": {
+    "requestOriginalProposal": "お早うございます\n\nあなたのアートはすごいです。\n\nPlease draw a very scenic 4k art with Rio. Please have her standing in front of a fence, with a beautiful night cityscape behind her.\n\nPlease give the art a strong theme and atmosphere.\n\nhttps://www.pixiv.net/en/artworks/72011425\nhttps://www.pixiv.net/en/artworks/43413442\nhttps://www.pixiv.net/en/artworks/98975320\nhttps://www.pixiv.net/en/artworks/94358669\nhttps://www.pixiv.net/en/artworks/96951055",
+    "requestOriginalProposalHtml": "お早うございます<br /><br />あなたのアートはすごいです。<br /><br />Please draw a very scenic 4k art with Rio. Please have her standing in front of a fence&#44; with a beautiful night cityscape behind her.<br /><br />Please give the art a strong theme and atmosphere.<br /><br /><strong><a href=\"https://www.pixiv.net/en/artworks/72011425\">illust/72011425</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/43413442\">illust/43413442</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/98975320\">illust/98975320</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/94358669\">illust/94358669</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/96951055\">illust/96951055</a></strong>",
+    "requestOriginalProposalLang": "en",
+    "requestTranslationProposal": [
+      {
+        "requestProposal": "お早うございます\n\nあなたのアートはすごいです。\n\nリオの4Kアートを描いてください。彼女がフェンスの前に立っていて、後ろに美しい夜の街並みが見えるようにお願いします。\n\n強いテーマと雰囲気のあるアートをお願いします。\n\nhttps://www.pixiv.net/en/artworks/72011425\nhttps://www.pixiv.net/en/artworks/43413442\nhttps://www.pixiv.net/en/artworks/98975320\nhttps://www.pixiv.net/en/artworks/94358669\nhttps://www.pixiv.net/en/artworks/96951055",
+        "requestProposalHtml": "お早うございます<br /><br />あなたのアートはすごいです。<br /><br />リオの4Kアートを描いてください。彼女がフェンスの前に立っていて、後ろに美しい夜の街並みが見えるようにお願いします。<br /><br />強いテーマと雰囲気のあるアートをお願いします。<br /><br /><strong><a href=\"https://www.pixiv.net/en/artworks/72011425\">illust/72011425</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/43413442\">illust/43413442</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/98975320\">illust/98975320</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/94358669\">illust/94358669</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/96951055\">illust/96951055</a></strong>",
+        "requestProposalLang": "ja"
+      },
+      {
+        "requestProposal": "お早うございます\n\nあなたのアートはすごいです。\n\n리오와 함께 아주 경치 좋은 4K 아트를 그려주세요. 아름다운 야경을 배경으로 울타리 앞에 서 있는 리오를 그려주세요.\n\n아트에 강한 주제와 분위기를 부여해주세요.\n\nhttps://www.pixiv.net/en/artworks/72011425\nhttps://www.pixiv.net/en/artworks/43413442\nhttps://www.pixiv.net/en/artworks/98975320\nhttps://www.pixiv.net/en/artworks/94358669\nhttps://www.pixiv.net/en/artworks/96951055",
+        "requestProposalHtml": "お早うございます<br /><br />あなたのアートはすごいです。<br /><br />리오와 함께 아주 경치 좋은 4K 아트를 그려주세요. 아름다운 야경을 배경으로 울타리 앞에 서 있는 리오를 그려주세요.<br /><br />아트에 강한 주제와 분위기를 부여해주세요.<br /><br /><strong><a href=\"https://www.pixiv.net/en/artworks/72011425\">illust/72011425</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/43413442\">illust/43413442</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/98975320\">illust/98975320</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/94358669\">illust/94358669</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/96951055\">illust/96951055</a></strong>",
+        "requestProposalLang": "ko"
+      }
+    ]
+  },
+  "requestTags": [
+    "調月リオ",
+    "風景"
+  ],
+  "requestAdultFlg": false,
+  "requestAnonymousFlg": true,
+  "requestRestrictFlg": false,
+  "requestAcceptCollaborateFlg": true,
+  "requestResponseDeadlineDatetime": "2024-01-15T23:59:59+09:00",
+  "requestPostDeadlineDatetime": "2024-03-08T23:59:59+09:00",
+  "role": "others",
+  "plan": {
+    "currentPlanId": null,
+    "planId": "381080",
+    "creatorUserId": "6949405",
+    "planAcceptRequestFlg": false,
+    "planStandardPrice": 100000,
+    "planTitle": {
+      "planOriginalTitle": "插画 方案",
+      "planOriginalTitleLang": "zh",
+      "planTranslationTitle": {
+        "en": {
+          "planTitle": "Illustration Program",
+          "planTtieLang": "en"
+        },
+        "ja": {
+          "planTitle": "イラストレーション・プログラム",
+          "planTtieLang": "ja"
+        },
+        "ko": {
+          "planTitle": "일러스트레이션 프로그램",
+          "planTtieLang": "ko"
+        }
+      }
+    },
+    "planDescription": {
+      "planOriginalDescription": "半身插画和头像",
+      "planOriginalDescriptionHtml": "半身插画和头像",
+      "planOriginalLang": "zh",
+      "planTranslationDescription": {
+        "en": {
+          "planDescription": "Bust illustrations and headshots",
+          "planDescriptionHtml": "Bust illustrations and headshots",
+          "planLang": "en"
+        },
+        "ja": {
+          "planDescription": "バスト・イラストとヘッドショット",
+          "planDescriptionHtml": "バスト・イラストとヘッドショット",
+          "planLang": "ja"
+        },
+        "ko": {
+          "planDescription": "바스트 일러스트 및 헤드샷",
+          "planDescriptionHtml": "바스트 일러스트 및 헤드샷",
+          "planLang": "ko"
+        }
+      }
+    },
+    "planAcceptAdultFlg": true,
+    "planAcceptAnonymousFlg": true,
+    "planAcceptIllustFlg": true,
+    "planAcceptUgoiraFlg": false,
+    "planAcceptMangaFlg": false,
+    "planAcceptNovelFlg": false,
+    "planCoverImage": null,
+    "planAiType": 1
+  },
+  "collaborateStatus": {
+    "collaborating": false,
+    "collaborateAnonymousFlg": false,
+    "collaboratedCnt": 0,
+    "collaborateUserSamples": []
+  },
+  "postWork": {
+    "postWorkId": "115978544",
+    "postWorkType": "illust",
+    "work": {
+      "isUnlisted": false,
+      "secret": null
+    }
+  }
+}

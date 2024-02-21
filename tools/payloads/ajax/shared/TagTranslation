@@ -1,0 +1,11 @@
+{
+  "en": "",
+  "ko": "",
+  "zh": "",
+  "zh_tw": "女孩",
+  "romaji": "",
+  "$typedef": {
+    "TagTranslation": "Map<String, TagTranslationContent>"
+  },
+  "$name": "TagTranslationContent"
+}

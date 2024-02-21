@@ -1,0 +1,28 @@
+
+class TagTranslationContent {
+  final String en;
+  final String ko;
+  final String zh;
+  final String zh_tw;
+  final String romaji;
+  TagTranslationContent({
+    required this.en,
+    required this.ko,
+    required this.zh,
+    required this.zh_tw,
+    required this.romaji,
+  });
+
+  static TagTranslationContent? fromJson(dynamic json) {
+    if (json is List) return null;
+    return TagTranslationContent(
+     en: json['en'] as String,
+     ko: json['ko'] as String,
+     zh: json['zh'] as String,
+     zh_tw: json['zh_tw'] as String,
+     romaji: json['romaji'] as String,
+    );
+  }
+  
+}
+typedef TagTranslation=Map<String, TagTranslationContent>;

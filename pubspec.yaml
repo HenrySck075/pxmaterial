@@ -44,6 +44,7 @@ dependencies:
   image_gallery_saver: ^2.0.3
   sticky_headers: ^0.3.0
   image: ^4.1.7
+  html: ^0.15.4
   number_paginator: ^0.4.0
   shared_preferences: ^2.2.2
   window_size:

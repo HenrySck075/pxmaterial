@@ -19,3 +19,5 @@ class TagTranslationContent {
   factory TagTranslationContent.fromJson(Map<String, dynamic> json) => _$TagTranslationContentFromJson(json);
   
 }
+
+typedef TagTranslation=Map<String, TagTranslationContent>;
