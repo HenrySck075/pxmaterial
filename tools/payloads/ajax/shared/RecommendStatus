@@ -3,9 +3,5 @@
     "by_tag"
   ],
   "score": 0,
-  "seedIllustIds": ["n"],
-  "$typedef": {
-    "RecommendStatus": "Map<String, _RecommendStatus>"
-  },
-  "$name": "_RecommendStatus"
+  "seedIllustIds": ["n"]
 }

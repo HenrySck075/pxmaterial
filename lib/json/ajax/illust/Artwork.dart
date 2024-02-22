@@ -1,18 +1,12 @@
-import 'package:json_annotation/json_annotation.dart';
-import 'package:sofieru/json/ajax/request/RequestLite.dart' show RequestLite;
-import 'package:sofieru/json/operator_bracket.dart';
-import 'BasedOn.dart';
-import '../shared/TitleCaptionTranslation.dart';
-part 'Artwork.g.dart';
+import 'package:sofieru/json/ajax/shared/Placeholder.dart' show Placeholder;
+import 'package:sofieru/json/ajax/top/illust/PartialArtwork.dart' show PartialArtwork;
 
-@JsonSerializable()
-/// Artwork url at different sizes
 class _Urls {
-  final String? mini;
-  final String? thumb;
-  final String? small;
-  final String? regular;
-  final String? original;
+  final String mini;
+  final String thumb;
+  final String small;
+  final String regular;
+  final String original;
   _Urls({
     required this.mini,
     required this.thumb,
@@ -20,30 +14,36 @@ class _Urls {
     required this.regular,
     required this.original,
   });
-
-  factory _Urls.fromJson(Map<String, dynamic> json) => _$UrlsFromJson(json);
+  factory _Urls.fromJson(Map<String, dynamic> json) => _Urls(
+    mini: json['mini'] as String,
+    thumb: json['thumb'] as String,
+    small: json['small'] as String,
+    regular: json['regular'] as String,
+    original: json['original'] as String,
+  );
   
-  /// You still have to make sure it exists
-  String? operator [] (String idk) => eval(this, idk);
 }
-@JsonSerializable()
-/// Tag details
-class _TagItem {
-  /// tag name
+
+class _Translation {
+  final String en;
+  _Translation({
+    required this.en,
+  });
+  factory _Translation.fromJson(Map<String, dynamic> json) => _Translation(
+    en: json['en'] as String,
+  );
+  
+}
+
+class TagInfo {
   final String tag;
-  /// idk what this is, maybe prevent users from removing it?
   final bool locked;
-  /// possibly the negation of locked
   final bool deletable;
-  /// the id of the user who added this tag (why?)
-  final String? userId;
-  /// how do you spell the tag
-  final String? romaji;
-  /// translations
-  final Map<String, String>? translation;
-  /// h
-  final String? userName;
-  _TagItem({
+  final String userId;
+  final String romaji;
+  final _Translation translation;
+  final String userName;
+  TagInfo({
     required this.tag,
     required this.locked,
     required this.deletable,
@@ -52,16 +52,22 @@ class _TagItem {
     required this.translation,
     required this.userName,
   });
-
-  factory _TagItem.fromJson(Map<String, dynamic> json) => _$TagItemFromJson(json);
+  factory TagInfo.fromJson(Map<String, dynamic> json) => TagInfo(
+    tag: json['tag'] as String,
+    locked: json['locked'] as bool,
+    deletable: json['deletable'] as bool,
+    userId: json['userId'] as String,
+    romaji: json['romaji'] as String,
+    translation: json['translation'].map((k,v)=>MapEntry(k,_Translation.fromJson(v))),
+    userName: json['userName'] as String,
+  );
   
 }
-@JsonSerializable()
-/// this doesnt make any sense
+
 class _Tags {
   final String authorId;
   final bool isLocked;
-  final List<_TagItem> tags;
+  final List<TagInfo> tags;
   final bool writable;
   _Tags({
     required this.authorId,
@@ -69,14 +75,15 @@ class _Tags {
     required this.tags,
     required this.writable,
   });
-
-  factory _Tags.fromJson(Map<String, dynamic> json) => _$TagsFromJson(json);
+  factory _Tags.fromJson(Map<String, dynamic> json) => _Tags(
+    authorId: json['authorId'] as String,
+    isLocked: json['isLocked'] as bool,
+    tags: json['tags'].map((e)=>TagInfo.fromJson(e)).toList(),
+    writable: json['writable'] as bool,
+  );
   
 }
-@JsonSerializable()
-/// Description but other languages
-/// 
-/// TODO: Replace this with Map<String, dynamic>
+
 class _AlternateLanguages {
   final String ja;
   final String en;
@@ -84,48 +91,44 @@ class _AlternateLanguages {
     required this.ja,
     required this.en,
   });
-
-  factory _AlternateLanguages.fromJson(Map<String, dynamic> json) => _$AlternateLanguagesFromJson(json);
+  factory _AlternateLanguages.fromJson(Map<String, dynamic> json) => _AlternateLanguages(
+    ja: json['ja'] as String,
+    en: json['en'] as String,
+  );
   
 }
-@JsonSerializable()
-/// Embed metadata 
-/// 
-/// If `type` is non-null, the [_EmbedMeta] is for ogp, else it's for twitter
-class _EmbedMeta {
+
+class EmbedMeta {
   final String description;
   final String image;
   final String title;
-  final String? type;
-  final String? card;
-  _EmbedMeta({
+  final Placeholder? type;
+  final Placeholder? card;
+  EmbedMeta({
     required this.description,
     required this.image,
     required this.title,
     this.type,
     this.card,
   });
-
-  factory _EmbedMeta.fromJson(Map<String, dynamic> json) => _$EmbedMetaFromJson(json);
+  factory EmbedMeta.fromJson(Map<String, dynamic> json) => EmbedMeta(
+    description: json['description'] as String,
+    image: json['image'] as String,
+    title: json['title'] as String,
+    type: json['type'] as Placeholder,
+    card: json['card'] as Placeholder,
+  );
   
 }
-@JsonSerializable()
-/// The metadata for embeds & titles (not to be confused with Facebook)
+
 class _Meta {
-  /// Page title
   final String title;
-  /// Page description
   final String description;
-  /// que
   final String canonical;
-  /// Description but other languages
   final _AlternateLanguages alternateLanguages;
-  /// 
   final String descriptionHeader;
-  /// Embed metadata for ogp (what is this)
-  final _EmbedMeta ogp;
-  /// Embed metadata for twitter 
-  final _EmbedMeta twitter;
+  final EmbedMeta ogp;
+  final EmbedMeta twitter;
   _Meta({
     required this.title,
     required this.description,
@@ -135,231 +138,95 @@ class _Meta {
     required this.ogp,
     required this.twitter,
   });
-
-  factory _Meta.fromJson(Map<String, dynamic> json) => _$MetaFromJson(json);
+  factory _Meta.fromJson(Map<String, dynamic> json) => _Meta(
+    title: json['title'] as String,
+    description: json['description'] as String,
+    canonical: json['canonical'] as String,
+    alternateLanguages: json['alternateLanguages'].map((k,v)=>MapEntry(k,_AlternateLanguages.fromJson(v))),
+    descriptionHeader: json['descriptionHeader'] as String,
+    ogp: json['ogp'].map((k,v)=>MapEntry(k,EmbedMeta.fromJson(v))),
+    twitter: json['twitter'].map((k,v)=>MapEntry(k,EmbedMeta.fromJson(v))),
+  );
   
 }
-@JsonSerializable()
-/// it only contains the metadata for embeds & titles
+
 class _ExtraData {
   final _Meta meta;
   _ExtraData({
     required this.meta,
   });
-
-  factory _ExtraData.fromJson(Map<String, dynamic> json) => _$ExtraDataFromJson(json);
+  factory _ExtraData.fromJson(Map<String, dynamic> json) => _ExtraData(
+    meta: json['meta'].map((k,v)=>MapEntry(k,_Meta.fromJson(v))),
+  );
   
 }
-@JsonSerializable()
-class _BookmarkData {
-  /// Bookmark id 
-  final String id;
-  /// If the bookmark is the private one 
-  final bool private;
-  _BookmarkData({
-    required this.id,
-    required this.private
-  }); 
 
-  factory _BookmarkData.fromJson(Map<String, dynamic> json) => _$BookmarkDataFromJson(json);
-}
-@JsonSerializable()
-/// The artwork object (Embedded Request Mix)
-class ArtworkLite {
-  /// Artwork id
-  final String id;
-  /// Artwork title
-  final String title;
-  /// Artwork type 
-  /// 
-  /// Available values are: 
-  /// - 0: Single-pic artwork
-  /// - 1: Multi-pic artwork
-  /// - 2: Animated artwork
-  final int illustType;
-  /// Artwork restriction state. 1 for R-18
-  final int xRestrict;
-  /// actually i forgor
-  final int restrict;
-  /// que
-  final int sl;
-  /// Artwork thumbnail URL
-  final String url;
-  /// Artwork description. The only usage of this field is the featured page in /users/:id lmao
-  final String description;
-  /// Artwork tag
-  final List<String> tags;
-  /// Author id
-  final String userId;
-  /// Author name
-  final String userName;
-  /// Artwork width (first image)
-  final int width;
-  /// Artwork height (first image)
-  final int height;
-  /// Page count
-  final int pageCount;
-  /// why :(((((((
-  final bool isBookmarkable;
-  /// Bookmark data
-  final _BookmarkData? bookmarkData;
-  /// Page title 
-  final String alt;
-  /// Title & description translation
-  final TitleCaptionTranslation titleCaptionTranslation;
-  /// Upload date
-  final String createDate;
-  /// Last updated
-  final String updateDate;
-  /// 
-  final bool isUnlisted;
-  /// i wear a mask with a smile for an hour of a time
-  /// stare at the ceiling while i hold back
-  final bool isMasked;
-  /// truthy-falsy-based int to check if this is an ai art
-  /// luckily pixiv residents ditched it :)
-  final int aiType;
-  ArtworkLite({
-    required this.id,
-    required this.title,
-    required this.illustType,
-    required this.xRestrict,
-    required this.restrict,
-    required this.sl,
-    required this.url,
-    required this.description,
-    required this.tags,
-    required this.userId,
-    required this.userName,
-    required this.width,
-    required this.height,
-    required this.pageCount,
-    required this.isBookmarkable,
-    this.bookmarkData,
-    required this.alt,
-    required this.titleCaptionTranslation,
-    required this.createDate,
-    required this.updateDate,
-    required this.isUnlisted,
-    required this.isMasked,
-    required this.aiType,
+class _TitleCaptionTranslation {
+  final String? workTitle;
+  final String? workCaption;
+  _TitleCaptionTranslation({
+    this.workTitle,
+    this.workCaption,
   });
-
-  factory ArtworkLite.fromJson(Map<String, dynamic> json) => _$ArtworkLiteFromJson(json);
+  factory _TitleCaptionTranslation.fromJson(Map<String, dynamic> json) => _TitleCaptionTranslation(
+    workTitle: json['workTitle'] as String,
+    workCaption: json['workCaption'] as String,
+  );
   
 }
-@JsonSerializable()
-/// The artwork object
+
 class Artwork {
-  /// Artwork id
   final String illustId;
-  /// Artwork title
   final String illustTitle;
-  /// Artwork description
   final String illustComment;
   final String id;
   final String title;
   final String description;
-  /// Artwork type 
-  /// 
-  /// Available values are: 
-  /// - 0: Single-pic artwork
-  /// - 1: Multi-pic artwork
-  /// - 2: Animated artwork
   final int illustType;
-  /// Upload date
   final String createDate;
-  /// wdym
   final String uploadDate;
-  /// nuh
   final int restrict;
-  /// Artwork restriction state. 1 for R-18
   final int xRestrict;
-  /// TODO: i got your attention
   final int sl;
-  /// Artwork url at different sizes
   final _Urls urls;
-  /// Artwork tags with additional boilerplate
   final _Tags tags;
-  /// Page title
   final String alt;
-  /// Author id
   final String userId;
-  /// Author name
   final String userName;
-  /// 192.168.1.1 /// TODO: why
   final String userAccount;
-  /// Author artworks 
-  /// 3 available data are the next, current and the artwork before
-  final Map<String, ArtworkLite?> userIllusts;
-  /// TODO: how many todos are there
+  final Map<String, PartialArtwork> userIllusts;
   final bool likeData;
-  /// Artwork width (first image)
   final int width;
-  /// Artwork height (first image)
   final int height;
-  /// Page count
   final int pageCount;
-  /// Bookmark count
   final int bookmarkCount;
-  /// Like count
   final int likeCount;
-  /// holy shit
   final int commentCount;
-  /// wait i think this is normal
   final int responseCount;
-  /// flood
   final int viewCount;
-  /// book
   final int bookStyle;
-  /// is a tutorial
   final bool isHowto;
-  /// is oc 
   final bool isOriginal;
-  /// The base artworks this one based on
-  final List<BasedOn> imageResponseOutData;
-  /// idk
+  final List<dynamic> imageResponseOutData;
   final List<dynamic> imageResponseData;
-  /// cant you just do Artwork.imageResponseOutData.length?
   final int imageResponseCount;
-  /// THERES A POLL???
   final String? pollData;
-  /// Manga series navigation data 
-  /// TODO: update type
   final String? seriesNavData;
-  /// The relevant booth
   final String? descriptionBoothId;
-  /// subscrib
   final String? descriptionYoutubeId;
-  /// 
   final String? comicPromotion;
-  /// 
   final String? fanboxPromotion;
-  /// Contest banner, idk why is this relevant
   final List<dynamic> contestBanners;
-  /// should the citizen br allowed to bookmark this
   final bool isBookmarkable;
-  /// i dont have it
-  final _BookmarkData? bookmarkData;
-  ///
-  final Map<String, dynamic>? contestData;
-  /// Embed metadata
+  final String? bookmarkData;
+  final String? contestData;
   final _ExtraData extraData;
-  /// sweet
-  final TitleCaptionTranslation titleCaptionTranslation;
-  /// is unlisted
+  final _TitleCaptionTranslation titleCaptionTranslation;
   final bool isUnlisted;
-  /// The request this artwork is attached to
-  final RequestLite? request;
-  /// whether or not the citizen is allowed to express their "UWOOOOH CUNNNY 😭😭😭😭" comments
+  final String? request;
   final int commentOff;
-  /// i hate ai arts 
-  /// ai is not the future (for creativity fields) you lazy ass
-  /// openai can you delete sora already
   final int aiType;
-  /// minor spelling mistake, i win
   final String? reuploadDate;
-  /// ip address: 
   final bool locationMask;
   Artwork({
     required this.illustId,
@@ -415,7 +282,59 @@ class Artwork {
     this.reuploadDate,
     required this.locationMask,
   });
-
-  factory Artwork.fromJson(Map<String, dynamic> json) => _$ArtworkFromJson(json);
+  factory Artwork.fromJson(Map<String, dynamic> json) => Artwork(
+    illustId: json['illustId'] as String,
+    illustTitle: json['illustTitle'] as String,
+    illustComment: json['illustComment'] as String,
+    id: json['id'] as String,
+    title: json['title'] as String,
+    description: json['description'] as String,
+    illustType: json['illustType'] as int,
+    createDate: json['createDate'] as String,
+    uploadDate: json['uploadDate'] as String,
+    restrict: json['restrict'] as int,
+    xRestrict: json['xRestrict'] as int,
+    sl: json['sl'] as int,
+    urls: json['urls'].map((k,v)=>MapEntry(k,_Urls.fromJson(v))),
+    tags: json['tags'].map((k,v)=>MapEntry(k,_Tags.fromJson(v))),
+    alt: json['alt'] as String,
+    userId: json['userId'] as String,
+    userName: json['userName'] as String,
+    userAccount: json['userAccount'] as String,
+    userIllusts: json['userIllusts'].map((k,v)=>MapEntry(k,PartialArtwork.fromJson(v))),
+    likeData: json['likeData'] as bool,
+    width: json['width'] as int,
+    height: json['height'] as int,
+    pageCount: json['pageCount'] as int,
+    bookmarkCount: json['bookmarkCount'] as int,
+    likeCount: json['likeCount'] as int,
+    commentCount: json['commentCount'] as int,
+    responseCount: json['responseCount'] as int,
+    viewCount: json['viewCount'] as int,
+    bookStyle: json['bookStyle'] as int,
+    isHowto: json['isHowto'] as bool,
+    isOriginal: json['isOriginal'] as bool,
+    imageResponseOutData: json['imageResponseOutData'],
+    imageResponseData: json['imageResponseData'],
+    imageResponseCount: json['imageResponseCount'] as int,
+    pollData: json['pollData'] as String,
+    seriesNavData: json['seriesNavData'] as String,
+    descriptionBoothId: json['descriptionBoothId'] as String,
+    descriptionYoutubeId: json['descriptionYoutubeId'] as String,
+    comicPromotion: json['comicPromotion'] as String,
+    fanboxPromotion: json['fanboxPromotion'] as String,
+    contestBanners: json['contestBanners'],
+    isBookmarkable: json['isBookmarkable'] as bool,
+    bookmarkData: json['bookmarkData'] as String,
+    contestData: json['contestData'] as String,
+    extraData: json['extraData'].map((k,v)=>MapEntry(k,_ExtraData.fromJson(v))),
+    titleCaptionTranslation: json['titleCaptionTranslation'].map((k,v)=>MapEntry(k,_TitleCaptionTranslation.fromJson(v))),
+    isUnlisted: json['isUnlisted'] as bool,
+    request: json['request'] as String,
+    commentOff: json['commentOff'] as int,
+    aiType: json['aiType'] as int,
+    reuploadDate: json['reuploadDate'] as String,
+    locationMask: json['locationMask'] as bool,
+  );
   
 }

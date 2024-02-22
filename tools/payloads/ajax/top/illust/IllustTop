@@ -1,11 +1,11 @@
 {
-  "tagTranslation": {"$schema":"./ajax/shared/TagTranslation"},
+  "tagTranslation": {"$schema":"$/ajax/shared/TagTranslation"},
   "thumbnails": {
     "illust": [
       {"$schema":"PartialArtwork"}
     ],
     "novel": [
-      {"$schema":"PartialNovel"}
+      {"$schema":"../novel/PartialNovel"}
     ],
     "novelSeries": [],
     "novelDraft": [],
@@ -13,10 +13,10 @@
   },
   "illustSeries": [],
   "requests": [
-    {"$schema":"./ajax/commission/page/request/PartialRequest"}
+    {"$schema":"$/ajax/commission/page/request/PartialRequest"}
   ],
   "users": [
-    {"$schema":"./ajax/user/PartialUser"}
+    {"$schema":"$/ajax/user/PartialUser"}
   ],
   "page": {
     "tags": [
@@ -59,7 +59,7 @@
         "98952817",
         "116049500"
       ], 
-      "details": {"$schema": "ajax/shared/RecommendStatus"} 
+      "details": {"$schema": "$/ajax/shared/RecommendStatus"} 
     },
     "recommendByTag": [
       {
@@ -78,11 +78,11 @@
           "98952817",
           "90917306"
         ],
-        "details": {"$schema": "ajax/shared/RecommendStatus"} 
-      },
+        "details": {"$schema": "$/ajax/shared/RecommendStatus"} 
+      }
     ],
     "ranking": {
-      "$schema": "ajax/top/shared/Ranking"
+      "$schema": "$/ajax/top/shared/Ranking"
     },
     "pixivision": [
       {
@@ -101,7 +101,7 @@
           "114716726"
         ],
         "novelIds": []
-      },
+      }
     ],
     "contestOngoing": [
       {

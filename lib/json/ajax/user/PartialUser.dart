@@ -1,28 +1,8 @@
-import 'package:json_annotation/json_annotation.dart';
-part 'PartialUser.g.dart';
 
-@JsonSerializable()
-class _Background {
-  final String? color;
-  final bool isPrivate;
-  final int? repeat;
-  final String? url;
-  _Background({
-    required this.color,
-    required this.isPrivate,
-    required this.repeat,
-    required this.url
-  });
-
-
-  factory _Background.fromJson(Map<String, dynamic> json) => _$BackgroundFromJson(json);
-}
-
-@JsonSerializable()
 class PartialUser {
-  /// [label your shit correctly !!!!](https://google.com)
   final int partial;
-  final String? comment;
+  final String comment;
+  final bool followedBack;
   final String userId;
   final String name;
   final String image;
@@ -31,11 +11,12 @@ class PartialUser {
   final bool isFollowed;
   final bool isMypixiv;
   final bool isBlocking;
-  final _Background? background;
+  final String? background;
   final bool acceptRequest;
   PartialUser({
     required this.partial,
     required this.comment,
+    required this.followedBack,
     required this.userId,
     required this.name,
     required this.image,
@@ -47,7 +28,20 @@ class PartialUser {
     this.background,
     required this.acceptRequest,
   });
-
-  factory PartialUser.fromJson(Map<String, dynamic> json) => _$PartialUserFromJson(json);
+  factory PartialUser.fromJson(Map<String, dynamic> json) => PartialUser(
+    partial: json['partial'] as int,
+    comment: json['comment'] as String,
+    followedBack: json['followedBack'] as bool,
+    userId: json['userId'] as String,
+    name: json['name'] as String,
+    image: json['image'] as String,
+    imageBig: json['imageBig'] as String,
+    premium: json['premium'] as bool,
+    isFollowed: json['isFollowed'] as bool,
+    isMypixiv: json['isMypixiv'] as bool,
+    isBlocking: json['isBlocking'] as bool,
+    background: json['background'] as String,
+    acceptRequest: json['acceptRequest'] as bool,
+  );
   
 }
