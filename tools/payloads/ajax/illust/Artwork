@@ -72,55 +72,8 @@
     "isBookmarkable": true,
     "bookmarkData": null,
     "contestData": null,
-    "zoneConfig": {
-        "responsive": {
-            "url": "https://pixon.ads-pixiv.net/show?zone_id=illust_responsive_side&format=js&s=1&up=0&a=33&ng=g&l=en&uri=%2Fajax%2Fillust%2F_PARAM_&ref=www.pixiv.net%2Fen%2Fartworks%2F91140348&illust_id=91140348&K=a60ef41229a2c4&ab_test_digits_first=3&uab=18&yuid=FTIQBXQ&num=65d6c910540"
-        },
-        "rectangle": {
-            "url": "https://pixon.ads-pixiv.net/show?zone_id=illust_rectangle&format=js&s=1&up=0&a=33&ng=g&l=en&uri=%2Fajax%2Fillust%2F_PARAM_&ref=www.pixiv.net%2Fen%2Fartworks%2F91140348&illust_id=91140348&K=a60ef41229a2c4&ab_test_digits_first=3&uab=18&yuid=FTIQBXQ&num=65d6c910793"
-        },
-        "500x500": {
-            "url": "https://pixon.ads-pixiv.net/show?zone_id=bigbanner&format=js&s=1&up=0&a=33&ng=g&l=en&uri=%2Fajax%2Fillust%2F_PARAM_&ref=www.pixiv.net%2Fen%2Fartworks%2F91140348&illust_id=91140348&K=a60ef41229a2c4&ab_test_digits_first=3&uab=18&yuid=FTIQBXQ&num=65d6c910177"
-        },
-        "header": {
-            "url": "https://pixon.ads-pixiv.net/show?zone_id=header&format=js&s=1&up=0&a=33&ng=g&l=en&uri=%2Fajax%2Fillust%2F_PARAM_&ref=www.pixiv.net%2Fen%2Fartworks%2F91140348&illust_id=91140348&K=a60ef41229a2c4&ab_test_digits_first=3&uab=18&yuid=FTIQBXQ&num=65d6c910943"
-        },
-        "footer": {
-            "url": "https://pixon.ads-pixiv.net/show?zone_id=footer&format=js&s=1&up=0&a=33&ng=g&l=en&uri=%2Fajax%2Fillust%2F_PARAM_&ref=www.pixiv.net%2Fen%2Fartworks%2F91140348&illust_id=91140348&K=a60ef41229a2c4&ab_test_digits_first=3&uab=18&yuid=FTIQBXQ&num=65d6c910923"
-        },
-        "expandedFooter": {
-            "url": "https://pixon.ads-pixiv.net/show?zone_id=multiple_illust_viewer&format=js&s=1&up=0&a=33&ng=g&l=en&uri=%2Fajax%2Fillust%2F_PARAM_&ref=www.pixiv.net%2Fen%2Fartworks%2F91140348&illust_id=91140348&K=a60ef41229a2c4&ab_test_digits_first=3&uab=18&yuid=FTIQBXQ&num=65d6c910491"
-        },
-        "logo": {
-            "url": "https://pixon.ads-pixiv.net/show?zone_id=logo_side&format=js&s=1&up=0&a=33&ng=g&l=en&uri=%2Fajax%2Fillust%2F_PARAM_&ref=www.pixiv.net%2Fen%2Fartworks%2F91140348&illust_id=91140348&K=a60ef41229a2c4&ab_test_digits_first=3&uab=18&yuid=FTIQBXQ&num=65d6c910702"
-        },
-        "relatedworks": {
-            "url": "https://pixon.ads-pixiv.net/show?zone_id=relatedworks&format=js&s=1&up=0&a=33&ng=g&l=en&uri=%2Fajax%2Fillust%2F_PARAM_&ref=www.pixiv.net%2Fen%2Fartworks%2F91140348&illust_id=91140348&K=a60ef41229a2c4&ab_test_digits_first=3&uab=18&yuid=FTIQBXQ&num=65d6c910192"
-        }
-    },
     "extraData": {
-        "meta": {
-            "title": "Touhou, Touhou Project, cat ears / 水着レミリア - pixiv",
-            "description": "この作品 「水着レミリア」 は 「東方」「東方Project」 等のタグがつけられた「ソラリス(Solarisu)」さんのイラストです。 「妹様の方はこちら↓https://www.pixiv.net/artworks/91030831」",
-            "canonical": "https://www.pixiv.net/en/artworks/91140348",
-            "alternateLanguages": {
-                "ja": "https://www.pixiv.net/artworks/91140348",
-                "en": "https://www.pixiv.net/en/artworks/91140348"
-            },
-            "descriptionHeader": "Touhou, Touhou Project, cat ears, remilia scarlet are the most prominent tags for this work posted on July 10th, 2021.",
-            "ogp": {
-                "description": "妹様の方はこちら↓https://www.pixiv.net/artworks/91030831",
-                "image": "https://embed.pixiv.net/artwork.php?illust_id=91140348",
-                "title": "Touhou, Touhou Project, cat ears / 水着レミリア - pixiv",
-                "type": "article",
-                "card": "summary_large_image",
-                "$nullable": ["type","card"],
-                "$name": "EmbedMeta"
-            },
-            "twitter": {
-                "$type": "EmbedMeta"
-            }
-        }
+        "$schema": "$/ajax/shared/ExtraData"
     },
     "titleCaptionTranslation": {
         "workTitle": null,

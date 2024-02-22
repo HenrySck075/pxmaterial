@@ -73,6 +73,9 @@ def generate(data, name=""):
         if vt=="Null": 
             vt="String"
             required = False
+        if (cmt:=data.get("$desc"))!=None:
+            "TODO: implement"
+            # out+="  /// "+"\n  /// ".join(cmt.splitlines())
         out+=f"  final {vt}{'' if required else '?'} {k};"+"\n"
         const+=f"    {'required ' if required else ''}this.{k},"+"\n"
 

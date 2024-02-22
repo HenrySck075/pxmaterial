@@ -1,4 +1,4 @@
-import 'package:sofieru/json/ajax/shared/Placeholder.dart' show Placeholder;
+import 'package:sofieru/json/ajax/shared/ExtraData.dart' show ExtraData;
 import 'package:sofieru/json/ajax/top/illust/PartialArtwork.dart' show PartialArtwork;
 
 class _Urls {
@@ -84,83 +84,6 @@ class _Tags {
   
 }
 
-class _AlternateLanguages {
-  final String ja;
-  final String en;
-  _AlternateLanguages({
-    required this.ja,
-    required this.en,
-  });
-  factory _AlternateLanguages.fromJson(Map<String, dynamic> json) => _AlternateLanguages(
-    ja: json['ja'] as String,
-    en: json['en'] as String,
-  );
-  
-}
-
-class EmbedMeta {
-  final String description;
-  final String image;
-  final String title;
-  final Placeholder? type;
-  final Placeholder? card;
-  EmbedMeta({
-    required this.description,
-    required this.image,
-    required this.title,
-    this.type,
-    this.card,
-  });
-  factory EmbedMeta.fromJson(Map<String, dynamic> json) => EmbedMeta(
-    description: json['description'] as String,
-    image: json['image'] as String,
-    title: json['title'] as String,
-    type: json['type'] as Placeholder,
-    card: json['card'] as Placeholder,
-  );
-  
-}
-
-class _Meta {
-  final String title;
-  final String description;
-  final String canonical;
-  final _AlternateLanguages alternateLanguages;
-  final String descriptionHeader;
-  final EmbedMeta ogp;
-  final EmbedMeta twitter;
-  _Meta({
-    required this.title,
-    required this.description,
-    required this.canonical,
-    required this.alternateLanguages,
-    required this.descriptionHeader,
-    required this.ogp,
-    required this.twitter,
-  });
-  factory _Meta.fromJson(Map<String, dynamic> json) => _Meta(
-    title: json['title'] as String,
-    description: json['description'] as String,
-    canonical: json['canonical'] as String,
-    alternateLanguages: json['alternateLanguages'].map((k,v)=>MapEntry(k,_AlternateLanguages.fromJson(v))),
-    descriptionHeader: json['descriptionHeader'] as String,
-    ogp: json['ogp'].map((k,v)=>MapEntry(k,EmbedMeta.fromJson(v))),
-    twitter: json['twitter'].map((k,v)=>MapEntry(k,EmbedMeta.fromJson(v))),
-  );
-  
-}
-
-class _ExtraData {
-  final _Meta meta;
-  _ExtraData({
-    required this.meta,
-  });
-  factory _ExtraData.fromJson(Map<String, dynamic> json) => _ExtraData(
-    meta: json['meta'].map((k,v)=>MapEntry(k,_Meta.fromJson(v))),
-  );
-  
-}
-
 class _TitleCaptionTranslation {
   final String? workTitle;
   final String? workCaption;
@@ -220,7 +143,7 @@ class Artwork {
   final bool isBookmarkable;
   final String? bookmarkData;
   final String? contestData;
-  final _ExtraData extraData;
+  final ExtraData extraData;
   final _TitleCaptionTranslation titleCaptionTranslation;
   final bool isUnlisted;
   final String? request;
@@ -327,7 +250,7 @@ class Artwork {
     isBookmarkable: json['isBookmarkable'] as bool,
     bookmarkData: json['bookmarkData'] as String,
     contestData: json['contestData'] as String,
-    extraData: json['extraData'].map((k,v)=>MapEntry(k,_ExtraData.fromJson(v))),
+    extraData: json['extraData'].map((k,v)=>MapEntry(k,ExtraData.fromJson(v))),
     titleCaptionTranslation: json['titleCaptionTranslation'].map((k,v)=>MapEntry(k,_TitleCaptionTranslation.fromJson(v))),
     isUnlisted: json['isUnlisted'] as bool,
     request: json['request'] as String,
