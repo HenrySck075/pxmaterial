@@ -107,8 +107,8 @@ class _Plan {
     creatorUserId: json['creatorUserId'] as String,
     planAcceptRequestFlg: json['planAcceptRequestFlg'] as bool,
     planStandardPrice: json['planStandardPrice'] as int,
-    planTitle: json['planTitle'].map((k,v)=>MapEntry(k,_PlanTitle.fromJson(v))),
-    planDescription: json['planDescription'].map((k,v)=>MapEntry(k,_PlanDescription.fromJson(v))),
+    planTitle: _PlanTitle.fromJson(json['planTitle']),
+    planDescription: _PlanDescription.fromJson(json['planDescription']),
     planAcceptAdultFlg: json['planAcceptAdultFlg'] as bool,
     planAcceptAnonymousFlg: json['planAcceptAnonymousFlg'] as bool,
     planAcceptIllustFlg: json['planAcceptIllustFlg'] as bool,
@@ -167,12 +167,12 @@ class _PostWork {
   factory _PostWork.fromJson(Map<String, dynamic> json) => _PostWork(
     postWorkId: json['postWorkId'] as String,
     postWorkType: json['postWorkType'] as String,
-    work: json['work'].map((k,v)=>MapEntry(k,_Work.fromJson(v))),
+    work: _Work.fromJson(json['work']),
   );
   
 }
 
-class PartialRequest {
+class Request {
   final String requestId;
   final String planId;
   final String? fanUserId;
@@ -193,7 +193,7 @@ class PartialRequest {
   final _Plan plan;
   final _CollaborateStatus collaborateStatus;
   final _PostWork postWork;
-  PartialRequest({
+  Request({
     required this.requestId,
     required this.planId,
     this.fanUserId,
@@ -215,7 +215,7 @@ class PartialRequest {
     required this.collaborateStatus,
     required this.postWork,
   });
-  factory PartialRequest.fromJson(Map<String, dynamic> json) => PartialRequest(
+  factory Request.fromJson(Map<String, dynamic> json) => Request(
     requestId: json['requestId'] as String,
     planId: json['planId'] as String,
     fanUserId: json['fanUserId'] as String,
@@ -224,7 +224,7 @@ class PartialRequest {
     requestAcceptStatus: json['requestAcceptStatus'] as String,
     requestPostWorkType: json['requestPostWorkType'] as String,
     requestPrice: json['requestPrice'] as int,
-    requestProposal: json['requestProposal'] is List?null:json['requestProposal'].map((k,v)=>MapEntry(k,Placeholder.fromJson(v))),
+    requestProposal: json['requestProposal'] is List?null:Placeholder.fromJson(json['requestProposal']),
     requestTags: json['requestTags'],
     requestAdultFlg: json['requestAdultFlg'] as bool,
     requestAnonymousFlg: json['requestAnonymousFlg'] as bool,
@@ -233,9 +233,9 @@ class PartialRequest {
     requestResponseDeadlineDatetime: json['requestResponseDeadlineDatetime'] as String,
     requestPostDeadlineDatetime: json['requestPostDeadlineDatetime'] as String,
     role: json['role'] as String,
-    plan: json['plan'].map((k,v)=>MapEntry(k,_Plan.fromJson(v))),
-    collaborateStatus: json['collaborateStatus'].map((k,v)=>MapEntry(k,_CollaborateStatus.fromJson(v))),
-    postWork: json['postWork'].map((k,v)=>MapEntry(k,_PostWork.fromJson(v))),
+    plan: _Plan.fromJson(json['plan']),
+    collaborateStatus: _CollaborateStatus.fromJson(json['collaborateStatus']),
+    postWork: _PostWork.fromJson(json['postWork']),
   );
   
 }

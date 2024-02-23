@@ -81,8 +81,8 @@ class _Meta {
     title: json['title'] as String,
     description: json['description'] as String,
     canonical: json['canonical'] as String,
-    ogp: json['ogp'].map((k,v)=>MapEntry(k,SEOEmbedMeta.fromJson(v))),
-    twitter: json['twitter'].map((k,v)=>MapEntry(k,TwitterEmbedMeta.fromJson(v))),
+    ogp: SEOEmbedMeta.fromJson(json['ogp']),
+    twitter: TwitterEmbedMeta.fromJson(json['twitter']),
   );
   
 }
@@ -93,7 +93,7 @@ class _ExtraData {
     required this.meta,
   });
   factory _ExtraData.fromJson(Map<String, dynamic> json) => _ExtraData(
-    meta: json['meta'].map((k,v)=>MapEntry(k,_Meta.fromJson(v))),
+    meta: _Meta.fromJson(json['meta']),
   );
   
 }
@@ -203,16 +203,16 @@ class Series {
     displaySeriesContentCount: json['displaySeriesContentCount'] as int,
     shareText: json['shareText'] as String,
     total: json['total'] as int,
-    firstEpisode: json['firstEpisode'].map((k,v)=>MapEntry(k,_FirstEpisode.fromJson(v))),
+    firstEpisode: _FirstEpisode.fromJson(json['firstEpisode']),
     watchCount: json['watchCount'] as String,
     maxXRestrict: json['maxXRestrict'] as String,
-    cover: json['cover'].map((k,v)=>MapEntry(k,_Cover.fromJson(v))),
+    cover: _Cover.fromJson(json['cover']),
     coverSettingData: json['coverSettingData'] as String,
     isWatched: json['isWatched'] as bool,
     isNotifying: json['isNotifying'] as bool,
     aiType: json['aiType'] as int,
     hasGlossary: json['hasGlossary'] as bool,
-    extraData: json['extraData'].map((k,v)=>MapEntry(k,_ExtraData.fromJson(v))),
+    extraData: _ExtraData.fromJson(json['extraData']),
   );
   
 }

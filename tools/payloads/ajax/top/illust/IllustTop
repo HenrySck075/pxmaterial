@@ -1,5 +1,7 @@
 {
-  "tagTranslation": {"$schema":"$/ajax/shared/TagTranslation"},
+  "tagTranslation": {
+      "-":{"$schema":"$/ajax/shared/TagTranslation"}
+  },
   "thumbnails": {
     "illust": [
       {"$schema":"PartialArtwork"}
@@ -13,7 +15,7 @@
   },
   "illustSeries": [],
   "requests": [
-    {"$schema":"$/ajax/commission/page/request/PartialRequest"}
+    {"$schema":"$/ajax/commission/page/request/Request"}
   ],
   "users": [
     {"$schema":"$/ajax/user/PartialUser"}

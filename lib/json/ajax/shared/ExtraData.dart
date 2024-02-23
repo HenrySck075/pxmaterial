@@ -44,10 +44,10 @@ class _Meta {
     title: json['title'] as String,
     description: json['description'] as String,
     canonical: json['canonical'] as String,
-    alternateLanguages: json['alternateLanguages'].map((k,v)=>MapEntry(k,Placeholder.fromJson(v))),
+    alternateLanguages: Placeholder.fromJson(json['alternateLanguages']),
     descriptionHeader: json['descriptionHeader'] as String,
-    ogp: json['ogp'].map((k,v)=>MapEntry(k,_EmbedMeta.fromJson(v))),
-    twitter: json['twitter'].map((k,v)=>MapEntry(k,_EmbedMeta.fromJson(v))),
+    ogp: _EmbedMeta.fromJson(json['ogp']),
+    twitter: _EmbedMeta.fromJson(json['twitter']),
   );
   
 }
@@ -58,7 +58,7 @@ class ExtraData {
     required this.meta,
   });
   factory ExtraData.fromJson(Map<String, dynamic> json) => ExtraData(
-    meta: json['meta'].map((k,v)=>MapEntry(k,_Meta.fromJson(v))),
+    meta: _Meta.fromJson(json['meta']),
   );
   
 }

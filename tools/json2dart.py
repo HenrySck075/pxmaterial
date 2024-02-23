@@ -1,3 +1,5 @@
+"Typed maps, NOW!!"
+
 import sys
 name = sys.argv[1]
 import json
@@ -48,7 +50,7 @@ def generate(data, name=""):
     if private: name = "_"+name
     if "$name" in data: name = data["$name"]
     if "$type" in data: return data["$type"]
-    out = "\n"+f"class {name} "+"{\n"
+    out = f"class {name} "+"{\n"
     const = f"  {name}("+"{\n"
     # This code is essentially not recommended, but since pixiv apis is built for javascript, i have no other choice
     # the way they check for whether the response contains data is via an empty string (i suppose, but i dont think they did it)
@@ -59,6 +61,10 @@ def generate(data, name=""):
 
     emptiable = data.get("$emptiable",[])
     nullable = data.get("$nullable",[])
+    desc: dict[str,str] = data.get("$desc",{})
+    if "$this" in desc:
+        out="  /// "+"\n  /// ".join(desc["$this"].splitlines())+"\n"+out
+    g = emptiable+nullable
 
     for k,v in data.items():
         if k == "zoneConfig" or k.startswith("$"): continue
@@ -66,16 +72,15 @@ def generate(data, name=""):
         #b = (vto==list and len(v)==0)
 
         if any(k[0]==i for i in "0123456789") or any(i in k for i in "-/\\[]{}() *&^%#@!'\":;,?=÷×+|<>°•"):return f"Map<String, {boy(name.removeprefix('_')+'Content',v)}>"
-        required = not (k in emptiable or k in nullable) #or b
+        required = not (k in emptiable or k in nullable) or "$all" in g #or b
         b = required
         fnnuy = {"$schema":"$/ajax/shared/Placeholder"}
         vt=boy(k,v if b else fnnuy if type(v)!=list else [fnnuy])
         if vt=="Null": 
             vt="String"
             required = False
-        if (cmt:=data.get("$desc"))!=None:
-            "TODO: implement"
-            # out+="  /// "+"\n  /// ".join(cmt.splitlines())
+        if k in desc:
+            out+="  /// "+"\n  /// ".join(desc[k].splitlines())+"\n"
         out+=f"  final {vt}{'' if required else '?'} {k};"+"\n"
         const+=f"    {'required ' if required else ''}this.{k},"+"\n"
 
@@ -86,7 +91,10 @@ def generate(data, name=""):
             j = vt.removesuffix(">").removeprefix("List<") # we might not having to
             if j not in classes.values(): fromJson+=f".map((e)=>{j}.fromJson(e)).toList()"
         else: 
-            fromJson+=f".map((k,v)=>MapEntry(k,{vt.removeprefix('Map<String, ').removesuffix('>')}.fromJson(v)))" if vt not in classes.values() else f" as Map<String, {vt+('' if required else '?')}>"
+            if vt.startswith("Map<"):
+                fromJson+=f".map((k,v)=>MapEntry(k,{vt.removeprefix('Map<String, ').removesuffix('>')}.fromJson(v)))" if vt not in classes.values() else f" as Map<String, {vt+('' if required else '?')}>"
+            else:
+                fromJson=fromJson[:-8-len(k)]+f"{vt}.fromJson(json['{k}'])"
         fromJson+=",\n"
 
     fromJson+="  );"
@@ -96,7 +104,7 @@ def generate(data, name=""):
     if "$typedef" in data: 
         for k,v in data["$typedef"].items():
             out+=f"typedef {k}={v};"+"\n"
-    output+=out
+    output+=out+"\n"
     return name
     
 generate(d, name)

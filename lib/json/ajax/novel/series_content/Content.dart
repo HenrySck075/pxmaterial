@@ -88,7 +88,7 @@ class _SeriesContents {
   factory _SeriesContents.fromJson(Map<String, dynamic> json) => _SeriesContents(
     id: json['id'] as String,
     userId: json['userId'] as String,
-    series: json['series'].map((k,v)=>MapEntry(k,_Series.fromJson(v))),
+    series: _Series.fromJson(json['series']),
     title: json['title'] as String,
     commentHtml: json['commentHtml'] as String,
     tags: json['tags'],
@@ -139,11 +139,11 @@ class Content {
   });
   factory Content.fromJson(Map<String, dynamic> json) => Content(
     tagTranslation: json['tagTranslation'],
-    thumbnails: json['thumbnails'].map((k,v)=>MapEntry(k,_Thumbnails.fromJson(v))),
+    thumbnails: _Thumbnails.fromJson(json['thumbnails']),
     illustSeries: json['illustSeries'],
     requests: json['requests'],
     users: json['users'],
-    page: json['page'].map((k,v)=>MapEntry(k,_Page.fromJson(v))),
+    page: _Page.fromJson(json['page']),
   );
   
 }

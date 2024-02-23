@@ -1,0 +1,77 @@
+{
+    "userId": "2416323",
+    "name": "Azel",
+    "image": "https://i.pximg.net/user-profile/img/2023/08/30/13/35/50/24878060_11c1154e992c64e90ef5e3f6061fedc6_50.png",
+    "imageBig": "https://i.pximg.net/user-profile/img/2023/08/30/13/35/50/24878060_11c1154e992c64e90ef5e3f6061fedc6_170.png",
+    "premium": true,
+    "isFollowed": false,
+    "isMypixiv": false,
+    "isBlocking": false,
+    "background": {
+        "repeat": null,
+        "color": null,
+        "url": "https://i.pximg.net/c/1920x960_80_a2_g5/background/img/2023/08/30/08/13/38/2416323_dfd8c1a8dbbbc2725652cee65478df4d.jpg",
+        "isPrivate": false
+    },
+    "sketchLiveId": null,
+    "partial": 1,
+    "acceptRequest": true,
+    "sketchLives": [],
+    "following": 261,
+    "mypixivCount": 28,
+    "followedBack": false,
+    "comment": "Japanese Illustrator　／　available in English・可用中文（elementary level, 初学者级）\n\ntwitter: https://twitter.com/lam\nskeb: https://skeb.jp/@laevateinn495\n\nTo request a job, please send us a message or send me a request.\n要申请一项工作，请发送一个信息或请求。\n\nIf you post my painting elsewhere, please be sure to include a link to the original painting.\n如果你想转载我的作品，请务必附上原作链接。",
+    "commentHtml": "Japanese Illustrator　／　available in English・可用中文（elementary level&#44; 初学者级）<br /><br />twitter: <strong><a href=\"https://twitter.com/lam\" target=\"_blank\">twitter/lam</a></strong><br />skeb: <a href=\"/jump.php?https%3A%2F%2Fskeb.jp%2F%40laevateinn495\" target=\"_blank\">https://skeb.jp/@laevateinn495</a><br /><br />To request a job&#44; please send us a message or send me a request.<br />要申请一项工作，请发送一个信息或请求。<br /><br />If you post my painting elsewhere&#44; please be sure to include a link to the original painting.<br />如果你想转载我的作品，请务必附上原作链接。",
+    "webpage": null,
+    "social": {
+        "-": {
+            "url": "https://twitter.com/lam"
+        }
+    },
+    "canSendMessage": true,
+    "region": {
+        "name": "Japan",
+        "region": "JP",
+        "prefecture": "13",
+        "privacyLevel": "0"
+    },
+    "age": {
+        "$type": "PrivacyLeveledData"
+    },
+    "birthDay": {
+        "name": "February 22",
+        "privacyLevel": "0",
+        "$nullable": ["name","privacyLevel"],
+        "$name": "PrivacyLeveledData",
+        "$desc": {
+          "name": "Value",
+          "privacyLevel": "Privacy level. Will be `null` if it's other users"
+        }
+    },
+    "gender": {
+        "$type": "PrivacyLeveledData"
+    },
+    "job": {
+        "$type": "PrivacyLeveledData"
+    },
+    "workspace": {
+        "userWorkspacePc": "デスクトップPC　Windows 10",
+        "userWorkspaceMonitor": "I-O DATA　LCD-HC241XD",
+        "userWorkspaceTool": "CLIP STUDIO PAINT／Adobe Photoshop CC",
+        "userWorkspaceScanner": "なし",
+        "userWorkspaceTablet": "Cintiq 16",
+        "userWorkspaceMouse": "サンワサプライ　MA-117HBK",
+        "userWorkspacePrinter": "なし",
+        "userWorkspaceDesktop": "PC一式・本棚・常備薬",
+        "userWorkspaceMusic": "ごちうさキャラソン",
+        "userWorkspaceDesk": "スタンディングデスク（自作）",
+        "userWorkspaceChair": "なし",
+        "$nullable": "$all"
+    },
+    "official": false,
+    "group": null,
+    "$desc": {
+      "workspace": "User's workspace specs",
+      "$this": "Represents the [User] object"
+    }
+}

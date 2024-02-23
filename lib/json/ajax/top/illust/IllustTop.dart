@@ -2,7 +2,7 @@ import 'package:sofieru/json/ajax/top/shared/Ranking.dart' show Ranking;
 import 'package:sofieru/json/ajax/shared/RecommendStatus.dart' show RecommendStatus;
 import 'Tag.dart' show Tag;
 import 'package:sofieru/json/ajax/user/PartialUser.dart' show PartialUser;
-import 'package:sofieru/json/ajax/commission/page/request/PartialRequest.dart' show PartialRequest;
+import 'package:sofieru/json/ajax/commission/page/request/Request.dart' show Request;
 import '../novel/PartialNovel.dart' show PartialNovel;
 import 'PartialArtwork.dart' show PartialArtwork;
 import 'package:sofieru/json/ajax/shared/TagTranslation.dart' show TagTranslation;
@@ -39,7 +39,7 @@ class _Recommend {
   });
   factory _Recommend.fromJson(Map<String, dynamic> json) => _Recommend(
     ids: json['ids'],
-    details: json['details'].map((k,v)=>MapEntry(k,RecommendStatus.fromJson(v))),
+    details: RecommendStatus.fromJson(json['details']),
   );
   
 }
@@ -56,7 +56,7 @@ class _RecommendByTag {
   factory _RecommendByTag.fromJson(Map<String, dynamic> json) => _RecommendByTag(
     tag: json['tag'] as String,
     ids: json['ids'],
-    details: json['details'].map((k,v)=>MapEntry(k,RecommendStatus.fromJson(v))),
+    details: RecommendStatus.fromJson(json['details']),
   );
   
 }
@@ -203,9 +203,9 @@ class _Page {
     tags: json['tags'].map((e)=>Tag.fromJson(e)).toList(),
     follow: json['follow'],
     mypixiv: json['mypixiv'],
-    recommend: json['recommend'].map((k,v)=>MapEntry(k,_Recommend.fromJson(v))),
+    recommend: _Recommend.fromJson(json['recommend']),
     recommendByTag: json['recommendByTag'].map((e)=>_RecommendByTag.fromJson(e)).toList(),
-    ranking: json['ranking'].map((k,v)=>MapEntry(k,Ranking.fromJson(v))),
+    ranking: Ranking.fromJson(json['ranking']),
     pixivision: json['pixivision'].map((e)=>_Pixivision.fromJson(e)).toList(),
     recommendUser: json['recommendUser'].map((e)=>_RecommendUser.fromJson(e)).toList(),
     contestOngoing: json['contestOngoing'].map((e)=>_ContestOngoing.fromJson(e)).toList(),
@@ -250,10 +250,10 @@ class _BoothItems {
 }
 
 class IllustTop {
-  final TagTranslation tagTranslation;
+  final Map<String, TagTranslation> tagTranslation;
   final _Thumbnails thumbnails;
   final List<dynamic> illustSeries;
-  final List<PartialRequest> requests;
+  final List<Request> requests;
   final List<PartialUser> users;
   final _Page page;
   final List<_BoothItems> boothItems;
@@ -270,11 +270,11 @@ class IllustTop {
   });
   factory IllustTop.fromJson(Map<String, dynamic> json) => IllustTop(
     tagTranslation: json['tagTranslation'].map((k,v)=>MapEntry(k,TagTranslation.fromJson(v))),
-    thumbnails: json['thumbnails'].map((k,v)=>MapEntry(k,_Thumbnails.fromJson(v))),
+    thumbnails: _Thumbnails.fromJson(json['thumbnails']),
     illustSeries: json['illustSeries'],
-    requests: json['requests'].map((e)=>PartialRequest.fromJson(e)).toList(),
+    requests: json['requests'].map((e)=>Request.fromJson(e)).toList(),
     users: json['users'].map((e)=>PartialUser.fromJson(e)).toList(),
-    page: json['page'].map((k,v)=>MapEntry(k,_Page.fromJson(v))),
+    page: _Page.fromJson(json['page']),
     boothItems: json['boothItems'].map((e)=>_BoothItems.fromJson(e)).toList(),
     sketchLives: json['sketchLives'],
   );

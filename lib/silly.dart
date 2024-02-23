@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sofieru/json/ajax/top/illust/Artwork.dart';
+import 'package:sofieru/json/ajax/top/illust/PartialArtwork.dart';
 import 'package:sofieru/json/ajax/user/User.dart';
 import 'package:sofieru/shared.dart' show pxRequest, tryCast, navigate, JSON, currentRouteURI;
 import 'package:url_launcher/url_launcher.dart';
@@ -348,7 +349,7 @@ class AuthorInfo extends StatelessWidget {
 }
 /// as used in [IllustPage]
 class PxSimpleArtwork extends StatefulWidget {
-  final Map<String,dynamic> data;
+  final PartialArtwork data;
   final bool isCurrent;
   final bool authorInfo;
   const PxSimpleArtwork({super.key, required this.data, this.isCurrent = false, this.authorInfo = false});
@@ -361,7 +362,7 @@ class _PxSimpleArtworkState extends State<PxSimpleArtwork> {
   bool bookmarked = false;
   @override
   Widget build(context) {
-    var id = widget.data["illustId"]??widget.data["id"];
+    var id = widget.data.illustId??widget.data.id;
     double s = widget.authorInfo?85:120;
     return Stack(
       children: [
@@ -378,7 +379,7 @@ class _PxSimpleArtworkState extends State<PxSimpleArtwork> {
               color: Colors.black.withOpacity(0.5)
             ):null,
             clipBehavior: Clip.hardEdge,
-            child: pxImage(widget.data["url"],width:s,height:s)
+            child: pxImage(widget.data.url,width:s,height:s)
           ),
         ),
         Positioned(
@@ -400,8 +401,8 @@ class _PxSimpleArtworkState extends State<PxSimpleArtwork> {
           right: 0,
           child: Icon(Icons.favorite_outline,color: Colors.black,)
         ),
-        if (widget.data["illustType"]==2) const Positioned.fill(child: Align(alignment: Alignment.center,child: Icon(Icons.play_circle_outlined,size: 24,),)),
-        if (widget.data["xRestrict"] == 1) Positioned(
+        if (widget.data.illustType==2) const Positioned.fill(child: Align(alignment: Alignment.center,child: Icon(Icons.play_circle_outlined,size: 24,),)),
+        if (widget.data.xRestrict == 1) Positioned(
           top:4, left:4,
           child:SizedBox(
             width: 36,
@@ -412,14 +413,14 @@ class _PxSimpleArtworkState extends State<PxSimpleArtwork> {
             ),
           )
         ),
-        if (widget.data["pageCount"]!=1) Positioned(
+        if (widget.data.pageCount!=1) Positioned(
           top:4,right:4,
           child: SizedBox(
             width:24,
             height:24,
             child: Container(
               decoration: BoxDecoration(color: Colors.grey.withOpacity(0.5),borderRadius: BorderRadius.circular(4)),
-              child: Center(child: Text(widget.data["pageCount"].toString()))
+              child: Center(child: Text(widget.data.pageCount.toString()))
             ),
           )
         )

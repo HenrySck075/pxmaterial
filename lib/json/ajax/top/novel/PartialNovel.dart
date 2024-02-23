@@ -88,7 +88,7 @@ class PartialNovel {
     bookmarkCount: json['bookmarkCount'] as int,
     isOriginal: json['isOriginal'] as bool,
     marker: json['marker'] as String,
-    titleCaptionTranslation: json['titleCaptionTranslation'].map((k,v)=>MapEntry(k,_TitleCaptionTranslation.fromJson(v))),
+    titleCaptionTranslation: _TitleCaptionTranslation.fromJson(json['titleCaptionTranslation']),
     createDate: json['createDate'] as String,
     updateDate: json['updateDate'] as String,
     isMasked: json['isMasked'] as bool,

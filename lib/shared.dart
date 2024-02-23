@@ -207,19 +207,7 @@ T? tryCast<T>(obj) {
   return obj is T?obj:null;
 }
 
-/// not to be confused with [tryCast]
-dynamic _tryConvert(dynamic h) {
-  if (h is Map) return h;
-  List<MapEntry<String,dynamic>> nerd = [];
-  h.forEach((v){nerd.add(MapEntry(v["id"], v));});
-  h = Map.fromEntries(nerd);
-  return h;
-}
-dynamic thumbRemap(dynamic d) {
-  d["thumbnails"]["novel"] = _tryConvert(d["thumbnails"]["novel"]);
-  d["thumbnails"]["illust"] = _tryConvert(d["thumbnails"]["illust"]);
-  return d;
-}
+
 /// ^^
 /// Lying
 class SpicyStates extends ChangeNotifier {

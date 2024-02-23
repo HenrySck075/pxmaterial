@@ -2,18 +2,16 @@
 
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:sofieru/json/ajax/illust/Artwork.dart';
-import 'package:sofieru/json/ajax/top/illust/Artwork.dart' as alite;
+import 'package:sofieru/json/ajax/top/illust/PartialArtwork.dart' as alite;
 import 'package:sofieru/json/ajax/user/PartialUser.dart';
 import 'package:sofieru/shared.dart';
 import 'shared.dart';
-import 'package:http/http.dart' as http show Response;
 import 'package:archive/archive.dart' as arch;
 
 

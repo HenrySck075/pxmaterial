@@ -84,7 +84,7 @@ class PartialArtwork {
     isBookmarkable: json['isBookmarkable'] as bool,
     bookmarkData: json['bookmarkData'] as String,
     alt: json['alt'] as String,
-    titleCaptionTranslation: json['titleCaptionTranslation'].map((k,v)=>MapEntry(k,_TitleCaptionTranslation.fromJson(v))),
+    titleCaptionTranslation: _TitleCaptionTranslation.fromJson(json['titleCaptionTranslation']),
     createDate: json['createDate'] as String,
     updateDate: json['updateDate'] as String,
     isUnlisted: json['isUnlisted'] as bool,
