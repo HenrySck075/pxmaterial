@@ -11,3 +11,6 @@ $typedef: typedefing my beloved (it hasnt bern used)
 $comments: Map of item comments
 ```
 these are all block-scope codegen modifier banger use it
+
+
+json my soul

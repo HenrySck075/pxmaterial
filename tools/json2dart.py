@@ -63,7 +63,7 @@ def generate(data, name=""):
     nullable = data.get("$nullable",[])
     desc: dict[str,str] = data.get("$desc",{})
     if "$this" in desc:
-        out="  /// "+"\n  /// ".join(desc["$this"].splitlines())+"\n"+out
+        out="/// "+"\n/// ".join(desc["$this"].splitlines())+"\n"+out
     g = emptiable+nullable
 
     for k,v in data.items():

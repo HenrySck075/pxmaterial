@@ -1,4 +1,8 @@
 {
+    "$desc": {
+        "illustId": "Artwork id",
+        "illustTitle": "Artwork title" 
+    },
     "illustId": "91140348",
     "illustTitle": "水着レミリア",
     "illustComment": "妹様の方はこちら↓<br /><strong><a href=\"https://www.pixiv.net/en/artworks/91030831\">illust/91030831</a></strong>",

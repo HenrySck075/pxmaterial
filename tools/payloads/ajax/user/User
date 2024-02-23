@@ -72,6 +72,7 @@
     "group": null,
     "$desc": {
       "workspace": "User's workspace specs",
+      "official": "Whether or not the account is pixiv's account",
       "$this": "Represents the [User] object"
     }
 }

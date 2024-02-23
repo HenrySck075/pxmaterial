@@ -1,5 +1,10 @@
 {
         "meta": {
+            "$desc": {
+              "title": "Page title",
+              "description": "Page description",
+              "descriptionHeader": "that one text that appears on any users that views the works without logged in"
+            },
             "title": "Touhou, Touhou Project, cat ears / 水着レミリア - pixiv",
             "description": "この作品 「水着レミリア」 は 「東方」「東方Project」 等のタグがつけられた「ソラリス(Solarisu)」さんのイラストです。 「妹様の方はこちら↓https://www.pixiv.net/artworks/91030831」",
             "canonical": "https://www.pixiv.net/en/artworks/91140348",
