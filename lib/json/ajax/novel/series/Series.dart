@@ -1,4 +1,3 @@
-
 class _FirstEpisode {
   final String url;
   _FirstEpisode({
@@ -216,3 +215,4 @@ class Series {
   );
   
 }
+

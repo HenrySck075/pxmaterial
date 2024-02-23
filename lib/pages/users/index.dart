@@ -5,7 +5,6 @@ import 'package:sofieru/json/ajax/user/User.dart';
 import 'package:sofieru/pages/users/illusts.dart';
 import 'package:sofieru/shared.dart';
 import 'package:sticky_headers/sticky_headers.dart';
-import 'package:sofieru/json/ajax/shared/fucking.dart';
 
 import 'home.dart';
 
@@ -51,9 +50,9 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
         var data = User.fromJson(snap.data![0]);
         var allWorks = snap.data![1];
 
-        bool displayIllustTab = ifNullfies(allWorks["illusts"])!=null;
-        bool displayMangaTab = ifNullfies(allWorks["manga"])!=null||ifNullfies(allWorks["mangaSeries"])!=null;
-        bool displayNovelTab = ifNullfies(allWorks["novels"])!=null||ifNullfies(allWorks["novelSeries"])!=null;
+        bool displayIllustTab = allWorks["illusts"] is! List;
+        bool displayMangaTab = allWorks["manga"] is! List||allWorks["mangaSeries"] is! List;
+        bool displayNovelTab = allWorks["novels"] is! List||allWorks["novelSeries"] is! List;
         bool displayRequestTab = allWorks["request"]["showRequestTab"];
         List<(String,Tab)> habibi = [
           const ("", Tab(text:"Home")),

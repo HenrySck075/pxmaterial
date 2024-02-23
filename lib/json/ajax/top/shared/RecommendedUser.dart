@@ -1,4 +1,3 @@
-
 class RecommendedUser {
   final int id;
   final List<String> illustIds;
@@ -15,3 +14,4 @@ class RecommendedUser {
   );
   
 }
+

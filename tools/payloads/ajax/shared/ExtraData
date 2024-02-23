@@ -7,7 +7,7 @@
                 "ja": "https://www.pixiv.net/artworks/91140348",
                 "en": "https://www.pixiv.net/en/artworks/91140348"
             },
-            "$nullable": "alternateLanguages",
+            "$nullable": ["alternateLanguages"],
             "descriptionHeader": "Touhou, Touhou Project, cat ears, remilia scarlet are the most prominent tags for this work posted on July 10th, 2021.",
             "ogp": {
                 "description": "妹様の方はこちら↓https://www.pixiv.net/artworks/91030831",

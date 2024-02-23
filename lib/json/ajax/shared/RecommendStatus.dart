@@ -1,4 +1,3 @@
-
 class RecommendStatus {
   final List<String> methods;
   final int score;
@@ -15,3 +14,4 @@ class RecommendStatus {
   );
   
 }
+

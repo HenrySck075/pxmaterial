@@ -1,4 +1,3 @@
-
 class _Items {
   final String rank;
   final String id;
@@ -26,3 +25,4 @@ class Ranking {
   );
   
 }
+

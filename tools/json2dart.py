@@ -72,7 +72,7 @@ def generate(data, name=""):
         #b = (vto==list and len(v)==0)
 
         if any(k[0]==i for i in "0123456789") or any(i in k for i in "-/\\[]{}() *&^%#@!'\":;,?=÷×+|<>°•"):return f"Map<String, {boy(name.removeprefix('_')+'Content',v)}>"
-        required = not (k in emptiable or k in nullable) or "$all" in g #or b
+        required = not ((k in emptiable and vto!=dict) or k in nullable) or "$all" in g #or b
         b = required
         fnnuy = {"$schema":"$/ajax/shared/Placeholder"}
         vt=boy(k,v if b else fnnuy if type(v)!=list else [fnnuy])
@@ -92,7 +92,7 @@ def generate(data, name=""):
             if j not in classes.values(): fromJson+=f".map((e)=>{j}.fromJson(e)).toList()"
         else: 
             if vt.startswith("Map<"):
-                fromJson+=f".map((k,v)=>MapEntry(k,{vt.removeprefix('Map<String, ').removesuffix('>')}.fromJson(v)))" if vt not in classes.values() else f" as Map<String, {vt+('' if required else '?')}>"
+                fromJson+=f".map((k,v)=>MapEntry(k,{vt.removeprefix('Map<String, ').removesuffix('>')}.fromJson(v)))" if vto==dict else f" as Map<String, {vt+('' if required else '?')}>"
             else:
                 fromJson=fromJson[:-8-len(k)]+f"{vt}.fromJson(json['{k}'])"
         fromJson+=",\n"

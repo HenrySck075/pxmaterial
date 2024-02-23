@@ -1,4 +1,3 @@
-
 class TagTranslation {
   final String en;
   final String ko;
@@ -21,3 +20,4 @@ class TagTranslation {
   );
   
 }
+

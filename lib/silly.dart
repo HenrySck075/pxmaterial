@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sofieru/json/ajax/top/illust/Artwork.dart';
 import 'package:sofieru/json/ajax/top/illust/PartialArtwork.dart';
+import 'package:sofieru/json/ajax/user/PartialUser.dart';
 import 'package:sofieru/json/ajax/user/User.dart';
 import 'package:sofieru/shared.dart' show pxRequest, tryCast, navigate, JSON, currentRouteURI;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 /// Header text
-Text header(String label)=>Text(label,style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold));
+Text header(String label)=>Text(label,style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold));
 /// make `notifyListeners` non-protected :trollskullirl:
 class VisibleNotifyNotifier<T> extends ChangeNotifier {
   T _value;
@@ -82,7 +82,7 @@ class _PxNovelState extends State<PxNovel> {
   Widget build(ctx) {
     var id = widget.data["id"];
     TextStyle kiss = const TextStyle(color: Colors.grey, fontSize: 10);
-    Padding pad(Widget h)=>Padding(padding: EdgeInsets.only(left: 4,right: 4),child: h,);
+    Padding pad(Widget h)=>Padding(padding: const EdgeInsets.only(left: 4,right: 4),child: h,);
 
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 400, minHeight:150, maxHeight:150),
@@ -135,7 +135,7 @@ class _PxNovelState extends State<PxNovel> {
   }
 }
 class PxArtwork extends StatefulWidget {
-  final Artwork data;
+  final PartialArtwork data;
   int rank;
   PxArtwork({super.key, required this.data, this.rank=0});
 
@@ -145,9 +145,15 @@ class PxArtwork extends StatefulWidget {
 
 class _PxArtworkState extends State<PxArtwork> {
   bool bookmarked = false;
+  late final PartialArtwork data;
+  @override
+  void initState() {
+    super.initState();
+    data = widget.data;
+  }
   @override
   Widget build(context) {
-    var id = widget.data.id;
+    var id = data.id;
     // if (int.tryParse(id)==null) {return Center(child: Text("invalid id"),);}
     return ContextMenuRegion(
       contextMenu:ContextMenu(
@@ -174,7 +180,7 @@ class _PxArtworkState extends State<PxArtwork> {
                     children: [
                       GestureDetector(
                         onTap: (){navigate("/artworks/$id");},
-                        child:pxImage(widget.data.url),
+                        child:pxImage(data.url),
                       ),
                       Positioned(
                         bottom: 0,
@@ -195,7 +201,7 @@ class _PxArtworkState extends State<PxArtwork> {
                         right: 0,
                         child: Icon(Icons.favorite_outline,color:Colors.black)
                       ),
-                      if (widget.data.illustType==2) const Positioned.fill(child: Align(alignment: Alignment.center,child: Icon(Icons.play_circle_outlined,size: 24,),)),
+                      if (data.illustType==2) const Positioned.fill(child: Align(alignment: Alignment.center,child: Icon(Icons.play_circle_outlined,size: 24,),)),
                       if (widget.rank != 0) Positioned(
                         top:4, left:4,
                         child:SizedBox(
@@ -207,7 +213,7 @@ class _PxArtworkState extends State<PxArtwork> {
                           ),
                         )
                       ),
-                      if (widget.data.xRestrict == 1) Positioned(
+                      if (data.xRestrict == 1) Positioned(
                         top:4, left:4,
                         child:SizedBox(
                           width: 36,
@@ -218,14 +224,14 @@ class _PxArtworkState extends State<PxArtwork> {
                           ),
                         )
                       ),
-                      if (widget.data.pageCount!=1) Positioned(
+                      if (data.pageCount!=1) Positioned(
                         top:4,right:4,
                         child: SizedBox(
                           width:24,
                           height:24,
                           child: Container(
                             decoration: BoxDecoration(color: Colors.grey.withOpacity(0.5),borderRadius: BorderRadius.circular(4)),
-                            child: Center(child: Text(widget.data.pageCount.toString()))
+                            child: Center(child: Text(data.pageCount.toString()))
                           ),
                         )
                       )
@@ -237,21 +243,21 @@ class _PxArtworkState extends State<PxArtwork> {
                     flex: 4,
                     child: ListTile(
                       title: Text(
-                        widget.data.titleCaptionTranslation.workTitle??widget.data.title,
+                        data.titleCaptionTranslation.workTitle??data.title,
                         overflow: TextOverflow.ellipsis,
                       ),
                       subtitle: GestureDetector(
                         onTap: (){
-                          showDialog(context: context, builder: (b)=>AuthorInfo(userId: widget.data.userId,));
+                          showDialog(context: context, builder: (b)=>AuthorInfo(userId: data.userId,));
                         },
                         child: Row(
                           children: [if (!currentRouteURI().path.startsWith("/users")) ...[
-                            CircleAvatar(backgroundImage: pxImageFlutter(widget.data.profileImageUrl).image),
+                            CircleAvatar(backgroundImage: pxImageFlutter(data.profileImageUrl).image),
                             const SizedBox.square(dimension:10),
                             Flexible(
                               flex:4,
                               child: Text(
-                                widget.data.userName,
+                                data.userName,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             )
@@ -362,7 +368,7 @@ class _PxSimpleArtworkState extends State<PxSimpleArtwork> {
   bool bookmarked = false;
   @override
   Widget build(context) {
-    var id = widget.data.illustId??widget.data.id;
+    var id = widget.data.id;
     double s = widget.authorInfo?85:120;
     return Stack(
       children: [

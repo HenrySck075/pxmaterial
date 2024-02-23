@@ -2,7 +2,6 @@ import 'package:sofieru/json/ajax/user/PartialUser.dart' show PartialUser;
 import 'Request.dart' show Request;
 import 'package:sofieru/json/ajax/top/illust/PartialArtwork.dart' show PartialArtwork;
 import 'package:sofieru/json/ajax/shared/tagTranslation.dart' show tagTranslation;
-
 class _Creator {
   final String creatorUserId;
   final bool creatorStoppedFlg;
@@ -212,3 +211,4 @@ class RequestPage {
   );
   
 }
+

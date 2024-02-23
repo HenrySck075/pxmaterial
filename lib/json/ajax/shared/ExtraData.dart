@@ -1,5 +1,4 @@
 import 'package:sofieru/json/ajax/shared/Placeholder.dart' show Placeholder;
-
 class _EmbedMeta {
   final String description;
   final String image;
@@ -62,3 +61,4 @@ class ExtraData {
   );
   
 }
+

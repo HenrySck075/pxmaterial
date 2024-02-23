@@ -44,7 +44,7 @@
         ],
         "writable": true
     },
-    "$nullable": "seriesNavData",
+    "$nullable": ["seriesNavData"],
     "seriesNavData": {
         "seriesType": "novel",
         "seriesId": 8328384,

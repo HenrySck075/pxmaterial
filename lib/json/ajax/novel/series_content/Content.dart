@@ -1,5 +1,4 @@
 import 'package:sofieru/json/ajax/top/novel/PartialNovel.dart' show PartialNovel;
-
 class _Thumbnails {
   final List<dynamic> illust;
   final List<PartialNovel> novel;
@@ -147,3 +146,4 @@ class Content {
   );
   
 }
+

@@ -1,4 +1,39 @@
-import 'package:sofieru/json/ajax/shared/Placeholder.dart' show Placeholder;
+class _RequestTranslationProposal {
+  final String requestProposal;
+  final String requestProposalHtml;
+  final String requestProposalLang;
+  _RequestTranslationProposal({
+    required this.requestProposal,
+    required this.requestProposalHtml,
+    required this.requestProposalLang,
+  });
+  factory _RequestTranslationProposal.fromJson(Map<String, dynamic> json) => _RequestTranslationProposal(
+    requestProposal: json['requestProposal'] as String,
+    requestProposalHtml: json['requestProposalHtml'] as String,
+    requestProposalLang: json['requestProposalLang'] as String,
+  );
+  
+}
+
+class _RequestProposal {
+  final String requestOriginalProposal;
+  final String requestOriginalProposalHtml;
+  final String requestOriginalProposalLang;
+  final List<_RequestTranslationProposal> requestTranslationProposal;
+  _RequestProposal({
+    required this.requestOriginalProposal,
+    required this.requestOriginalProposalHtml,
+    required this.requestOriginalProposalLang,
+    required this.requestTranslationProposal,
+  });
+  factory _RequestProposal.fromJson(Map<String, dynamic> json) => _RequestProposal(
+    requestOriginalProposal: json['requestOriginalProposal'] as String,
+    requestOriginalProposalHtml: json['requestOriginalProposalHtml'] as String,
+    requestOriginalProposalLang: json['requestOriginalProposalLang'] as String,
+    requestTranslationProposal: json['requestTranslationProposal'].map((e)=>_RequestTranslationProposal.fromJson(e)).toList(),
+  );
+  
+}
 
 class _PlanTranslationTitleContent {
   final String planTitle;
@@ -181,7 +216,7 @@ class Request {
   final String requestAcceptStatus;
   final String requestPostWorkType;
   final int requestPrice;
-  final Placeholder? requestProposal;
+  final _RequestProposal requestProposal;
   final List<String> requestTags;
   final bool requestAdultFlg;
   final bool requestAnonymousFlg;
@@ -202,7 +237,7 @@ class Request {
     required this.requestAcceptStatus,
     required this.requestPostWorkType,
     required this.requestPrice,
-    this.requestProposal,
+    required this.requestProposal,
     required this.requestTags,
     required this.requestAdultFlg,
     required this.requestAnonymousFlg,
@@ -224,7 +259,7 @@ class Request {
     requestAcceptStatus: json['requestAcceptStatus'] as String,
     requestPostWorkType: json['requestPostWorkType'] as String,
     requestPrice: json['requestPrice'] as int,
-    requestProposal: json['requestProposal'] is List?null:Placeholder.fromJson(json['requestProposal']),
+    requestProposal: json['requestProposal'] is List?null:_RequestProposal.fromJson(json['requestProposal']),
     requestTags: json['requestTags'],
     requestAdultFlg: json['requestAdultFlg'] as bool,
     requestAnonymousFlg: json['requestAnonymousFlg'] as bool,
@@ -239,3 +274,4 @@ class Request {
   );
   
 }
+

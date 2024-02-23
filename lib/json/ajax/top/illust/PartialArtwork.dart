@@ -1,4 +1,3 @@
-
 class _TitleCaptionTranslation {
   final String? workTitle;
   final String? workCaption;
@@ -95,3 +94,4 @@ class PartialArtwork {
   );
   
 }
+

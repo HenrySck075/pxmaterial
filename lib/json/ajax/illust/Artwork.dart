@@ -1,6 +1,5 @@
 import 'package:sofieru/json/ajax/shared/ExtraData.dart' show ExtraData;
 import 'package:sofieru/json/ajax/top/illust/PartialArtwork.dart' show PartialArtwork;
-
 class _Urls {
   final String mini;
   final String thumb;
@@ -261,3 +260,4 @@ class Artwork {
   );
   
 }
+

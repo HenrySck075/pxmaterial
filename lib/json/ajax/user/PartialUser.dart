@@ -1,4 +1,3 @@
-
 class PartialUser {
   final int partial;
   final String comment;
@@ -45,3 +44,4 @@ class PartialUser {
   );
   
 }
+

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:number_paginator/number_paginator.dart';
-import 'package:sofieru/json/ajax/top/illust/Artwork.dart';
+import 'package:sofieru/json/ajax/top/illust/PartialArtwork.dart';
 import 'package:sofieru/shared.dart';
 
 class IllustPage extends StatefulWidget {
@@ -37,7 +37,7 @@ class _IllustPageState extends State<IllustPage> {
             return artworkGrid(
               returnSelf<List<MapEntry<dynamic, dynamic>>>(data["works"].entries.toList() // illust entries
               ..sort((e1,e2)=>DateTime.parse(e1.value["createDate"]).millisecondsSinceEpoch.compareTo(DateTime.parse(e2.value["createDate"]).millisecondsSinceEpoch)) // sort
-              ).map((e) => PxArtwork(data: Artwork.fromJson(e.value))).toList()
+              ).map((e) => PxArtwork(data: PartialArtwork.fromJson(e.value))).toList()
             );
           }
         ),

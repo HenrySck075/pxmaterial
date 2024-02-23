@@ -6,7 +6,6 @@ import 'package:sofieru/json/ajax/commission/page/request/Request.dart' show Req
 import '../novel/PartialNovel.dart' show PartialNovel;
 import 'PartialArtwork.dart' show PartialArtwork;
 import 'package:sofieru/json/ajax/shared/TagTranslation.dart' show TagTranslation;
-
 class _Thumbnails {
   final List<PartialArtwork> illust;
   final List<PartialNovel> novel;
@@ -280,3 +279,4 @@ class IllustTop {
   );
   
 }
+

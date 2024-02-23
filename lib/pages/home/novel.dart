@@ -14,9 +14,9 @@ class NovelsPage extends StatelessWidget {
       future:data,
       builder: (ctx,d) {
         // if (d.connectionState == ConnectionState.waiting) return Center(child: CircularProgressIndicator());
-        JSON mainresp = thumbRemap(d.data!);
+        JSON mainresp = d.data!;
         
-        Map<String,dynamic> getData(String id) => mainresp["thumbnails"]["novel"][id]??mainresp["thumbnails"]["novel"][id];
+        Map<String,dynamic> getData(String id) => mainresp["thumbnails"]["novel"].firstWhere((e)=>e["id"]==id);
         return RefreshIndicator(
           onRefresh: () async {
             data = ok(noCache: true);

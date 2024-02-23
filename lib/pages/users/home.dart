@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sofieru/json/ajax/top/illust/Artwork.dart';
+import 'package:sofieru/json/ajax/top/illust/PartialArtwork.dart';
 import 'package:sofieru/shared.dart';
 
 class HomePage extends StatefulWidget {
   final String id;
-  HomePage({super.key, required this.id});
+  const HomePage({super.key, required this.id});
   @override
   State<HomePage> createState()=>_HomePageState();
 }
@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
                 returnSelf<List<MapEntry<dynamic, dynamic>>>((data["illusts"] is Map?data["illusts"].entries.toList():[]) // illust entries
                 ..addAll(data["manga"] is Map?data["manga"].entries:const Iterable<MapEntry<String,dynamic>>.empty()) // add all manga entries // i adore forced types
                 ..sort((e1,e2)=>DateTime.parse(e1.value["createDate"]).millisecondsSinceEpoch.compareTo(DateTime.parse(e2.value["createDate"]).millisecondsSinceEpoch)) // sort
-                ).sublist(0,18).map((e) => PxArtwork(data: Artwork.fromJson(e.value))).toList()
+                ).sublist(0,18).map((e) => PxArtwork(data: e.value)).toList()
               )
             ],
             // similar to above
@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
               artworkGrid(
                 returnSelf<List<dynamic>>(data["requestPostWorks"]["artworks"].toList()
                 ..sort((e1,e2)=>DateTime.parse(e1["createDate"]).millisecondsSinceEpoch.compareTo(DateTime.parse(e2["createDate"]).millisecondsSinceEpoch))
-                ).map((e) => PxArtwork(data: Artwork.fromJson(e))).toList()
+                ).map((e) => PxArtwork(data: e)).toList()
               )
             ],
           ]
