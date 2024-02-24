@@ -1,7 +1,4 @@
 {
-  "$emptiable": [
-    "requestProposal"
-  ],
   "requestId": "199694",
   "planId": "381080",
   "fanUserId": null,
@@ -47,6 +44,7 @@
     "planTitle": {
       "planOriginalTitle": "插画 方案",
       "planOriginalTitleLang": "zh",
+      "$emptiable": ["planTranslationTitle"],
       "planTranslationTitle": {
         "-": {
           "planTitle": "Illustration Program",
@@ -58,6 +56,7 @@
       "planOriginalDescription": "半身插画和头像",
       "planOriginalDescriptionHtml": "半身插画和头像",
       "planOriginalLang": "zh",
+      "$emptiable": ["planTranslationDescription"],
       "planTranslationDescription": {
         "-": {
           "planDescription": "Bust illustrations and headshots",

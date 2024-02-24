@@ -1,10 +1,23 @@
-import 'package:sofieru/json/ajax/shared/Placeholder.dart' show Placeholder;
+class _AlternateLanguages {
+  final String ja;
+  final String en;
+  _AlternateLanguages({
+    required this.ja,
+    required this.en,
+  });
+  factory _AlternateLanguages.fromJson(Map<String, dynamic> json) => _AlternateLanguages(
+    ja: json['ja'],
+    en: json['en'],
+  );
+  
+}
+
 class _EmbedMeta {
   final String description;
   final String image;
   final String title;
-  final Placeholder? type;
-  final Placeholder? card;
+  final String? type;
+  final String? card;
   _EmbedMeta({
     required this.description,
     required this.image,
@@ -13,20 +26,23 @@ class _EmbedMeta {
     this.card,
   });
   factory _EmbedMeta.fromJson(Map<String, dynamic> json) => _EmbedMeta(
-    description: json['description'] as String,
-    image: json['image'] as String,
-    title: json['title'] as String,
-    type: json['type'] as Placeholder,
-    card: json['card'] as Placeholder,
+    description: json['description'],
+    image: json['image'],
+    title: json['title'],
+    type: json['type'],
+    card: json['card'],
   );
   
 }
 
 class _Meta {
+  /// Page title
   final String title;
+  /// Page description
   final String description;
   final String canonical;
-  final Placeholder? alternateLanguages;
+  final _AlternateLanguages? alternateLanguages;
+  /// that one text that appears on any users that views the works without logged in
   final String descriptionHeader;
   final _EmbedMeta ogp;
   final _EmbedMeta twitter;
@@ -40,11 +56,11 @@ class _Meta {
     required this.twitter,
   });
   factory _Meta.fromJson(Map<String, dynamic> json) => _Meta(
-    title: json['title'] as String,
-    description: json['description'] as String,
-    canonical: json['canonical'] as String,
-    alternateLanguages: Placeholder.fromJson(json['alternateLanguages']),
-    descriptionHeader: json['descriptionHeader'] as String,
+    title: json['title'],
+    description: json['description'],
+    canonical: json['canonical'],
+    alternateLanguages: _AlternateLanguages.fromJson(json['alternateLanguages']),
+    descriptionHeader: json['descriptionHeader'],
     ogp: _EmbedMeta.fromJson(json['ogp']),
     twitter: _EmbedMeta.fromJson(json['twitter']),
   );

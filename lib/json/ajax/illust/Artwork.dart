@@ -14,22 +14,11 @@ class _Urls {
     required this.original,
   });
   factory _Urls.fromJson(Map<String, dynamic> json) => _Urls(
-    mini: json['mini'] as String,
-    thumb: json['thumb'] as String,
-    small: json['small'] as String,
-    regular: json['regular'] as String,
-    original: json['original'] as String,
-  );
-  
-}
-
-class _Translation {
-  final String en;
-  _Translation({
-    required this.en,
-  });
-  factory _Translation.fromJson(Map<String, dynamic> json) => _Translation(
-    en: json['en'] as String,
+    mini: json['mini'],
+    thumb: json['thumb'],
+    small: json['small'],
+    regular: json['regular'],
+    original: json['original'],
   );
   
 }
@@ -40,7 +29,7 @@ class TagInfo {
   final bool deletable;
   final String userId;
   final String romaji;
-  final _Translation translation;
+  final Map<String, String> translation;
   final String userName;
   TagInfo({
     required this.tag,
@@ -52,13 +41,13 @@ class TagInfo {
     required this.userName,
   });
   factory TagInfo.fromJson(Map<String, dynamic> json) => TagInfo(
-    tag: json['tag'] as String,
-    locked: json['locked'] as bool,
-    deletable: json['deletable'] as bool,
-    userId: json['userId'] as String,
-    romaji: json['romaji'] as String,
-    translation: _Translation.fromJson(json['translation']),
-    userName: json['userName'] as String,
+    tag: json['tag'],
+    locked: json['locked'],
+    deletable: json['deletable'],
+    userId: json['userId'],
+    romaji: json['romaji'],
+    translation: json['translation'],
+    userName: json['userName'],
   );
   
 }
@@ -75,10 +64,10 @@ class _Tags {
     required this.writable,
   });
   factory _Tags.fromJson(Map<String, dynamic> json) => _Tags(
-    authorId: json['authorId'] as String,
-    isLocked: json['isLocked'] as bool,
+    authorId: json['authorId'],
+    isLocked: json['isLocked'],
     tags: json['tags'].map((e)=>TagInfo.fromJson(e)).toList(),
-    writable: json['writable'] as bool,
+    writable: json['writable'],
   );
   
 }
@@ -91,19 +80,29 @@ class _TitleCaptionTranslation {
     this.workCaption,
   });
   factory _TitleCaptionTranslation.fromJson(Map<String, dynamic> json) => _TitleCaptionTranslation(
-    workTitle: json['workTitle'] as String,
-    workCaption: json['workCaption'] as String,
+    workTitle: json['workTitle'],
+    workCaption: json['workCaption'],
   );
   
 }
 
 class Artwork {
+  /// Artwork id
   final String illustId;
+  /// Artwork title
   final String illustTitle;
+  /// Artwork description
   final String illustComment;
+  /// una copia
   final String id;
+  /// de lós 3
   final String title;
+  /// parámetros anteriores
   final String description;
+  /// Artwork type 
+  /// 1: Single-image artwork
+  /// 2:Multi-image-artwork
+  /// 3:Animated artwork
   final int illustType;
   final String createDate;
   final String uploadDate;
@@ -205,58 +204,58 @@ class Artwork {
     required this.locationMask,
   });
   factory Artwork.fromJson(Map<String, dynamic> json) => Artwork(
-    illustId: json['illustId'] as String,
-    illustTitle: json['illustTitle'] as String,
-    illustComment: json['illustComment'] as String,
-    id: json['id'] as String,
-    title: json['title'] as String,
-    description: json['description'] as String,
-    illustType: json['illustType'] as int,
-    createDate: json['createDate'] as String,
-    uploadDate: json['uploadDate'] as String,
-    restrict: json['restrict'] as int,
-    xRestrict: json['xRestrict'] as int,
-    sl: json['sl'] as int,
+    illustId: json['illustId'],
+    illustTitle: json['illustTitle'],
+    illustComment: json['illustComment'],
+    id: json['id'],
+    title: json['title'],
+    description: json['description'],
+    illustType: json['illustType'],
+    createDate: json['createDate'],
+    uploadDate: json['uploadDate'],
+    restrict: json['restrict'],
+    xRestrict: json['xRestrict'],
+    sl: json['sl'],
     urls: _Urls.fromJson(json['urls']),
     tags: _Tags.fromJson(json['tags']),
-    alt: json['alt'] as String,
-    userId: json['userId'] as String,
-    userName: json['userName'] as String,
-    userAccount: json['userAccount'] as String,
-    userIllusts: json['userIllusts'].map((k,v)=>MapEntry(k,PartialArtwork.fromJson(v))),
-    likeData: json['likeData'] as bool,
-    width: json['width'] as int,
-    height: json['height'] as int,
-    pageCount: json['pageCount'] as int,
-    bookmarkCount: json['bookmarkCount'] as int,
-    likeCount: json['likeCount'] as int,
-    commentCount: json['commentCount'] as int,
-    responseCount: json['responseCount'] as int,
-    viewCount: json['viewCount'] as int,
-    bookStyle: json['bookStyle'] as int,
-    isHowto: json['isHowto'] as bool,
-    isOriginal: json['isOriginal'] as bool,
+    alt: json['alt'],
+    userId: json['userId'],
+    userName: json['userName'],
+    userAccount: json['userAccount'],
+    userIllusts: json['userIllusts'].map((k,v)=>MapEntry(k as String,PartialArtwork.fromJson(v))),
+    likeData: json['likeData'],
+    width: json['width'],
+    height: json['height'],
+    pageCount: json['pageCount'],
+    bookmarkCount: json['bookmarkCount'],
+    likeCount: json['likeCount'],
+    commentCount: json['commentCount'],
+    responseCount: json['responseCount'],
+    viewCount: json['viewCount'],
+    bookStyle: json['bookStyle'],
+    isHowto: json['isHowto'],
+    isOriginal: json['isOriginal'],
     imageResponseOutData: json['imageResponseOutData'],
     imageResponseData: json['imageResponseData'],
-    imageResponseCount: json['imageResponseCount'] as int,
-    pollData: json['pollData'] as String,
-    seriesNavData: json['seriesNavData'] as String,
-    descriptionBoothId: json['descriptionBoothId'] as String,
-    descriptionYoutubeId: json['descriptionYoutubeId'] as String,
-    comicPromotion: json['comicPromotion'] as String,
-    fanboxPromotion: json['fanboxPromotion'] as String,
+    imageResponseCount: json['imageResponseCount'],
+    pollData: json['pollData'],
+    seriesNavData: json['seriesNavData'],
+    descriptionBoothId: json['descriptionBoothId'],
+    descriptionYoutubeId: json['descriptionYoutubeId'],
+    comicPromotion: json['comicPromotion'],
+    fanboxPromotion: json['fanboxPromotion'],
     contestBanners: json['contestBanners'],
-    isBookmarkable: json['isBookmarkable'] as bool,
-    bookmarkData: json['bookmarkData'] as String,
-    contestData: json['contestData'] as String,
+    isBookmarkable: json['isBookmarkable'],
+    bookmarkData: json['bookmarkData'],
+    contestData: json['contestData'],
     extraData: ExtraData.fromJson(json['extraData']),
     titleCaptionTranslation: _TitleCaptionTranslation.fromJson(json['titleCaptionTranslation']),
-    isUnlisted: json['isUnlisted'] as bool,
-    request: json['request'] as String,
-    commentOff: json['commentOff'] as int,
-    aiType: json['aiType'] as int,
-    reuploadDate: json['reuploadDate'] as String,
-    locationMask: json['locationMask'] as bool,
+    isUnlisted: json['isUnlisted'],
+    request: json['request'],
+    commentOff: json['commentOff'],
+    aiType: json['aiType'],
+    reuploadDate: json['reuploadDate'],
+    locationMask: json['locationMask'],
   );
   
 }

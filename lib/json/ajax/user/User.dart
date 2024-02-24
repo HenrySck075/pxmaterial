@@ -1,4 +1,3 @@
-import 'package:sofieru/json/ajax/shared/Placeholder.dart' show Placeholder;
 class _Background {
   final String? repeat;
   final String? color;
@@ -11,10 +10,10 @@ class _Background {
     required this.isPrivate,
   });
   factory _Background.fromJson(Map<String, dynamic> json) => _Background(
-    repeat: json['repeat'] as String,
-    color: json['color'] as String,
-    url: json['url'] as String,
-    isPrivate: json['isPrivate'] as bool,
+    repeat: json['repeat'],
+    color: json['color'],
+    url: json['url'],
+    isPrivate: json['isPrivate'],
   );
   
 }
@@ -25,7 +24,7 @@ class _SocialContent {
     required this.url,
   });
   factory _SocialContent.fromJson(Map<String, dynamic> json) => _SocialContent(
-    url: json['url'] as String,
+    url: json['url'],
   );
   
 }
@@ -42,72 +41,73 @@ class _Region {
     required this.privacyLevel,
   });
   factory _Region.fromJson(Map<String, dynamic> json) => _Region(
-    name: json['name'] as String,
-    region: json['region'] as String,
-    prefecture: json['prefecture'] as String,
-    privacyLevel: json['privacyLevel'] as String,
+    name: json['name'],
+    region: json['region'],
+    prefecture: json['prefecture'],
+    privacyLevel: json['privacyLevel'],
   );
   
 }
 
+/// Represents the data with privacy level
 class PrivacyLeveledData {
   /// Value
-  final Placeholder? name;
+  final String? name;
   /// Privacy level. Will be `null` if it's other users
-  final Placeholder? privacyLevel;
+  final String? privacyLevel;
   PrivacyLeveledData({
     this.name,
     this.privacyLevel,
   });
   factory PrivacyLeveledData.fromJson(Map<String, dynamic> json) => PrivacyLeveledData(
-    name: json['name'] as Placeholder,
-    privacyLevel: json['privacyLevel'] as Placeholder,
+    name: json['name'],
+    privacyLevel: json['privacyLevel'],
   );
   
 }
 
 class _Workspace {
-  final String userWorkspacePc;
-  final String userWorkspaceMonitor;
-  final String userWorkspaceTool;
-  final String userWorkspaceScanner;
-  final String userWorkspaceTablet;
-  final String userWorkspaceMouse;
-  final String userWorkspacePrinter;
-  final String userWorkspaceDesktop;
-  final String userWorkspaceMusic;
-  final String userWorkspaceDesk;
-  final String userWorkspaceChair;
+  final String? userWorkspacePc;
+  final String? userWorkspaceMonitor;
+  final String? userWorkspaceTool;
+  final String? userWorkspaceScanner;
+  final String? userWorkspaceTablet;
+  final String? userWorkspaceMouse;
+  final String? userWorkspacePrinter;
+  final String? userWorkspaceDesktop;
+  final String? userWorkspaceMusic;
+  final String? userWorkspaceDesk;
+  final String? userWorkspaceChair;
   _Workspace({
-    required this.userWorkspacePc,
-    required this.userWorkspaceMonitor,
-    required this.userWorkspaceTool,
-    required this.userWorkspaceScanner,
-    required this.userWorkspaceTablet,
-    required this.userWorkspaceMouse,
-    required this.userWorkspacePrinter,
-    required this.userWorkspaceDesktop,
-    required this.userWorkspaceMusic,
-    required this.userWorkspaceDesk,
-    required this.userWorkspaceChair,
+    this.userWorkspacePc,
+    this.userWorkspaceMonitor,
+    this.userWorkspaceTool,
+    this.userWorkspaceScanner,
+    this.userWorkspaceTablet,
+    this.userWorkspaceMouse,
+    this.userWorkspacePrinter,
+    this.userWorkspaceDesktop,
+    this.userWorkspaceMusic,
+    this.userWorkspaceDesk,
+    this.userWorkspaceChair,
   });
   factory _Workspace.fromJson(Map<String, dynamic> json) => _Workspace(
-    userWorkspacePc: json['userWorkspacePc'] as String,
-    userWorkspaceMonitor: json['userWorkspaceMonitor'] as String,
-    userWorkspaceTool: json['userWorkspaceTool'] as String,
-    userWorkspaceScanner: json['userWorkspaceScanner'] as String,
-    userWorkspaceTablet: json['userWorkspaceTablet'] as String,
-    userWorkspaceMouse: json['userWorkspaceMouse'] as String,
-    userWorkspacePrinter: json['userWorkspacePrinter'] as String,
-    userWorkspaceDesktop: json['userWorkspaceDesktop'] as String,
-    userWorkspaceMusic: json['userWorkspaceMusic'] as String,
-    userWorkspaceDesk: json['userWorkspaceDesk'] as String,
-    userWorkspaceChair: json['userWorkspaceChair'] as String,
+    userWorkspacePc: json['userWorkspacePc'],
+    userWorkspaceMonitor: json['userWorkspaceMonitor'],
+    userWorkspaceTool: json['userWorkspaceTool'],
+    userWorkspaceScanner: json['userWorkspaceScanner'],
+    userWorkspaceTablet: json['userWorkspaceTablet'],
+    userWorkspaceMouse: json['userWorkspaceMouse'],
+    userWorkspacePrinter: json['userWorkspacePrinter'],
+    userWorkspaceDesktop: json['userWorkspaceDesktop'],
+    userWorkspaceMusic: json['userWorkspaceMusic'],
+    userWorkspaceDesk: json['userWorkspaceDesk'],
+    userWorkspaceChair: json['userWorkspaceChair'],
   );
   
 }
 
-  /// Represents the [User] object
+/// Represents the [User] object
 class User {
   final String userId;
   final String name;
@@ -137,6 +137,7 @@ class User {
   final PrivacyLeveledData job;
   /// User's workspace specs
   final _Workspace workspace;
+  /// Whether or not the account is pixiv's account
   final bool official;
   final String? group;
   User({
@@ -171,35 +172,35 @@ class User {
     this.group,
   });
   factory User.fromJson(Map<String, dynamic> json) => User(
-    userId: json['userId'] as String,
-    name: json['name'] as String,
-    image: json['image'] as String,
-    imageBig: json['imageBig'] as String,
-    premium: json['premium'] as bool,
-    isFollowed: json['isFollowed'] as bool,
-    isMypixiv: json['isMypixiv'] as bool,
-    isBlocking: json['isBlocking'] as bool,
+    userId: json['userId'],
+    name: json['name'],
+    image: json['image'],
+    imageBig: json['imageBig'],
+    premium: json['premium'],
+    isFollowed: json['isFollowed'],
+    isMypixiv: json['isMypixiv'],
+    isBlocking: json['isBlocking'],
     background: _Background.fromJson(json['background']),
-    sketchLiveId: json['sketchLiveId'] as String,
-    partial: json['partial'] as int,
-    acceptRequest: json['acceptRequest'] as bool,
+    sketchLiveId: json['sketchLiveId'],
+    partial: json['partial'],
+    acceptRequest: json['acceptRequest'],
     sketchLives: json['sketchLives'],
-    following: json['following'] as int,
-    mypixivCount: json['mypixivCount'] as int,
-    followedBack: json['followedBack'] as bool,
-    comment: json['comment'] as String,
-    commentHtml: json['commentHtml'] as String,
-    webpage: json['webpage'] as String,
-    social: json['social'].map((k,v)=>MapEntry(k,_SocialContent.fromJson(v))),
-    canSendMessage: json['canSendMessage'] as bool,
+    following: json['following'],
+    mypixivCount: json['mypixivCount'],
+    followedBack: json['followedBack'],
+    comment: json['comment'],
+    commentHtml: json['commentHtml'],
+    webpage: json['webpage'],
+    social: json['social'].map((k,v)=>MapEntry(k as String,_SocialContent.fromJson(v))),
+    canSendMessage: json['canSendMessage'],
     region: _Region.fromJson(json['region']),
     age: PrivacyLeveledData.fromJson(json['age']),
     birthDay: PrivacyLeveledData.fromJson(json['birthDay']),
     gender: PrivacyLeveledData.fromJson(json['gender']),
     job: PrivacyLeveledData.fromJson(json['job']),
     workspace: _Workspace.fromJson(json['workspace']),
-    official: json['official'] as bool,
-    group: json['group'] as String,
+    official: json['official'],
+    group: json['group'],
   );
   
 }

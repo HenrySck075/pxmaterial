@@ -10,7 +10,12 @@ git clone https://github.com/HenrySck075/pxmaterial
 cd pxmaterial
 ```
 - Run the app
+
+but first you will have to get the cookie and place it in assets/cookie
+
+tutorial for desktop: https://youtu.be/fM9HLhSLUxM?feature=shared
 ```
+
 # For debugging & bug reporting
 flutter run
 

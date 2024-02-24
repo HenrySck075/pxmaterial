@@ -6,7 +6,7 @@ class Tag {
     required this.ids,
   });
   factory Tag.fromJson(Map<String, dynamic> json) => Tag(
-    tag: json['tag'] as String,
+    tag: json['tag'],
     ids: json['ids'],
   );
   

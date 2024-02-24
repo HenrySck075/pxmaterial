@@ -3,5 +3,6 @@
   "ko": "",
   "zh": "",
   "zh_tw": "女孩",
-  "romaji": ""
+  "romaji": "",
+  "$nullable": ["$all"]
 }

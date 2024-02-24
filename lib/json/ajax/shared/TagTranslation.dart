@@ -1,22 +1,22 @@
 class TagTranslation {
-  final String en;
-  final String ko;
-  final String zh;
-  final String zh_tw;
-  final String romaji;
+  final String? en;
+  final String? ko;
+  final String? zh;
+  final String? zh_tw;
+  final String? romaji;
   TagTranslation({
-    required this.en,
-    required this.ko,
-    required this.zh,
-    required this.zh_tw,
-    required this.romaji,
+    this.en,
+    this.ko,
+    this.zh,
+    this.zh_tw,
+    this.romaji,
   });
   factory TagTranslation.fromJson(Map<String, dynamic> json) => TagTranslation(
-    en: json['en'] as String,
-    ko: json['ko'] as String,
-    zh: json['zh'] as String,
-    zh_tw: json['zh_tw'] as String,
-    romaji: json['romaji'] as String,
+    en: json['en'],
+    ko: json['ko'],
+    zh: json['zh'],
+    zh_tw: json['zh_tw'],
+    romaji: json['romaji'],
   );
   
 }

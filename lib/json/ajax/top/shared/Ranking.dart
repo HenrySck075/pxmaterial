@@ -6,8 +6,8 @@ class _Items {
     required this.id,
   });
   factory _Items.fromJson(Map<String, dynamic> json) => _Items(
-    rank: json['rank'] as String,
-    id: json['id'] as String,
+    rank: json['rank'],
+    id: json['id'],
   );
   
 }
@@ -21,7 +21,7 @@ class Ranking {
   });
   factory Ranking.fromJson(Map<String, dynamic> json) => Ranking(
     items: json['items'].map((e)=>_Items.fromJson(e)).toList(),
-    date: json['date'] as String,
+    date: json['date'],
   );
   
 }

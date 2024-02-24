@@ -45,7 +45,8 @@
         "$name": "PrivacyLeveledData",
         "$desc": {
           "name": "Value",
-          "privacyLevel": "Privacy level. Will be `null` if it's other users"
+          "privacyLevel": "Privacy level. Will be `null` if it's other users",
+          "$this": "Represents the data with privacy level"
         }
     },
     "gender": {

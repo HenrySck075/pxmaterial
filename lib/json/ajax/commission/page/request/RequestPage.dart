@@ -16,11 +16,11 @@ class _Creator {
     this.tokusho,
   });
   factory _Creator.fromJson(Map<String, dynamic> json) => _Creator(
-    creatorUserId: json['creatorUserId'] as String,
-    creatorStoppedFlg: json['creatorStoppedFlg'] as bool,
-    requestPriceLowerLimit: json['requestPriceLowerLimit'] as int,
-    requestPriceUpperLimit: json['requestPriceUpperLimit'] as int,
-    tokusho: json['tokusho'] as String,
+    creatorUserId: json['creatorUserId'],
+    creatorStoppedFlg: json['creatorStoppedFlg'],
+    requestPriceLowerLimit: json['requestPriceLowerLimit'],
+    requestPriceUpperLimit: json['requestPriceUpperLimit'],
+    tokusho: json['tokusho'],
   );
   
 }
@@ -35,9 +35,9 @@ class _ConfettiModalStatus {
     required this.completeFanOrCollaborateUser,
   });
   factory _ConfettiModalStatus.fromJson(Map<String, dynamic> json) => _ConfettiModalStatus(
-    inProgressFan: json['inProgressFan'] as bool,
-    inProgressCreator: json['inProgressCreator'] as bool,
-    completeFanOrCollaborateUser: json['completeFanOrCollaborateUser'] as bool,
+    inProgressFan: json['inProgressFan'],
+    inProgressCreator: json['inProgressCreator'],
+    completeFanOrCollaborateUser: json['completeFanOrCollaborateUser'],
   );
   
 }
@@ -50,7 +50,7 @@ class _UserList {
     required this.illustIds,
   });
   factory _UserList.fromJson(Map<String, dynamic> json) => _UserList(
-    id: json['id'] as String,
+    id: json['id'],
     illustIds: json['illustIds'],
   );
   
@@ -68,10 +68,10 @@ class _Twitter_card {
     required this.image,
   });
   factory _Twitter_card.fromJson(Map<String, dynamic> json) => _Twitter_card(
-    card: json['card'] as String,
-    title: json['title'] as String,
-    description: json['description'] as String,
-    image: json['image'] as String,
+    card: json['card'],
+    title: json['title'],
+    description: json['description'],
+    image: json['image'],
   );
   
 }
@@ -90,11 +90,11 @@ class _Meta_ogp {
     required this.image,
   });
   factory _Meta_ogp.fromJson(Map<String, dynamic> json) => _Meta_ogp(
-    type: json['type'] as String,
-    title: json['title'] as String,
-    description: json['description'] as String,
-    url: json['url'] as String,
-    image: json['image'] as String,
+    type: json['type'],
+    title: json['title'],
+    description: json['description'],
+    url: json['url'],
+    image: json['image'],
   );
   
 }
@@ -113,8 +113,8 @@ class _Ogp {
   factory _Ogp.fromJson(Map<String, dynamic> json) => _Ogp(
     twitter_card: _Twitter_card.fromJson(json['twitter_card']),
     meta_ogp: _Meta_ogp.fromJson(json['meta_ogp']),
-    page_title: json['page_title'] as String,
-    description: json['description'] as String,
+    page_title: json['page_title'],
+    description: json['description'],
   );
   
 }
@@ -153,12 +153,12 @@ class _Page {
     userList: json['userList'].map((e)=>_UserList.fromJson(e)).toList(),
     inProgressRequestIds: json['inProgressRequestIds'],
     completeRequestIds: json['completeRequestIds'],
-    alreadyRequestCollaborate: json['alreadyRequestCollaborate'] as bool,
-    platformFeeCampaignLabel: json['platformFeeCampaignLabel'] as String,
+    alreadyRequestCollaborate: json['alreadyRequestCollaborate'],
+    platformFeeCampaignLabel: json['platformFeeCampaignLabel'],
     eligibleCampaignList: json['eligibleCampaignList'],
-    isUnlisted: json['isUnlisted'] as bool,
+    isUnlisted: json['isUnlisted'],
     ogp: _Ogp.fromJson(json['ogp']),
-    locationMask: json['locationMask'] as bool,
+    locationMask: json['locationMask'],
   );
   
 }
@@ -203,7 +203,7 @@ class RequestPage {
   });
   factory RequestPage.fromJson(Map<String, dynamic> json) => RequestPage(
     page: _Page.fromJson(json['page']),
-    tagTranslation: json['tagTranslation'].map((k,v)=>MapEntry(k,tagTranslation.fromJson(v))),
+    tagTranslation: json['tagTranslation'].map((k,v)=>MapEntry(k as String,tagTranslation.fromJson(v))),
     thumbnails: _Thumbnails.fromJson(json['thumbnails']),
     illustSeries: json['illustSeries'],
     requests: json['requests'].map((e)=>Request.fromJson(e)).toList(),

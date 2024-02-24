@@ -4,7 +4,7 @@ class _FirstEpisode {
     required this.url,
   });
   factory _FirstEpisode.fromJson(Map<String, dynamic> json) => _FirstEpisode(
-    url: json['url'] as String,
+    url: json['url'],
   );
   
 }
@@ -15,7 +15,7 @@ class _Cover {
     required this.urls,
   });
   factory _Cover.fromJson(Map<String, dynamic> json) => _Cover(
-    urls: json['urls'].map((k,v)=>MapEntry(k,String.fromJson(v))),
+    urls: json['urls'],
   );
   
 }
@@ -32,10 +32,10 @@ class SEOEmbedMeta {
     required this.image,
   });
   factory SEOEmbedMeta.fromJson(Map<String, dynamic> json) => SEOEmbedMeta(
-    type: json['type'] as String,
-    title: json['title'] as String,
-    description: json['description'] as String,
-    image: json['image'] as String,
+    type: json['type'],
+    title: json['title'],
+    description: json['description'],
+    image: json['image'],
   );
   
 }
@@ -54,11 +54,11 @@ class TwitterEmbedMeta {
     required this.image,
   });
   factory TwitterEmbedMeta.fromJson(Map<String, dynamic> json) => TwitterEmbedMeta(
-    card: json['card'] as String,
-    site: json['site'] as String,
-    title: json['title'] as String,
-    description: json['description'] as String,
-    image: json['image'] as String,
+    card: json['card'],
+    site: json['site'],
+    title: json['title'],
+    description: json['description'],
+    image: json['image'],
   );
   
 }
@@ -77,9 +77,9 @@ class _Meta {
     required this.twitter,
   });
   factory _Meta.fromJson(Map<String, dynamic> json) => _Meta(
-    title: json['title'] as String,
-    description: json['description'] as String,
-    canonical: json['canonical'] as String,
+    title: json['title'],
+    description: json['description'],
+    canonical: json['canonical'],
     ogp: SEOEmbedMeta.fromJson(json['ogp']),
     twitter: TwitterEmbedMeta.fromJson(json['twitter']),
   );
@@ -175,42 +175,42 @@ class Series {
     required this.extraData,
   });
   factory Series.fromJson(Map<String, dynamic> json) => Series(
-    id: json['id'] as String,
-    userId: json['userId'] as String,
-    userName: json['userName'] as String,
-    profileImageUrl: json['profileImageUrl'] as String,
-    xRestrict: json['xRestrict'] as int,
-    isOriginal: json['isOriginal'] as bool,
-    isConcluded: json['isConcluded'] as bool,
-    genreId: json['genreId'] as String,
-    title: json['title'] as String,
-    caption: json['caption'] as String,
-    language: json['language'] as String,
+    id: json['id'],
+    userId: json['userId'],
+    userName: json['userName'],
+    profileImageUrl: json['profileImageUrl'],
+    xRestrict: json['xRestrict'],
+    isOriginal: json['isOriginal'],
+    isConcluded: json['isConcluded'],
+    genreId: json['genreId'],
+    title: json['title'],
+    caption: json['caption'],
+    language: json['language'],
     tags: json['tags'],
-    publishedContentCount: json['publishedContentCount'] as int,
-    publishedTotalCharacterCount: json['publishedTotalCharacterCount'] as int,
-    publishedTotalWordCount: json['publishedTotalWordCount'] as int,
-    publishedReadingTime: json['publishedReadingTime'] as int,
-    useWordCount: json['useWordCount'] as bool,
-    lastPublishedContentTimestamp: json['lastPublishedContentTimestamp'] as int,
-    createdTimestamp: json['createdTimestamp'] as int,
-    updatedTimestamp: json['updatedTimestamp'] as int,
-    createDate: json['createDate'] as String,
-    updateDate: json['updateDate'] as String,
-    firstNovelId: json['firstNovelId'] as String,
-    latestNovelId: json['latestNovelId'] as String,
-    displaySeriesContentCount: json['displaySeriesContentCount'] as int,
-    shareText: json['shareText'] as String,
-    total: json['total'] as int,
+    publishedContentCount: json['publishedContentCount'],
+    publishedTotalCharacterCount: json['publishedTotalCharacterCount'],
+    publishedTotalWordCount: json['publishedTotalWordCount'],
+    publishedReadingTime: json['publishedReadingTime'],
+    useWordCount: json['useWordCount'],
+    lastPublishedContentTimestamp: json['lastPublishedContentTimestamp'],
+    createdTimestamp: json['createdTimestamp'],
+    updatedTimestamp: json['updatedTimestamp'],
+    createDate: json['createDate'],
+    updateDate: json['updateDate'],
+    firstNovelId: json['firstNovelId'],
+    latestNovelId: json['latestNovelId'],
+    displaySeriesContentCount: json['displaySeriesContentCount'],
+    shareText: json['shareText'],
+    total: json['total'],
     firstEpisode: _FirstEpisode.fromJson(json['firstEpisode']),
-    watchCount: json['watchCount'] as String,
-    maxXRestrict: json['maxXRestrict'] as String,
+    watchCount: json['watchCount'],
+    maxXRestrict: json['maxXRestrict'],
     cover: _Cover.fromJson(json['cover']),
-    coverSettingData: json['coverSettingData'] as String,
-    isWatched: json['isWatched'] as bool,
-    isNotifying: json['isNotifying'] as bool,
-    aiType: json['aiType'] as int,
-    hasGlossary: json['hasGlossary'] as bool,
+    coverSettingData: json['coverSettingData'],
+    isWatched: json['isWatched'],
+    isNotifying: json['isNotifying'],
+    aiType: json['aiType'],
+    hasGlossary: json['hasGlossary'],
     extraData: _ExtraData.fromJson(json['extraData']),
   );
   

@@ -8,7 +8,7 @@ class RecommendedUser {
     required this.novelIds,
   });
   factory RecommendedUser.fromJson(Map<String, dynamic> json) => RecommendedUser(
-    id: json['id'] as int,
+    id: json['id'],
     illustIds: json['illustIds'],
     novelIds: json['novelIds'],
   );

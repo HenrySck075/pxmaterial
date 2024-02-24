@@ -8,9 +8,9 @@ class _RequestTranslationProposal {
     required this.requestProposalLang,
   });
   factory _RequestTranslationProposal.fromJson(Map<String, dynamic> json) => _RequestTranslationProposal(
-    requestProposal: json['requestProposal'] as String,
-    requestProposalHtml: json['requestProposalHtml'] as String,
-    requestProposalLang: json['requestProposalLang'] as String,
+    requestProposal: json['requestProposal'],
+    requestProposalHtml: json['requestProposalHtml'],
+    requestProposalLang: json['requestProposalLang'],
   );
   
 }
@@ -27,9 +27,9 @@ class _RequestProposal {
     required this.requestTranslationProposal,
   });
   factory _RequestProposal.fromJson(Map<String, dynamic> json) => _RequestProposal(
-    requestOriginalProposal: json['requestOriginalProposal'] as String,
-    requestOriginalProposalHtml: json['requestOriginalProposalHtml'] as String,
-    requestOriginalProposalLang: json['requestOriginalProposalLang'] as String,
+    requestOriginalProposal: json['requestOriginalProposal'],
+    requestOriginalProposalHtml: json['requestOriginalProposalHtml'],
+    requestOriginalProposalLang: json['requestOriginalProposalLang'],
     requestTranslationProposal: json['requestTranslationProposal'].map((e)=>_RequestTranslationProposal.fromJson(e)).toList(),
   );
   
@@ -43,8 +43,8 @@ class _PlanTranslationTitleContent {
     required this.planTtieLang,
   });
   factory _PlanTranslationTitleContent.fromJson(Map<String, dynamic> json) => _PlanTranslationTitleContent(
-    planTitle: json['planTitle'] as String,
-    planTtieLang: json['planTtieLang'] as String,
+    planTitle: json['planTitle'],
+    planTtieLang: json['planTtieLang'],
   );
   
 }
@@ -52,16 +52,16 @@ class _PlanTranslationTitleContent {
 class _PlanTitle {
   final String planOriginalTitle;
   final String planOriginalTitleLang;
-  final Map<String, _PlanTranslationTitleContent> planTranslationTitle;
+  final Map<String, _PlanTranslationTitleContent>? planTranslationTitle;
   _PlanTitle({
     required this.planOriginalTitle,
     required this.planOriginalTitleLang,
-    required this.planTranslationTitle,
+    this.planTranslationTitle,
   });
   factory _PlanTitle.fromJson(Map<String, dynamic> json) => _PlanTitle(
-    planOriginalTitle: json['planOriginalTitle'] as String,
-    planOriginalTitleLang: json['planOriginalTitleLang'] as String,
-    planTranslationTitle: json['planTranslationTitle'].map((k,v)=>MapEntry(k,_PlanTranslationTitleContent.fromJson(v))),
+    planOriginalTitle: json['planOriginalTitle'],
+    planOriginalTitleLang: json['planOriginalTitleLang'],
+    planTranslationTitle: json['planTranslationTitle'] is List?null:json['planTranslationTitle'].map((k,v)=>MapEntry(k as String,_PlanTranslationTitleContent.fromJson(v))),
   );
   
 }
@@ -76,9 +76,9 @@ class _PlanTranslationDescriptionContent {
     required this.planLang,
   });
   factory _PlanTranslationDescriptionContent.fromJson(Map<String, dynamic> json) => _PlanTranslationDescriptionContent(
-    planDescription: json['planDescription'] as String,
-    planDescriptionHtml: json['planDescriptionHtml'] as String,
-    planLang: json['planLang'] as String,
+    planDescription: json['planDescription'],
+    planDescriptionHtml: json['planDescriptionHtml'],
+    planLang: json['planLang'],
   );
   
 }
@@ -87,18 +87,18 @@ class _PlanDescription {
   final String planOriginalDescription;
   final String planOriginalDescriptionHtml;
   final String planOriginalLang;
-  final Map<String, _PlanTranslationDescriptionContent> planTranslationDescription;
+  final Map<String, _PlanTranslationDescriptionContent>? planTranslationDescription;
   _PlanDescription({
     required this.planOriginalDescription,
     required this.planOriginalDescriptionHtml,
     required this.planOriginalLang,
-    required this.planTranslationDescription,
+    this.planTranslationDescription,
   });
   factory _PlanDescription.fromJson(Map<String, dynamic> json) => _PlanDescription(
-    planOriginalDescription: json['planOriginalDescription'] as String,
-    planOriginalDescriptionHtml: json['planOriginalDescriptionHtml'] as String,
-    planOriginalLang: json['planOriginalLang'] as String,
-    planTranslationDescription: json['planTranslationDescription'].map((k,v)=>MapEntry(k,_PlanTranslationDescriptionContent.fromJson(v))),
+    planOriginalDescription: json['planOriginalDescription'],
+    planOriginalDescriptionHtml: json['planOriginalDescriptionHtml'],
+    planOriginalLang: json['planOriginalLang'],
+    planTranslationDescription: json['planTranslationDescription'] is List?null:json['planTranslationDescription'].map((k,v)=>MapEntry(k as String,_PlanTranslationDescriptionContent.fromJson(v))),
   );
   
 }
@@ -137,21 +137,21 @@ class _Plan {
     required this.planAiType,
   });
   factory _Plan.fromJson(Map<String, dynamic> json) => _Plan(
-    currentPlanId: json['currentPlanId'] as String,
-    planId: json['planId'] as String,
-    creatorUserId: json['creatorUserId'] as String,
-    planAcceptRequestFlg: json['planAcceptRequestFlg'] as bool,
-    planStandardPrice: json['planStandardPrice'] as int,
+    currentPlanId: json['currentPlanId'],
+    planId: json['planId'],
+    creatorUserId: json['creatorUserId'],
+    planAcceptRequestFlg: json['planAcceptRequestFlg'],
+    planStandardPrice: json['planStandardPrice'],
     planTitle: _PlanTitle.fromJson(json['planTitle']),
     planDescription: _PlanDescription.fromJson(json['planDescription']),
-    planAcceptAdultFlg: json['planAcceptAdultFlg'] as bool,
-    planAcceptAnonymousFlg: json['planAcceptAnonymousFlg'] as bool,
-    planAcceptIllustFlg: json['planAcceptIllustFlg'] as bool,
-    planAcceptUgoiraFlg: json['planAcceptUgoiraFlg'] as bool,
-    planAcceptMangaFlg: json['planAcceptMangaFlg'] as bool,
-    planAcceptNovelFlg: json['planAcceptNovelFlg'] as bool,
-    planCoverImage: json['planCoverImage'] as String,
-    planAiType: json['planAiType'] as int,
+    planAcceptAdultFlg: json['planAcceptAdultFlg'],
+    planAcceptAnonymousFlg: json['planAcceptAnonymousFlg'],
+    planAcceptIllustFlg: json['planAcceptIllustFlg'],
+    planAcceptUgoiraFlg: json['planAcceptUgoiraFlg'],
+    planAcceptMangaFlg: json['planAcceptMangaFlg'],
+    planAcceptNovelFlg: json['planAcceptNovelFlg'],
+    planCoverImage: json['planCoverImage'],
+    planAiType: json['planAiType'],
   );
   
 }
@@ -168,9 +168,9 @@ class _CollaborateStatus {
     required this.collaborateUserSamples,
   });
   factory _CollaborateStatus.fromJson(Map<String, dynamic> json) => _CollaborateStatus(
-    collaborating: json['collaborating'] as bool,
-    collaborateAnonymousFlg: json['collaborateAnonymousFlg'] as bool,
-    collaboratedCnt: json['collaboratedCnt'] as int,
+    collaborating: json['collaborating'],
+    collaborateAnonymousFlg: json['collaborateAnonymousFlg'],
+    collaboratedCnt: json['collaboratedCnt'],
     collaborateUserSamples: json['collaborateUserSamples'],
   );
   
@@ -184,8 +184,8 @@ class _Work {
     this.secret,
   });
   factory _Work.fromJson(Map<String, dynamic> json) => _Work(
-    isUnlisted: json['isUnlisted'] as bool,
-    secret: json['secret'] as String,
+    isUnlisted: json['isUnlisted'],
+    secret: json['secret'],
   );
   
 }
@@ -200,8 +200,8 @@ class _PostWork {
     required this.work,
   });
   factory _PostWork.fromJson(Map<String, dynamic> json) => _PostWork(
-    postWorkId: json['postWorkId'] as String,
-    postWorkType: json['postWorkType'] as String,
+    postWorkId: json['postWorkId'],
+    postWorkType: json['postWorkType'],
     work: _Work.fromJson(json['work']),
   );
   
@@ -251,23 +251,23 @@ class Request {
     required this.postWork,
   });
   factory Request.fromJson(Map<String, dynamic> json) => Request(
-    requestId: json['requestId'] as String,
-    planId: json['planId'] as String,
-    fanUserId: json['fanUserId'] as String,
-    creatorUserId: json['creatorUserId'] as String,
-    requestStatus: json['requestStatus'] as String,
-    requestAcceptStatus: json['requestAcceptStatus'] as String,
-    requestPostWorkType: json['requestPostWorkType'] as String,
-    requestPrice: json['requestPrice'] as int,
-    requestProposal: json['requestProposal'] is List?null:_RequestProposal.fromJson(json['requestProposal']),
+    requestId: json['requestId'],
+    planId: json['planId'],
+    fanUserId: json['fanUserId'],
+    creatorUserId: json['creatorUserId'],
+    requestStatus: json['requestStatus'],
+    requestAcceptStatus: json['requestAcceptStatus'],
+    requestPostWorkType: json['requestPostWorkType'],
+    requestPrice: json['requestPrice'],
+    requestProposal: _RequestProposal.fromJson(json['requestProposal']),
     requestTags: json['requestTags'],
-    requestAdultFlg: json['requestAdultFlg'] as bool,
-    requestAnonymousFlg: json['requestAnonymousFlg'] as bool,
-    requestRestrictFlg: json['requestRestrictFlg'] as bool,
-    requestAcceptCollaborateFlg: json['requestAcceptCollaborateFlg'] as bool,
-    requestResponseDeadlineDatetime: json['requestResponseDeadlineDatetime'] as String,
-    requestPostDeadlineDatetime: json['requestPostDeadlineDatetime'] as String,
-    role: json['role'] as String,
+    requestAdultFlg: json['requestAdultFlg'],
+    requestAnonymousFlg: json['requestAnonymousFlg'],
+    requestRestrictFlg: json['requestRestrictFlg'],
+    requestAcceptCollaborateFlg: json['requestAcceptCollaborateFlg'],
+    requestResponseDeadlineDatetime: json['requestResponseDeadlineDatetime'],
+    requestPostDeadlineDatetime: json['requestPostDeadlineDatetime'],
+    role: json['role'],
     plan: _Plan.fromJson(json['plan']),
     collaborateStatus: _CollaborateStatus.fromJson(json['collaborateStatus']),
     postWork: _PostWork.fromJson(json['postWork']),

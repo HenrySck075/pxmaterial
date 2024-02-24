@@ -1,7 +1,12 @@
 {
     "$desc": {
         "illustId": "Artwork id",
-        "illustTitle": "Artwork title" 
+        "illustTitle": "Artwork title",
+        "illustComment": "Artwork description",
+        "id": "una copia",
+        "title": "de lós 3",
+        "description": "parámetros anteriores",
+        "illustType": "Artwork type \n1: Single-image artwork\n2:Multi-image-artwork\n3:Animated artwork"
     },
     "illustId": "91140348",
     "illustTitle": "水着レミリア",
@@ -33,7 +38,7 @@
                 "userId": "1507561",
                 "romaji": "touhou-toubou-higashikata",
                 "translation": {
-                    "en": "Touhou"
+                    "-": "Touhou"
                 },
                 "userName": "ソラリス(Solarisu)",
                 "$name": "TagInfo"

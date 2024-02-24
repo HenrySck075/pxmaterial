@@ -9,7 +9,7 @@ class RecommendStatus {
   });
   factory RecommendStatus.fromJson(Map<String, dynamic> json) => RecommendStatus(
     methods: json['methods'],
-    score: json['score'] as int,
+    score: json['score'],
     seedIllustIds: json['seedIllustIds'],
   );
   

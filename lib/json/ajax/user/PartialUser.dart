@@ -28,19 +28,19 @@ class PartialUser {
     required this.acceptRequest,
   });
   factory PartialUser.fromJson(Map<String, dynamic> json) => PartialUser(
-    partial: json['partial'] as int,
-    comment: json['comment'] as String,
-    followedBack: json['followedBack'] as bool,
-    userId: json['userId'] as String,
-    name: json['name'] as String,
-    image: json['image'] as String,
-    imageBig: json['imageBig'] as String,
-    premium: json['premium'] as bool,
-    isFollowed: json['isFollowed'] as bool,
-    isMypixiv: json['isMypixiv'] as bool,
-    isBlocking: json['isBlocking'] as bool,
-    background: json['background'] as String,
-    acceptRequest: json['acceptRequest'] as bool,
+    partial: json['partial'],
+    comment: json['comment'],
+    followedBack: json['followedBack'],
+    userId: json['userId'],
+    name: json['name'],
+    image: json['image'],
+    imageBig: json['imageBig'],
+    premium: json['premium'],
+    isFollowed: json['isFollowed'],
+    isMypixiv: json['isMypixiv'],
+    isBlocking: json['isBlocking'],
+    background: json['background'],
+    acceptRequest: json['acceptRequest'],
   );
   
 }

@@ -32,9 +32,9 @@ class _Series {
     required this.contentOrder,
   });
   factory _Series.fromJson(Map<String, dynamic> json) => _Series(
-    id: json['id'] as int,
-    viewableType: json['viewableType'] as int,
-    contentOrder: json['contentOrder'] as int,
+    id: json['id'],
+    viewableType: json['viewableType'],
+    contentOrder: json['contentOrder'],
   );
   
 }
@@ -85,27 +85,27 @@ class _SeriesContents {
     required this.aiType,
   });
   factory _SeriesContents.fromJson(Map<String, dynamic> json) => _SeriesContents(
-    id: json['id'] as String,
-    userId: json['userId'] as String,
+    id: json['id'],
+    userId: json['userId'],
     series: _Series.fromJson(json['series']),
-    title: json['title'] as String,
-    commentHtml: json['commentHtml'] as String,
+    title: json['title'],
+    commentHtml: json['commentHtml'],
     tags: json['tags'],
-    restrict: json['restrict'] as int,
-    xRestrict: json['xRestrict'] as int,
-    isOriginal: json['isOriginal'] as bool,
-    textLength: json['textLength'] as int,
-    characterCount: json['characterCount'] as int,
-    wordCount: json['wordCount'] as int,
-    useWordCount: json['useWordCount'] as bool,
-    readingTime: json['readingTime'] as int,
-    bookmarkCount: json['bookmarkCount'] as int,
-    url: json['url'] as String,
-    uploadTimestamp: json['uploadTimestamp'] as int,
-    reuploadTimestamp: json['reuploadTimestamp'] as int,
-    isBookmarkable: json['isBookmarkable'] as bool,
-    bookmarkData: json['bookmarkData'] as String,
-    aiType: json['aiType'] as int,
+    restrict: json['restrict'],
+    xRestrict: json['xRestrict'],
+    isOriginal: json['isOriginal'],
+    textLength: json['textLength'],
+    characterCount: json['characterCount'],
+    wordCount: json['wordCount'],
+    useWordCount: json['useWordCount'],
+    readingTime: json['readingTime'],
+    bookmarkCount: json['bookmarkCount'],
+    url: json['url'],
+    uploadTimestamp: json['uploadTimestamp'],
+    reuploadTimestamp: json['reuploadTimestamp'],
+    isBookmarkable: json['isBookmarkable'],
+    bookmarkData: json['bookmarkData'],
+    aiType: json['aiType'],
   );
   
 }

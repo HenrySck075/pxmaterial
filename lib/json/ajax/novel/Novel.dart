@@ -1,6 +1,5 @@
 import 'package:sofieru/json/ajax/shared/ExtraData.dart' show ExtraData;
 import 'package:sofieru/json/ajax/top/novel/PartialNovel.dart' show PartialNovel;
-import 'package:sofieru/json/ajax/shared/Placeholder.dart' show Placeholder;
 class _SuggestedSettings {
   final int viewMode;
   final int themeBackground;
@@ -13,10 +12,10 @@ class _SuggestedSettings {
     this.themeSpacing,
   });
   factory _SuggestedSettings.fromJson(Map<String, dynamic> json) => _SuggestedSettings(
-    viewMode: json['viewMode'] as int,
-    themeBackground: json['themeBackground'] as int,
-    themeSize: json['themeSize'] as String,
-    themeSpacing: json['themeSpacing'] as String,
+    viewMode: json['viewMode'],
+    themeBackground: json['themeBackground'],
+    themeSize: json['themeSize'],
+    themeSpacing: json['themeSpacing'],
   );
   
 }
@@ -35,11 +34,11 @@ class TagInfo {
     required this.userName,
   });
   factory TagInfo.fromJson(Map<String, dynamic> json) => TagInfo(
-    tag: json['tag'] as String,
-    locked: json['locked'] as bool,
-    deletable: json['deletable'] as bool,
-    userId: json['userId'] as String,
-    userName: json['userName'] as String,
+    tag: json['tag'],
+    locked: json['locked'],
+    deletable: json['deletable'],
+    userId: json['userId'],
+    userName: json['userName'],
   );
   
 }
@@ -56,10 +55,68 @@ class _Tags {
     required this.writable,
   });
   factory _Tags.fromJson(Map<String, dynamic> json) => _Tags(
-    authorId: json['authorId'] as String,
-    isLocked: json['isLocked'] as bool,
+    authorId: json['authorId'],
+    isLocked: json['isLocked'],
     tags: json['tags'].map((e)=>TagInfo.fromJson(e)).toList(),
-    writable: json['writable'] as bool,
+    writable: json['writable'],
+  );
+  
+}
+
+class _Next {
+  final String title;
+  final int order;
+  final String id;
+  final bool available;
+  _Next({
+    required this.title,
+    required this.order,
+    required this.id,
+    required this.available,
+  });
+  factory _Next.fromJson(Map<String, dynamic> json) => _Next(
+    title: json['title'],
+    order: json['order'],
+    id: json['id'],
+    available: json['available'],
+  );
+  
+}
+
+class _SeriesNavData {
+  final String seriesType;
+  final int seriesId;
+  final String title;
+  final bool isConcluded;
+  final bool isReplaceable;
+  final bool isWatched;
+  final bool isNotifying;
+  final int order;
+  final _Next next;
+  final String? prev;
+  _SeriesNavData({
+    required this.seriesType,
+    required this.seriesId,
+    required this.title,
+    required this.isConcluded,
+    required this.isReplaceable,
+    required this.isWatched,
+    required this.isNotifying,
+    required this.order,
+    required this.next,
+    this.prev,
+  });
+  factory _SeriesNavData.fromJson(Map<String, dynamic> json) => _SeriesNavData(
+    seriesType: json['seriesType'],
+    seriesId: json['seriesId'],
+    title: json['title'],
+    isConcluded: json['isConcluded'],
+    isReplaceable: json['isReplaceable'],
+    isWatched: json['isWatched'],
+    isNotifying: json['isNotifying'],
+    order: json['order'],
+    next: _Next.fromJson(json['next']),
+    prev: json['prev'],
   );
   
 }
@@ -72,8 +129,8 @@ class _TitleCaptionTranslation {
     this.workCaption,
   });
   factory _TitleCaptionTranslation.fromJson(Map<String, dynamic> json) => _TitleCaptionTranslation(
-    workTitle: json['workTitle'] as String,
-    workCaption: json['workCaption'] as String,
+    workTitle: json['workTitle'],
+    workCaption: json['workCaption'],
   );
   
 }
@@ -105,7 +162,7 @@ class Novel {
   final String? pollData;
   final String? marker;
   final _Tags tags;
-  final Placeholder? seriesNavData;
+  final _SeriesNavData? seriesNavData;
   final String? descriptionBoothId;
   final String? descriptionYoutubeId;
   final String? comicPromotion;
@@ -184,57 +241,57 @@ class Novel {
     required this.genre,
   });
   factory Novel.fromJson(Map<String, dynamic> json) => Novel(
-    bookmarkCount: json['bookmarkCount'] as int,
-    commentCount: json['commentCount'] as int,
-    markerCount: json['markerCount'] as int,
-    createDate: json['createDate'] as String,
-    uploadDate: json['uploadDate'] as String,
-    description: json['description'] as String,
-    id: json['id'] as String,
-    title: json['title'] as String,
-    likeCount: json['likeCount'] as int,
-    pageCount: json['pageCount'] as int,
-    userId: json['userId'] as String,
-    userName: json['userName'] as String,
-    viewCount: json['viewCount'] as int,
-    isOriginal: json['isOriginal'] as bool,
-    isBungei: json['isBungei'] as bool,
-    xRestrict: json['xRestrict'] as int,
-    restrict: json['restrict'] as int,
-    content: json['content'] as String,
-    coverUrl: json['coverUrl'] as String,
+    bookmarkCount: json['bookmarkCount'],
+    commentCount: json['commentCount'],
+    markerCount: json['markerCount'],
+    createDate: json['createDate'],
+    uploadDate: json['uploadDate'],
+    description: json['description'],
+    id: json['id'],
+    title: json['title'],
+    likeCount: json['likeCount'],
+    pageCount: json['pageCount'],
+    userId: json['userId'],
+    userName: json['userName'],
+    viewCount: json['viewCount'],
+    isOriginal: json['isOriginal'],
+    isBungei: json['isBungei'],
+    xRestrict: json['xRestrict'],
+    restrict: json['restrict'],
+    content: json['content'],
+    coverUrl: json['coverUrl'],
     suggestedSettings: _SuggestedSettings.fromJson(json['suggestedSettings']),
-    isBookmarkable: json['isBookmarkable'] as bool,
-    bookmarkData: json['bookmarkData'] as String,
-    likeData: json['likeData'] as bool,
-    pollData: json['pollData'] as String,
-    marker: json['marker'] as String,
+    isBookmarkable: json['isBookmarkable'],
+    bookmarkData: json['bookmarkData'],
+    likeData: json['likeData'],
+    pollData: json['pollData'],
+    marker: json['marker'],
     tags: _Tags.fromJson(json['tags']),
-    seriesNavData: Placeholder.fromJson(json['seriesNavData']),
-    descriptionBoothId: json['descriptionBoothId'] as String,
-    descriptionYoutubeId: json['descriptionYoutubeId'] as String,
-    comicPromotion: json['comicPromotion'] as String,
-    fanboxPromotion: json['fanboxPromotion'] as String,
+    seriesNavData: _SeriesNavData.fromJson(json['seriesNavData']),
+    descriptionBoothId: json['descriptionBoothId'],
+    descriptionYoutubeId: json['descriptionYoutubeId'],
+    comicPromotion: json['comicPromotion'],
+    fanboxPromotion: json['fanboxPromotion'],
     contestBanners: json['contestBanners'],
-    contestData: json['contestData'] as String,
-    request: json['request'] as String,
+    contestData: json['contestData'],
+    request: json['request'],
     imageResponseOutData: json['imageResponseOutData'],
     imageResponseData: json['imageResponseData'],
-    imageResponseCount: json['imageResponseCount'] as int,
-    userNovels: json['userNovels'].map((k,v)=>MapEntry(k,PartialNovel.fromJson(v))),
-    hasGlossary: json['hasGlossary'] as bool,
+    imageResponseCount: json['imageResponseCount'],
+    userNovels: json['userNovels'].map((k,v)=>MapEntry(k as String,PartialNovel.fromJson(v))),
+    hasGlossary: json['hasGlossary'],
     extraData: ExtraData.fromJson(json['extraData']),
     titleCaptionTranslation: _TitleCaptionTranslation.fromJson(json['titleCaptionTranslation']),
-    isUnlisted: json['isUnlisted'] as bool,
-    language: json['language'] as String,
-    textEmbeddedImages: json['textEmbeddedImages'] as String,
-    commentOff: json['commentOff'] as int,
-    characterCount: json['characterCount'] as int,
-    wordCount: json['wordCount'] as int,
-    useWordCount: json['useWordCount'] as bool,
-    readingTime: json['readingTime'] as int,
-    aiType: json['aiType'] as int,
-    genre: json['genre'] as String,
+    isUnlisted: json['isUnlisted'],
+    language: json['language'],
+    textEmbeddedImages: json['textEmbeddedImages'],
+    commentOff: json['commentOff'],
+    characterCount: json['characterCount'],
+    wordCount: json['wordCount'],
+    useWordCount: json['useWordCount'],
+    readingTime: json['readingTime'],
+    aiType: json['aiType'],
+    genre: json['genre'],
   );
   
 }
