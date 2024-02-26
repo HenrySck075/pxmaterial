@@ -15,7 +15,7 @@ class _Cover {
     required this.urls,
   });
   factory _Cover.fromJson(Map<String, dynamic> json) => _Cover(
-    urls: json['urls'],
+    urls: (json['urls'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,v as String)),
   );
   
 }
@@ -186,7 +186,7 @@ class Series {
     title: json['title'],
     caption: json['caption'],
     language: json['language'],
-    tags: json['tags'],
+    tags: (json['tags'] as List<dynamic>),
     publishedContentCount: json['publishedContentCount'],
     publishedTotalCharacterCount: json['publishedTotalCharacterCount'],
     publishedTotalWordCount: json['publishedTotalWordCount'],

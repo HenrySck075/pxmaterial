@@ -1,5 +1,4 @@
 import 'package:sofieru/json/ajax/top/shared/Ranking.dart' show Ranking;
-import 'package:sofieru/json/ajax/shared/RecommendStatus.dart' show RecommendStatus;
 import 'Tag.dart' show Tag;
 import 'package:sofieru/json/ajax/user/PartialUser.dart' show PartialUser;
 import 'package:sofieru/json/ajax/commission/page/request/Request.dart' show Request;
@@ -20,25 +19,23 @@ class _Thumbnails {
     required this.collection,
   });
   factory _Thumbnails.fromJson(Map<String, dynamic> json) => _Thumbnails(
-    illust: json['illust'].map((e)=>PartialArtwork.fromJson(e)).toList(),
-    novel: json['novel'].map((e)=>PartialNovel.fromJson(e)).toList(),
-    novelSeries: json['novelSeries'],
-    novelDraft: json['novelDraft'],
-    collection: json['collection'],
+    illust: (json['illust'] as List<dynamic>).map((e)=>PartialArtwork.fromJson(e)).toList(),
+    novel: (json['novel'] as List<dynamic>).map((e)=>PartialNovel.fromJson(e)).toList(),
+    novelSeries: (json['novelSeries'] as List<dynamic>),
+    novelDraft: (json['novelDraft'] as List<dynamic>),
+    collection: (json['collection'] as List<dynamic>),
   );
   
 }
 
 class _Recommend {
+  /// 
   final List<String> ids;
-  final RecommendStatus details;
   _Recommend({
     required this.ids,
-    required this.details,
   });
   factory _Recommend.fromJson(Map<String, dynamic> json) => _Recommend(
-    ids: json['ids'],
-    details: RecommendStatus.fromJson(json['details']),
+    ids: (json['ids'] as List<dynamic>).map((e)=>e as String).toList(),
   );
   
 }
@@ -46,16 +43,13 @@ class _Recommend {
 class _RecommendByTag {
   final String tag;
   final List<String> ids;
-  final RecommendStatus details;
   _RecommendByTag({
     required this.tag,
     required this.ids,
-    required this.details,
   });
   factory _RecommendByTag.fromJson(Map<String, dynamic> json) => _RecommendByTag(
     tag: json['tag'],
-    ids: json['ids'],
-    details: RecommendStatus.fromJson(json['details']),
+    ids: (json['ids'] as List<dynamic>).map((e)=>e as String).toList(),
   );
   
 }
@@ -91,8 +85,8 @@ class _RecommendUser {
   });
   factory _RecommendUser.fromJson(Map<String, dynamic> json) => _RecommendUser(
     id: json['id'],
-    illustIds: json['illustIds'],
-    novelIds: json['novelIds'],
+    illustIds: (json['illustIds'] as List<dynamic>).map((e)=>e as String).toList(),
+    novelIds: (json['novelIds'] as List<dynamic>),
   );
   
 }
@@ -120,7 +114,7 @@ class _ContestOngoing {
     name: json['name'],
     url: json['url'],
     iconUrl: json['iconUrl'],
-    workIds: json['workIds'],
+    workIds: (json['workIds'] as List<dynamic>).map((e)=>e as int).toList(),
     isNew: json['isNew'],
   );
   
@@ -152,16 +146,21 @@ class _TrendingTags {
   factory _TrendingTags.fromJson(Map<String, dynamic> json) => _TrendingTags(
     tag: json['tag'],
     trendingRate: json['trendingRate'],
-    ids: json['ids'],
+    ids: (json['ids'] as List<dynamic>).map((e)=>e as int).toList(),
   );
   
 }
 
 class _Page {
+  /// Tags objects
   final List<Tag> tags;
+  /// Works from users you're following
   final List<int> follow;
+  /// que
   final List<dynamic> mypixiv;
+  /// Recommended artworks
   final _Recommend recommend;
+  /// Recommended artworks by tag
   final List<_RecommendByTag> recommendByTag;
   final Ranking ranking;
   final List<_Pixivision> pixivision;
@@ -199,25 +198,25 @@ class _Page {
     required this.userEventIds,
   });
   factory _Page.fromJson(Map<String, dynamic> json) => _Page(
-    tags: json['tags'].map((e)=>Tag.fromJson(e)).toList(),
-    follow: json['follow'],
-    mypixiv: json['mypixiv'],
+    tags: (json['tags'] as List<dynamic>).map((e)=>Tag.fromJson(e)).toList(),
+    follow: (json['follow'] as List<dynamic>).map((e)=>e as int).toList(),
+    mypixiv: (json['mypixiv'] as List<dynamic>),
     recommend: _Recommend.fromJson(json['recommend']),
-    recommendByTag: json['recommendByTag'].map((e)=>_RecommendByTag.fromJson(e)).toList(),
+    recommendByTag: (json['recommendByTag'] as List<dynamic>).map((e)=>_RecommendByTag.fromJson(e)).toList(),
     ranking: Ranking.fromJson(json['ranking']),
-    pixivision: json['pixivision'].map((e)=>_Pixivision.fromJson(e)).toList(),
-    recommendUser: json['recommendUser'].map((e)=>_RecommendUser.fromJson(e)).toList(),
-    contestOngoing: json['contestOngoing'].map((e)=>_ContestOngoing.fromJson(e)).toList(),
-    contestResult: json['contestResult'],
-    editorRecommend: json['editorRecommend'].map((e)=>_EditorRecommend.fromJson(e)).toList(),
-    boothFollowItemIds: json['boothFollowItemIds'],
-    sketchLiveFollowIds: json['sketchLiveFollowIds'],
-    sketchLivePopularIds: json['sketchLivePopularIds'],
-    myFavoriteTags: json['myFavoriteTags'],
-    newPost: json['newPost'],
-    trendingTags: json['trendingTags'].map((e)=>_TrendingTags.fromJson(e)).toList(),
-    completeRequestIds: json['completeRequestIds'],
-    userEventIds: json['userEventIds'],
+    pixivision: (json['pixivision'] as List<dynamic>).map((e)=>_Pixivision.fromJson(e)).toList(),
+    recommendUser: (json['recommendUser'] as List<dynamic>).map((e)=>_RecommendUser.fromJson(e)).toList(),
+    contestOngoing: (json['contestOngoing'] as List<dynamic>).map((e)=>_ContestOngoing.fromJson(e)).toList(),
+    contestResult: (json['contestResult'] as List<dynamic>),
+    editorRecommend: (json['editorRecommend'] as List<dynamic>).map((e)=>_EditorRecommend.fromJson(e)).toList(),
+    boothFollowItemIds: (json['boothFollowItemIds'] as List<dynamic>).map((e)=>e as String).toList(),
+    sketchLiveFollowIds: (json['sketchLiveFollowIds'] as List<dynamic>),
+    sketchLivePopularIds: (json['sketchLivePopularIds'] as List<dynamic>),
+    myFavoriteTags: (json['myFavoriteTags'] as List<dynamic>),
+    newPost: (json['newPost'] as List<dynamic>).map((e)=>e as String).toList(),
+    trendingTags: (json['trendingTags'] as List<dynamic>).map((e)=>_TrendingTags.fromJson(e)).toList(),
+    completeRequestIds: (json['completeRequestIds'] as List<dynamic>).map((e)=>e as String).toList(),
+    userEventIds: (json['userEventIds'] as List<dynamic>).map((e)=>e as String).toList(),
   );
   
 }
@@ -248,12 +247,20 @@ class _BoothItems {
   
 }
 
+/// Represents the payload of `/ajax/top/illust` request.
+/// Objects like works, requests, ... are in partial
 class IllustTop {
+  /// Tag translations
   final Map<String, TagTranslation> tagTranslation;
+  /// Works data
   final _Thumbnails thumbnails;
+  /// i think this is deprecated
   final List<dynamic> illustSeries;
+  /// Request objects
   final List<Request> requests;
+  /// User objects
   final List<PartialUser> users;
+  /// Data to build page content (need better explaination)
   final _Page page;
   final List<_BoothItems> boothItems;
   final List<dynamic> sketchLives;
@@ -268,14 +275,14 @@ class IllustTop {
     required this.sketchLives,
   });
   factory IllustTop.fromJson(Map<String, dynamic> json) => IllustTop(
-    tagTranslation: json['tagTranslation'].map((k,v)=>MapEntry(k as String,TagTranslation.fromJson(v))),
+    tagTranslation: (json['tagTranslation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,TagTranslation.fromJson(v))),
     thumbnails: _Thumbnails.fromJson(json['thumbnails']),
-    illustSeries: json['illustSeries'],
-    requests: json['requests'].map((e)=>Request.fromJson(e)).toList(),
-    users: json['users'].map((e)=>PartialUser.fromJson(e)).toList(),
+    illustSeries: (json['illustSeries'] as List<dynamic>),
+    requests: (json['requests'] as List<dynamic>).map((e)=>Request.fromJson(e)).toList(),
+    users: (json['users'] as List<dynamic>).map((e)=>PartialUser.fromJson(e)).toList(),
     page: _Page.fromJson(json['page']),
-    boothItems: json['boothItems'].map((e)=>_BoothItems.fromJson(e)).toList(),
-    sketchLives: json['sketchLives'],
+    boothItems: (json['boothItems'] as List<dynamic>).map((e)=>_BoothItems.fromJson(e)).toList(),
+    sketchLives: (json['sketchLives'] as List<dynamic>),
   );
   
 }

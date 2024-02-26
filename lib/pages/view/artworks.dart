@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:sofieru/json/ajax/illust/Artwork.dart';
+import 'package:sofieru/json/ajax/illust/Artwork.dart' show Artwork;
 import 'package:sofieru/json/ajax/top/illust/PartialArtwork.dart' show PartialArtwork;
 import 'package:sofieru/json/ajax/user/PartialUser.dart';
 import 'package:sofieru/shared.dart';
@@ -268,7 +268,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
                   relatedNextIds = snap.data!["nextIds"];
                   return ListenableBuilder(
                     listenable: related,
-                    builder: (ctx,w)=>artworkGrid([...related.value.map((e) => PxArtwork(data: PartialArtwork.fromJson(e)))])
+                    builder: (ctx,w)=>artworkGrid([...related.value.map((e) => PxArtwork.fromJson(payload: e))])
                   );
                 } 
               ),

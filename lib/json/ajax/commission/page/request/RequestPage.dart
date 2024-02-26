@@ -1,7 +1,7 @@
 import 'package:sofieru/json/ajax/user/PartialUser.dart' show PartialUser;
 import 'Request.dart' show Request;
 import 'package:sofieru/json/ajax/top/illust/PartialArtwork.dart' show PartialArtwork;
-import 'package:sofieru/json/ajax/shared/tagTranslation.dart' show tagTranslation;
+import 'package:sofieru/json/ajax/shared/TagTranslation.dart' show TagTranslation;
 class _Creator {
   final String creatorUserId;
   final bool creatorStoppedFlg;
@@ -51,7 +51,7 @@ class _UserList {
   });
   factory _UserList.fromJson(Map<String, dynamic> json) => _UserList(
     id: json['id'],
-    illustIds: json['illustIds'],
+    illustIds: (json['illustIds'] as List<dynamic>).map((e)=>e as String).toList(),
   );
   
 }
@@ -148,14 +148,14 @@ class _Page {
   });
   factory _Page.fromJson(Map<String, dynamic> json) => _Page(
     creator: _Creator.fromJson(json['creator']),
-    recommendedUserIds: json['recommendedUserIds'],
+    recommendedUserIds: (json['recommendedUserIds'] as List<dynamic>).map((e)=>e as int).toList(),
     confettiModalStatus: _ConfettiModalStatus.fromJson(json['confettiModalStatus']),
-    userList: json['userList'].map((e)=>_UserList.fromJson(e)).toList(),
-    inProgressRequestIds: json['inProgressRequestIds'],
-    completeRequestIds: json['completeRequestIds'],
+    userList: (json['userList'] as List<dynamic>).map((e)=>_UserList.fromJson(e)).toList(),
+    inProgressRequestIds: (json['inProgressRequestIds'] as List<dynamic>).map((e)=>e as String).toList(),
+    completeRequestIds: (json['completeRequestIds'] as List<dynamic>).map((e)=>e as String).toList(),
     alreadyRequestCollaborate: json['alreadyRequestCollaborate'],
     platformFeeCampaignLabel: json['platformFeeCampaignLabel'],
-    eligibleCampaignList: json['eligibleCampaignList'],
+    eligibleCampaignList: (json['eligibleCampaignList'] as List<dynamic>),
     isUnlisted: json['isUnlisted'],
     ogp: _Ogp.fromJson(json['ogp']),
     locationMask: json['locationMask'],
@@ -177,18 +177,18 @@ class _Thumbnails {
     required this.collection,
   });
   factory _Thumbnails.fromJson(Map<String, dynamic> json) => _Thumbnails(
-    illust: json['illust'].map((e)=>PartialArtwork.fromJson(e)).toList(),
-    novel: json['novel'],
-    novelSeries: json['novelSeries'],
-    novelDraft: json['novelDraft'],
-    collection: json['collection'],
+    illust: (json['illust'] as List<dynamic>).map((e)=>PartialArtwork.fromJson(e)).toList(),
+    novel: (json['novel'] as List<dynamic>),
+    novelSeries: (json['novelSeries'] as List<dynamic>),
+    novelDraft: (json['novelDraft'] as List<dynamic>),
+    collection: (json['collection'] as List<dynamic>),
   );
   
 }
 
 class RequestPage {
   final _Page page;
-  final Map<String, tagTranslation> tagTranslation;
+  final Map<String, TagTranslation> tagTranslation;
   final _Thumbnails thumbnails;
   final List<dynamic> illustSeries;
   final List<Request> requests;
@@ -203,11 +203,11 @@ class RequestPage {
   });
   factory RequestPage.fromJson(Map<String, dynamic> json) => RequestPage(
     page: _Page.fromJson(json['page']),
-    tagTranslation: json['tagTranslation'].map((k,v)=>MapEntry(k as String,tagTranslation.fromJson(v))),
+    tagTranslation: (json['tagTranslation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,TagTranslation.fromJson(v))),
     thumbnails: _Thumbnails.fromJson(json['thumbnails']),
-    illustSeries: json['illustSeries'],
-    requests: json['requests'].map((e)=>Request.fromJson(e)).toList(),
-    users: json['users'].map((e)=>PartialUser.fromJson(e)).toList(),
+    illustSeries: (json['illustSeries'] as List<dynamic>),
+    requests: (json['requests'] as List<dynamic>).map((e)=>Request.fromJson(e)).toList(),
+    users: (json['users'] as List<dynamic>).map((e)=>PartialUser.fromJson(e)).toList(),
   );
   
 }

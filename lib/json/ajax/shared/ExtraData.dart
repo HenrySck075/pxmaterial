@@ -29,8 +29,8 @@ class _EmbedMeta {
     description: json['description'],
     image: json['image'],
     title: json['title'],
-    type: json['type'],
-    card: json['card'],
+    type: json['type'] == null?null:json['type'],
+    card: json['card'] == null?null:json['card'],
   );
   
 }
@@ -59,7 +59,7 @@ class _Meta {
     title: json['title'],
     description: json['description'],
     canonical: json['canonical'],
-    alternateLanguages: _AlternateLanguages.fromJson(json['alternateLanguages']),
+    alternateLanguages: json['alternateLanguages'] == null?null:_AlternateLanguages.fromJson(json['alternateLanguages']),
     descriptionHeader: json['descriptionHeader'],
     ogp: _EmbedMeta.fromJson(json['ogp']),
     twitter: _EmbedMeta.fromJson(json['twitter']),

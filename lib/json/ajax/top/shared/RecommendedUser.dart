@@ -9,8 +9,8 @@ class RecommendedUser {
   });
   factory RecommendedUser.fromJson(Map<String, dynamic> json) => RecommendedUser(
     id: json['id'],
-    illustIds: json['illustIds'],
-    novelIds: json['novelIds'],
+    illustIds: (json['illustIds'] as List<dynamic>).map((e)=>e as String).toList(),
+    novelIds: (json['novelIds'] as List<dynamic>).map((e)=>e as String).toList(),
   );
   
 }

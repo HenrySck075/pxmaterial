@@ -81,19 +81,28 @@ def generate(data, name=""):
             required = False
         if k in desc:
             out+="  /// "+"\n  /// ".join(desc[k].splitlines())+"\n"
+        if vt.startswith("Map<") and "-" in v.get("$nullable",[]): 
+            vt=vt[:-1]+"?>"
         out+=f"  final {vt}{'' if required else '?'} {k};"+"\n"
         const+=f"    {'required ' if required else ''}this.{k},"+"\n"
 
         fromJson+=f"    {k}: json['{k}']"
         if k in emptiable: fromJson+=f" is List?null:json['{k}']"
+        if k in nullable: fromJson+=f" == null?null:json['{k}']"
+        if vt.startswith("Map<"):
+            # vt2 = vt.removeprefix('Map<String, ').removesuffix('>')
+            fromJson=fromJson[:-8-len(k)]+f"(json['{k}'] as Map<String,dynamic>)"
         if k not in emptiable and (vto not in [list,dict]): 'fromJson+=f" as {vt}"'
         elif vto==list: 
             j = vt.removesuffix(">").removeprefix("List<") # we might not having to
-            if j not in classes.values(): fromJson+=f".map((e)=>{j}.fromJson(e)).toList()"
+            fromJson=fromJson[:-8-len(k)]+f"(json['{k}'] as List<dynamic>)"
+            if j != "dynamic": fromJson+=f".map((e)=>"+(f"{j}.fromJson(e)" if j not in classes.values() else f"e as {j}")+").toList()"
         else: 
             if vt.startswith("Map<"):
-                vt2 = vt.removeprefix('Map<String, ').removesuffix('>')
-                fromJson+=f".map((k,v)=>MapEntry(k as String,{vt2}.fromJson(v)))" if vt2 not in classes.values() else ""#f" as {vt+('' if required else '?')}"
+                vt2 = vt.removeprefix('Map<String, ').removesuffix('>').removesuffix("?")
+                n = "-" in v.get("$nullable",[]) # pyright: ignore 
+                # dart really just do a 🤫🧏 on type conversion lmao
+                fromJson+=".map((k,v)=>MapEntry(k,"+("v==null?null:" if n else "")+(f"{vt2}.fromJson(v)" if vt2 not in classes.values() else f"v as {vt2}"+("?" if n else ""))+"))"
             else:
                 fromJson=fromJson[:-8-len(k)]+f"{vt}.fromJson(json['{k}'])"
         fromJson+=",\n"

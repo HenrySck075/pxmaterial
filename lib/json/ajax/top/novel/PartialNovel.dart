@@ -73,7 +73,7 @@ class PartialNovel {
     xRestrict: json['xRestrict'],
     restrict: json['restrict'],
     url: json['url'],
-    tags: json['tags'],
+    tags: (json['tags'] as List<dynamic>).map((e)=>e as String).toList(),
     userId: json['userId'],
     userName: json['userName'],
     profileImageUrl: json['profileImageUrl'],

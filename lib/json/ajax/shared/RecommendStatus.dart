@@ -8,9 +8,9 @@ class RecommendStatus {
     required this.seedIllustIds,
   });
   factory RecommendStatus.fromJson(Map<String, dynamic> json) => RecommendStatus(
-    methods: json['methods'],
+    methods: (json['methods'] as List<dynamic>).map((e)=>e as String).toList(),
     score: json['score'],
-    seedIllustIds: json['seedIllustIds'],
+    seedIllustIds: (json['seedIllustIds'] as List<dynamic>).map((e)=>e as String).toList(),
   );
   
 }

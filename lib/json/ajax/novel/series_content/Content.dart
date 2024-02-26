@@ -13,11 +13,11 @@ class _Thumbnails {
     required this.collection,
   });
   factory _Thumbnails.fromJson(Map<String, dynamic> json) => _Thumbnails(
-    illust: json['illust'],
-    novel: json['novel'].map((e)=>PartialNovel.fromJson(e)).toList(),
-    novelSeries: json['novelSeries'],
-    novelDraft: json['novelDraft'],
-    collection: json['collection'],
+    illust: (json['illust'] as List<dynamic>),
+    novel: (json['novel'] as List<dynamic>).map((e)=>PartialNovel.fromJson(e)).toList(),
+    novelSeries: (json['novelSeries'] as List<dynamic>),
+    novelDraft: (json['novelDraft'] as List<dynamic>),
+    collection: (json['collection'] as List<dynamic>),
   );
   
 }
@@ -90,7 +90,7 @@ class _SeriesContents {
     series: _Series.fromJson(json['series']),
     title: json['title'],
     commentHtml: json['commentHtml'],
-    tags: json['tags'],
+    tags: (json['tags'] as List<dynamic>).map((e)=>e as String).toList(),
     restrict: json['restrict'],
     xRestrict: json['xRestrict'],
     isOriginal: json['isOriginal'],
@@ -116,7 +116,7 @@ class _Page {
     required this.seriesContents,
   });
   factory _Page.fromJson(Map<String, dynamic> json) => _Page(
-    seriesContents: json['seriesContents'].map((e)=>_SeriesContents.fromJson(e)).toList(),
+    seriesContents: (json['seriesContents'] as List<dynamic>).map((e)=>_SeriesContents.fromJson(e)).toList(),
   );
   
 }
@@ -137,11 +137,11 @@ class Content {
     required this.page,
   });
   factory Content.fromJson(Map<String, dynamic> json) => Content(
-    tagTranslation: json['tagTranslation'],
+    tagTranslation: (json['tagTranslation'] as List<dynamic>),
     thumbnails: _Thumbnails.fromJson(json['thumbnails']),
-    illustSeries: json['illustSeries'],
-    requests: json['requests'],
-    users: json['users'],
+    illustSeries: (json['illustSeries'] as List<dynamic>),
+    requests: (json['requests'] as List<dynamic>),
+    users: (json['users'] as List<dynamic>),
     page: _Page.fromJson(json['page']),
   );
   

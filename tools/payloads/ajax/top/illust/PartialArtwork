@@ -30,6 +30,7 @@
     "isUnlisted": false,
     "isMasked": false,
     "aiType": 1,
+    "$nullable": ["urls","profileImageUrl"],
     "urls": {
         "250x250": "https://i.pximg.net/c/250x250_80_a2/img-master/img/2024/02/21/12/09/17/116254075_p0_square1200.jpg",
         "360x360": "https://i.pximg.net/c/360x360_70/img-master/img/2024/02/21/12/09/17/116254075_p0_square1200.jpg",

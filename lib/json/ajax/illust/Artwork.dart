@@ -23,30 +23,30 @@ class _Urls {
   
 }
 
-class TagInfo {
+class _TagInfo {
   final String tag;
   final bool locked;
   final bool deletable;
   final String userId;
   final String romaji;
-  final Map<String, String> translation;
+  final Map<String, String>? translation;
   final String userName;
-  TagInfo({
+  _TagInfo({
     required this.tag,
     required this.locked,
     required this.deletable,
     required this.userId,
     required this.romaji,
-    required this.translation,
+    this.translation,
     required this.userName,
   });
-  factory TagInfo.fromJson(Map<String, dynamic> json) => TagInfo(
+  factory _TagInfo.fromJson(Map<String, dynamic> json) => _TagInfo(
     tag: json['tag'],
     locked: json['locked'],
     deletable: json['deletable'],
     userId: json['userId'],
     romaji: json['romaji'],
-    translation: json['translation'],
+    translation: json['translation'] == null?null:(json['translation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,v as String)),
     userName: json['userName'],
   );
   
@@ -55,7 +55,7 @@ class TagInfo {
 class _Tags {
   final String authorId;
   final bool isLocked;
-  final List<TagInfo> tags;
+  final List<_TagInfo> tags;
   final bool writable;
   _Tags({
     required this.authorId,
@@ -66,7 +66,7 @@ class _Tags {
   factory _Tags.fromJson(Map<String, dynamic> json) => _Tags(
     authorId: json['authorId'],
     isLocked: json['isLocked'],
-    tags: json['tags'].map((e)=>TagInfo.fromJson(e)).toList(),
+    tags: (json['tags'] as List<dynamic>).map((e)=>_TagInfo.fromJson(e)).toList(),
     writable: json['writable'],
   );
   
@@ -115,7 +115,7 @@ class Artwork {
   final String userId;
   final String userName;
   final String userAccount;
-  final Map<String, PartialArtwork> userIllusts;
+  final Map<String, PartialArtwork?> userIllusts;
   final bool likeData;
   final int width;
   final int height;
@@ -125,7 +125,6 @@ class Artwork {
   final int commentCount;
   final int responseCount;
   final int viewCount;
-  final int bookStyle;
   final bool isHowto;
   final bool isOriginal;
   final List<dynamic> imageResponseOutData;
@@ -178,7 +177,6 @@ class Artwork {
     required this.commentCount,
     required this.responseCount,
     required this.viewCount,
-    required this.bookStyle,
     required this.isHowto,
     required this.isOriginal,
     required this.imageResponseOutData,
@@ -222,7 +220,7 @@ class Artwork {
     userId: json['userId'],
     userName: json['userName'],
     userAccount: json['userAccount'],
-    userIllusts: json['userIllusts'].map((k,v)=>MapEntry(k as String,PartialArtwork.fromJson(v))),
+    userIllusts: (json['userIllusts'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,v==null?null:PartialArtwork.fromJson(v))),
     likeData: json['likeData'],
     width: json['width'],
     height: json['height'],
@@ -232,11 +230,10 @@ class Artwork {
     commentCount: json['commentCount'],
     responseCount: json['responseCount'],
     viewCount: json['viewCount'],
-    bookStyle: json['bookStyle'],
     isHowto: json['isHowto'],
     isOriginal: json['isOriginal'],
-    imageResponseOutData: json['imageResponseOutData'],
-    imageResponseData: json['imageResponseData'],
+    imageResponseOutData: (json['imageResponseOutData'] as List<dynamic>),
+    imageResponseData: (json['imageResponseData'] as List<dynamic>),
     imageResponseCount: json['imageResponseCount'],
     pollData: json['pollData'],
     seriesNavData: json['seriesNavData'],
@@ -244,7 +241,7 @@ class Artwork {
     descriptionYoutubeId: json['descriptionYoutubeId'],
     comicPromotion: json['comicPromotion'],
     fanboxPromotion: json['fanboxPromotion'],
-    contestBanners: json['contestBanners'],
+    contestBanners: (json['contestBanners'] as List<dynamic>),
     isBookmarkable: json['isBookmarkable'],
     bookmarkData: json['bookmarkData'],
     contestData: json['contestData'],

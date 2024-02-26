@@ -137,7 +137,7 @@
     },
     "tagTranslation": {
         "-": {
-            "$schema": "$/ajax/shared/tagTranslation"
+            "$schema": "$/ajax/shared/TagTranslation"
         }
     },
     "thumbnails": {

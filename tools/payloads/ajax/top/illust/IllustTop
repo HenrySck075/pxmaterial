@@ -1,4 +1,13 @@
 {
+  "$desc": {
+    "$this": "Represents the payload of `/ajax/top/illust` request.\nObjects like works, requests, ... are in partial",
+    "tagTranslation": "Tag translations",
+    "thumbnails": "Works data",
+    "illustSeries": "i think this is deprecated",
+    "requests": "Request objects",
+    "users": "User objects",
+    "page": "Data to build page content (need better explaination)"
+  },
   "tagTranslation": {
       "-":{"$schema":"$/ajax/shared/TagTranslation"}
   },
@@ -21,6 +30,13 @@
     {"$schema":"$/ajax/user/PartialUser"}
   ],
   "page": {
+    "$desc": {
+      "tags": "Tags objects",
+      "follow": "Works from users you're following",
+      "mypixiv": "que",
+      "recommend": "Recommended artworks",
+      "recommendByTag": "Recommended artworks by tag"
+    },
     "tags": [
       {"$schema":"Tag"}
     ],
@@ -41,6 +57,9 @@
     ],
     "mypixiv": [],
     "recommend": {
+      "$desc": {
+        "ids": ""
+      },
       "ids": [
         "88862391",
         "94484588",
@@ -60,8 +79,7 @@
         "116227281",
         "98952817",
         "116049500"
-      ], 
-      "details": {"$schema": "$/ajax/shared/RecommendStatus"} 
+      ]
     },
     "recommendByTag": [
       {
@@ -79,8 +97,7 @@
           "112576797",
           "98952817",
           "90917306"
-        ],
-        "details": {"$schema": "$/ajax/shared/RecommendStatus"} 
+        ]
       }
     ],
     "ranking": {

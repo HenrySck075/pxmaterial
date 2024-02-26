@@ -60,8 +60,8 @@ class PrivacyLeveledData {
     this.privacyLevel,
   });
   factory PrivacyLeveledData.fromJson(Map<String, dynamic> json) => PrivacyLeveledData(
-    name: json['name'],
-    privacyLevel: json['privacyLevel'],
+    name: json['name'] == null?null:json['name'],
+    privacyLevel: json['privacyLevel'] == null?null:json['privacyLevel'],
   );
   
 }
@@ -117,7 +117,7 @@ class User {
   final bool isFollowed;
   final bool isMypixiv;
   final bool isBlocking;
-  final _Background background;
+  final _Background? background;
   final String? sketchLiveId;
   final int partial;
   final bool acceptRequest;
@@ -149,7 +149,7 @@ class User {
     required this.isFollowed,
     required this.isMypixiv,
     required this.isBlocking,
-    required this.background,
+    this.background,
     this.sketchLiveId,
     required this.partial,
     required this.acceptRequest,
@@ -180,18 +180,18 @@ class User {
     isFollowed: json['isFollowed'],
     isMypixiv: json['isMypixiv'],
     isBlocking: json['isBlocking'],
-    background: _Background.fromJson(json['background']),
+    background: json['background'] == null?null:_Background.fromJson(json['background']),
     sketchLiveId: json['sketchLiveId'],
     partial: json['partial'],
     acceptRequest: json['acceptRequest'],
-    sketchLives: json['sketchLives'],
+    sketchLives: (json['sketchLives'] as List<dynamic>),
     following: json['following'],
     mypixivCount: json['mypixivCount'],
     followedBack: json['followedBack'],
     comment: json['comment'],
     commentHtml: json['commentHtml'],
     webpage: json['webpage'],
-    social: json['social'].map((k,v)=>MapEntry(k as String,_SocialContent.fromJson(v))),
+    social: (json['social'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_SocialContent.fromJson(v))),
     canSendMessage: json['canSendMessage'],
     region: _Region.fromJson(json['region']),
     age: PrivacyLeveledData.fromJson(json['age']),

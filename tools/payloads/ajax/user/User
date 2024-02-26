@@ -1,4 +1,7 @@
 {
+    "$nullable": [
+      "background"
+    ],
     "userId": "2416323",
     "name": "Azel",
     "image": "https://i.pximg.net/user-profile/img/2023/08/30/13/35/50/24878060_11c1154e992c64e90ef5e3f6061fedc6_50.png",

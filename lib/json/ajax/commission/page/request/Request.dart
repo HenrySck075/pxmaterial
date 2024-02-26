@@ -30,7 +30,7 @@ class _RequestProposal {
     requestOriginalProposal: json['requestOriginalProposal'],
     requestOriginalProposalHtml: json['requestOriginalProposalHtml'],
     requestOriginalProposalLang: json['requestOriginalProposalLang'],
-    requestTranslationProposal: json['requestTranslationProposal'].map((e)=>_RequestTranslationProposal.fromJson(e)).toList(),
+    requestTranslationProposal: (json['requestTranslationProposal'] as List<dynamic>).map((e)=>_RequestTranslationProposal.fromJson(e)).toList(),
   );
   
 }
@@ -61,7 +61,7 @@ class _PlanTitle {
   factory _PlanTitle.fromJson(Map<String, dynamic> json) => _PlanTitle(
     planOriginalTitle: json['planOriginalTitle'],
     planOriginalTitleLang: json['planOriginalTitleLang'],
-    planTranslationTitle: json['planTranslationTitle'] is List?null:json['planTranslationTitle'].map((k,v)=>MapEntry(k as String,_PlanTranslationTitleContent.fromJson(v))),
+    planTranslationTitle: json['planTranslationTitle'] is List?null:(json['planTranslationTitle'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_PlanTranslationTitleContent.fromJson(v))),
   );
   
 }
@@ -98,7 +98,32 @@ class _PlanDescription {
     planOriginalDescription: json['planOriginalDescription'],
     planOriginalDescriptionHtml: json['planOriginalDescriptionHtml'],
     planOriginalLang: json['planOriginalLang'],
-    planTranslationDescription: json['planTranslationDescription'] is List?null:json['planTranslationDescription'].map((k,v)=>MapEntry(k as String,_PlanTranslationDescriptionContent.fromJson(v))),
+    planTranslationDescription: json['planTranslationDescription'] is List?null:(json['planTranslationDescription'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_PlanTranslationDescriptionContent.fromJson(v))),
+  );
+  
+}
+
+class _Urls {
+  final String cover;
+  final String card;
+  _Urls({
+    required this.cover,
+    required this.card,
+  });
+  factory _Urls.fromJson(Map<String, dynamic> json) => _Urls(
+    cover: json['cover'],
+    card: json['card'],
+  );
+  
+}
+
+class _PlanCoverImage {
+  final _Urls urls;
+  _PlanCoverImage({
+    required this.urls,
+  });
+  factory _PlanCoverImage.fromJson(Map<String, dynamic> json) => _PlanCoverImage(
+    urls: _Urls.fromJson(json['urls']),
   );
   
 }
@@ -117,7 +142,7 @@ class _Plan {
   final bool planAcceptUgoiraFlg;
   final bool planAcceptMangaFlg;
   final bool planAcceptNovelFlg;
-  final String? planCoverImage;
+  final _PlanCoverImage? planCoverImage;
   final int planAiType;
   _Plan({
     this.currentPlanId,
@@ -150,7 +175,7 @@ class _Plan {
     planAcceptUgoiraFlg: json['planAcceptUgoiraFlg'],
     planAcceptMangaFlg: json['planAcceptMangaFlg'],
     planAcceptNovelFlg: json['planAcceptNovelFlg'],
-    planCoverImage: json['planCoverImage'],
+    planCoverImage: json['planCoverImage'] == null?null:_PlanCoverImage.fromJson(json['planCoverImage']),
     planAiType: json['planAiType'],
   );
   
@@ -171,7 +196,7 @@ class _CollaborateStatus {
     collaborating: json['collaborating'],
     collaborateAnonymousFlg: json['collaborateAnonymousFlg'],
     collaboratedCnt: json['collaboratedCnt'],
-    collaborateUserSamples: json['collaborateUserSamples'],
+    collaborateUserSamples: (json['collaborateUserSamples'] as List<dynamic>),
   );
   
 }
@@ -260,7 +285,7 @@ class Request {
     requestPostWorkType: json['requestPostWorkType'],
     requestPrice: json['requestPrice'],
     requestProposal: _RequestProposal.fromJson(json['requestProposal']),
-    requestTags: json['requestTags'],
+    requestTags: (json['requestTags'] as List<dynamic>).map((e)=>e as String).toList(),
     requestAdultFlg: json['requestAdultFlg'],
     requestAnonymousFlg: json['requestAnonymousFlg'],
     requestRestrictFlg: json['requestRestrictFlg'],

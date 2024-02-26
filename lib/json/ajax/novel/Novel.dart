@@ -57,7 +57,7 @@ class _Tags {
   factory _Tags.fromJson(Map<String, dynamic> json) => _Tags(
     authorId: json['authorId'],
     isLocked: json['isLocked'],
-    tags: json['tags'].map((e)=>TagInfo.fromJson(e)).toList(),
+    tags: (json['tags'] as List<dynamic>).map((e)=>TagInfo.fromJson(e)).toList(),
     writable: json['writable'],
   );
   
@@ -173,7 +173,7 @@ class Novel {
   final List<dynamic> imageResponseOutData;
   final List<dynamic> imageResponseData;
   final int imageResponseCount;
-  final Map<String, PartialNovel> userNovels;
+  final Map<String, PartialNovel?> userNovels;
   final bool hasGlossary;
   final ExtraData extraData;
   final _TitleCaptionTranslation titleCaptionTranslation;
@@ -267,18 +267,18 @@ class Novel {
     pollData: json['pollData'],
     marker: json['marker'],
     tags: _Tags.fromJson(json['tags']),
-    seriesNavData: _SeriesNavData.fromJson(json['seriesNavData']),
+    seriesNavData: json['seriesNavData'] == null?null:_SeriesNavData.fromJson(json['seriesNavData']),
     descriptionBoothId: json['descriptionBoothId'],
     descriptionYoutubeId: json['descriptionYoutubeId'],
     comicPromotion: json['comicPromotion'],
     fanboxPromotion: json['fanboxPromotion'],
-    contestBanners: json['contestBanners'],
+    contestBanners: (json['contestBanners'] as List<dynamic>),
     contestData: json['contestData'],
     request: json['request'],
-    imageResponseOutData: json['imageResponseOutData'],
-    imageResponseData: json['imageResponseData'],
+    imageResponseOutData: (json['imageResponseOutData'] as List<dynamic>),
+    imageResponseData: (json['imageResponseData'] as List<dynamic>),
     imageResponseCount: json['imageResponseCount'],
-    userNovels: json['userNovels'].map((k,v)=>MapEntry(k as String,PartialNovel.fromJson(v))),
+    userNovels: (json['userNovels'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,v==null?null:PartialNovel.fromJson(v))),
     hasGlossary: json['hasGlossary'],
     extraData: ExtraData.fromJson(json['extraData']),
     titleCaptionTranslation: _TitleCaptionTranslation.fromJson(json['titleCaptionTranslation']),

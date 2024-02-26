@@ -41,7 +41,8 @@
                     "-": "Touhou"
                 },
                 "userName": "ソラリス(Solarisu)",
-                "$name": "TagInfo"
+                "$nullable": ["romanji", "translation"],
+                "$name": "_TagInfo"
             }
         ],
         "writable": true
@@ -65,7 +66,10 @@
     "commentCount": 15,
     "responseCount": 0,
     "viewCount": 9434,
-    "bookStyle": 0,
+    "$nullable": [
+      "bookStyle",
+      "yes, the key exists, but i deleted it so i dont have to hardcode a special behaviour for that one"
+    ],
     "isHowto": false,
     "isOriginal": false,
     "imageResponseOutData": [],

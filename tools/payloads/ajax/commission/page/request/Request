@@ -65,13 +65,14 @@
         } 
       }
     },
+    "$nullable": ["planCoverImage"],
     "planAcceptAdultFlg": true,
     "planAcceptAnonymousFlg": true,
     "planAcceptIllustFlg": true,
     "planAcceptUgoiraFlg": false,
     "planAcceptMangaFlg": false,
     "planAcceptNovelFlg": false,
-    "planCoverImage": null,
+    "planCoverImage": {"urls":{"cover":"https://i.pximg.net/c/1200x630_80_a2_g5/commission-plan-cover/img/2023/01/08/14/33/29/KqMhVpbWP7j4ca3oOdT776pwz6EgPVu6_master1200.jpg","card":"https://i.pximg.net/c/800x400_80_a2_g5/commission-plan-cover/img/2023/01/08/14/33/29/KqMhVpbWP7j4ca3oOdT776pwz6EgPVu6_master1200.jpg"}},
     "planAiType": 1
   },
   "collaborateStatus": {

@@ -137,7 +137,8 @@ class _PxNovelState extends State<PxNovel> {
 class PxArtwork extends StatefulWidget {
   final PartialArtwork data;
   int rank;
-  PxArtwork({super.key, required this.data, this.rank=0});
+  PxArtwork.fromJson({Key? key, required Map<String, dynamic> payload, int rank=0}) : this(key:key,data:PartialArtwork.fromJson(payload));
+  PxArtwork({super.key,required this.data, this.rank=0});
 
   @override
   State<PxArtwork> createState() => _PxArtworkState();
@@ -231,7 +232,7 @@ class _PxArtworkState extends State<PxArtwork> {
                           height:24,
                           child: Container(
                             decoration: BoxDecoration(color: Colors.grey.withOpacity(0.5),borderRadius: BorderRadius.circular(4)),
-                            child: Center(child: Text(data.pageCount.toString()))
+                            child: Center(child: Text(data.pageCount.toString(),style: const TextStyle(color:Colors.white)))
                           ),
                         )
                       )
@@ -252,7 +253,8 @@ class _PxArtworkState extends State<PxArtwork> {
                         },
                         child: Row(
                           children: [if (!currentRouteURI().path.startsWith("/users")) ...[
-                            CircleAvatar(backgroundImage: pxImageFlutter(data.profileImageUrl).image),
+                            /// TODO: get the default pfp
+                            if (data.profileImageUrl!=null) CircleAvatar(backgroundImage: pxImageFlutter(data.profileImageUrl!).image),
                             const SizedBox.square(dimension:10),
                             Flexible(
                               flex:4,
@@ -356,9 +358,12 @@ class AuthorInfo extends StatelessWidget {
 /// as used in [IllustPage]
 class PxSimpleArtwork extends StatefulWidget {
   final PartialArtwork data;
+
+  
   final bool isCurrent;
   final bool authorInfo;
   const PxSimpleArtwork({super.key, required this.data, this.isCurrent = false, this.authorInfo = false});
+  PxSimpleArtwork.fromJson({Key? key, required Map<String,dynamic> payload, bool isCurrent = false, bool authorInfo = false}) : this(data: PartialArtwork.fromJson(payload), isCurrent: isCurrent,authorInfo:authorInfo);
 
   @override
   State<PxSimpleArtwork> createState() => _PxSimpleArtworkState();
@@ -434,11 +439,11 @@ class _PxSimpleArtworkState extends State<PxSimpleArtwork> {
     );
   }
 }
-PxSimpleArtwork AuthorInfoArtwork({Key? key, dynamic data}) => PxSimpleArtwork(data: data, key: key,authorInfo: true,);
+PxSimpleArtwork AuthorInfoArtwork({Key? key, dynamic data}) => PxSimpleArtwork.fromJson(payload: data, key: key,authorInfo: true,);
 /// i woulx love to tell them to remove pixivision from /novel or just make them novel-related
 class pixivision extends StatelessWidget {
   @override
-  Widget build(ctx) => Placeholder();
+  Widget build(ctx) => const Placeholder();
 }
 
 /// meaning for every time i use MappedIterable in the code

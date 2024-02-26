@@ -36,8 +36,8 @@ class PartialArtwork {
   final bool isUnlisted;
   final bool isMasked;
   final int aiType;
-  final Map<String, String> urls;
-  final String profileImageUrl;
+  final Map<String, String>? urls;
+  final String? profileImageUrl;
   PartialArtwork({
     required this.id,
     required this.title,
@@ -62,8 +62,8 @@ class PartialArtwork {
     required this.isUnlisted,
     required this.isMasked,
     required this.aiType,
-    required this.urls,
-    required this.profileImageUrl,
+    this.urls,
+    this.profileImageUrl,
   });
   factory PartialArtwork.fromJson(Map<String, dynamic> json) => PartialArtwork(
     id: json['id'],
@@ -74,7 +74,7 @@ class PartialArtwork {
     sl: json['sl'],
     url: json['url'],
     description: json['description'],
-    tags: json['tags'],
+    tags: (json['tags'] as List<dynamic>).map((e)=>e as String).toList(),
     userId: json['userId'],
     userName: json['userName'],
     width: json['width'],
@@ -89,8 +89,8 @@ class PartialArtwork {
     isUnlisted: json['isUnlisted'],
     isMasked: json['isMasked'],
     aiType: json['aiType'],
-    urls: json['urls'],
-    profileImageUrl: json['profileImageUrl'],
+    urls: json['urls'] == null?null:(json['urls'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,v as String)),
+    profileImageUrl: json['profileImageUrl'] == null?null:json['profileImageUrl'],
   );
   
 }

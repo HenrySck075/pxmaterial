@@ -20,7 +20,7 @@ class Ranking {
     required this.date,
   });
   factory Ranking.fromJson(Map<String, dynamic> json) => Ranking(
-    items: json['items'].map((e)=>_Items.fromJson(e)).toList(),
+    items: (json['items'] as List<dynamic>).map((e)=>_Items.fromJson(e)).toList(),
     date: json['date'],
   );
   

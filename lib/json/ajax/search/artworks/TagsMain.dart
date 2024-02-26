@@ -72,7 +72,7 @@ class _Data {
     sl: json['sl'],
     url: json['url'],
     description: json['description'],
-    tags: json['tags'],
+    tags: (json['tags'] as List<dynamic>).map((e)=>e as String).toList(),
     userId: json['userId'],
     userName: json['userName'],
     width: json['width'],
@@ -118,10 +118,10 @@ class _IllustManga {
     required this.bookmarkRanges,
   });
   factory _IllustManga.fromJson(Map<String, dynamic> json) => _IllustManga(
-    data: json['data'].map((e)=>_Data.fromJson(e)).toList(),
+    data: (json['data'] as List<dynamic>).map((e)=>_Data.fromJson(e)).toList(),
     total: json['total'],
     lastPage: json['lastPage'],
-    bookmarkRanges: json['bookmarkRanges'].map((e)=>_BookmarkRanges.fromJson(e)).toList(),
+    bookmarkRanges: (json['bookmarkRanges'] as List<dynamic>).map((e)=>_BookmarkRanges.fromJson(e)).toList(),
   );
   
 }
@@ -134,8 +134,8 @@ class _Popular {
     required this.permanent,
   });
   factory _Popular.fromJson(Map<String, dynamic> json) => _Popular(
-    recent: json['recent'],
-    permanent: json['permanent'],
+    recent: (json['recent'] as List<dynamic>),
+    permanent: (json['permanent'] as List<dynamic>),
   );
   
 }
@@ -314,8 +314,8 @@ class TagsMain {
   factory TagsMain.fromJson(Map<String, dynamic> json) => TagsMain(
     illustManga: _IllustManga.fromJson(json['illustManga']),
     popular: _Popular.fromJson(json['popular']),
-    relatedTags: json['relatedTags'],
-    tagTranslation: json['tagTranslation'].map((k,v)=>MapEntry(k as String,_TagTranslationContent.fromJson(v))),
+    relatedTags: (json['relatedTags'] as List<dynamic>).map((e)=>e as String).toList(),
+    tagTranslation: (json['tagTranslation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_TagTranslationContent.fromJson(v))),
     extraData: _ExtraData.fromJson(json['extraData']),
   );
   
