@@ -1,5 +1,6 @@
 import 'package:sofieru/json/ajax/shared/ExtraData.dart' show ExtraData;
 import 'package:sofieru/json/ajax/top/illust/PartialArtwork.dart' show PartialArtwork;
+import 'package:sofieru/json/ajax/shared/TagInfo.dart' show TagInfo;
 class _Urls {
   final String mini;
   final String thumb;
@@ -20,42 +21,13 @@ class _Urls {
     regular: json['regular'],
     original: json['original'],
   );
-  
-}
 
-class _TagInfo {
-  final String tag;
-  final bool locked;
-  final bool deletable;
-  final String userId;
-  final String romaji;
-  final Map<String, String>? translation;
-  final String userName;
-  _TagInfo({
-    required this.tag,
-    required this.locked,
-    required this.deletable,
-    required this.userId,
-    required this.romaji,
-    this.translation,
-    required this.userName,
-  });
-  factory _TagInfo.fromJson(Map<String, dynamic> json) => _TagInfo(
-    tag: json['tag'],
-    locked: json['locked'],
-    deletable: json['deletable'],
-    userId: json['userId'],
-    romaji: json['romaji'],
-    translation: json['translation'] == null?null:(json['translation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,v as String)),
-    userName: json['userName'],
-  );
-  
 }
 
 class _Tags {
   final String authorId;
   final bool isLocked;
-  final List<_TagInfo> tags;
+  final List<TagInfo> tags;
   final bool writable;
   _Tags({
     required this.authorId,
@@ -66,10 +38,10 @@ class _Tags {
   factory _Tags.fromJson(Map<String, dynamic> json) => _Tags(
     authorId: json['authorId'],
     isLocked: json['isLocked'],
-    tags: (json['tags'] as List<dynamic>).map((e)=>_TagInfo.fromJson(e)).toList(),
+    tags: (json['tags'] as List<dynamic>).map((e)=>TagInfo.fromJson(e)).toList(),
     writable: json['writable'],
   );
-  
+
 }
 
 class _TitleCaptionTranslation {
@@ -83,7 +55,7 @@ class _TitleCaptionTranslation {
     workTitle: json['workTitle'],
     workCaption: json['workCaption'],
   );
-  
+
 }
 
 class Artwork {
@@ -254,6 +226,6 @@ class Artwork {
     reuploadDate: json['reuploadDate'],
     locationMask: json['locationMask'],
   );
-  
+
 }
 

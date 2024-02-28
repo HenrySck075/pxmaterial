@@ -37,7 +37,7 @@ TODO: retry
 ## TODO
 - Figure out how to reasonably add more animations 
 - Commenting the JSON payloads 
-- Ditching json\_serializable for the god [json2dart.py](tools/json2dart.py), which means i have to do the above again
+- App screenshots in README
 
 # anstion and queswer
 ## Q: why is the project internally called "sofieru" (1) and who is she (2)

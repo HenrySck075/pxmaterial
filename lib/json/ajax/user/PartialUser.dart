@@ -1,6 +1,26 @@
+class _Background {
+  final String? repeat;
+  final String? color;
+  final String url;
+  final bool isPrivate;
+  _Background({
+    this.repeat,
+    this.color,
+    required this.url,
+    required this.isPrivate,
+  });
+  factory _Background.fromJson(Map<String, dynamic> json) => _Background(
+    repeat: json['repeat'] == null?null:json['repeat'],
+    color: json['color'] == null?null:json['color'],
+    url: json['url'],
+    isPrivate: json['isPrivate'],
+  );
+
+}
+
 class PartialUser {
   final int partial;
-  final String comment;
+  final String? comment;
   final bool followedBack;
   final String userId;
   final String name;
@@ -10,11 +30,11 @@ class PartialUser {
   final bool isFollowed;
   final bool isMypixiv;
   final bool isBlocking;
-  final String? background;
+  final _Background? background;
   final bool acceptRequest;
   PartialUser({
     required this.partial,
-    required this.comment,
+    this.comment,
     required this.followedBack,
     required this.userId,
     required this.name,
@@ -29,7 +49,7 @@ class PartialUser {
   });
   factory PartialUser.fromJson(Map<String, dynamic> json) => PartialUser(
     partial: json['partial'],
-    comment: json['comment'],
+    comment: json['comment'] == null?null:json['comment'],
     followedBack: json['followedBack'],
     userId: json['userId'],
     name: json['name'],
@@ -39,9 +59,9 @@ class PartialUser {
     isFollowed: json['isFollowed'],
     isMypixiv: json['isMypixiv'],
     isBlocking: json['isBlocking'],
-    background: json['background'],
+    background: json['background'] == null?null:_Background.fromJson(json['background']),
     acceptRequest: json['acceptRequest'],
   );
-  
+
 }
 

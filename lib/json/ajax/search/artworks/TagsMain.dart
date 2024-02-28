@@ -9,7 +9,7 @@ class _TitleCaptionTranslation {
     workTitle: json['workTitle'],
     workCaption: json['workCaption'],
   );
-  
+
 }
 
 class _Data {
@@ -89,7 +89,7 @@ class _Data {
     aiType: json['aiType'],
     profileImageUrl: json['profileImageUrl'],
   );
-  
+
 }
 
 class _BookmarkRanges {
@@ -103,7 +103,7 @@ class _BookmarkRanges {
     min: json['min'],
     max: json['max'],
   );
-  
+
 }
 
 class _IllustManga {
@@ -123,7 +123,7 @@ class _IllustManga {
     lastPage: json['lastPage'],
     bookmarkRanges: (json['bookmarkRanges'] as List<dynamic>).map((e)=>_BookmarkRanges.fromJson(e)).toList(),
   );
-  
+
 }
 
 class _Popular {
@@ -137,7 +137,7 @@ class _Popular {
     recent: (json['recent'] as List<dynamic>),
     permanent: (json['permanent'] as List<dynamic>),
   );
-  
+
 }
 
 class _お誕生日おめでとうございます {
@@ -148,7 +148,7 @@ class _お誕生日おめでとうございます {
   factory _お誕生日おめでとうございます.fromJson(Map<String, dynamic> json) => _お誕生日おめでとうございます(
     en: json['en'],
   );
-  
+
 }
 
 class _貧乳キャラクター {
@@ -159,7 +159,7 @@ class _貧乳キャラクター {
   factory _貧乳キャラクター.fromJson(Map<String, dynamic> json) => _貧乳キャラクター(
     en: json['en'],
   );
-  
+
 }
 
 class _日高里菜 {
@@ -170,7 +170,7 @@ class _日高里菜 {
   factory _日高里菜.fromJson(Map<String, dynamic> json) => _日高里菜(
     en: json['en'],
   );
-  
+
 }
 
 class _アクセル・ワールド {
@@ -181,7 +181,7 @@ class _アクセル・ワールド {
   factory _アクセル・ワールド.fromJson(Map<String, dynamic> json) => _アクセル・ワールド(
     en: json['en'],
   );
-  
+
 }
 
 class _クローム髑髏 {
@@ -192,7 +192,7 @@ class _クローム髑髏 {
   factory _クローム髑髏.fromJson(Map<String, dynamic> json) => _クローム髑髏(
     en: json['en'],
   );
-  
+
 }
 
 class _遊戯王GX {
@@ -203,7 +203,7 @@ class _遊戯王GX {
   factory _遊戯王GX.fromJson(Map<String, dynamic> json) => _遊戯王GX(
     en: json['en'],
   );
-  
+
 }
 
 class _風船 {
@@ -214,7 +214,7 @@ class _風船 {
   factory _風船.fromJson(Map<String, dynamic> json) => _風船(
     en: json['en'],
   );
-  
+
 }
 
 class _ピース {
@@ -225,7 +225,7 @@ class _ピース {
   factory _ピース.fromJson(Map<String, dynamic> json) => _ピース(
     en: json['en'],
   );
-  
+
 }
 
 class _包帯 {
@@ -236,7 +236,7 @@ class _包帯 {
   factory _包帯.fromJson(Map<String, dynamic> json) => _包帯(
     en: json['en'],
   );
-  
+
 }
 
 class _TagTranslationContent {
@@ -247,7 +247,7 @@ class _TagTranslationContent {
   factory _TagTranslationContent.fromJson(Map<String, dynamic> json) => _TagTranslationContent(
     en: json['en'],
   );
-  
+
 }
 
 class _AlternateLanguages {
@@ -261,7 +261,7 @@ class _AlternateLanguages {
     ja: json['ja'],
     en: json['en'],
   );
-  
+
 }
 
 class _Meta {
@@ -284,7 +284,7 @@ class _Meta {
     alternateLanguages: _AlternateLanguages.fromJson(json['alternateLanguages']),
     descriptionHeader: json['descriptionHeader'],
   );
-  
+
 }
 
 class _ExtraData {
@@ -295,7 +295,7 @@ class _ExtraData {
   factory _ExtraData.fromJson(Map<String, dynamic> json) => _ExtraData(
     meta: _Meta.fromJson(json['meta']),
   );
-  
+
 }
 
 class TagsMain {
@@ -318,6 +318,6 @@ class TagsMain {
     tagTranslation: (json['tagTranslation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_TagTranslationContent.fromJson(v))),
     extraData: _ExtraData.fromJson(json['extraData']),
   );
-  
+
 }
 

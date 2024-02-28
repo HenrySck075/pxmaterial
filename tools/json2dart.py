@@ -3,7 +3,7 @@
 import sys
 name = sys.argv[1]
 import json
-from typing import Any
+from typing import Any, ClassVar
 classes = {
     "str": "String",
     "int": "int",
@@ -19,11 +19,12 @@ d: dict[str,Any] = json.load(open(sys.argv[2],encoding="utf-8"))
 imported = []
 output = """"""
 cry = lambda x: x.split("/")[-1]
-def boy(k,v,ld=False):
+def boy(k,v,ld=False, toJson=False):
     global output
     t = type(v)
     nam = k[0].upper()+k[1:]
     if t == dict and not ld and not (any(k[0]==i for i in "0123456789") or any(i in k for i in "-/\\[]{}() *&^%#@!'\":;,?=÷×+|<>°•")): 
+        v["$toJson"] = toJson
         if "$schema" not in v: return generate(v,nam)
         else: 
             nam = cry(v['$schema'])
@@ -40,7 +41,9 @@ def boy(k,v,ld=False):
                 output=f"import '{mport}.dart' show {nam};"+"\n"+output
                 imported.append(mport)
             return f"List<{nam}>"
-        try: return f"List<{generate(v[0],nam)}>"
+        try: 
+            if type(v[0])==dict: v[0]["$toJson"] = toJson
+            return f"List<{generate(v[0],nam)}>"
         except IndexError: return "List<dynamic>"
     else: return classes[str(t).split("'")[1]]
 private = False
@@ -55,9 +58,10 @@ def generate(data, name=""):
     # This code is essentially not recommended, but since pixiv apis is built for javascript, i have no other choice
     # the way they check for whether the response contains data is via an empty string (i suppose, but i dont think they did it)
     fromJson = f"  factory {name}.fromJson(Map<String, dynamic> json) => {name}("+"\n"
-    # toJson = f"Map<String, dynamic> toJson() => _${name2}ToJson(this);"
-    toJson = "" # we dont need toJson
+    toJson = "  Map<String, dynamic> toJson() => <String,dynamic>{\n"
+    # toJson = "" # we dont need toJson
     private = True
+    optInToJson:bool = data.get("$toJson", False)
 
     emptiable = data.get("$emptiable",[])
     nullable = data.get("$nullable",[])
@@ -81,12 +85,13 @@ def generate(data, name=""):
             required = False
         if k in desc:
             out+="  /// "+"\n  /// ".join(desc[k].splitlines())+"\n"
-        if vt.startswith("Map<") and "-" in v.get("$nullable",[]): 
+        if vt.startswith("Map<") and "-" in v.get("$nullable",[]): # pyright: ignore 
             vt=vt[:-1]+"?>"
         out+=f"  final {vt}{'' if required else '?'} {k};"+"\n"
         const+=f"    {'required ' if required else ''}this.{k},"+"\n"
 
         fromJson+=f"    {k}: json['{k}']"
+        toJson+=f'    "{k}": {k}'
         if k in emptiable: fromJson+=f" is List?null:json['{k}']"
         if k in nullable: fromJson+=f" == null?null:json['{k}']"
         if vt.startswith("Map<"):
@@ -96,7 +101,11 @@ def generate(data, name=""):
         elif vto==list: 
             j = vt.removesuffix(">").removeprefix("List<") # we might not having to
             fromJson=fromJson[:-8-len(k)]+f"(json['{k}'] as List<dynamic>)"
-            if j != "dynamic": fromJson+=f".map((e)=>"+(f"{j}.fromJson(e)" if j not in classes.values() else f"e as {j}")+").toList()"
+            if j != "dynamic": 
+                fromJson+=f".map((e)=>"+(f"{j}.fromJson(e)" if j not in classes.values() else f"e as {j}")+").toList()"
+                if j not in classes.values(): 
+                    if k in g: toJson+="?"
+                    toJson+=".toJson()"
         else: 
             if vt.startswith("Map<"):
                 vt2 = vt.removeprefix('Map<String, ').removesuffix('>').removesuffix("?")
@@ -106,10 +115,14 @@ def generate(data, name=""):
             else:
                 fromJson=fromJson[:-8-len(k)]+f"{vt}.fromJson(json['{k}'])"
         fromJson+=",\n"
+        toJson+=",\n"
 
     fromJson+="  );"
+    toJson+="  };"
     const+="  });\n"
-    out+=const+fromJson+"\n  "+toJson+"\n}\n"
+    out+=const+fromJson+"\n"
+    if optInToJson: out+=toJson
+    out+="\n}\n"
 
     if "$typedef" in data: 
         for k,v in data["$typedef"].items():

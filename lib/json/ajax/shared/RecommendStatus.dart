@@ -12,6 +12,6 @@ class RecommendStatus {
     score: json['score'],
     seedIllustIds: (json['seedIllustIds'] as List<dynamic>).map((e)=>e as String).toList(),
   );
-  
+
 }
 

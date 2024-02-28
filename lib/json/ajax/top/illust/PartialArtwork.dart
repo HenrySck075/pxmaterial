@@ -9,7 +9,7 @@ class _TitleCaptionTranslation {
     workTitle: json['workTitle'],
     workCaption: json['workCaption'],
   );
-  
+
 }
 
 class PartialArtwork {
@@ -92,6 +92,6 @@ class PartialArtwork {
     urls: json['urls'] == null?null:(json['urls'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,v as String)),
     profileImageUrl: json['profileImageUrl'] == null?null:json['profileImageUrl'],
   );
-  
+
 }
 

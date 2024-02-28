@@ -9,7 +9,7 @@ class _Items {
     rank: json['rank'],
     id: json['id'],
   );
-  
+
 }
 
 class Ranking {
@@ -23,6 +23,6 @@ class Ranking {
     items: (json['items'] as List<dynamic>).map((e)=>_Items.fromJson(e)).toList(),
     date: json['date'],
   );
-  
+
 }
 

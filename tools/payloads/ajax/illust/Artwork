@@ -31,19 +31,7 @@
         "authorId": "1507561",
         "isLocked": false,
         "tags": [
-            {
-                "tag": "東方",
-                "locked": true,
-                "deletable": false,
-                "userId": "1507561",
-                "romaji": "touhou-toubou-higashikata",
-                "translation": {
-                    "-": "Touhou"
-                },
-                "userName": "ソラリス(Solarisu)",
-                "$nullable": ["romanji", "translation"],
-                "$name": "_TagInfo"
-            }
+           {"$schema":"$/ajax/shared/TagInfo"} 
         ],
         "writable": true
     },

@@ -25,7 +25,7 @@ class _Thumbnails {
     novelDraft: (json['novelDraft'] as List<dynamic>),
     collection: (json['collection'] as List<dynamic>),
   );
-  
+
 }
 
 class _Recommend {
@@ -37,7 +37,7 @@ class _Recommend {
   factory _Recommend.fromJson(Map<String, dynamic> json) => _Recommend(
     ids: (json['ids'] as List<dynamic>).map((e)=>e as String).toList(),
   );
-  
+
 }
 
 class _RecommendByTag {
@@ -51,7 +51,7 @@ class _RecommendByTag {
     tag: json['tag'],
     ids: (json['ids'] as List<dynamic>).map((e)=>e as String).toList(),
   );
-  
+
 }
 
 class _Pixivision {
@@ -71,7 +71,7 @@ class _Pixivision {
     thumbnailUrl: json['thumbnailUrl'],
     url: json['url'],
   );
-  
+
 }
 
 class _RecommendUser {
@@ -88,7 +88,7 @@ class _RecommendUser {
     illustIds: (json['illustIds'] as List<dynamic>).map((e)=>e as String).toList(),
     novelIds: (json['novelIds'] as List<dynamic>),
   );
-  
+
 }
 
 class _ContestOngoing {
@@ -117,7 +117,7 @@ class _ContestOngoing {
     workIds: (json['workIds'] as List<dynamic>).map((e)=>e as int).toList(),
     isNew: json['isNew'],
   );
-  
+
 }
 
 class _EditorRecommend {
@@ -131,7 +131,7 @@ class _EditorRecommend {
     illustId: json['illustId'],
     comment: json['comment'],
   );
-  
+
 }
 
 class _TrendingTags {
@@ -148,7 +148,7 @@ class _TrendingTags {
     trendingRate: json['trendingRate'],
     ids: (json['ids'] as List<dynamic>).map((e)=>e as int).toList(),
   );
-  
+
 }
 
 class _Page {
@@ -218,7 +218,7 @@ class _Page {
     completeRequestIds: (json['completeRequestIds'] as List<dynamic>).map((e)=>e as String).toList(),
     userEventIds: (json['userEventIds'] as List<dynamic>).map((e)=>e as String).toList(),
   );
-  
+
 }
 
 class _BoothItems {
@@ -244,7 +244,7 @@ class _BoothItems {
     imageUrl: json['imageUrl'],
     adult: json['adult'],
   );
-  
+
 }
 
 /// Represents the payload of `/ajax/top/illust` request.
@@ -284,6 +284,6 @@ class IllustTop {
     boothItems: (json['boothItems'] as List<dynamic>).map((e)=>_BoothItems.fromJson(e)).toList(),
     sketchLives: (json['sketchLives'] as List<dynamic>),
   );
-  
+
 }
 

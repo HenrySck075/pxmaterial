@@ -10,12 +10,12 @@ class _Background {
     required this.isPrivate,
   });
   factory _Background.fromJson(Map<String, dynamic> json) => _Background(
-    repeat: json['repeat'],
-    color: json['color'],
+    repeat: json['repeat'] == null?null:json['repeat'],
+    color: json['color'] == null?null:json['color'],
     url: json['url'],
     isPrivate: json['isPrivate'],
   );
-  
+
 }
 
 class _SocialContent {
@@ -26,7 +26,7 @@ class _SocialContent {
   factory _SocialContent.fromJson(Map<String, dynamic> json) => _SocialContent(
     url: json['url'],
   );
-  
+
 }
 
 class _Region {
@@ -46,7 +46,7 @@ class _Region {
     prefecture: json['prefecture'],
     privacyLevel: json['privacyLevel'],
   );
-  
+
 }
 
 /// Represents the data with privacy level
@@ -63,7 +63,7 @@ class PrivacyLeveledData {
     name: json['name'] == null?null:json['name'],
     privacyLevel: json['privacyLevel'] == null?null:json['privacyLevel'],
   );
-  
+
 }
 
 class _Workspace {
@@ -104,7 +104,7 @@ class _Workspace {
     userWorkspaceDesk: json['userWorkspaceDesk'],
     userWorkspaceChair: json['userWorkspaceChair'],
   );
-  
+
 }
 
 /// Represents the [User] object
@@ -202,6 +202,6 @@ class User {
     official: json['official'],
     group: json['group'],
   );
-  
+
 }
 

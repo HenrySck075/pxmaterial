@@ -8,7 +8,6 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:sofieru/json/ajax/illust/Artwork.dart' show Artwork;
-import 'package:sofieru/json/ajax/top/illust/PartialArtwork.dart' show PartialArtwork;
 import 'package:sofieru/json/ajax/user/PartialUser.dart';
 import 'package:sofieru/shared.dart';
 import 'shared.dart';
@@ -133,12 +132,14 @@ class _ArtworkPageState extends State<ArtworkPage> {
               Center(
                 child: futureWidget(
                   future: pxRequest("https://www.pixiv.net/ajax/illust/$id/ugoira_meta"), 
+                  placeholder: const Center(child: Text("Fetching data...")),
                   builder: (ctx,snap){
                     var data = snap.data! as Map<String, dynamic>;
                     final List<dynamic> frames = data["frames"];
                     ///   offset  length (look into the source code)
                     return futureWidget(
                       future: pxRequestUnprocessed(data["src"],otherHeaders: {"Upgrade-Insecure-Requests":"1"}), 
+                      placeholder: const Center(child: Text("Downloading...")),
                       builder: (ctx,snap) {
                         var zipContent = snap.data!.bodyBytes;
                         final archive = arch.ZipDecoder().decodeBytes(zipContent);
@@ -157,12 +158,15 @@ class _ArtworkPageState extends State<ArtworkPage> {
                             Timer(Duration(milliseconds: ts),()=>curImg.value=widgetFrames[i]);
                           }
                         });
-                        return futureWidget(future: Future.wait(widgetFrames.map((e)=>precacheImage(e.image, ctx))), builder: (ctx,s)=>ListenableBuilder(listenable: curImg, builder: (ctx,w)=>curImg.value,));
+                        return futureWidget(
+                          future: Future.wait(widgetFrames.map((e)=>precacheImage(e.image, ctx))), 
+                          placeholder: const Center(child: Text("Loading frames...")),
+                          builder: (ctx,s)=>ListenableBuilder(listenable: curImg, builder: (ctx,w)=>curImg.value,)
+                        );
                       } 
                     );
                   })
-              ),
-              const Center(child: Text("(flickers may occur)"),)
+                ),
               ],
               
               const Divider(),
@@ -188,17 +192,8 @@ class _ArtworkPageState extends State<ArtworkPage> {
                   const SizedBox(height: 10,),
                   Wrap(
                     spacing: 8,
-                    children: List.from(data.tags.tags.map((t)=>ActionChip(
-                      label: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children:[
-                          Flexible(flex:4,child: Text(t.tag,overflow: TextOverflow.ellipsis,style: TextStyle(color: t.tag.startsWith("R-18")?Colors.red:null),)),
-                          if (t.translation?["en"]!=null) Flexible(flex:4,child: Text("(${t.translation!['en']})",style: const TextStyle(color: Colors.grey, fontSize: 10),overflow: TextOverflow.ellipsis))
-                        ]
-                      ),
-                      onPressed: ()=>navigate("/tags/${t.tag}?${data.xRestrict==1?'mode=r18':''}"),))
-                    ),
-                  )
+                    children: List.from(data.tags.tags.map((t)=>tagChipBuilder(t)),
+                  ))
                 ]),
               ),
               const Divider(),
@@ -239,9 +234,9 @@ class _ArtworkPageState extends State<ArtworkPage> {
                           padding: const EdgeInsets.only(left:2,right:2),
                           children: [...authArtworkData.value.map((e) => Padding(
                             padding: const EdgeInsets.only(left:2.0, right:2),
-                            child: PxSimpleArtwork(
+                            child: PxSimpleArtwork.fromJson(
                               key: (e["id"]==id)?current:null,
-                              data: e,
+                              payload: e,
                               isCurrent: e["id"]==id,
                             ),
                           ))],

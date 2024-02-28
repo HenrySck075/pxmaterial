@@ -22,7 +22,7 @@ class _Creator {
     requestPriceUpperLimit: json['requestPriceUpperLimit'],
     tokusho: json['tokusho'],
   );
-  
+
 }
 
 class _ConfettiModalStatus {
@@ -39,7 +39,7 @@ class _ConfettiModalStatus {
     inProgressCreator: json['inProgressCreator'],
     completeFanOrCollaborateUser: json['completeFanOrCollaborateUser'],
   );
-  
+
 }
 
 class _UserList {
@@ -53,7 +53,7 @@ class _UserList {
     id: json['id'],
     illustIds: (json['illustIds'] as List<dynamic>).map((e)=>e as String).toList(),
   );
-  
+
 }
 
 class _Twitter_card {
@@ -73,7 +73,7 @@ class _Twitter_card {
     description: json['description'],
     image: json['image'],
   );
-  
+
 }
 
 class _Meta_ogp {
@@ -96,7 +96,7 @@ class _Meta_ogp {
     url: json['url'],
     image: json['image'],
   );
-  
+
 }
 
 class _Ogp {
@@ -116,7 +116,7 @@ class _Ogp {
     page_title: json['page_title'],
     description: json['description'],
   );
-  
+
 }
 
 class _Page {
@@ -160,7 +160,7 @@ class _Page {
     ogp: _Ogp.fromJson(json['ogp']),
     locationMask: json['locationMask'],
   );
-  
+
 }
 
 class _Thumbnails {
@@ -183,7 +183,7 @@ class _Thumbnails {
     novelDraft: (json['novelDraft'] as List<dynamic>),
     collection: (json['collection'] as List<dynamic>),
   );
-  
+
 }
 
 class RequestPage {
@@ -209,6 +209,6 @@ class RequestPage {
     requests: (json['requests'] as List<dynamic>).map((e)=>Request.fromJson(e)).toList(),
     users: (json['users'] as List<dynamic>).map((e)=>PartialUser.fromJson(e)).toList(),
   );
-  
+
 }
 

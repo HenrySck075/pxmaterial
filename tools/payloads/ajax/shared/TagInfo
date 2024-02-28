@@ -1,0 +1,12 @@
+{
+  "tag": "東方",
+  "locked": true,
+  "deletable": false,
+  "userId": "1507561",
+  "romaji": "touhou-toubou-higashikata",
+  "translation": {
+      "-": "Touhou"
+  },
+  "userName": "ソラリス(Solarisu)",
+  "$nullable": ["romaji", "translation"]
+}

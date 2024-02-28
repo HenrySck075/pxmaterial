@@ -19,7 +19,7 @@ class _Thumbnails {
     novelDraft: (json['novelDraft'] as List<dynamic>),
     collection: (json['collection'] as List<dynamic>),
   );
-  
+
 }
 
 class _Series {
@@ -36,7 +36,7 @@ class _Series {
     viewableType: json['viewableType'],
     contentOrder: json['contentOrder'],
   );
-  
+
 }
 
 class _SeriesContents {
@@ -107,7 +107,7 @@ class _SeriesContents {
     bookmarkData: json['bookmarkData'],
     aiType: json['aiType'],
   );
-  
+
 }
 
 class _Page {
@@ -118,7 +118,7 @@ class _Page {
   factory _Page.fromJson(Map<String, dynamic> json) => _Page(
     seriesContents: (json['seriesContents'] as List<dynamic>).map((e)=>_SeriesContents.fromJson(e)).toList(),
   );
-  
+
 }
 
 class Content {
@@ -144,6 +144,6 @@ class Content {
     users: (json['users'] as List<dynamic>),
     page: _Page.fromJson(json['page']),
   );
-  
+
 }
 

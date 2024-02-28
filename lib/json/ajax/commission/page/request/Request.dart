@@ -12,7 +12,7 @@ class _RequestTranslationProposal {
     requestProposalHtml: json['requestProposalHtml'],
     requestProposalLang: json['requestProposalLang'],
   );
-  
+
 }
 
 class _RequestProposal {
@@ -32,7 +32,7 @@ class _RequestProposal {
     requestOriginalProposalLang: json['requestOriginalProposalLang'],
     requestTranslationProposal: (json['requestTranslationProposal'] as List<dynamic>).map((e)=>_RequestTranslationProposal.fromJson(e)).toList(),
   );
-  
+
 }
 
 class _PlanTranslationTitleContent {
@@ -46,7 +46,7 @@ class _PlanTranslationTitleContent {
     planTitle: json['planTitle'],
     planTtieLang: json['planTtieLang'],
   );
-  
+
 }
 
 class _PlanTitle {
@@ -63,7 +63,7 @@ class _PlanTitle {
     planOriginalTitleLang: json['planOriginalTitleLang'],
     planTranslationTitle: json['planTranslationTitle'] is List?null:(json['planTranslationTitle'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_PlanTranslationTitleContent.fromJson(v))),
   );
-  
+
 }
 
 class _PlanTranslationDescriptionContent {
@@ -80,7 +80,7 @@ class _PlanTranslationDescriptionContent {
     planDescriptionHtml: json['planDescriptionHtml'],
     planLang: json['planLang'],
   );
-  
+
 }
 
 class _PlanDescription {
@@ -100,7 +100,7 @@ class _PlanDescription {
     planOriginalLang: json['planOriginalLang'],
     planTranslationDescription: json['planTranslationDescription'] is List?null:(json['planTranslationDescription'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_PlanTranslationDescriptionContent.fromJson(v))),
   );
-  
+
 }
 
 class _Urls {
@@ -114,7 +114,7 @@ class _Urls {
     cover: json['cover'],
     card: json['card'],
   );
-  
+
 }
 
 class _PlanCoverImage {
@@ -125,7 +125,7 @@ class _PlanCoverImage {
   factory _PlanCoverImage.fromJson(Map<String, dynamic> json) => _PlanCoverImage(
     urls: _Urls.fromJson(json['urls']),
   );
-  
+
 }
 
 class _Plan {
@@ -178,7 +178,7 @@ class _Plan {
     planCoverImage: json['planCoverImage'] == null?null:_PlanCoverImage.fromJson(json['planCoverImage']),
     planAiType: json['planAiType'],
   );
-  
+
 }
 
 class _CollaborateStatus {
@@ -198,7 +198,7 @@ class _CollaborateStatus {
     collaboratedCnt: json['collaboratedCnt'],
     collaborateUserSamples: (json['collaborateUserSamples'] as List<dynamic>),
   );
-  
+
 }
 
 class _Work {
@@ -212,7 +212,7 @@ class _Work {
     isUnlisted: json['isUnlisted'],
     secret: json['secret'],
   );
-  
+
 }
 
 class _PostWork {
@@ -229,7 +229,7 @@ class _PostWork {
     postWorkType: json['postWorkType'],
     work: _Work.fromJson(json['work']),
   );
-  
+
 }
 
 class Request {
@@ -238,7 +238,7 @@ class Request {
   final String? fanUserId;
   final String creatorUserId;
   final String requestStatus;
-  final String requestAcceptStatus;
+  final String? requestAcceptStatus;
   final String requestPostWorkType;
   final int requestPrice;
   final _RequestProposal requestProposal;
@@ -259,7 +259,7 @@ class Request {
     this.fanUserId,
     required this.creatorUserId,
     required this.requestStatus,
-    required this.requestAcceptStatus,
+    this.requestAcceptStatus,
     required this.requestPostWorkType,
     required this.requestPrice,
     required this.requestProposal,
@@ -281,7 +281,7 @@ class Request {
     fanUserId: json['fanUserId'],
     creatorUserId: json['creatorUserId'],
     requestStatus: json['requestStatus'],
-    requestAcceptStatus: json['requestAcceptStatus'],
+    requestAcceptStatus: json['requestAcceptStatus'] == null?null:json['requestAcceptStatus'],
     requestPostWorkType: json['requestPostWorkType'],
     requestPrice: json['requestPrice'],
     requestProposal: _RequestProposal.fromJson(json['requestProposal']),
@@ -297,6 +297,6 @@ class Request {
     collaborateStatus: _CollaborateStatus.fromJson(json['collaborateStatus']),
     postWork: _PostWork.fromJson(json['postWork']),
   );
-  
+
 }
 

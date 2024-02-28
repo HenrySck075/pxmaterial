@@ -9,7 +9,7 @@ class _AlternateLanguages {
     ja: json['ja'],
     en: json['en'],
   );
-  
+
 }
 
 class _EmbedMeta {
@@ -32,7 +32,7 @@ class _EmbedMeta {
     type: json['type'] == null?null:json['type'],
     card: json['card'] == null?null:json['card'],
   );
-  
+
 }
 
 class _Meta {
@@ -64,7 +64,7 @@ class _Meta {
     ogp: _EmbedMeta.fromJson(json['ogp']),
     twitter: _EmbedMeta.fromJson(json['twitter']),
   );
-  
+
 }
 
 class ExtraData {
@@ -75,6 +75,6 @@ class ExtraData {
   factory ExtraData.fromJson(Map<String, dynamic> json) => ExtraData(
     meta: _Meta.fromJson(json['meta']),
   );
-  
+
 }
 

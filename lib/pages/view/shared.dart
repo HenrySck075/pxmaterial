@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sofieru/json/ajax/shared/TagInfo.dart';
 import 'package:sofieru/shared.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 class Comments extends StatefulWidget {
@@ -61,3 +62,15 @@ class _CommentsState extends State<Comments> {
     );
   }
 }
+
+ActionChip tagChipBuilder(TagInfo t) => ActionChip(
+  label: Row(
+    mainAxisSize: MainAxisSize.min,
+    children:[
+      Flexible(flex:4,child: Text(t.tag,overflow: TextOverflow.ellipsis,style: TextStyle(color: t.tag.startsWith("R-18")?Colors.red:null),)),
+      if (t.translation?["en"]!=null) Flexible(flex:4,child: Text("(${t.translation!['en']})",style: const TextStyle(color: Colors.grey, fontSize: 10),overflow: TextOverflow.ellipsis))
+    ]
+  ),
+  onPressed: ()=>navigate("/tags/${t.tag}")//${data.xRestrict==1?'?mode=r18':''}"),
+);
+

@@ -18,6 +18,12 @@ class TagTranslation {
     zh_tw: json['zh_tw'],
     romaji: json['romaji'],
   );
-  
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "en": en,
+    "ko": ko,
+    "zh": zh,
+    "zh_tw": zh_tw,
+    "romaji": romaji,
+  };
 }
 

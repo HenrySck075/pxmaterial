@@ -17,7 +17,7 @@ class _SuggestedSettings {
     themeSize: json['themeSize'],
     themeSpacing: json['themeSpacing'],
   );
-  
+
 }
 
 class TagInfo {
@@ -40,7 +40,7 @@ class TagInfo {
     userId: json['userId'],
     userName: json['userName'],
   );
-  
+
 }
 
 class _Tags {
@@ -60,7 +60,7 @@ class _Tags {
     tags: (json['tags'] as List<dynamic>).map((e)=>TagInfo.fromJson(e)).toList(),
     writable: json['writable'],
   );
-  
+
 }
 
 class _Next {
@@ -80,7 +80,7 @@ class _Next {
     id: json['id'],
     available: json['available'],
   );
-  
+
 }
 
 class _SeriesNavData {
@@ -118,7 +118,7 @@ class _SeriesNavData {
     next: _Next.fromJson(json['next']),
     prev: json['prev'],
   );
-  
+
 }
 
 class _TitleCaptionTranslation {
@@ -132,7 +132,7 @@ class _TitleCaptionTranslation {
     workTitle: json['workTitle'],
     workCaption: json['workCaption'],
   );
-  
+
 }
 
 class Novel {
@@ -293,6 +293,6 @@ class Novel {
     aiType: json['aiType'],
     genre: json['genre'],
   );
-  
+
 }
 

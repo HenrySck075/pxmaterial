@@ -6,7 +6,7 @@ class _FirstEpisode {
   factory _FirstEpisode.fromJson(Map<String, dynamic> json) => _FirstEpisode(
     url: json['url'],
   );
-  
+
 }
 
 class _Cover {
@@ -17,7 +17,7 @@ class _Cover {
   factory _Cover.fromJson(Map<String, dynamic> json) => _Cover(
     urls: (json['urls'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,v as String)),
   );
-  
+
 }
 
 class SEOEmbedMeta {
@@ -37,7 +37,7 @@ class SEOEmbedMeta {
     description: json['description'],
     image: json['image'],
   );
-  
+
 }
 
 class TwitterEmbedMeta {
@@ -60,7 +60,7 @@ class TwitterEmbedMeta {
     description: json['description'],
     image: json['image'],
   );
-  
+
 }
 
 class _Meta {
@@ -83,7 +83,7 @@ class _Meta {
     ogp: SEOEmbedMeta.fromJson(json['ogp']),
     twitter: TwitterEmbedMeta.fromJson(json['twitter']),
   );
-  
+
 }
 
 class _ExtraData {
@@ -94,7 +94,7 @@ class _ExtraData {
   factory _ExtraData.fromJson(Map<String, dynamic> json) => _ExtraData(
     meta: _Meta.fromJson(json['meta']),
   );
-  
+
 }
 
 class Series {
@@ -213,6 +213,6 @@ class Series {
     hasGlossary: json['hasGlossary'],
     extraData: _ExtraData.fromJson(json['extraData']),
   );
-  
+
 }
 

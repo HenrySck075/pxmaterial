@@ -9,7 +9,7 @@ class _TitleCaptionTranslation {
     workTitle: json['workTitle'],
     workCaption: json['workCaption'],
   );
-  
+
 }
 
 class PartialNovel {
@@ -95,6 +95,6 @@ class PartialNovel {
     aiType: json['aiType'],
     genre: json['genre'],
   );
-  
+
 }
 

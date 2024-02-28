@@ -11,8 +11,9 @@
     "isMypixiv": false,
     "isBlocking": false,
     "background": {
-        "repeat": null,
-        "color": null,
+        "$nullable": ["color","repeat"],
+        "repeat": "nul",
+        "color": "idk",
         "url": "https://i.pximg.net/c/1920x960_80_a2_g5/background/img/2023/08/30/08/13/38/2416323_dfd8c1a8dbbbc2725652cee65478df4d.jpg",
         "isPrivate": false
     },

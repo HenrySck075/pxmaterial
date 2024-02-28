@@ -18,6 +18,7 @@ import 'pages/view/novels.dart' show NovelPage;
 import 'pages/tags/index.dart' as tags;
 import 'pages/discovery/index.dart' as discovery;
 import 'pages/users/index.dart' as users;
+import 'package:sofieru/pages/requests/index.dart' as request;
 import 'pages/1984.dart';
 
 import 'package:flutter/material.dart';
@@ -129,7 +130,7 @@ void main() async {
           GoRoute(
             parentNavigatorKey: pa,
             path: "/requests/:id",
-            builder: (no, state) => Placeholder()
+            builder: (no, state) => request.RequestPage(id: state.pathParameters["id"]!,)
           ),
           ShellRoute(
             builder: (ctx,st,w)=>users.ShellPage(id: st.pathParameters["id"]!),
@@ -149,7 +150,7 @@ void main() async {
             parentNavigatorKey: pa,
             navigatorKey: shellKeys[2],
             routes: [
-              GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag", builder: (ctx,st)=>SizedBox(width:1,height:1)),
+              GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag", builder: (ctx,st)=>const Placeholder()),
               GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/illustrations", builder: (c,st)=>const Placeholder()),
               GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/manga", builder: (c,st)=>const Placeholder()),
               GoRoute(parentNavigatorKey: shellKeys[2],path: "/tags/:tag/novels", builder: (c,st)=>const Placeholder()),
@@ -221,16 +222,17 @@ class _ShellPageState extends State<ShellPage> {
     "bah",
     "newgrounds song on a GD rips when",
     "All Wrongs Reserved for me in the past",
-    "jkterjter"
+    "jkterjter",
+    "tidal wave"
   ];
-  String MadeWithNerdByHenrysck075 = "";
+  String MadeWithNerdByHenry = "";
   @override
   void initState() {
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    MadeWithNerdByHenrysck075 = minecraft[Random().nextInt(minecraft.length)];
+    MadeWithNerdByHenry = minecraft[Random().nextInt(minecraft.length)];
     List<Widget> navs = [
       Padding(
         padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
@@ -253,7 +255,7 @@ class _ShellPageState extends State<ShellPage> {
       ),
 
       const Text("© pixiv",style: TextStyle(color: Colors.grey, fontSize: 8),),
-      Text(MadeWithNerdByHenrysck075,softWrap: true,style: const TextStyle(color: Colors.grey, fontSize: 8),),
+      Text(MadeWithNerdByHenry,softWrap: true,style: const TextStyle(color: Colors.grey, fontSize: 8),),
       const Text("Do not redistribute without crediting authors of this repository and the original app.",style: TextStyle(color: Colors.grey, fontSize: 8),), // - HenrySck075 (Henry Spheria)
     ];
     context.watch<Config>().init();
@@ -302,9 +304,10 @@ class _ShellPageState extends State<ShellPage> {
       backgroundColor:Theme.of(context).colorScheme.primaryContainer,
       body: Center(
         child: Container(
-          // duration: Durations.medium2,
+          //duration: Durations.medium2,
+          //curve: Easing.emphasizedDecelerate,
           decoration: const BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-          constraints: BoxConstraints(maxWidth: currentRouteURI().path.startsWith("/artworks")?1160:double.infinity),
+          // constraints: BoxConstraints(maxWidth: currentRouteURI().path.startsWith("/artworks")?1160:double.infinity),
           clipBehavior: Clip.hardEdge,
           child:widget.child
         ) 
