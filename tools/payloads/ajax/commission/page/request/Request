@@ -1,4 +1,5 @@
 {
+  "$nullable": ["requestAcceptStatus"],
   "requestId": "199694",
   "planId": "381080",
   "fanUserId": null,
@@ -35,7 +36,6 @@
   "requestResponseDeadlineDatetime": "2024-01-15T23:59:59+09:00",
   "requestPostDeadlineDatetime": "2024-03-08T23:59:59+09:00",
   "role": "others",
-  "$nullable": ["requestAcceptStatus"],
   "plan": {
     "currentPlanId": null,
     "planId": "381080",

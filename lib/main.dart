@@ -90,10 +90,17 @@ void main() async {
             ], 
             builder: (context, state, child) => home.ShellPage(child: child),
           ),  
-          GoRoute(
+          /// TODO: 
+          ShellRoute(
             parentNavigatorKey: pa,
-            path:"/following",
-            builder: (no,care)=>LatestFollowingPage()
+            builder: (no,care,c)=>LatestFollowingPage(),
+            routes: [
+              ShellRoute( 
+                routes: [
+                  GoRoute(path:"/following",)
+                ]
+              )
+            ]
           ),
           ShellRoute( 
             parentNavigatorKey: pa,
@@ -266,9 +273,8 @@ class _ShellPageState extends State<ShellPage> {
         onDestinationSelected: (value) {
           setState(() {
             pageIndex = value;
-            print(e[value]);
-            navigate(e[value],method: "push");
           });
+          navigate(e[value]);
         },
         children: navs
       ),
