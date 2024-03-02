@@ -32,7 +32,7 @@ the issues tab
 - Some illustrations does not have their thumbnail displaying as pixiv randomly closes the cdn connection
 TODO: retry
 - ~~newly-implemented ugoira displaying method currently doesn't work~~ i deleted it. Its last existence is on [this commit](https://github.com/HenrySck075/pxmaterial/commit/98ac1836241f2a8908af751faf8882d349021e9e)
-- `keyReservation.contains(key) is not true`
+- ~~`keyReservation.contains(key) is not true`~~ i fixed it by using replace. obviously the drawback is that if you're in any of the home page, pressing back wont take you back to the previous page
 
 ## TODO
 - Figure out how to reasonably add more animations 

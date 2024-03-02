@@ -99,7 +99,7 @@ class IllustsPage extends StatelessWidget {
                 header("Requested works"),
                 SizedBox(height:380,child:ListView( 
                   scrollDirection: Axis.horizontal,
-                  children: mainresp.requests.map((i)=>RequestedIllust(data: i,work:getData(i.postWork.postWorkId),getUser: (id)=>mainresp.users.firstWhere((element) => element.userId==id),)).toList(),
+                  children: mainresp.requests.map((i)=>RequestedIllust(data: i,work:getData(i.postWork!.postWorkId),getUser: (id)=>mainresp.users.firstWhere((element) => element.userId==id),)).toList(),
                 )),
                 const SizedBox(height: 50,),
                 // Popular tags

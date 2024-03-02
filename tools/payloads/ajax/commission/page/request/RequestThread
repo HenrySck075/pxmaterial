@@ -1,0 +1,25 @@
+{
+    "threadId": "210987",
+    "requestId": "210987",
+    "threadEntries": [
+        {
+            "$desc": {
+                "threadEntryType": "Values: `sendRequest`, `acceptRequest`, ",
+                "threadEntryBody": "body"
+            },
+            "threadEntryId": "608747",
+            "threadEntryType": "sendRequest",
+            "threadEntryBody": {
+                "$nullable": ["$all"],
+                "$desc": {
+                    "fanUserId": "Requester's user ID, null if `threadEntryType` is not `sendRequest` or `requestAnonymousFlg` is true or smth idk",
+                    "requestAnonymousFlg": "Whether or not the requester is anonymous, null if `threadEntryType` is not `sendRequest`",
+                    "creatorUserId": "Creator's user ID, null if `threadEntryType` is not `acceptRequest`"
+                },
+                "fanUserId": "9465632",
+                "requestAnonymousFlg": false,
+                "creatorUserId": "46874167"
+            }
+        }
+    ]
+}

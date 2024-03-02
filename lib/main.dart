@@ -2,6 +2,7 @@
 // Original app, services & resources (not including user-made works) belong to pixiv Inc.
 // Do not go insane.
 
+
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
@@ -24,6 +25,22 @@ import 'pages/1984.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart'; 
+
+extension m on NavigatorState {
+  void _debugCheckDuplicatedPageKeys() {
+    assert(() {
+      final Set<Key> keyReservation = <Key>{};
+      for (final Page<dynamic> page in widget.pages) {
+        final LocalKey? key = page.key;
+        if (key != null ) {
+          if (!keyReservation.contains(key)) return false;
+          keyReservation.add(key);
+        }
+      }
+      return true;
+    }());
+  }
+}
 void dumpErrorToConsole(details)=>FlutterError.dumpErrorToConsole(details,forceReport:true);
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -71,6 +88,7 @@ void main() async {
           ShellRoute(
             parentNavigatorKey: pa,
             navigatorKey: shellKeys[0],
+            restorationScopeId: "you sucks",
             routes: [
               GoRoute(
                 parentNavigatorKey: shellKeys[0],
@@ -95,11 +113,7 @@ void main() async {
             parentNavigatorKey: pa,
             builder: (no,care,c)=>LatestFollowingPage(),
             routes: [
-              ShellRoute( 
-                routes: [
-                  GoRoute(path:"/following",)
-                ]
-              )
+                  GoRoute(path:"/following",builder: (ctx,kd)=>Placeholder())
             ]
           ),
           ShellRoute( 
@@ -230,16 +244,17 @@ class _ShellPageState extends State<ShellPage> {
     "newgrounds song on a GD rips when",
     "All Wrongs Reserved for me in the past",
     "jkterjter",
-    "tidal wave"
+    "tidal wave",
+    "is that",
   ];
-  String MadeWithNerdByHenry = "";
+  String MadeWithLoveByHenry = "";
   @override
   void initState() {
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    MadeWithNerdByHenry = minecraft[Random().nextInt(minecraft.length)];
+    MadeWithLoveByHenry = minecraft[Random().nextInt(minecraft.length)];
     List<Widget> navs = [
       Padding(
         padding: const EdgeInsets.fromLTRB(28, 16, 16, 10),
@@ -262,7 +277,7 @@ class _ShellPageState extends State<ShellPage> {
       ),
 
       const Text("© pixiv",style: TextStyle(color: Colors.grey, fontSize: 8),),
-      Text(MadeWithNerdByHenry,softWrap: true,style: const TextStyle(color: Colors.grey, fontSize: 8),),
+      Text(MadeWithLoveByHenry,softWrap: true,style: const TextStyle(color: Colors.grey, fontSize: 8),),
       const Text("Do not redistribute without crediting authors of this repository and the original app.",style: TextStyle(color: Colors.grey, fontSize: 8),), // - HenrySck075 (Henry Spheria)
     ];
     context.watch<Config>().init();
@@ -274,7 +289,8 @@ class _ShellPageState extends State<ShellPage> {
           setState(() {
             pageIndex = value;
           });
-          navigate(e[value]);
+          // this fixes the issue
+          navigate(e[value],method: e.contains(currentRouteURI().path) ? "replace" : "push");
         },
         children: navs
       ),

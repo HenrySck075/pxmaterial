@@ -1,5 +1,5 @@
 {
-  "$nullable": ["requestAcceptStatus"],
+  "$nullable": ["requestAcceptStatus","postWork"],
   "requestId": "199694",
   "planId": "381080",
   "fanUserId": null,
@@ -48,6 +48,9 @@
       "$emptiable": ["planTranslationTitle"],
       "planTranslationTitle": {
         "-": {
+          "$desc": {
+            "planTtieLang": "Plan title (translated).\n\nyes its ttie\nminor spelling mistake, i win"
+          },
           "planTitle": "Illustration Program",
           "planTtieLang": "en"
         } 

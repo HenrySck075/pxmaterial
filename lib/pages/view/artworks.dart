@@ -181,6 +181,15 @@ class _ArtworkPageState extends State<ArtworkPage> {
                   }, icon: const Icon(Icons.link))
                 ],
               ),
+              if (data.request!=null) ...[
+                const Divider(),
+                GestureDetector(
+                  onTap: ()=>navigate("/requests/${data.request}"),
+                  child: ListTile( 
+                    title: const Text("Work requested by"),
+                  )
+                )
+              ],
               const Divider(),
               // Artwork info
               Padding(

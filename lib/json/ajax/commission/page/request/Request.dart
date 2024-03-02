@@ -252,7 +252,7 @@ class Request {
   final String role;
   final _Plan plan;
   final _CollaborateStatus collaborateStatus;
-  final _PostWork postWork;
+  final _PostWork? postWork;
   Request({
     required this.requestId,
     required this.planId,
@@ -273,7 +273,7 @@ class Request {
     required this.role,
     required this.plan,
     required this.collaborateStatus,
-    required this.postWork,
+    this.postWork,
   });
   factory Request.fromJson(Map<String, dynamic> json) => Request(
     requestId: json['requestId'],
@@ -295,7 +295,7 @@ class Request {
     role: json['role'],
     plan: _Plan.fromJson(json['plan']),
     collaborateStatus: _CollaborateStatus.fromJson(json['collaborateStatus']),
-    postWork: _PostWork.fromJson(json['postWork']),
+    postWork: json['postWork'] == null?null:_PostWork.fromJson(json['postWork']),
   );
 
 }

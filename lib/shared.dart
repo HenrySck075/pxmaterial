@@ -147,6 +147,11 @@ Iterable<T> enumerate<T, E>(Iterable<E> iter, T Function(int index, E e) cooker)
   }
 }
 
+/// main theme - cool emoji i think
+T Function(List<dynamic>) cacheFunction<T>(Function<T> idk) {
+   
+}
+
 Map<String, http.Response> _cachedResponse = {};
 void clearRequestCache(){
   _cachedResponse = {};
