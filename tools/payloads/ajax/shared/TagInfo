@@ -8,5 +8,5 @@
       "-": "Touhou"
   },
   "userName": "ソラリス(Solarisu)",
-  "$nullable": ["romaji", "translation"]
+  "$nullable": ["romaji", "translation", "userId", "userName"]
 }

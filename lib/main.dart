@@ -316,6 +316,9 @@ class _ShellPageState extends State<ShellPage> {
             )
           ), icon: const Icon(Icons.navigation)),
           IconButton(onPressed: (){
+            if (router.canPop()) router.pop();
+          }, icon: const Icon(Icons.arrow_left), tooltip: "back",),
+          IconButton(onPressed: (){
             Clipboard.setData(ClipboardData(text: currentRouteURI().path)).then((value) => ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Current path URL copied to clipboard! Debug: ${currentRouteURI().path}"))
             ));
@@ -326,8 +329,6 @@ class _ShellPageState extends State<ShellPage> {
       backgroundColor:Theme.of(context).colorScheme.primaryContainer,
       body: Center(
         child: Container(
-          //duration: Durations.medium2,
-          //curve: Easing.emphasizedDecelerate,
           decoration: const BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
           // constraints: BoxConstraints(maxWidth: currentRouteURI().path.startsWith("/artworks")?1160:double.infinity),
           clipBehavior: Clip.hardEdge,

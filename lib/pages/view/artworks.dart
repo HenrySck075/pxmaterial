@@ -2,11 +2,13 @@
 
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sofieru/json/ajax/illust/Artwork.dart' show Artwork;
 import 'package:sofieru/json/ajax/user/PartialUser.dart';
 import 'package:sofieru/shared.dart';
@@ -291,19 +293,25 @@ class ArtworkImageView extends StatelessWidget {
   String heroTag;
   ArtworkImageView({super.key, required this.data, required this.heroTag});
   void downlo(BuildContext context, String quality) {
-    var ext = data["urls"][quality]?.substring(data["urls"][quality]!.length-3);
+    String? fn = data["urls"][quality]?.split("/").last;
     var scaf = ScaffoldMessenger.of(context);
-    if (ext==null) scaf.showSnackBar(const SnackBar(content: Text("Invalid image size")));
+    if (fn==null) scaf.showSnackBar(const SnackBar(content: Text("Invalid image size")));
     scaf.showSnackBar(
-      SnackBar(content: Text("Downloading ${heroTag}.${ext}"))
+      SnackBar(content: Text("Downloading $fn"))
     );
-    pxRequestUnprocessed(data["urls"][quality]!).then((value){
-      Future.value(ImageGallerySaver.saveImage(value.bodyBytes,name: "${heroTag}.${ext}")).then((value) => scaf.showSnackBar(
+    pxRequestUnprocessed(data["urls"][quality]!).then((value)async{
+      final directory = await getDownloadsDirectory() ?? await getApplicationDocumentsDirectory();
+      await File("${directory.path}/$fn").writeAsBytes(value.bodyBytes);
+      scaf.showSnackBar(
         const SnackBar(content: Text("Download completed!"))
-      ));
-    }).catchError((e)=>scaf.showSnackBar(
+      );
+    }).catchError((e){
+      scaf.showSnackBar(
         const SnackBar(content: Text("Download (or save) failed. Check the logs for more info."))
-      ));
+      );
+      throw e;
+    }
+    );
   }
   @override
   Widget build(context) {

@@ -37,6 +37,10 @@ class _RequestProposal {
 
 class _PlanTranslationTitleContent {
   final String planTitle;
+  /// Plan title (translated).
+  /// 
+  /// yes its ttie
+  /// minor spelling mistake, i win
   final String planTtieLang;
   _PlanTranslationTitleContent({
     required this.planTitle,

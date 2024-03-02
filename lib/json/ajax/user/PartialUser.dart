@@ -21,7 +21,7 @@ class _Background {
 class PartialUser {
   final int partial;
   final String? comment;
-  final bool followedBack;
+  final bool? followedBack;
   final String userId;
   final String name;
   final String image;
@@ -35,7 +35,7 @@ class PartialUser {
   PartialUser({
     required this.partial,
     this.comment,
-    required this.followedBack,
+    this.followedBack,
     required this.userId,
     required this.name,
     required this.image,
@@ -50,7 +50,7 @@ class PartialUser {
   factory PartialUser.fromJson(Map<String, dynamic> json) => PartialUser(
     partial: json['partial'],
     comment: json['comment'] == null?null:json['comment'],
-    followedBack: json['followedBack'],
+    followedBack: json['followedBack'] == null?null:json['followedBack'],
     userId: json['userId'],
     name: json['name'],
     image: json['image'],
