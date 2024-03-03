@@ -1,4 +1,4 @@
-![Remember](https://github.com/HenrySck075/blob/pxmaterial/assets/remember.gif)
+![Remember](https://github.com/HenrySck075/pxmaterial/blob/main/assets/remember.gif)
 
 tl;dr:
 ```
