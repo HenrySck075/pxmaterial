@@ -4,9 +4,13 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 # Screenshots 
-*Screenshots below are at the time this README file was last updated and does not reflect actual UI changes made to the app if I don't have access to PC at commit time*
+*Screenshots below are at the time this README file was last updated and may not reflect actual UI changes made to the app if I don't have access to PC at commit time*<br/>
 *Screenshots may also contains images that you called disturbing because i cannot escape the recommendation help :sob:*
 
+![home page](https://github.com/HenrySck075/pxmaterial/blob/main/assets/scr/home.png)
+![this is when the payload is undocumented](https://github.com/HenrySck075/pxmaterial/blob/main/assets/scr/thick%20gray%20box.png)
+![](https://github.com/HenrySck075/pxmaterial/blob/main/assets/scr/ugly%20ass%20artwork%20page.png)
+![fill this](https://github.com/HenrySck075/pxmaterial/blob/main/assets/scr/request.png)
 # Installation (read this before complaining on r/github smh smh)
 - Get the code 
 ```
