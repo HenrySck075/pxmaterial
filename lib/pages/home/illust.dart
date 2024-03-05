@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 // import 'package:image/image.dart' as img show copyCrop, Image ;
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:memoized/memoized.dart'; 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sofieru/json/ajax/top/illust/PartialArtwork.dart';
 import 'package:sofieru/json/ajax/user/PartialUser.dart';
@@ -60,10 +60,9 @@ class IllustsPage extends StatelessWidget {
       builder: (ctx,d) {
         // if (d.connectionState == ConnectionState.waiting) return Center(child: CircularProgressIndicator());
         var mainresp = IllustTop.fromJson(d.data!);
-        print(mainresp.page.follow);
         
-        // sliver abuse
-        PartialArtwork getData(String id) => mainresp.thumbnails.illust.firstWhere((element) => element.id==id); // it always exist unless you used a wrong variable
+        // this is the equivalent of torture
+        final getData = Memoized1<PartialArtwork, String>((String id) => mainresp.thumbnails.illust.firstWhere((e) => e.id==id, orElse: ()=>mainresp.thumbnails.illust.firstWhere((e)=>e.id==id))); 
         var random = math.Random();
         return RefreshIndicator(
           onRefresh: () async {

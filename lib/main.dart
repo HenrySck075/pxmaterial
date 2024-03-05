@@ -4,13 +4,15 @@
 
 
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:sofieru/pages/helpcenter/hchtml.dart';
 // import 'package:url_launcher/url_launcher.dart';
-
+import 'package:uni_links/uni_links.dart';
+import 'package:uni_links_desktop/uni_links_desktop.dart';
 import 'shared.dart';
 
 // Routes
@@ -26,7 +28,6 @@ import 'pages/1984.dart';
 import "pages/helpcenter/helpcenter.dart" as hc;
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart'; 
 
 extension m on NavigatorState {
@@ -47,9 +48,18 @@ extension m on NavigatorState {
 void dumpErrorToConsole(details)=>FlutterError.dumpErrorToConsole(details,forceReport:true);
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // if (Platform.isWindows) {
-  //  registerProtocol('unilinks');
-  //}
+  if (Platform.isWindows) {
+    registerProtocol('pxmat');
+  }
+  Uri initialUri;
+  try {
+    initialUri = await getInitialUri()??Uri(path: "/");
+    // Use the uri and warn the user, if it is not correct,
+    // but keep in mind it could be `null`.
+  } on FormatException {
+    // Handle exception by warning the user their action did not succeed
+    initialUri = Uri(path: "/");
+  }
   final pa = GlobalKey<NavigatorState>();
   final shellKeys = List.generate(4,(fhujioae)=>GlobalKey<NavigatorState>());
   FlutterError.onError = dumpErrorToConsole;
@@ -58,7 +68,7 @@ void main() async {
   updateData(d.cast<String, String>(), btns.cast<String, String>());
   updateCookie(await rootBundle.loadString("assets/cookie"));
   updateRouter(GoRouter(
-    initialLocation: kDebugMode?"/terminal":"/",
+    initialLocation: kDebugMode?"/terminal":initialUri.path,
     observers: [routeObserver],
     errorBuilder: (n,s)=>ShellPage(
       child:Center(
@@ -97,7 +107,6 @@ void main() async {
               GoRoute(
                 path: "/hc",
                 builder: (ctx,jsj)=>hc.Home(),
-                redirect: (ctx,s)=>s.path!.replaceFirst("en-us/", ""),
                 routes: [
                   GoRoute(
                     path:"articles/:t",
@@ -248,7 +257,7 @@ class ShellPage extends StatefulWidget {
 class _ShellPageState extends State<ShellPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   int pageIndex = 0;
-  List<String> e = ["/","/following"];
+  List<String> e = ["/","/following","/hc"];
   final List<String> minecraft = [
     "mococo is very cute",
     "mococo is very very cute",
@@ -293,6 +302,10 @@ class _ShellPageState extends State<ShellPage> {
       const NavigationDrawerDestination(
         icon: Icon(Icons.favorite),
         label: Text('Following'),
+      ),
+      const NavigationDrawerDestination(
+        icon: Icon(Icons.help),
+        label: Text('Help center'),
       ),
       const Padding(
         padding: EdgeInsets.fromLTRB(28, 16, 28, 10),

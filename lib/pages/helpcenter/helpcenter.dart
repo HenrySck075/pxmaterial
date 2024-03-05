@@ -4,13 +4,16 @@ import 'package:html/parser.dart';
 import 'package:sofieru/shared.dart';
 import "hchtml.dart";
 
-/// TODO: make pixiv help center looks like google help center
 class Home extends StatelessWidget {
 
   @override 
   Widget build(ctx) {
-    return GridView(gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 2,), children: homebtns.entries.map(
-    (e) => OutlinedButton(onPressed: ()=>navigate(e.value), child: Text(e.key))
+    return Wrap(spacing: 4,runSpacing:4,alignment:WrapAlignment.center,children: homebtns.entries.map(
+      (e) => SizedBox(
+        height: 40,
+        width: 200,
+        child: OutlinedButton(onPressed: ()=>navigate(e.value.replaceFirst("en-us/", "")), child: Text(e.key,style: TextStyle(fontSize: 12),textAlign: TextAlign.center,))
+      )
   ).toList(),);
   }
 }
@@ -49,13 +52,17 @@ class Article extends StatelessWidget {
   Widget build(ctx) {
     var model = parse(htmls["/hc/articles/$a"]);
     var body = model.querySelector(".article-body")!;
-    return SingleChildScrollView(child: Column(children: [
-      HtmlWidget(body.outerHtml),
-      const Center(child: Text("was our 'um acksually' helpful?"),),
-      Center(child: Row(children: [
-        OutlinedButton(onPressed: ()=>debugPrint("mcdonalds"), child: const Text("si")),
-        OutlinedButton(onPressed: ()=>debugPrint("mcdonalds"), child: const Text("no")),
-      ],),)
-    ],),);
+    return SingleChildScrollView(child: Padding(
+      padding: EdgeInsets.all(12),
+      child: Column(children: [
+        Text(model.querySelector(".article-header h1")!.text.trim(),style: const TextStyle(fontSize: 42, fontWeight:FontWeight.w400),),
+        HtmlWidget(body.outerHtml),
+        const Center(child: Text("was our 'um acksually' helpful?"),),
+        Row(mainAxisAlignment: MainAxisAlignment.center,children: [
+          OutlinedButton(onPressed: ()=>debugPrint("mcdonalds"), child: const Text("si")),
+          OutlinedButton(onPressed: ()=>debugPrint("mcdonalds"), child: const Text("no")),
+        ],)
+      ],)
+    ),);
   }
 }

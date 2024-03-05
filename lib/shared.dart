@@ -11,7 +11,6 @@ import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 export 'package:sofieru/silly.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:window_size/window_size.dart';
 
 final kIsMobile = Platform.isIOS||Platform.isAndroid;
