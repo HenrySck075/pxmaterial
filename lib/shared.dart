@@ -60,7 +60,7 @@ Uri currentRouteURI() {
   return matchList.uri;
 }
 
-String apiVersion = "5f53980f6b59c9376220b6d86e8feb5ea9e22e10";
+String apiVersion = "ef70388cceeb0a3d1af2668dc9c01c6635f91249";
 List<T> concat2d<T>(List<Iterable<T>> inp) {
   List<T> tri = [];
   inp.forEach((element) {tri.addAll(element); });
@@ -68,8 +68,11 @@ List<T> concat2d<T>(List<Iterable<T>> inp) {
 }
 GoRouter router = GoRouter(routes: []);
 String cooki = "";
+String userId = "";
 void updateCookie(String die) {
   cooki = die;
+  // ik im dumb
+  userId = die.split("user_id=")[1].split("=")[0];
 }
 void updateRouter(GoRouter r) {
   router = r;
@@ -78,10 +81,12 @@ void updateRouter(GoRouter r) {
 Map<String, String> getQueries() => router.routeInformationProvider.value.uri.queryParameters;
 
 Map<String, dynamic> _config = {};
+/*
 Future<void> updatePref() async{
   // how to effectively freeze app init
   await (await SharedPreferences.getInstance()).setString("config", jsonEncode(_config));
 }
+
 class Config extends ChangeNotifier {
   Map<String, dynamic> search_options = {
     "order": "date_d",
@@ -105,7 +110,7 @@ class Config extends ChangeNotifier {
     updatePref().then((oge)=>notifyListeners());
   }
 }
-
+*/
 void navigate(String location, {String method = "push", Object? extra}) {
   late var r;
   switch (method) {
@@ -164,7 +169,7 @@ Future<http.Response> pxRequestUnprocessed(String url, {
 
   var headers = {
     "referer": "https://www.pixiv.net/en/",
-    "x-user-id": "76179633",
+    "x-user-id": userId,
     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
   };
   // print("-----");

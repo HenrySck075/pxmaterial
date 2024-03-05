@@ -3,10 +3,12 @@
 // Do not go insane.
 
 
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:sofieru/pages/helpcenter/hchtml.dart';
 // import 'package:url_launcher/url_launcher.dart';
 
 import 'shared.dart';
@@ -21,6 +23,7 @@ import 'pages/discovery/index.dart' as discovery;
 import 'pages/users/index.dart' as users;
 import 'package:sofieru/pages/requests/index.dart' as request;
 import 'pages/1984.dart';
+import "pages/helpcenter/helpcenter.dart" as hc;
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -50,6 +53,9 @@ void main() async {
   final pa = GlobalKey<NavigatorState>();
   final shellKeys = List.generate(4,(fhujioae)=>GlobalKey<NavigatorState>());
   FlutterError.onError = dumpErrorToConsole;
+  var d = jsonDecode(await rootBundle.loadString("assets/helpcenter.json")) as Map<String, dynamic>;
+  var btns = d.remove("buttons") as Map<String, dynamic>;
+  updateData(d.cast<String, String>(), btns.cast<String, String>());
   updateCookie(await rootBundle.loadString("assets/cookie"));
   updateRouter(GoRouter(
     initialLocation: kDebugMode?"/terminal":"/",
@@ -84,6 +90,26 @@ void main() async {
             path:"/pg",
             parentNavigatorKey: pa,
             builder:(ctx,st)=>Playground()
+          ),
+          ShellRoute(
+            builder: (hs,jdjd,child) => Scaffold(body: child,),
+            routes: [
+              GoRoute(
+                path: "/hc",
+                builder: (ctx,jsj)=>hc.Home(),
+                redirect: (ctx,s)=>s.path!.replaceFirst("en-us/", ""),
+                routes: [
+                  GoRoute(
+                    path:"articles/:t",
+                    builder: (gz,cj)=>hc.Article(cj.pathParameters["t"]!)
+                  ),
+                  GoRoute(
+                    path:"categories/:t",
+                    builder: (gz,cj)=>hc.Category(cj.pathParameters["t"]!)
+                  ),
+                ]
+              ),
+            ]
           ),
           ShellRoute(
             parentNavigatorKey: pa,
@@ -192,24 +218,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => Config(),
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        title: 'pixiv Material Design Concept', // doesnt work on desktop
-        theme: ThemeData(
-          useMaterial3: true,
-          brightness: Brightness.light,
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff0495f6),brightness: Brightness.light,),
-        ),
-        darkTheme: ThemeData(
-          useMaterial3: true,
-          brightness: Brightness.dark,
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff0495f6),brightness: Brightness.dark,),
-        ),
-        themeMode: ThemeMode.system,
-        routerConfig: router,
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      title: 'pixiv Material Design Concept', // doesnt work on desktop
+      theme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.light,
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff0495f6),brightness: Brightness.light,),
       ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.dark,
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff0495f6),brightness: Brightness.dark,),
+      ),
+      themeMode: ThemeMode.system,
+      routerConfig: router,
     );
   }
 }
@@ -280,7 +303,6 @@ class _ShellPageState extends State<ShellPage> {
       Text(MadeWithLoveByHenry,softWrap: true,style: const TextStyle(color: Colors.grey, fontSize: 8),),
       const Text("Do not redistribute without crediting authors of this repository and the original app.",style: TextStyle(color: Colors.grey, fontSize: 8),), // - HenrySck075 (Henry Spheria)
     ];
-    context.watch<Config>().init();
     // var appState = context.watch<MyAppState>();
     return Scaffold(
       drawer: NavigationDrawer(
@@ -306,7 +328,7 @@ class _ShellPageState extends State<ShellPage> {
               const Text("Number 15, Burger King Foot Lettuce")
             ],
           ),
-          if (kDebugMode) IconButton(onPressed: ()=>showDialog(
+          IconButton(onPressed: ()=>showDialog(
             context: context, 
             builder: (c) => AlertDialog(
               title: const Text("Navigate to"),
@@ -323,7 +345,7 @@ class _ShellPageState extends State<ShellPage> {
               SnackBar(content: Text("Current path URL copied to clipboard! Debug: ${currentRouteURI().path}"))
             ));
           }, icon: const Icon(Icons.link)),
-          const IconButton(onPressed: clearRequestCache, icon:Icon(Icons.refresh), tooltip: "Reset request cache (DEBUG)",)
+          if (kDebugMode) const IconButton(onPressed: clearRequestCache, icon:Icon(Icons.refresh), tooltip: "Reset request cache (DEBUG)",)
         ],
       ),
       backgroundColor:Theme.of(context).colorScheme.primaryContainer,

@@ -46,10 +46,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
     selIdx = habibi.indexOf(sus[sus.length-1]);
     if (selIdx == -1) {selIdx = 0;}
     _tabCtrl.index=selIdx;
-    return Consumer<Config>(builder: (ctx,d,c){
-      d.search_options["mode"] = mode;
-      d.search_options["type"] = type;
-      return futureWidget(
+    return futureWidget(
       future: pxRequest("https://www.pixiv.net/ajax/search/tags/$tag"), 
       builder: (ctx,snap){
         JSON data = snap.data!;
@@ -153,8 +150,8 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
               Placeholder(),
             ],
           )
-        ));
-      });
+        )
+      );
     });
   }
 }

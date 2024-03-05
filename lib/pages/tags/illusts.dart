@@ -34,7 +34,7 @@ class _IllustPageState extends State<IllustPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text("Works",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-              artworkGrid(MediaQuery.sizeOf(ctx).width>840?[...data["illust"]["data"].map((v)=>PxSimpleArtwork(data: v))]:[...data["illust"]["data"].map((v)=>PxArtwork(data: v))]),
+              artworkGrid(MediaQuery.sizeOf(ctx).width>840?[...data["illust"]["data"].map((v)=>PxSimpleArtwork.fromJson(payload: v))]:[...data["illust"]["data"].map((v)=>PxArtwork.fromJson(payload: v))]),
               NumberPaginator(
                 numberPages: data["illust"]["lastPage"],
                 onPageChange: (val){

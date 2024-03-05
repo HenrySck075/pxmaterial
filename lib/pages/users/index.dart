@@ -41,10 +41,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
   
   @override
   Widget build(c) {
-    return Consumer<Config>(builder: (ctx,d,c){
-      d.search_options["mode"] = mode;
-      d.search_options["type"] = type;
-      return futureWidget(
+    return futureWidget(
       future: Future.wait([pxRequest("https://www.pixiv.net/ajax/user/$id?full=1"),pxRequest("https://www.pixiv.net/ajax/user/$id/profile/all")]), 
       builder: (ctx,snap){
         var data = User.fromJson(snap.data![0]);
@@ -119,7 +116,6 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
             ],
           ))
         );
-      });
     });
   }
 }

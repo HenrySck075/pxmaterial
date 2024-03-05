@@ -93,15 +93,38 @@ class RequestPage extends StatelessWidget {
                   /// acceptRequest / rejectRequest
                   /// smth else
                   ...[
-                    if (!(thread.threadEntries[0].threadEntryBody.requestAnonymousFlg??false)==false) ListTile(
+                    ListTile(
                       leading: CircleAvatar( 
-                        child: pxImage( fanUser.image)
+                        backgroundImage: pxImageFlutter( fanUser.image).image
                       ),
                       title: Wrap(children: [
-                        Text("${fanUser.name} sent the request via "),
+                        Text("${(thread.threadEntries[0].threadEntryBody.requestAnonymousFlg??false)?fanUser.name:'An anonymous user'} sent the request via "),
                         TextButton(onPressed: ()=>debugPrint("joe biden"), child: Text(thisReq.plan.planTitle.planTranslationTitle?["en"]?.planTitle??thisReq.plan.planTitle.planOriginalTitle,style: TextStyle(color: Theme.of(ctx).colorScheme.secondary,)))
                       ]),
-                    ) else Text("TODO: Anonymous")
+                    ),
+                    
+                    if (thread.threadEntries.length>=2) ListTile(
+                      leading: CircleAvatar( 
+                        backgroundImage: pxImageFlutter( creatorUser.image).image
+                      ),
+                      title: Wrap(children: [
+                        Text("${creatorUser.name} ${thisReq.requestAcceptStatus=='success'?'accepted':'idk'} the request "),
+                      ]),
+                    ),
+                    
+                    if (thread.threadEntries.length>=3) ...[
+                      ListTile(
+                        leading: CircleAvatar( 
+                          backgroundImage: pxImageFlutter( creatorUser.image).image
+                        ),
+                        title: Wrap(children: [
+                          Text("${creatorUser.name} posted the artwork"),
+                        ]),
+                      ),
+                      /// TODO: limit to only show if its not private
+                      /// this also only works with artworks currently
+                      if (thisReq.requestStatus=="complete") PxArtwork(data: data.thumbnails.illust.firstWhere((element) => element.id == thisReq.postWork!.postWorkId))
+                    ]
                   ]
                 ]
               )
