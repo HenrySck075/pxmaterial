@@ -7,7 +7,6 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sofieru/json/ajax/illust/Artwork.dart' show Artwork;
 import 'package:sofieru/json/ajax/user/PartialUser.dart';
@@ -118,7 +117,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
                   child: GestureDetector(
                       onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (builder)=>ArtworkImageView(data: i,heroTag: "${id}_p$idx",))),
                       child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 550),
+                        constraints: const BoxConstraints(maxWidth: 350),
                         child: Hero(tag: "${id}_p$idx", child: pxImage(i["urls"]["regular"],includeCircle: true))
                       )
                     ),
