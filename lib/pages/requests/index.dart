@@ -15,6 +15,7 @@ class RequestPage extends StatelessWidget {
     "complete": ("Completed", const Color.fromARGB(255, 48, 210, 136)),
     // the havent accepted state
   };
+  static const bold = TextStyle(fontWeight: FontWeight.bold);
   RequestPage({super.key, required this.id});
   @override
   Widget build(ctx) {
@@ -46,6 +47,27 @@ class RequestPage extends StatelessWidget {
               child: Column( 
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  ExpansionTile(
+                    title: Text("${status[thisReq.requestStatus]} request"),
+                    children: [
+                      if (thisReq.requestStatus=="inProgress") const Text("This request is currently in-progress, which means the creator is making the work. If you want to support them or respond to the request, you can share and co-request the work.\n") else Text("The request has been completed. You can check out the finished work below (if it's public) or send a new request."),
+                      if (thisReq.requestStatus=="inProgress") ...[const Text("Notes",style: bold,),
+
+                      // multiline doesnt render correctly on neovim
+                      const Text("""
+- If you anonymously co-request the work, no one will know it was you who co-requested it.
+- Co-requests cannot be canceled.
+- Co-request messages are public for anyone to see.
+""")],
+                      const Text("More info",style: bold,),
+                      ...[
+                        ("What is Request?", "/hc/articles/900002307686"),
+                        ("What is Co-request?", "/hc/articles/900001640066"),
+                        ("The request flow", "/hc/articles/900002679206")
+                      ].map((e) => TextButton(onPressed: ()=>navigate(e.$2), child: Text(e.$1)))
+
+                    ],
+                  ),
                   ConstrainedBox( 
                     constraints: const BoxConstraints(maxWidth: 1160),
                     child: Card(  
