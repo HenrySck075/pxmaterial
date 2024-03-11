@@ -92,17 +92,17 @@ class _Workspace {
     this.userWorkspaceChair,
   });
   factory _Workspace.fromJson(Map<String, dynamic> json) => _Workspace(
-    userWorkspacePc: json['userWorkspacePc'],
-    userWorkspaceMonitor: json['userWorkspaceMonitor'],
-    userWorkspaceTool: json['userWorkspaceTool'],
-    userWorkspaceScanner: json['userWorkspaceScanner'],
-    userWorkspaceTablet: json['userWorkspaceTablet'],
-    userWorkspaceMouse: json['userWorkspaceMouse'],
-    userWorkspacePrinter: json['userWorkspacePrinter'],
-    userWorkspaceDesktop: json['userWorkspaceDesktop'],
-    userWorkspaceMusic: json['userWorkspaceMusic'],
-    userWorkspaceDesk: json['userWorkspaceDesk'],
-    userWorkspaceChair: json['userWorkspaceChair'],
+    userWorkspacePc: json['userWorkspacePc'] == null?null:json['userWorkspacePc'],
+    userWorkspaceMonitor: json['userWorkspaceMonitor'] == null?null:json['userWorkspaceMonitor'],
+    userWorkspaceTool: json['userWorkspaceTool'] == null?null:json['userWorkspaceTool'],
+    userWorkspaceScanner: json['userWorkspaceScanner'] == null?null:json['userWorkspaceScanner'],
+    userWorkspaceTablet: json['userWorkspaceTablet'] == null?null:json['userWorkspaceTablet'],
+    userWorkspaceMouse: json['userWorkspaceMouse'] == null?null:json['userWorkspaceMouse'],
+    userWorkspacePrinter: json['userWorkspacePrinter'] == null?null:json['userWorkspacePrinter'],
+    userWorkspaceDesktop: json['userWorkspaceDesktop'] == null?null:json['userWorkspaceDesktop'],
+    userWorkspaceMusic: json['userWorkspaceMusic'] == null?null:json['userWorkspaceMusic'],
+    userWorkspaceDesk: json['userWorkspaceDesk'] == null?null:json['userWorkspaceDesk'],
+    userWorkspaceChair: json['userWorkspaceChair'] == null?null:json['userWorkspaceChair'],
   );
 
 }

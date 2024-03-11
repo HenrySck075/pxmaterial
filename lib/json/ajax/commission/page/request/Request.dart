@@ -222,16 +222,16 @@ class _Work {
 class _PostWork {
   final String postWorkId;
   final String postWorkType;
-  final _Work work;
+  final _Work? work;
   _PostWork({
     required this.postWorkId,
     required this.postWorkType,
-    required this.work,
+    this.work,
   });
   factory _PostWork.fromJson(Map<String, dynamic> json) => _PostWork(
     postWorkId: json['postWorkId'],
     postWorkType: json['postWorkType'],
-    work: _Work.fromJson(json['work']),
+    work: json['work'] == null?null:_Work.fromJson(json['work']),
   );
 
 }

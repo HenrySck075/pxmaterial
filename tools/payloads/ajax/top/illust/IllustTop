@@ -9,25 +9,15 @@
     "page": "Data to build page content (need better explaination)"
   },
   "tagTranslation": {
-      "-":{"$schema":"$/ajax/shared/TagTranslation"}
+      "-":{"$schema":"$/shared/TagTranslation"}
   },
-  "thumbnails": {
-    "illust": [
-      {"$schema":"PartialArtwork"}
-    ],
-    "novel": [
-      {"$schema":"../novel/PartialNovel"}
-    ],
-    "novelSeries": [],
-    "novelDraft": [],
-    "collection": []
-  },
+  "thumbnails": {"$schema":"../../shared/Thumbnails"},
   "illustSeries": [],
   "requests": [
-    {"$schema":"$/ajax/commission/page/request/Request"}
+    {"$schema":"$/commission/page/request/Request"}
   ],
   "users": [
-    {"$schema":"$/ajax/user/PartialUser"}
+    {"$schema":"$/user/PartialUser"}
   ],
   "page": {
     "$desc": {
@@ -101,7 +91,7 @@
       }
     ],
     "ranking": {
-      "$schema": "$/ajax/top/shared/Ranking"
+      "$schema": "$/top/shared/Ranking"
     },
     "pixivision": [
       {

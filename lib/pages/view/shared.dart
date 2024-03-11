@@ -63,7 +63,7 @@ class _CommentsState extends State<Comments> {
   }
 }
 
-ActionChip tagChipBuilder(TagInfo t) => ActionChip(
+ActionChip tagChipBuilder(TagInfo t, {String? url}) => ActionChip(
   label: Row(
     mainAxisSize: MainAxisSize.min,
     children:[
@@ -71,6 +71,6 @@ ActionChip tagChipBuilder(TagInfo t) => ActionChip(
       if (t.translation?["en"]!=null) Flexible(flex:4,child: Text("(${t.translation!['en']})",style: const TextStyle(color: Colors.grey, fontSize: 10),overflow: TextOverflow.ellipsis))
     ]
   ),
-  onPressed: ()=>navigate("/tags/${t.tag}")//${data.xRestrict==1?'?mode=r18':''}"),
+  onPressed: ()=>navigate(url??"/tags/${t.tag}")//${data.xRestrict==1?'?mode=r18':''}"),
 );
 

@@ -59,6 +59,8 @@ void main() async {
   } on FormatException {
     // Handle exception by warning the user their action did not succeed
     initialUri = Uri(path: "/");
+  } on MissingPluginException {
+    initialUri = Uri(path: "/");
   }
   final pa = GlobalKey<NavigatorState>();
   final shellKeys = List.generate(4,(fhujioae)=>GlobalKey<NavigatorState>());

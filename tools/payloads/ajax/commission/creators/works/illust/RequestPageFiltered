@@ -1,0 +1,25 @@
+{
+    "workIds": [
+        116168750,
+        110892566,
+        110831608
+    ],
+    "workType": "illust",
+    "mode": "all",
+    "tags": [
+        "潤羽るしあ"
+    ],
+    "pager": {
+        "page": 1,
+        "hasNextPage": true
+    },
+    "tagTranslation": {
+        "-": {
+            "$schema": "$/shared/TagTranslation"
+        }
+    },
+    "thumbnails": {"$schema":"$/shared/Thumbnails"},
+    "illustSeries": [],
+    "requests": [{"$schema":"../../../page/request/Request"}],
+    "users": [{"$schema":"$/users/User"}]
+}

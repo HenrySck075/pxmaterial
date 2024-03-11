@@ -11,9 +11,9 @@ class _ThreadEntryBody {
     this.creatorUserId,
   });
   factory _ThreadEntryBody.fromJson(Map<String, dynamic> json) => _ThreadEntryBody(
-    fanUserId: json['fanUserId'],
-    requestAnonymousFlg: json['requestAnonymousFlg'],
-    creatorUserId: json['creatorUserId'],
+    fanUserId: json['fanUserId'] == null?null:json['fanUserId'],
+    requestAnonymousFlg: json['requestAnonymousFlg'] == null?null:json['requestAnonymousFlg'],
+    creatorUserId: json['creatorUserId'] == null?null:json['creatorUserId'],
   );
 
 }

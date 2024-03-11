@@ -75,12 +75,12 @@
     "userNovels": {
         "$nullable": ["-"],
         "-": {
-            "$schema": "$/ajax/top/novel/PartialNovel"
+            "$schema": "$/top/novel/PartialNovel"
         }
     },
     "hasGlossary": false,
     "extraData": {
-        "$schema": "$/ajax/shared/ExtraData"
+        "$schema": "$/shared/ExtraData"
     },
     "titleCaptionTranslation": {
         "workTitle": null,

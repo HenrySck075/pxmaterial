@@ -3,7 +3,7 @@
     "thumbnails": {
         "illust": [],
         "novel": [
-            {"$schema":"$/ajax/top/novel/PartialNovel"}
+            {"$schema":"$/top/novel/PartialNovel"}
         ],
         "novelSeries": [],
         "novelDraft": [],

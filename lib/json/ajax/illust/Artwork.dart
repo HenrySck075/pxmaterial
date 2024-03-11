@@ -78,7 +78,9 @@ class Artwork {
   final int illustType;
   final String createDate;
   final String uploadDate;
+  /// Sub-prop for `xRestrict`. 0 is just p, 1 is violent stuff included
   final int restrict;
+  /// Whether the work is marked as R-18
   final int xRestrict;
   final int sl;
   final _Urls urls;

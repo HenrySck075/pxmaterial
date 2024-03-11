@@ -88,6 +88,7 @@
   "postWork": {
     "postWorkId": "115978544",
     "postWorkType": "illust",
+    "$nullable": ["work"],
     "work": {
       "isUnlisted": false,
       "secret": null

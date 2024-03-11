@@ -1,0 +1,12 @@
+{
+  "illust": [
+    {"$schema":"../illust/PartialArtwork"}
+  ],
+  "novel": [
+    {"$schema":"../novel/PartialNovel"}
+  ],
+  "novelSeries": [],
+  "novelDraft": [],
+  "collection": [],
+  "$emptiable": ["$all"]
+}

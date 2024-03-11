@@ -137,12 +137,12 @@
     },
     "tagTranslation": {
         "-": {
-            "$schema": "$/ajax/shared/TagTranslation"
+            "$schema": "$/shared/TagTranslation"
         }
     },
     "thumbnails": {
         "illust": [
-            {"$schema": "$/ajax/top/illust/PartialArtwork"}
+            {"$schema": "$/top/illust/PartialArtwork"}
         ],
         "novel": [],
         "novelSeries": [],
@@ -154,6 +154,6 @@
         {"$schema": "Request"}
     ],
     "users": [
-        {"$schema": "$/ajax/user/PartialUser"}
+        {"$schema": "$/user/PartialUser"}
     ] 
 }

@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sofieru/json/ajax/top/illust/PartialArtwork.dart';
-import 'package:sofieru/json/ajax/user/PartialUser.dart';
 import 'package:sofieru/json/ajax/user/User.dart';
 import 'package:sofieru/shared.dart' show pxRequest, tryCast, navigate, JSON, currentRouteURI;
 import 'package:url_launcher/url_launcher.dart';

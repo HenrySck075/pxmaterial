@@ -28,7 +28,7 @@ def boy(k,v,ld=False, toJson=False):
         if "$schema" not in v: return generate(v,nam)
         else: 
             nam = cry(v['$schema'])
-            mport = ('package:sofieru/json/' if v['$schema'].startswith('$/') else '')+v['$schema'].removeprefix("$/")
+            mport = ('package:sofieru/json/ajax/' if v['$schema'].startswith('$/') else '')+v['$schema'].removeprefix("$/")
             if mport not in imported: 
                 output=f"import '{mport}.dart' show {nam};"+"\n"+output
                 imported.append(mport)
@@ -36,7 +36,7 @@ def boy(k,v,ld=False, toJson=False):
     if type(v) == list: 
         if len(v) != 0 and type(v[0]) == dict and "$schema" in v[0]:
             nam = cry(v[0]['$schema'])
-            mport = ('package:sofieru/json/' if v[0]['$schema'].startswith('$/') else '')+v[0]['$schema'].removeprefix("$/")
+            mport = ('package:sofieru/json/ajax/' if v[0]['$schema'].startswith('$/') else '')+v[0]['$schema'].removeprefix("$/")
             if mport not in imported: 
                 output=f"import '{mport}.dart' show {nam};"+"\n"+output
                 imported.append(mport)
@@ -46,6 +46,10 @@ def boy(k,v,ld=False, toJson=False):
             return f"List<{generate(v[0],nam)}>"
         except IndexError: return "List<dynamic>"
     else: return classes[str(t).split("'")[1]]
+
+
+
+
 private = False
 def generate(data, name=""):
     if type(data) != dict: return boy(name,data)
@@ -69,6 +73,8 @@ def generate(data, name=""):
     if "$this" in desc:
         out="/// "+"\n/// ".join(desc["$this"].splitlines())+"\n"+out
     g = emptiable+nullable
+    if "$all" in emptiable: emptiable = list(data.keys())
+    if "$all" in nullable: nullable = list(data.keys())
 
     for k,v in data.items():
         if k == "zoneConfig" or k.startswith("$"): continue
@@ -77,7 +83,6 @@ def generate(data, name=""):
 
         if any(k[0]==i for i in "0123456789") or any(i in k for i in "-/\\[]{}() *&^%#@!'\":;,?=÷×+|<>°•"):return f"Map<String, {boy(name.removeprefix('_')+'Content',v)}>"
         required = not (k in emptiable or k in nullable) #or b
-        if "$all" in g: required=False
         fnnuy = {"$schema":"$/ajax/shared/Placeholder"}
         vt=boy(k,v if not (k in emptiable and vto!=dict) else fnnuy if type(v)!=list else [fnnuy])
         if vt=="Null": 

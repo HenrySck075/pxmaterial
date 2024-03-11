@@ -2,32 +2,8 @@ import 'package:sofieru/json/ajax/top/shared/Ranking.dart' show Ranking;
 import 'Tag.dart' show Tag;
 import 'package:sofieru/json/ajax/user/PartialUser.dart' show PartialUser;
 import 'package:sofieru/json/ajax/commission/page/request/Request.dart' show Request;
-import '../novel/PartialNovel.dart' show PartialNovel;
-import 'PartialArtwork.dart' show PartialArtwork;
+import '../../shared/Thumbnails.dart' show Thumbnails;
 import 'package:sofieru/json/ajax/shared/TagTranslation.dart' show TagTranslation;
-class _Thumbnails {
-  final List<PartialArtwork> illust;
-  final List<PartialNovel> novel;
-  final List<dynamic> novelSeries;
-  final List<dynamic> novelDraft;
-  final List<dynamic> collection;
-  _Thumbnails({
-    required this.illust,
-    required this.novel,
-    required this.novelSeries,
-    required this.novelDraft,
-    required this.collection,
-  });
-  factory _Thumbnails.fromJson(Map<String, dynamic> json) => _Thumbnails(
-    illust: (json['illust'] as List<dynamic>).map((e)=>PartialArtwork.fromJson(e)).toList(),
-    novel: (json['novel'] as List<dynamic>).map((e)=>PartialNovel.fromJson(e)).toList(),
-    novelSeries: (json['novelSeries'] as List<dynamic>),
-    novelDraft: (json['novelDraft'] as List<dynamic>),
-    collection: (json['collection'] as List<dynamic>),
-  );
-
-}
-
 class _Recommend {
   /// 
   final List<String> ids;
@@ -253,7 +229,7 @@ class IllustTop {
   /// Tag translations
   final Map<String, TagTranslation> tagTranslation;
   /// Works data
-  final _Thumbnails thumbnails;
+  final Thumbnails thumbnails;
   /// i think this is deprecated
   final List<dynamic> illustSeries;
   /// Request objects
@@ -276,7 +252,7 @@ class IllustTop {
   });
   factory IllustTop.fromJson(Map<String, dynamic> json) => IllustTop(
     tagTranslation: (json['tagTranslation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,TagTranslation.fromJson(v))),
-    thumbnails: _Thumbnails.fromJson(json['thumbnails']),
+    thumbnails: Thumbnails.fromJson(json['thumbnails']),
     illustSeries: (json['illustSeries'] as List<dynamic>),
     requests: (json['requests'] as List<dynamic>).map((e)=>Request.fromJson(e)).toList(),
     users: (json['users'] as List<dynamic>).map((e)=>PartialUser.fromJson(e)).toList(),
