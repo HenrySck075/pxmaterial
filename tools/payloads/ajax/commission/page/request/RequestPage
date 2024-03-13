@@ -19,6 +19,7 @@
             473964,
             763873
         ],
+        "recommendIllustIdsByCreatorAcceptingRequest": ["idk"],
         "confettiModalStatus": {
             "inProgressFan": false,
             "inProgressCreator": false,
@@ -141,13 +142,7 @@
         }
     },
     "thumbnails": {
-        "illust": [
-            {"$schema": "$/top/illust/PartialArtwork"}
-        ],
-        "novel": [],
-        "novelSeries": [],
-        "novelDraft": [],
-        "collection": []
+        "$schema": "$/shared/Thumbnails"
     },
     "illustSeries": [],
     "requests": [

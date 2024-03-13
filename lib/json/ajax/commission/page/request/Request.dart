@@ -1,3 +1,4 @@
+import 'package:sofieru/json/ajax/ajax/shared/Placeholder.dart' show Placeholder;
 class _RequestTranslationProposal {
   final String requestProposal;
   final String requestProposalHtml;
@@ -35,28 +36,10 @@ class _RequestProposal {
 
 }
 
-class _PlanTranslationTitleContent {
-  final String planTitle;
-  /// Plan title (translated).
-  /// 
-  /// yes its ttie
-  /// minor spelling mistake, i win
-  final String planTtieLang;
-  _PlanTranslationTitleContent({
-    required this.planTitle,
-    required this.planTtieLang,
-  });
-  factory _PlanTranslationTitleContent.fromJson(Map<String, dynamic> json) => _PlanTranslationTitleContent(
-    planTitle: json['planTitle'],
-    planTtieLang: json['planTtieLang'],
-  );
-
-}
-
 class _PlanTitle {
   final String planOriginalTitle;
   final String planOriginalTitleLang;
-  final Map<String, _PlanTranslationTitleContent>? planTranslationTitle;
+  final Placeholder? planTranslationTitle;
   _PlanTitle({
     required this.planOriginalTitle,
     required this.planOriginalTitleLang,
@@ -65,24 +48,7 @@ class _PlanTitle {
   factory _PlanTitle.fromJson(Map<String, dynamic> json) => _PlanTitle(
     planOriginalTitle: json['planOriginalTitle'],
     planOriginalTitleLang: json['planOriginalTitleLang'],
-    planTranslationTitle: json['planTranslationTitle'] is List?null:(json['planTranslationTitle'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_PlanTranslationTitleContent.fromJson(v))),
-  );
-
-}
-
-class _PlanTranslationDescriptionContent {
-  final String planDescription;
-  final String planDescriptionHtml;
-  final String planLang;
-  _PlanTranslationDescriptionContent({
-    required this.planDescription,
-    required this.planDescriptionHtml,
-    required this.planLang,
-  });
-  factory _PlanTranslationDescriptionContent.fromJson(Map<String, dynamic> json) => _PlanTranslationDescriptionContent(
-    planDescription: json['planDescription'],
-    planDescriptionHtml: json['planDescriptionHtml'],
-    planLang: json['planLang'],
+    planTranslationTitle: json['planTranslationTitle'] is List?null:Placeholder.fromJson(json['planTranslationTitle']),
   );
 
 }
@@ -91,7 +57,7 @@ class _PlanDescription {
   final String planOriginalDescription;
   final String planOriginalDescriptionHtml;
   final String planOriginalLang;
-  final Map<String, _PlanTranslationDescriptionContent>? planTranslationDescription;
+  final Placeholder? planTranslationDescription;
   _PlanDescription({
     required this.planOriginalDescription,
     required this.planOriginalDescriptionHtml,
@@ -102,7 +68,7 @@ class _PlanDescription {
     planOriginalDescription: json['planOriginalDescription'],
     planOriginalDescriptionHtml: json['planOriginalDescriptionHtml'],
     planOriginalLang: json['planOriginalLang'],
-    planTranslationDescription: json['planTranslationDescription'] is List?null:(json['planTranslationDescription'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_PlanTranslationDescriptionContent.fromJson(v))),
+    planTranslationDescription: json['planTranslationDescription'] is List?null:Placeholder.fromJson(json['planTranslationDescription']),
   );
 
 }

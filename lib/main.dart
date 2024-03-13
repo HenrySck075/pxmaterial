@@ -150,7 +150,7 @@ void main() async {
             parentNavigatorKey: pa,
             builder: (no,care,c)=>LatestFollowingPage(),
             routes: [
-                  GoRoute(path:"/following",builder: (ctx,kd)=>Placeholder())
+              GoRoute(path:"/following",builder: (ctx,kd)=>Placeholder())
             ]
           ),
           ShellRoute( 
@@ -188,7 +188,17 @@ void main() async {
           GoRoute(
             parentNavigatorKey: pa,
             path: "/requests/:id",
-            builder: (no, state) => request.RequestPage(id: state.pathParameters["id"]!,)
+            builder: (no, state) => request.RequestsPage(id: state.pathParameters["id"]!,)
+          ),
+          GoRoute(
+            parentNavigatorKey: pa,
+            path: "/request",
+            builder: (h,h2) => request.HomePage(),
+            routes: [
+              GoRoute( 
+                path: "creators/works/illust"
+              )
+            ]
           ),
           ShellRoute(
             builder: (ctx,st,w)=>users.ShellPage(id: st.pathParameters["id"]!),

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:sofieru/json/ajax/shared/TagInfo.dart';
 import 'package:sofieru/shared.dart';
@@ -62,8 +64,8 @@ class _CommentsState extends State<Comments> {
     );
   }
 }
-
-ActionChip tagChipBuilder(TagInfo t, {String? url}) => ActionChip(
+var rnadom = Random();
+ActionChip tagChipBuilder(TagInfo t, {String? url, bool randomColor = false}) => ActionChip(
   label: Row(
     mainAxisSize: MainAxisSize.min,
     children:[

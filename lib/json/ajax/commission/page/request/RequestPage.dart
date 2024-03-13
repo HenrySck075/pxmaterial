@@ -1,6 +1,6 @@
 import 'package:sofieru/json/ajax/user/PartialUser.dart' show PartialUser;
 import 'Request.dart' show Request;
-import 'package:sofieru/json/ajax/top/illust/PartialArtwork.dart' show PartialArtwork;
+import 'package:sofieru/json/ajax/shared/Thumbnails.dart' show Thumbnails;
 import 'package:sofieru/json/ajax/shared/TagTranslation.dart' show TagTranslation;
 class _Creator {
   final String creatorUserId;
@@ -122,6 +122,7 @@ class _Ogp {
 class _Page {
   final _Creator creator;
   final List<int> recommendedUserIds;
+  final List<String> recommendIllustIdsByCreatorAcceptingRequest;
   final _ConfettiModalStatus confettiModalStatus;
   final List<_UserList> userList;
   final List<String> inProgressRequestIds;
@@ -135,6 +136,7 @@ class _Page {
   _Page({
     required this.creator,
     required this.recommendedUserIds,
+    required this.recommendIllustIdsByCreatorAcceptingRequest,
     required this.confettiModalStatus,
     required this.userList,
     required this.inProgressRequestIds,
@@ -149,6 +151,7 @@ class _Page {
   factory _Page.fromJson(Map<String, dynamic> json) => _Page(
     creator: _Creator.fromJson(json['creator']),
     recommendedUserIds: (json['recommendedUserIds'] as List<dynamic>).map((e)=>e as int).toList(),
+    recommendIllustIdsByCreatorAcceptingRequest: (json['recommendIllustIdsByCreatorAcceptingRequest'] as List<dynamic>).map((e)=>e as String).toList(),
     confettiModalStatus: _ConfettiModalStatus.fromJson(json['confettiModalStatus']),
     userList: (json['userList'] as List<dynamic>).map((e)=>_UserList.fromJson(e)).toList(),
     inProgressRequestIds: (json['inProgressRequestIds'] as List<dynamic>).map((e)=>e as String).toList(),
@@ -163,33 +166,10 @@ class _Page {
 
 }
 
-class _Thumbnails {
-  final List<PartialArtwork> illust;
-  final List<dynamic> novel;
-  final List<dynamic> novelSeries;
-  final List<dynamic> novelDraft;
-  final List<dynamic> collection;
-  _Thumbnails({
-    required this.illust,
-    required this.novel,
-    required this.novelSeries,
-    required this.novelDraft,
-    required this.collection,
-  });
-  factory _Thumbnails.fromJson(Map<String, dynamic> json) => _Thumbnails(
-    illust: (json['illust'] as List<dynamic>).map((e)=>PartialArtwork.fromJson(e)).toList(),
-    novel: (json['novel'] as List<dynamic>),
-    novelSeries: (json['novelSeries'] as List<dynamic>),
-    novelDraft: (json['novelDraft'] as List<dynamic>),
-    collection: (json['collection'] as List<dynamic>),
-  );
-
-}
-
 class RequestPage {
   final _Page page;
   final Map<String, TagTranslation> tagTranslation;
-  final _Thumbnails thumbnails;
+  final Thumbnails thumbnails;
   final List<dynamic> illustSeries;
   final List<Request> requests;
   final List<PartialUser> users;
@@ -204,7 +184,7 @@ class RequestPage {
   factory RequestPage.fromJson(Map<String, dynamic> json) => RequestPage(
     page: _Page.fromJson(json['page']),
     tagTranslation: (json['tagTranslation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,TagTranslation.fromJson(v))),
-    thumbnails: _Thumbnails.fromJson(json['thumbnails']),
+    thumbnails: Thumbnails.fromJson(json['thumbnails']),
     illustSeries: (json['illustSeries'] as List<dynamic>),
     requests: (json['requests'] as List<dynamic>).map((e)=>Request.fromJson(e)).toList(),
     users: (json['users'] as List<dynamic>).map((e)=>PartialUser.fromJson(e)).toList(),

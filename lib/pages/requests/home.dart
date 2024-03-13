@@ -1,30 +1,39 @@
-import 'package:flutter/material.dart';
-import 'package:sofieru/json/ajax/commission/page/request/RequestPage.dart';
-import 'package:sofieru/json/ajax/shared/TagInfo.dart';
-import 'package:sofieru/pages/view/shared.dart';
-import 'package:sofieru/shared.dart';
+
+part of request;
 
 class HomePage extends StatelessWidget {
+
   @override
   Widget build(ctx) => futureWidget(
-    future: pxRequest("https://www.pixiv.net/ajax/commision/page/request"), 
-    builder: (ctx,snap) {
-      final data = RequestPage.fromJson(snap.data!);
-      final tagEntries = data.tagTranslation.keys.toList();
-      return SingleChildScrollView(
+    future: Future.wait([
+      pxRequest("https://www.pixiv.net/ajax/commission/creators/works/recommended_tags"), 
+      pxRequest("https://www.pixiv.net/ajax/commission/page/request")
+    ]),
+    builder: (ctx,snap) { 
+      final d = RecommendedTags.fromJson(snap.data![0]);
+      final hd = RequestPage.fromJson(snap.data![1]);
+      return SingleChildScrollView( 
         child: Column( 
           children: [
-            ListView(children: tagEntries.map((e) => tagChipBuilder(TagInfo(
-              tag: e, 
-              locked: false, 
-              deletable: false, 
-              userName: "shut"
-            ),url:"/request/creators/works/illust?tag=$e")).toList()),
-            header("Works from creators accepting requests")
+            ListView(
+              scrollDirection: Axis.horizontal,
+              children: d.recommendesTags.map((e) => Hero(
+                tag:e,
+                child: tagChipBuilder(TagInfo(
+                  tag: e, 
+                  translation: d.tagTranslation[e]?.toJson().cast<String, String>(),
+                  locked: false, 
+                  deletable: false, 
+                  userName: "shut"
+                ),url:"/request/creators/works/illust?tags[]=$e")
+              )).toList()
+            ),
+            header("Works from creators accepting requests"),
+            artworkGrid(hd.page.recommendIllustIdsByCreatorAcceptingRequest.map((e) => hd.thumbnails.illust.firstWhere((el) => el.id==e)))
 
           ],
         ),
       );
     }
-  ); 
+  );
 }

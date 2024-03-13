@@ -84,7 +84,7 @@ def generate(data, name=""):
         if any(k[0]==i for i in "0123456789") or any(i in k for i in "-/\\[]{}() *&^%#@!'\":;,?=÷×+|<>°•"):return f"Map<String, {boy(name.removeprefix('_')+'Content',v)}>"
         required = not (k in emptiable or k in nullable) #or b
         fnnuy = {"$schema":"$/ajax/shared/Placeholder"}
-        vt=boy(k,v if not (k in emptiable and vto!=dict) else fnnuy if type(v)!=list else [fnnuy])
+        vt=boy(k,v if not (k in emptiable and vto==dict) else fnnuy if type(v)!=list else [fnnuy])
         if vt=="Null": 
             vt="String"
             required = False

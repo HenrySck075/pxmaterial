@@ -1,14 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:memoized/memoized.dart';
-import 'package:sofieru/json/ajax/commission/page/request/Request.dart';
-import 'package:sofieru/json/ajax/commission/page/request/RequestPage.dart' as payload;
-import 'package:sofieru/json/ajax/commission/page/request/RequestThread.dart';
-import 'package:sofieru/json/ajax/user/PartialUser.dart';
-import 'package:sofieru/pages/requests/widgeto.dart';
-import 'package:sofieru/pages/view/shared.dart';
-import 'package:sofieru/shared.dart';
-import 'package:sofieru/json/ajax/shared/TagInfo.dart';
+
+part of request;
 
 SizedBox BoundedListView({
   Axis scrollDirection = Axis.vertical,
@@ -20,7 +11,7 @@ SizedBox BoundedListView({
   children: children 
 ));
 
-class RequestPage extends StatelessWidget {
+class RequestsPage extends StatelessWidget {
   final String id;
   final months = ["January","Frburary","March","April","May","June","July","August","September","October","November","December"];
   final status = {
@@ -29,7 +20,7 @@ class RequestPage extends StatelessWidget {
     // the havent accepted state
   };
   static const bold = TextStyle(fontWeight: FontWeight.bold);
-  RequestPage({super.key, required this.id});
+  RequestsPage({super.key, required this.id});
   @override
   Widget build(ctx) {
     return Scaffold(
@@ -39,7 +30,7 @@ class RequestPage extends StatelessWidget {
           pxRequest("https://www.pixiv.net/ajax/commission/page/requests/$id/thread"), // they're just like me frfr
         ]),
         builder: (ctx,snap) {
-          var data = payload.RequestPage.fromJson(snap.data![0]);
+          var data = RequestPage.fromJson(snap.data![0]);
           var thread = RequestThread.fromJson(snap.data![1]["page"]["requestThread"]);
           var thisReq = data.requests.singleWhere((element) => element.requestId==id);
           const a = TextStyle(color: Colors.grey, fontSize:12);

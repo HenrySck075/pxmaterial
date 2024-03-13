@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sofieru/json/ajax/top/illust/PartialArtwork.dart';
+import 'package:sofieru/json/ajax/illust/PartialArtwork.dart';
 import 'package:sofieru/json/ajax/user/User.dart';
 import 'package:sofieru/shared.dart' show pxRequest, tryCast, navigate, JSON, currentRouteURI;
 import 'package:url_launcher/url_launcher.dart';
@@ -31,11 +31,13 @@ class VisibleNotifyNotifier<T> extends ChangeNotifier {
 }
 SizedBox Function(BuildContext, GoRouterState) emptyBuilder()=>(ctx,s)=>const SizedBox(width: 1,height: 1,);
 /// i love when i have to find a fix related to dimensions with all the flex widgets that i know so that it can be inside other flex widgets
-Wrap artworkGrid(List<Widget> h) => Wrap(
+Wrap artworkGrid(Iterable<PartialArtwork> h) => artworkGridCustom(h.map((e)=>PxArtwork(data: e)),
+);
+Wrap artworkGridCustom(Iterable<Widget> h) => Wrap(
   runAlignment: WrapAlignment.center,
   spacing: 4,
   runSpacing: 4,
-  children: h,
+  children: h.toList(),
 );
 
 FutureBuilder<T> futureWidget<T>({required Future<T>? future, required AsyncWidgetBuilder<T> builder, Widget placeholder = const Center(child: CircularProgressIndicator())}) {
