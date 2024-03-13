@@ -44,7 +44,7 @@
     "userIllusts": {
         "$nullable": ["-"],
         "-": {
-            "$schema": "$/top/illust/PartialArtwork"
+            "$schema": "$/illust/PartialArtwork"
         }
     },
     "likeData": false,

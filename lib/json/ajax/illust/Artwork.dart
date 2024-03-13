@@ -1,5 +1,5 @@
 import 'package:sofieru/json/ajax/shared/ExtraData.dart' show ExtraData;
-import 'package:sofieru/json/ajax/top/illust/PartialArtwork.dart' show PartialArtwork;
+import 'package:sofieru/json/ajax/illust/PartialArtwork.dart' show PartialArtwork;
 import 'package:sofieru/json/ajax/shared/TagInfo.dart' show TagInfo;
 class _Urls {
   final String mini;

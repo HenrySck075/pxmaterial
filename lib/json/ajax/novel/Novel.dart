@@ -1,5 +1,5 @@
 import 'package:sofieru/json/ajax/shared/ExtraData.dart' show ExtraData;
-import 'package:sofieru/json/ajax/top/novel/PartialNovel.dart' show PartialNovel;
+import 'package:sofieru/json/ajax/novel/PartialNovel.dart' show PartialNovel;
 class _SuggestedSettings {
   final int viewMode;
   final int themeBackground;

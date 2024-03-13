@@ -7,6 +7,6 @@ class RankingPage extends StatelessWidget {
   Widget build(ctx) => futureWidget(future: pxRequestUnprocessed("https://www.pixiv.net/ranking.php?mode=weekly"), builder: (ctx,snap){
     var html = parse(snap.data!.body);
     var leRanking = html.querySelectorAll("#wrapper .layout-body ._unit .ranking-items.adjust");
-
+    return Placeholder();
   });
 }

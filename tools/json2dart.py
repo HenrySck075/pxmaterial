@@ -2,8 +2,9 @@
 
 import sys
 name = sys.argv[1]
+print(name)
 import json
-from typing import Any, ClassVar
+from typing import Any
 classes = {
     "str": "String",
     "int": "int",
@@ -19,11 +20,13 @@ d: dict[str,Any] = json.load(open(sys.argv[2],encoding="utf-8"))
 imported = []
 output = """"""
 cry = lambda x: x.split("/")[-1]
+
+isInvalidPropName = lambda k: any(k[0]==i for i in "0123456789") or any(i in k for i in "-/\\[]{}() *&^%#@!'\":;,?=÷×+|<>°•") or any(ord(i)>126 for i in k)
 def boy(k,v,ld=False, toJson=False):
     global output
     t = type(v)
     nam = k[0].upper()+k[1:]
-    if t == dict and not ld and not (any(k[0]==i for i in "0123456789") or any(i in k for i in "-/\\[]{}() *&^%#@!'\":;,?=÷×+|<>°•")): 
+    if t == dict and not ld: #and not isInvalidPropName(k): 
         v["$toJson"] = toJson
         if "$schema" not in v: return generate(v,nam)
         else: 
@@ -46,7 +49,6 @@ def boy(k,v,ld=False, toJson=False):
             return f"List<{generate(v[0],nam)}>"
         except IndexError: return "List<dynamic>"
     else: return classes[str(t).split("'")[1]]
-
 
 
 
@@ -81,10 +83,11 @@ def generate(data, name=""):
         vto = type(v)
         #b = (vto==list and len(v)==0)
 
-        if any(k[0]==i for i in "0123456789") or any(i in k for i in "-/\\[]{}() *&^%#@!'\":;,?=÷×+|<>°•"):return f"Map<String, {boy(name.removeprefix('_')+'Content',v)}>"
+        if isInvalidPropName(k):return f"Map<String, {boy(name.removeprefix('_')+'Content',v)}>"
         required = not (k in emptiable or k in nullable) #or b
-        fnnuy = {"$schema":"$/ajax/shared/Placeholder"}
-        vt=boy(k,v if not (k in emptiable and vto==dict) else fnnuy if type(v)!=list else [fnnuy])
+        fnnuy = {"$schema":"$/shared/Placeholder"}
+        # if k=="planTranslationTitle":breakpoint()
+        vt=boy(k,v if not (k in emptiable and vto==list) else fnnuy if type(v)!=list else [fnnuy])
         if vt=="Null": 
             vt="String"
             required = False

@@ -31,9 +31,9 @@ class VisibleNotifyNotifier<T> extends ChangeNotifier {
 }
 SizedBox Function(BuildContext, GoRouterState) emptyBuilder()=>(ctx,s)=>const SizedBox(width: 1,height: 1,);
 /// i love when i have to find a fix related to dimensions with all the flex widgets that i know so that it can be inside other flex widgets
-Wrap artworkGrid(Iterable<PartialArtwork> h) => artworkGridCustom(h.map((e)=>PxArtwork(data: e)),
-);
-Wrap artworkGridCustom(Iterable<Widget> h) => Wrap(
+//Wrap artworkGrid(Iterable<PartialArtwork> h) => artworkGridCustom(h.map((e)=>PxArtwork(data: e)),
+//);
+Wrap artworkGrid(Iterable<Widget> h) => Wrap(
   runAlignment: WrapAlignment.center,
   spacing: 4,
   runSpacing: 4,

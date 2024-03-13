@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sofieru/json/ajax/top/illust/PartialArtwork.dart';
+import 'package:sofieru/json/ajax/illust/PartialArtwork.dart';
 import 'package:sofieru/shared.dart';
 
 class MainPage extends StatefulWidget {

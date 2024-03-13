@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
               )).toList()
             ),
             header("Works from creators accepting requests"),
-            artworkGrid(hd.page.recommendIllustIdsByCreatorAcceptingRequest.map((e) => hd.thumbnails.illust.firstWhere((el) => el.id==e)))
+            artworkGrid(hd.page.recommendIllustIdsByCreatorAcceptingRequest.map((e) => PxArtwork(data: hd.thumbnails.illust!.firstWhere((el) => el.id==e))))
 
           ],
         ),

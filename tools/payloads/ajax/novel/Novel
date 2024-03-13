@@ -75,7 +75,7 @@
     "userNovels": {
         "$nullable": ["-"],
         "-": {
-            "$schema": "$/top/novel/PartialNovel"
+            "$schema": "$/novel/PartialNovel"
         }
     },
     "hasGlossary": false,

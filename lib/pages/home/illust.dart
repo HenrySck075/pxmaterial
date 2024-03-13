@@ -60,7 +60,7 @@ class IllustsPage extends StatelessWidget {
                 // Ranking
                 header("Daily ranking"),
                 Text(parseDate(mainresp.page.ranking.date),style: const TextStyle(fontSize: 10,color: Colors.grey)),
-                artworkGridCustom(List.generate(math.max(4, (MediaQuery.sizeOf(context).width/194).floor()), ((index) {
+                artworkGrid(List.generate(math.max(4, (MediaQuery.sizeOf(context).width/194).floor()), ((index) {
                     var i = mainresp.page.ranking.items[index];
                     return PxArtwork(data:getData(i.id)!,rank:int.parse(i.rank));
                   }))

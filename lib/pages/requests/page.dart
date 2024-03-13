@@ -163,7 +163,7 @@ class RequestsPage extends StatelessWidget {
                       ),
                       /// TODO: limit to only show if its not private
                       /// this also only works with artworks currently
-                      if (thisReq.requestStatus=="complete") PxArtwork(data: data.thumbnails.illust.firstWhere((element) => element.id == thisReq.postWork!.postWorkId,orElse:()=>data.thumbnails.illust.firstWhere((element) => element.id == thisReq.postWork!.postWorkId))),
+                      if (thisReq.requestStatus=="complete") PxArtwork(data: data.thumbnails.illust!.firstWhere((element) => element.id == thisReq.postWork!.postWorkId)),
                       const SizedBox(height: 16,),
                       // In-progress requests
                       if (ipRequests.isNotEmpty) ...[
