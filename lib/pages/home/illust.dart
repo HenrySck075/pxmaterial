@@ -31,7 +31,6 @@ class IllustsPage extends StatelessWidget {
             try {
               return mainresp.thumbnails.illust!.firstWhere(
                 (e) => e.id==id, 
-                orElse: ()=>mainresp.thumbnails.illust!.firstWhere((e)=>e.id==id)
               );
             } on StateError {return null;}
           }
@@ -68,6 +67,7 @@ class IllustsPage extends StatelessWidget {
                 const SizedBox(height: 8,),
                 FilledButton(child: const Text("Show all"),onPressed: ()=>navigate("/following")),
                 const SizedBox(height: 50,),
+                // Requested works
                 header("Requested works"),
                 SizedBox(height:280,child:ListView( 
                   scrollDirection: Axis.horizontal,

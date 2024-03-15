@@ -37,10 +37,6 @@ class _RequestProposal {
 
 class _PlanTranslationTitleContent {
   final String planTitle;
-  /// Plan title (translated).
-  /// 
-  /// yes its ttie
-  /// minor spelling mistake, i win
   final String planTtieLang;
   _PlanTranslationTitleContent({
     required this.planTitle,
@@ -236,13 +232,81 @@ class _PostWork {
 
 }
 
+class _Fanbox {
+  final bool fanIsSupporter;
+  _Fanbox({
+    required this.fanIsSupporter,
+  });
+  factory _Fanbox.fromJson(Map<String, dynamic> json) => _Fanbox(
+    fanIsSupporter: json['fanIsSupporter'],
+  );
+
+}
+
+class _Modification {
+  final String? requestPostWorkType;
+  final String? requestAdultFlg;
+  _Modification({
+    this.requestPostWorkType,
+    this.requestAdultFlg,
+  });
+  factory _Modification.fromJson(Map<String, dynamic> json) => _Modification(
+    requestPostWorkType: json['requestPostWorkType'],
+    requestAdultFlg: json['requestAdultFlg'],
+  );
+
+}
+
+class _RequestResend {
+  final String? requestResendDeadlineDatetime;
+  final String? requestResendOfferEnabled;
+  final String? requestResendEnabled;
+  final String? requestResendStatus;
+  final _Modification modification;
+  final String? fanAdultSendable;
+  final String? isResentRequest;
+  _RequestResend({
+    this.requestResendDeadlineDatetime,
+    this.requestResendOfferEnabled,
+    this.requestResendEnabled,
+    this.requestResendStatus,
+    required this.modification,
+    this.fanAdultSendable,
+    this.isResentRequest,
+  });
+  factory _RequestResend.fromJson(Map<String, dynamic> json) => _RequestResend(
+    requestResendDeadlineDatetime: json['requestResendDeadlineDatetime'],
+    requestResendOfferEnabled: json['requestResendOfferEnabled'],
+    requestResendEnabled: json['requestResendEnabled'],
+    requestResendStatus: json['requestResendStatus'],
+    modification: _Modification.fromJson(json['modification']),
+    fanAdultSendable: json['fanAdultSendable'],
+    isResentRequest: json['isResentRequest'],
+  );
+
+}
+
+class _FanLetter {
+  final bool fanLetterArrived;
+  final bool fanLetterSendEnabled;
+  _FanLetter({
+    required this.fanLetterArrived,
+    required this.fanLetterSendEnabled,
+  });
+  factory _FanLetter.fromJson(Map<String, dynamic> json) => _FanLetter(
+    fanLetterArrived: json['fanLetterArrived'],
+    fanLetterSendEnabled: json['fanLetterSendEnabled'],
+  );
+
+}
+
 class Request {
   final String requestId;
   final String planId;
   final String? fanUserId;
   final String creatorUserId;
   final String requestStatus;
-  final String? requestAcceptStatus;
+  final String requestAcceptStatus;
   final String requestPostWorkType;
   final int requestPrice;
   final _RequestProposal requestProposal;
@@ -256,14 +320,19 @@ class Request {
   final String role;
   final _Plan plan;
   final _CollaborateStatus collaborateStatus;
+  final String? giftFile;
   final _PostWork? postWork;
+  final String? notifyBadge;
+  final _Fanbox? fanbox;
+  final _RequestResend? requestResend;
+  final _FanLetter? fanLetter;
   Request({
     required this.requestId,
     required this.planId,
     this.fanUserId,
     required this.creatorUserId,
     required this.requestStatus,
-    this.requestAcceptStatus,
+    required this.requestAcceptStatus,
     required this.requestPostWorkType,
     required this.requestPrice,
     required this.requestProposal,
@@ -277,7 +346,12 @@ class Request {
     required this.role,
     required this.plan,
     required this.collaborateStatus,
+    this.giftFile,
     this.postWork,
+    this.notifyBadge,
+    this.fanbox,
+    this.requestResend,
+    this.fanLetter,
   });
   factory Request.fromJson(Map<String, dynamic> json) => Request(
     requestId: json['requestId'],
@@ -285,7 +359,7 @@ class Request {
     fanUserId: json['fanUserId'],
     creatorUserId: json['creatorUserId'],
     requestStatus: json['requestStatus'],
-    requestAcceptStatus: json['requestAcceptStatus'] == null?null:json['requestAcceptStatus'],
+    requestAcceptStatus: json['requestAcceptStatus'],
     requestPostWorkType: json['requestPostWorkType'],
     requestPrice: json['requestPrice'],
     requestProposal: _RequestProposal.fromJson(json['requestProposal']),
@@ -299,7 +373,12 @@ class Request {
     role: json['role'],
     plan: _Plan.fromJson(json['plan']),
     collaborateStatus: _CollaborateStatus.fromJson(json['collaborateStatus']),
+    giftFile: json['giftFile'],
     postWork: json['postWork'] == null?null:_PostWork.fromJson(json['postWork']),
+    notifyBadge: json['notifyBadge'],
+    fanbox: json['fanbox'] == null?null:_Fanbox.fromJson(json['fanbox']),
+    requestResend: json['requestResend'] == null?null:_RequestResend.fromJson(json['requestResend']),
+    fanLetter: json['fanLetter'] == null?null:_FanLetter.fromJson(json['fanLetter']),
   );
 
 }

@@ -1,4 +1,4 @@
-"Typed maps, NOW!!"
+"You should add typed maps NOW!!"
 
 import sys
 name = sys.argv[1]
@@ -12,10 +12,15 @@ classes = {
     "bool": "bool",
     "NoneType": "Null",
     "list": "List",
-    "thats just dynamic let him free lil bro": "dynamic",
+    "__main__.dynamic": "dynamic",
     "dict": "Map" # this never happens
 }
-
+class dynamic:
+    def __str__(self) -> str:
+        return "dynamic"
+    def __repr__(self) -> str:
+        return "dynamic"
+    
 d: dict[str,Any] = json.load(open(sys.argv[2],encoding="utf-8"))
 imported = []
 output = """"""
@@ -85,9 +90,10 @@ def generate(data, name=""):
 
         if isInvalidPropName(k):return f"Map<String, {boy(name.removeprefix('_')+'Content',v)}>"
         required = not (k in emptiable or k in nullable) #or b
-        fnnuy = {"$schema":"$/shared/Placeholder"}
+        # fnnuy = {"$schema":"$/shared/Placeholder"}
+        fnnuy = dynamic()
         # if k=="planTranslationTitle":breakpoint()
-        vt=boy(k,v if not (k in emptiable and vto==list) else fnnuy if type(v)!=list else [fnnuy])
+        vt=boy(k,v if not (k in emptiable and len(v)!=0 and vto == list and v[0]==dict) else fnnuy if type(v)!=list else [fnnuy])
         if vt=="Null": 
             vt="String"
             required = False

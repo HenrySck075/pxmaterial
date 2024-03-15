@@ -59,8 +59,8 @@ Uri currentRouteURI() {
   return matchList.uri;
 }
 
-String apiVersion = "59e08d0871b7c68569ebe89084d52eca68a1685d";
-List<T> concat2d<T>(List<Iterable<T>> inp) {
+String apiVersion = "9f65e21331354731e4e42cf395e42bcc5d72dc09";
+List<T> concat2d<T>(Iterable<Iterable<T>> inp) {
   List<T> tri = [];
   inp.forEach((element) {tri.addAll(element); });
   return tri;

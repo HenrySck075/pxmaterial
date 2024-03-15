@@ -1,4 +1,4 @@
 {
-    "recommendesTags": ["loli"],
+    "recommendedTags": ["loli"],
     "tagTranslation": {"-": {"$schema": "$/shared/TagTranslation"}}
 }

@@ -196,7 +196,8 @@ void main() async {
             builder: (h,h2) => request.HomePage(),
             routes: [
               GoRoute( 
-                path: "creators/works/illust"
+                path: "creators/works/illust",
+                builder: (ctx,fwerujio )=>Placeholder()// why tf does they made this optional
               )
             ]
           ),
@@ -269,7 +270,7 @@ class ShellPage extends StatefulWidget {
 class _ShellPageState extends State<ShellPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   int pageIndex = 0;
-  List<String> e = ["/","/following","/hc"];
+  List<String> e = ["/","/following","/request","/hc"];
   final List<String> minecraft = [
     "mococo is very cute",
     "mococo is very very cute",
@@ -315,6 +316,12 @@ class _ShellPageState extends State<ShellPage> {
         icon: Icon(Icons.favorite),
         label: Text('Following'),
       ),
+      const Divider(),
+      const NavigationDrawerDestination(
+        icon: Icon(Icons.favorite),
+        label: Text('Requests'),
+      ),
+      const Divider(),
       const NavigationDrawerDestination(
         icon: Icon(Icons.help),
         label: Text('Help center'),
@@ -376,7 +383,12 @@ class _ShellPageState extends State<ShellPage> {
       backgroundColor:Theme.of(context).colorScheme.primaryContainer,
       body: Center(
         child: Container(
-          decoration: const BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            color: Theme.of(context).scaffoldBackgroundColor
+          ),
+          padding: const EdgeInsets.only(top: 8),
+          
           // constraints: BoxConstraints(maxWidth: currentRouteURI().path.startsWith("/artworks")?1160:double.infinity),
           clipBehavior: Clip.hardEdge,
           child:widget.child

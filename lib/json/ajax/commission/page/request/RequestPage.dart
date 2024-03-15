@@ -2,6 +2,7 @@ import 'package:sofieru/json/ajax/user/PartialUser.dart' show PartialUser;
 import 'Request.dart' show Request;
 import 'package:sofieru/json/ajax/shared/Thumbnails.dart' show Thumbnails;
 import 'package:sofieru/json/ajax/shared/TagTranslation.dart' show TagTranslation;
+import 'package:sofieru/json/ajax/shared/UserEmbed.dart' show UserEmbed;
 class _Creator {
   final String creatorUserId;
   final bool creatorStoppedFlg;
@@ -38,20 +39,6 @@ class _ConfettiModalStatus {
     inProgressFan: json['inProgressFan'],
     inProgressCreator: json['inProgressCreator'],
     completeFanOrCollaborateUser: json['completeFanOrCollaborateUser'],
-  );
-
-}
-
-class _UserList {
-  final String id;
-  final List<String> illustIds;
-  _UserList({
-    required this.id,
-    required this.illustIds,
-  });
-  factory _UserList.fromJson(Map<String, dynamic> json) => _UserList(
-    id: json['id'],
-    illustIds: (json['illustIds'] as List<dynamic>).map((e)=>e as String).toList(),
   );
 
 }
@@ -122,11 +109,10 @@ class _Ogp {
 class _Page {
   final _Creator creator;
   final List<int> recommendedUserIds;
-  final List<String> recommendIllustIdsByCreatorAcceptingRequest;
   final _ConfettiModalStatus confettiModalStatus;
-  final List<_UserList> userList;
+  final List<UserEmbed> userList;
   final List<String> inProgressRequestIds;
-  final List<String> completeRequestIds;
+  final List<dynamic> completeRequestIds;
   final bool alreadyRequestCollaborate;
   final String? platformFeeCampaignLabel;
   final List<dynamic> eligibleCampaignList;
@@ -136,7 +122,6 @@ class _Page {
   _Page({
     required this.creator,
     required this.recommendedUserIds,
-    required this.recommendIllustIdsByCreatorAcceptingRequest,
     required this.confettiModalStatus,
     required this.userList,
     required this.inProgressRequestIds,
@@ -151,11 +136,10 @@ class _Page {
   factory _Page.fromJson(Map<String, dynamic> json) => _Page(
     creator: _Creator.fromJson(json['creator']),
     recommendedUserIds: (json['recommendedUserIds'] as List<dynamic>).map((e)=>e as int).toList(),
-    recommendIllustIdsByCreatorAcceptingRequest: (json['recommendIllustIdsByCreatorAcceptingRequest'] as List<dynamic>).map((e)=>e as String).toList(),
     confettiModalStatus: _ConfettiModalStatus.fromJson(json['confettiModalStatus']),
-    userList: (json['userList'] as List<dynamic>).map((e)=>_UserList.fromJson(e)).toList(),
+    userList: (json['userList'] as List<dynamic>).map((e)=>UserEmbed.fromJson(e)).toList(),
     inProgressRequestIds: (json['inProgressRequestIds'] as List<dynamic>).map((e)=>e as String).toList(),
-    completeRequestIds: (json['completeRequestIds'] as List<dynamic>).map((e)=>e as String).toList(),
+    completeRequestIds: (json['completeRequestIds'] as List<dynamic>),
     alreadyRequestCollaborate: json['alreadyRequestCollaborate'],
     platformFeeCampaignLabel: json['platformFeeCampaignLabel'],
     eligibleCampaignList: (json['eligibleCampaignList'] as List<dynamic>),

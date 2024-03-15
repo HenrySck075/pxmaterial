@@ -11,7 +11,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 /// Header text
-Text header(String label)=>Text(label,style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold));
+Text header(String label)=>Text(label,style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold));
+
 /// make `notifyListeners` non-protected :trollskullirl:
 class VisibleNotifyNotifier<T> extends ChangeNotifier {
   T _value;
@@ -58,8 +59,8 @@ FutureBuilder<T> futureWidget<T>({required Future<T>? future, required AsyncWidg
 }
 
 
-CachedNetworkImage pxImage(String url, {bool includeCircle = false, double? width, double? height}) => CachedNetworkImage(
-  imageUrl: url, width: width, height: height, httpHeaders: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, placeholder: includeCircle?(context, url) => const CircularProgressIndicator():null,
+CachedNetworkImage pxImage(String url, {bool includeCircle = false, double? width, double? height, Widget Function(BuildContext,String)? placeholder}) => CachedNetworkImage(
+  imageUrl: url, width: width, height: height, httpHeaders: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, placeholder: includeCircle?(context, url) => const CircularProgressIndicator():placeholder,
   
 );
 

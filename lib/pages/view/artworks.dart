@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:sofieru/json/ajax/illust/Artwork.dart' show Artwork;
 import 'package:sofieru/json/ajax/user/PartialUser.dart';
 import 'package:sofieru/shared.dart';
@@ -50,6 +51,20 @@ class _ArtworkPageState extends State<ArtworkPage> {
     if (visibleRange[1]==-1||end>visibleRange[1]) visibleRange[1]=end;
     if (visibleRange[0]==-1||start<visibleRange[0]) visibleRange[0]=start;
     range = [start,end];
+  }
+  (double, double) calcDim(int w, int h) {
+    double neww = w.toDouble();
+    double newh = h.toDouble();
+    if (w>350) {
+      neww = 350/w;
+      newh = h*neww;
+      neww = 350;
+    } else if (h>1000) {
+      newh = 1000/h;
+      neww = w*newh;
+      newh = 1000;
+    }
+    return (neww, newh);
   }
   @override
   void initState() {
@@ -117,8 +132,13 @@ class _ArtworkPageState extends State<ArtworkPage> {
                   child: GestureDetector(
                       onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (builder)=>ArtworkImageView(data: i,heroTag: "${id}_p$idx",))),
                       child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 350),
-                        child: Hero(tag: "${id}_p$idx", child: pxImage(i["urls"]["regular"],includeCircle: true))
+                        constraints: const BoxConstraints(maxWidth: 350, maxHeight: 1000),
+                        child: Hero(tag: "${id}_p$idx", child: pxImage(i["urls"]["regular"],placeholder:(lmao, h){
+                          final (w,h) = calcDim(i["width"],i["height"]);
+                          return Skeletonizer(child:Skeleton.leaf(
+                            child: Material(child: SizedBox(width:w,height:h),) 
+                          ));
+                        }))
                       )
                     ),
                   ))

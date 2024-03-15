@@ -1,97 +1,118 @@
 {
-  "$nullable": ["requestAcceptStatus","postWork"],
-  "requestId": "199694",
-  "planId": "381080",
-  "fanUserId": null,
-  "creatorUserId": "6949405",
-  "requestStatus": "complete",
-  "requestAcceptStatus": "success",
-  "requestPostWorkType": "illust",
-  "requestPrice": 0,
-  "requestProposal": {
-    "requestOriginalProposal": "お早うございます\n\nあなたのアートはすごいです。\n\nPlease draw a very scenic 4k art with Rio. Please have her standing in front of a fence, with a beautiful night cityscape behind her.\n\nPlease give the art a strong theme and atmosphere.\n\nhttps://www.pixiv.net/en/artworks/72011425\nhttps://www.pixiv.net/en/artworks/43413442\nhttps://www.pixiv.net/en/artworks/98975320\nhttps://www.pixiv.net/en/artworks/94358669\nhttps://www.pixiv.net/en/artworks/96951055",
-    "requestOriginalProposalHtml": "お早うございます<br /><br />あなたのアートはすごいです。<br /><br />Please draw a very scenic 4k art with Rio. Please have her standing in front of a fence&#44; with a beautiful night cityscape behind her.<br /><br />Please give the art a strong theme and atmosphere.<br /><br /><strong><a href=\"https://www.pixiv.net/en/artworks/72011425\">illust/72011425</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/43413442\">illust/43413442</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/98975320\">illust/98975320</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/94358669\">illust/94358669</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/96951055\">illust/96951055</a></strong>",
-    "requestOriginalProposalLang": "en",
-    "requestTranslationProposal": [
-      {
-        "requestProposal": "お早うございます\n\nあなたのアートはすごいです。\n\nリオの4Kアートを描いてください。彼女がフェンスの前に立っていて、後ろに美しい夜の街並みが見えるようにお願いします。\n\n強いテーマと雰囲気のあるアートをお願いします。\n\nhttps://www.pixiv.net/en/artworks/72011425\nhttps://www.pixiv.net/en/artworks/43413442\nhttps://www.pixiv.net/en/artworks/98975320\nhttps://www.pixiv.net/en/artworks/94358669\nhttps://www.pixiv.net/en/artworks/96951055",
-        "requestProposalHtml": "お早うございます<br /><br />あなたのアートはすごいです。<br /><br />リオの4Kアートを描いてください。彼女がフェンスの前に立っていて、後ろに美しい夜の街並みが見えるようにお願いします。<br /><br />強いテーマと雰囲気のあるアートをお願いします。<br /><br /><strong><a href=\"https://www.pixiv.net/en/artworks/72011425\">illust/72011425</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/43413442\">illust/43413442</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/98975320\">illust/98975320</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/94358669\">illust/94358669</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/96951055\">illust/96951055</a></strong>",
-        "requestProposalLang": "ja"
-      },
-      {
-        "requestProposal": "お早うございます\n\nあなたのアートはすごいです。\n\n리오와 함께 아주 경치 좋은 4K 아트를 그려주세요. 아름다운 야경을 배경으로 울타리 앞에 서 있는 리오를 그려주세요.\n\n아트에 강한 주제와 분위기를 부여해주세요.\n\nhttps://www.pixiv.net/en/artworks/72011425\nhttps://www.pixiv.net/en/artworks/43413442\nhttps://www.pixiv.net/en/artworks/98975320\nhttps://www.pixiv.net/en/artworks/94358669\nhttps://www.pixiv.net/en/artworks/96951055",
-        "requestProposalHtml": "お早うございます<br /><br />あなたのアートはすごいです。<br /><br />리오와 함께 아주 경치 좋은 4K 아트를 그려주세요. 아름다운 야경을 배경으로 울타리 앞에 서 있는 리오를 그려주세요.<br /><br />아트에 강한 주제와 분위기를 부여해주세요.<br /><br /><strong><a href=\"https://www.pixiv.net/en/artworks/72011425\">illust/72011425</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/43413442\">illust/43413442</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/98975320\">illust/98975320</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/94358669\">illust/94358669</a></strong><br /><strong><a href=\"https://www.pixiv.net/en/artworks/96951055\">illust/96951055</a></strong>",
-        "requestProposalLang": "ko"
-      }
-    ]
-  },
-  "requestTags": [
-    "調月リオ",
-    "風景"
-  ],
-  "requestAdultFlg": false,
-  "requestAnonymousFlg": true,
-  "requestRestrictFlg": false,
-  "requestAcceptCollaborateFlg": true,
-  "requestResponseDeadlineDatetime": "2024-01-15T23:59:59+09:00",
-  "requestPostDeadlineDatetime": "2024-03-08T23:59:59+09:00",
-  "role": "others",
-  "plan": {
-    "currentPlanId": null,
-    "planId": "381080",
-    "creatorUserId": "6949405",
-    "planAcceptRequestFlg": false,
-    "planStandardPrice": 100000,
-    "planTitle": {
-      "planOriginalTitle": "插画 方案",
-      "planOriginalTitleLang": "zh",
-      "$emptiable": ["planTranslationTitle"],
-      "planTranslationTitle": {
-        "-": {
-          "$desc": {
-            "planTtieLang": "Plan title (translated).\n\nyes its ttie\nminor spelling mistake, i win"
-          },
-          "planTitle": "Illustration Program",
-          "planTtieLang": "en"
-        } 
-      }
+    "requestId": "213766",
+    "planId": "352619",
+    "fanUserId": null,
+    "creatorUserId": "33379401",
+    "requestStatus": "inProgress",
+    "requestAcceptStatus": "success",
+    "requestPostWorkType": "illust",
+    "requestPrice": 8000,
+    "requestProposal": {
+        "requestOriginalProposal": "こんにちは！以前 https://www.pixiv.net/artworks/114991906 のリクエストをさせて頂いた者です(匿名ですが)\n前リクエストのファンレターに書いた通りこの2匹の続きが見たいです！という事で2度目のリクエストです、よろしくお願いします。\n\n・イラストは2枚、バトルに負けた後のイメージで\n「メロメロが解けないままキスマークだらけにされたルカリオがキスをおねだりしている」 \n「それに応える様に激しくキス責めをしてあげるルージュラ」\n\n・1枚目はハート眼のルカリオ君がとても可愛かったのでハート眼のままで。尻尾を振っていると更に可愛いと思います！\n・2枚目は https://www.pixiv.net/artworks/109991720 みたく覆い被さられて「〜〜ッッ♡」となっている様子が見れると嬉しいです。\n・今回も転載禁止マークは無しでお願いします。\n\n・追記\n（この2匹はゲーム中でタマゴが見つかるので差分を、と思いましたが纏まらず。もし良ければオマケ的な形で…！）",
+        "requestOriginalProposalHtml": "こんにちは！以前 <strong><a href=\"https://www.pixiv.net/en/artworks/114991906\">illust/114991906</a></strong> のリクエストをさせて頂いた者です(匿名ですが)<br />前リクエストのファンレターに書いた通りこの2匹の続きが見たいです！という事で2度目のリクエストです、よろしくお願いします。<br /><br />・イラストは2枚、バトルに負けた後のイメージで<br />「メロメロが解けないままキスマークだらけにされたルカリオがキスをおねだりしている」 <br />「それに応える様に激しくキス責めをしてあげるルージュラ」<br /><br />・1枚目はハート眼のルカリオ君がとても可愛かったのでハート眼のままで。尻尾を振っていると更に可愛いと思います！<br />・2枚目は <strong><a href=\"https://www.pixiv.net/en/artworks/109991720\">illust/109991720</a></strong> みたく覆い被さられて「〜〜ッッ♡」となっている様子が見れると嬉しいです。<br />・今回も転載禁止マークは無しでお願いします。<br /><br />・追記<br />（この2匹はゲーム中でタマゴが見つかるので差分を、と思いましたが纏まらず。もし良ければオマケ的な形で…！）",
+        "requestOriginalProposalLang": "ja",
+        "requestTranslationProposal": [
+            {
+                "requestProposal": "Hello, I am a former user of  (anonymously)! I am the one who previously requested https://www.pixiv.net/artworks/114991906 (anonymously)!\nAs I wrote in the fan letter of my previous request, I would like to see a continuation of these two animals! So this is my second request, thank you.\n\nI would like to see two illustrations with the image after losing the battle.\nLucario is covered in hickeys and begging for a kiss.\nRujula is kissing him hard as if she were responding to his kiss.\n\nThe first image is heart-eyed Lucario, who was so cute that I left him as heart-eyed. I think he looks even cuter with his tail wagging!\nThe second one is like https://www.pixiv.net/artworks/109991720 and I'd be happy to see him covered up and \"~~♡♡\".\nI hope you can see the second one where he is covered up like in  and he looks \"〜〜♡♡\".\n\nPostscript\n(I thought to make a difference between these two animals because their eggs can be found in the game, but I couldn't put it together. If you want, I can make it as a freebie...!)",
+                "requestProposalHtml": "Hello&#44; I am a former user of  (anonymously)! I am the one who previously requested <strong><a href=\"https://www.pixiv.net/en/artworks/114991906\">illust/114991906</a></strong> (anonymously)!<br />As I wrote in the fan letter of my previous request&#44; I would like to see a continuation of these two animals! So this is my second request&#44; thank you.<br /><br />I would like to see two illustrations with the image after losing the battle.<br />Lucario is covered in hickeys and begging for a kiss.<br />Rujula is kissing him hard as if she were responding to his kiss.<br /><br />The first image is heart-eyed Lucario&#44; who was so cute that I left him as heart-eyed. I think he looks even cuter with his tail wagging!<br />The second one is like <strong><a href=\"https://www.pixiv.net/en/artworks/109991720\">illust/109991720</a></strong> and I&#39;d be happy to see him covered up and &quot;~~♡♡&quot;.<br />I hope you can see the second one where he is covered up like in  and he looks &quot;〜〜♡♡&quot;.<br /><br />Postscript<br />(I thought to make a difference between these two animals because their eggs can be found in the game&#44; but I couldn&#39;t put it together. If you want&#44; I can make it as a freebie...!)",
+                "requestProposalLang": "en"
+            }
+        ]
     },
-    "planDescription": {
-      "planOriginalDescription": "半身插画和头像",
-      "planOriginalDescriptionHtml": "半身插画和头像",
-      "planOriginalLang": "zh",
-      "$emptiable": ["planTranslationDescription"],
-      "planTranslationDescription": {
-        "-": {
-          "planDescription": "Bust illustrations and headshots",
-          "planDescriptionHtml": "Bust illustrations and headshots",
-          "planLang": "en"
-        } 
-      }
+    "requestTags": [
+        "ルカリオ",
+        "ルージュラ",
+        "キスマークだらけ",
+        "キス責め",
+        "メロメロ"
+    ],
+    "requestAdultFlg": false,
+    "requestAnonymousFlg": true,
+    "requestRestrictFlg": false,
+    "requestAcceptCollaborateFlg": true,
+    "requestResponseDeadlineDatetime": "2024-03-21T23:59:59+09:00",
+    "requestPostDeadlineDatetime": "2024-05-13T23:59:59+09:00",
+    "role": "others",
+    "plan": {
+        "currentPlanId": null,
+        "planId": "352619",
+        "creatorUserId": "33379401",
+        "planAcceptRequestFlg": true,
+        "planStandardPrice": 3000,
+        "planTitle": {
+            "planOriginalTitle": "ダイヤモンドプラン",
+            "planOriginalTitleLang": "ja",
+            "planTranslationTitle": {
+                "-": {
+                    "planTitle": "Diamond Plan",
+                    "planTtieLang": "en"
+                }                
+            },
+            "$emptiable": ["planTranslationTitle"]
+        },
+        "planDescription": {
+            "planOriginalDescription": "未成年の人向けの、主に健全寄りのイラストのリクエストを受け付けてます。\n軽いキス程度のイラストはこちらでも受けれます！\nなお、18禁のイラストは別のプランの方でリクエストしてください。",
+            "planOriginalDescriptionHtml": "未成年の人向けの、主に健全寄りのイラストのリクエストを受け付けてます。<br />軽いキス程度のイラストはこちらでも受けれます！<br />なお、18禁のイラストは別のプランの方でリクエストしてください。",
+            "planOriginalLang": "ja",
+            "planTranslationDescription": {
+                "-": {
+                    "planDescription": "I accept requests for illustrations for underage people, mainly those that are more wholesome.\nIllustrations with a light kissing aspect can be accepted here as well!\nPlease make a request for 18-rated illustrations under a different plan.",
+                    "planDescriptionHtml": "I accept requests for illustrations for underage people&#44; mainly those that are more wholesome.<br />Illustrations with a light kissing aspect can be accepted here as well!<br />Please make a request for 18-rated illustrations under a different plan.",
+                    "planLang": "en"
+                }
+            },
+            "$emptiable": ["planTranslationDescription"]
+        },
+        "planAcceptAdultFlg": false,
+        "planAcceptAnonymousFlg": true,
+        "planAcceptIllustFlg": true,
+        "planAcceptUgoiraFlg": false,
+        "planAcceptMangaFlg": false,
+        "planAcceptNovelFlg": false,
+        "planCoverImage": {
+            "urls": {
+                "cover": "https://i.pximg.net/c/1200x630_80_a2_g5/commission-plan-cover/img/2023/04/16/15/08/05/Xpdy1AENqZNkFI6M9L44jx2aXxIOwPNr_master1200.jpg",
+                "card": "https://i.pximg.net/c/800x400_80_a2_g5/commission-plan-cover/img/2023/04/16/15/08/05/Xpdy1AENqZNkFI6M9L44jx2aXxIOwPNr_master1200.jpg"
+            }
+        },
+        "planAiType": 1,
+        "$nullable": ["planCoverImage"]
     },
-    "$nullable": ["planCoverImage"],
-    "planAcceptAdultFlg": true,
-    "planAcceptAnonymousFlg": true,
-    "planAcceptIllustFlg": true,
-    "planAcceptUgoiraFlg": false,
-    "planAcceptMangaFlg": false,
-    "planAcceptNovelFlg": false,
-    "planCoverImage": {"urls":{"cover":"https://i.pximg.net/c/1200x630_80_a2_g5/commission-plan-cover/img/2023/01/08/14/33/29/KqMhVpbWP7j4ca3oOdT776pwz6EgPVu6_master1200.jpg","card":"https://i.pximg.net/c/800x400_80_a2_g5/commission-plan-cover/img/2023/01/08/14/33/29/KqMhVpbWP7j4ca3oOdT776pwz6EgPVu6_master1200.jpg"}},
-    "planAiType": 1
-  },
-  "collaborateStatus": {
-    "collaborating": false,
-    "collaborateAnonymousFlg": false,
-    "collaboratedCnt": 0,
-    "collaborateUserSamples": []
-  },
-  "postWork": {
-    "postWorkId": "115978544",
-    "postWorkType": "illust",
-    "$nullable": ["work"],
-    "work": {
-      "isUnlisted": false,
-      "secret": null
-    }
-  }
+    "collaborateStatus": {
+        "collaborating": false,
+        "collaborateAnonymousFlg": false,
+        "collaboratedCnt": 0,
+        "collaborateUserSamples": []
+    },
+    "giftFile": null,
+    "postWork": {
+        "postWorkId": "116779962",
+        "postWorkType": "illust",
+        "work": {
+            "isUnlisted": false,
+            "secret": null
+        },
+        "$nullable": ["work"]
+    },
+    "notifyBadge": null,
+    "fanbox": {
+        "fanIsSupporter": false
+    },
+    "requestResend": {
+        "requestResendDeadlineDatetime": null,
+        "requestResendOfferEnabled": null,
+        "requestResendEnabled": null,
+        "requestResendStatus": null,
+        "modification": {
+            "requestPostWorkType": null,
+            "requestAdultFlg": null
+        },
+        "fanAdultSendable": null,
+        "isResentRequest": null
+    },
+    "fanLetter": {
+        "fanLetterArrived": false,
+        "fanLetterSendEnabled": false
+    },
+    "$nullable": ["postWork", "requestResend", "fanbox", "fanLetter"]
 }

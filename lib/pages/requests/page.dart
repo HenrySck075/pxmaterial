@@ -96,10 +96,10 @@ class RequestsPage extends StatelessWidget {
                           children:[
                             Row(children: [
                               Chip(label: Text(status[thisReq.requestStatus]!.$1), color: MaterialStatePropertyAll(status[thisReq.requestStatus]!.$2),),
-                              if (thisReq.requestStatus=="inProgress") Text("Deadline: ${months[deadline.month-1]} ${deadline.day}, ${deadline.year}"),
                               const Spacer(),
                               Chip(label: Text("${thisReq.requestPrice} JPY"),)
                             ]),
+                            if (thisReq.requestStatus=="inProgress") Text("Deadline: ${months[deadline.month-1]} ${deadline.day}, ${deadline.year}"),
                             Text("${thisReq.requestPostWorkType} request", style: a,),
                             if (requiresUntranslated) ...[
                               Text(idk.requestProposal),
@@ -139,7 +139,49 @@ class RequestsPage extends StatelessWidget {
                       ),
                       title: Wrap(children: [
                         Text("${(thread.threadEntries[0].threadEntryBody.requestAnonymousFlg??false)?fanUser.name:'An anonymous user'} sent the request via "),
-                        TextButton(onPressed: ()=>debugPrint("joe biden"), child: Text(thisReq.plan.planTitle.planTranslationTitle?["en"]?.planTitle??thisReq.plan.planTitle.planOriginalTitle,style: TextStyle(color: Theme.of(ctx).colorScheme.secondary,)))
+                        TextButton(
+                          onPressed: ()=>showDialog(context:ctx,builder: (ctx){
+                            final thisPlan = thisReq.plan;
+                            final postWorkType = {
+                              "illust": "Illustrations",
+                              "manga": "Manga",
+                              "novel": "Novels"
+                            };
+                            String apple(bool boolean) => boolean?"Yes":"No";
+                            String applint(int integer)=>apple(integer==1);
+
+                            return AlertDialog( 
+                              scrollable: true,
+                              title: const Text("Request terms info"),
+                              actions: [
+                                TextButton(onPressed: ()=>Navigator.of(ctx).pop(), child: const Text("Close"))
+                              ],
+                              content: Column( 
+                                mainAxisSize:MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: concat2d([
+                                  ("Category", postWorkType[thisReq.requestPostWorkType]!),
+                                  ("Title", thisPlan.planTitle.planTranslationTitle?["en"]?.planTitle??thisPlan.planTitle.planOriginalTitle),
+                                  if ( 
+                                    thisPlan.planTitle.planTranslationTitle?["en"]?.planTitle!=null
+                                  ) ("Untranslated text",thisPlan.planTitle.planOriginalTitle),
+                                  ("Details", thisPlan.planDescription.planTranslationDescription?["en"]?.planDescription??thisPlan.planDescription.planOriginalDescription),
+                                  if (
+                                    thisPlan.planDescription.planTranslationDescription?["en"]?.planDescription!=null
+                                  ) ("Untranslated text",thisPlan.planDescription.planOriginalDescription),
+                                  ("Price", "${thisPlan.planStandardPrice} JPY"),
+                                  // nuh uh
+                                  ("Request conditions", "- AI art: ${applint(thisPlan.planAiType)}\n- R-18 requests: ${apple(thisPlan.planAcceptAdultFlg)}\n- Animated works: ${apple(thisPlan.planAcceptUgoiraFlg)}")
+                                ].map((e) => [
+                                  SizedBox(height: e.$1!="Untranslated text"?8:2,),
+                                  Text(e.$1, style: e.$1!="Untranslated text"?const TextStyle(fontWeight: FontWeight.bold):const TextStyle(color: Colors.grey)),
+                                  Text(e.$2)
+                                ])),
+                              ),
+                            );
+                          }), 
+                          child: Text(thisReq.plan.planTitle.planTranslationTitle?["en"]?.planTitle??thisReq.plan.planTitle.planOriginalTitle,style: TextStyle(color: Theme.of(ctx).colorScheme.secondary,))
+                        )
                       ]),
                     ),
                     

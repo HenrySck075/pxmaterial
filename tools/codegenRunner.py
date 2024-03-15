@@ -1,6 +1,7 @@
 import os 
+import sys 
 
-inter = os.environ.get("interpreter","python3") # default to what works on my machine :>
+inter = os.environ.get("interpreter",sys.executable) # default to what works on my machine :>
 for r, s, fs in os.walk("payloads"):
     for f in fs: 
         if f=="README.md": continue
