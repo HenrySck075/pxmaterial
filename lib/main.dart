@@ -389,7 +389,9 @@ class _ShellPageState extends State<ShellPage> {
           ),
           padding: const EdgeInsets.only(top: 8),
           
-          // constraints: BoxConstraints(maxWidth: currentRouteURI().path.startsWith("/artworks")?1160:double.infinity),
+          // basic google layout constraint
+          
+          constraints: const BoxConstraints(maxWidth:1160),
           clipBehavior: Clip.hardEdge,
           child:widget.child
         ) 

@@ -51,6 +51,17 @@ TODO: retry
 ## Q: why is the project internally called "sofieru" (1) and who is she (2)
 A: 1. i forgor :skull: 2. [this is her](https://www.youtube.com/@sofieruvtuber)
 
+## Q: why does this exist 
+A: 
+1. yes pixiv app does exist, BUT, looking at the app itself, i can say its cluttered (like this app) (will fix)
+2. 1 
+3. download
+4. im bored 
+5. idk
+6. im trying dart
+7. grand dad
+8. the only thing matter in this answer is 1
+
 ## Q: 
 A: 
 

@@ -241,11 +241,15 @@ class _ArtworkPageState extends State<ArtworkPage> {
                     ),
                     child: ListTile(
                       title: Text(d.name),
-                      subtitle: Text("Does${d.acceptRequest?'':"n't"} accepting requests"),
+                      subtitle: Text("Does${d.acceptRequest?'':'n\'t'} accepting requests"),
                       leading: CircleAvatar(backgroundImage: pxImageFlutter(d.image).image,) ),
                     );
                   },
-                placeholder: const SizedBox(height: 1,width: 1)
+                placeholder: const Material(
+                  child: Skeletonizer( 
+                    child: SizedBox(width: double.infinity, height: 56,),
+                  ) 
+                ) 
               ),
               // author works
               futureWidget(
