@@ -1,7 +1,10 @@
+*insert banner here*
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+[Project To-Dos](https://github.com/users/HenrySck075/projects/3/views/1)
 
 # Screenshots 
 *Screenshots below are at the time this README file was last updated and may not reflect actual UI changes made to the app if I don't have access to PC at commit time*<br/>

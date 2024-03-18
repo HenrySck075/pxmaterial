@@ -58,7 +58,8 @@
     "viewCount": 9434,
     "$nullable": [
       "bookStyle",
-      "yes, the key exists, but i deleted it so i dont have to hardcode a special behaviour for that one"
+      "yes, the key exists, but i deleted it so i dont have to hardcode a special behaviour for that one",
+      "request"
     ],
     "isHowto": false,
     "isOriginal": false,
@@ -83,7 +84,25 @@
         "workCaption": null
     },
     "isUnlisted": false,
-    "request": null,
+    "request": {
+        "request": {"$schema": "$/commission/page/request/Request"},
+        "creator": {
+            "userId": "31383108",
+            "userName": "COCOball",
+            "profileImg": "https://i.pximg.net/user-profile/img/2023/10/16/08/23/39/25053980_0c03a35f449f71ed83b855533e6f6a24_170.jpg",
+            "$name": "RequestUser"
+        },
+        "fan": {
+            "$type": "RequestUser"
+        },
+        "collaborateStatus": {
+            "collaborating": false,
+            "collaborateAnonymousFlg": false,
+            "collaboratedCnt": 0,
+            "userSamples": []
+        },
+        "editable": false
+    },
     "commentOff": 0,
     "aiType": 0,
     "reuploadDate": null,

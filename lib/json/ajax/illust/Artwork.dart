@@ -1,3 +1,4 @@
+import 'package:sofieru/json/ajax/commission/page/request/Request.dart' show Request;
 import 'package:sofieru/json/ajax/shared/ExtraData.dart' show ExtraData;
 import 'package:sofieru/json/ajax/illust/PartialArtwork.dart' show PartialArtwork;
 import 'package:sofieru/json/ajax/shared/TagInfo.dart' show TagInfo;
@@ -54,6 +55,66 @@ class _TitleCaptionTranslation {
   factory _TitleCaptionTranslation.fromJson(Map<String, dynamic> json) => _TitleCaptionTranslation(
     workTitle: json['workTitle'],
     workCaption: json['workCaption'],
+  );
+
+}
+
+class RequestUser {
+  final String userId;
+  final String userName;
+  final String profileImg;
+  RequestUser({
+    required this.userId,
+    required this.userName,
+    required this.profileImg,
+  });
+  factory RequestUser.fromJson(Map<String, dynamic> json) => RequestUser(
+    userId: json['userId'],
+    userName: json['userName'],
+    profileImg: json['profileImg'],
+  );
+
+}
+
+class _CollaborateStatus {
+  final bool collaborating;
+  final bool collaborateAnonymousFlg;
+  final int collaboratedCnt;
+  final List<dynamic> userSamples;
+  _CollaborateStatus({
+    required this.collaborating,
+    required this.collaborateAnonymousFlg,
+    required this.collaboratedCnt,
+    required this.userSamples,
+  });
+  factory _CollaborateStatus.fromJson(Map<String, dynamic> json) => _CollaborateStatus(
+    collaborating: json['collaborating'],
+    collaborateAnonymousFlg: json['collaborateAnonymousFlg'],
+    collaboratedCnt: json['collaboratedCnt'],
+    userSamples: (json['userSamples'] as List<dynamic>),
+  );
+
+}
+
+class _Request {
+  final Request request;
+  final RequestUser creator;
+  final RequestUser fan;
+  final _CollaborateStatus collaborateStatus;
+  final bool editable;
+  _Request({
+    required this.request,
+    required this.creator,
+    required this.fan,
+    required this.collaborateStatus,
+    required this.editable,
+  });
+  factory _Request.fromJson(Map<String, dynamic> json) => _Request(
+    request: Request.fromJson(json['request']),
+    creator: RequestUser.fromJson(json['creator']),
+    fan: RequestUser.fromJson(json['fan']),
+    collaborateStatus: _CollaborateStatus.fromJson(json['collaborateStatus']),
+    editable: json['editable'],
   );
 
 }
@@ -117,7 +178,7 @@ class Artwork {
   final ExtraData extraData;
   final _TitleCaptionTranslation titleCaptionTranslation;
   final bool isUnlisted;
-  final String? request;
+  final _Request? request;
   final int commentOff;
   final int aiType;
   final String? reuploadDate;
@@ -222,7 +283,7 @@ class Artwork {
     extraData: ExtraData.fromJson(json['extraData']),
     titleCaptionTranslation: _TitleCaptionTranslation.fromJson(json['titleCaptionTranslation']),
     isUnlisted: json['isUnlisted'],
-    request: json['request'],
+    request: json['request'] == null?null:_Request.fromJson(json['request']),
     commentOff: json['commentOff'],
     aiType: json['aiType'],
     reuploadDate: json['reuploadDate'],

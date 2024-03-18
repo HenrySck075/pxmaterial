@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:sofieru/json/ajax/shared/TagInfo.dart';
 import 'package:sofieru/shared.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:sofieru/skeltal/skeltal.dart';
+import 'package:sofieru/skeltal/view/shared.dart' as skel;
+
 class Comments extends StatefulWidget {
   final String id;
   /// i love you
@@ -60,7 +63,8 @@ class _CommentsState extends State<Comments> {
             });
           }, child: const Text("Show more"))
         ],
-      );}
+      );},
+      placeholder: skeltal(skel.comments)
     );
   }
 }

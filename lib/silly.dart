@@ -32,8 +32,6 @@ class VisibleNotifyNotifier<T> extends ChangeNotifier {
 }
 SizedBox Function(BuildContext, GoRouterState) emptyBuilder()=>(ctx,s)=>const SizedBox(width: 1,height: 1,);
 /// i love when i have to find a fix related to dimensions with all the flex widgets that i know so that it can be inside other flex widgets
-//Wrap artworkGrid(Iterable<PartialArtwork> h) => artworkGridCustom(h.map((e)=>PxArtwork(data: e)),
-//);
 Wrap artworkGrid(Iterable<Widget> h) => Wrap(
   runAlignment: WrapAlignment.center,
   spacing: 4,
@@ -41,6 +39,8 @@ Wrap artworkGrid(Iterable<Widget> h) => Wrap(
   children: h.toList(),
 );
 
+/// FutureBuilder that will only build passed builder if the future is fulfilled.
+/// and no not because placeholder is frequently used with `skeltal` means i will wrap the placeholer with skeltal 
 FutureBuilder<T> futureWidget<T>({required Future<T>? future, required AsyncWidgetBuilder<T> builder, Widget placeholder = const Center(child: CircularProgressIndicator())}) {
   return FutureBuilder<T>(future: future, builder: (ctx, snap) {
     if (snap.data == null) return placeholder;

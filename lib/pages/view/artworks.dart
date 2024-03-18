@@ -12,8 +12,10 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:sofieru/json/ajax/illust/Artwork.dart' show Artwork;
 import 'package:sofieru/json/ajax/user/PartialUser.dart';
 import 'package:sofieru/shared.dart';
+import 'package:sofieru/skeltal/view/artworks.dart';
 import 'shared.dart';
 import 'package:archive/archive.dart' as arch;
+import "package:sofieru/skeltal/skeltal.dart";
 
 
 class ArtworkPage extends StatefulWidget {
@@ -190,7 +192,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
                 ),
               ],
               
-              const Divider(),
+              
               // Toolbar
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -203,15 +205,15 @@ class _ArtworkPageState extends State<ArtworkPage> {
                 ],
               ),
               if (data.request!=null) ...[
-                const Divider(),
+                
                 GestureDetector(
-                  onTap: ()=>navigate("/requests/${data.request}"),
+                  onTap: ()=>navigate("/requests/${data.request!.request.requestId}"),
                   child: ListTile( 
-                    title: const Text("Work requested by"),
+                    title: Text("Work requested by ${data.request!.fan.userName}"),
                   )
                 )
               ],
-              const Divider(),
+              
               // Artwork info
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -226,7 +228,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
                   ))
                 ]),
               ),
-              const Divider(),
+              
               // Author view
               futureWidget(
                 // google said this is bad, but idk
@@ -245,11 +247,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
                       leading: CircleAvatar(backgroundImage: pxImageFlutter(d.image).image,) ),
                     );
                   },
-                placeholder: const Material(
-                  child: Skeletonizer( 
-                    child: SizedBox(width: double.infinity, height: 56,),
-                  ) 
-                ) 
+                placeholder: skeltal(authorView)
               ),
               // author works
               futureWidget(
@@ -260,8 +258,8 @@ class _ArtworkPageState extends State<ArtworkPage> {
                   return ListenableBuilder(
                     listenable: authArtworkData,
                     builder: (ctx,w){
-                      return ConstrainedBox(
-                        constraints: const BoxConstraints(maxHeight: 120),
+                      return SizedBox(
+                        height: 120,
                         child: ListView(
                           scrollDirection: Axis.horizontal,
                           controller: _authorArtworksViewCtrl,
@@ -278,9 +276,9 @@ class _ArtworkPageState extends State<ArtworkPage> {
                       );
                     }
                   );
-                }
+                },
+                placeholder: skeltal(authorWorks)
               ),
-              const Divider(),
               // Comments
               Column(
                 children: [
@@ -288,7 +286,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
                   Comments(id: id)
                 ],
               ),
-              const Divider(),
+              
               const Text("Related artworks",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left),
               futureWidget(
                 future: pxRequest("https://www.pixiv.net/ajax/illust/$id/recommend/init?limit=18"), 
