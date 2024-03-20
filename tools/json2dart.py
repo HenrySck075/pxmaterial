@@ -26,6 +26,13 @@ imported = []
 output = """"""
 cry = lambda x: x.split("/")[-1]
 
+def pathparse(path:str, start:str):
+    return (start if path.startswith('$/') else '')+path.removeprefix("$/")
+def tryimport(mport, nam): 
+    global output
+    if mport not in imported: 
+        output=f"import '{mport}.dart' show {nam};"+"\n"+output
+        imported.append(mport)
 isInvalidPropName = lambda k: any(k[0]==i for i in "0123456789") or any(i in k for i in "-/\\[]{}() *&^%#@!'\":;,?=÷×+|<>°•") or any(ord(i)>126 for i in k)
 def boy(k,v,ld=False, toJson=False):
     global output
@@ -36,18 +43,12 @@ def boy(k,v,ld=False, toJson=False):
         if "$schema" not in v: return generate(v,nam)
         else: 
             nam = cry(v['$schema'])
-            mport = ('package:sofieru/json/ajax/' if v['$schema'].startswith('$/') else '')+v['$schema'].removeprefix("$/")
-            if mport not in imported: 
-                output=f"import '{mport}.dart' show {nam};"+"\n"+output
-                imported.append(mport)
+            tryimport(pathparse(v['$schema'],'package:sofieru/json/ajax/'),nam)
             return nam
     if type(v) == list: 
         if len(v) != 0 and type(v[0]) == dict and "$schema" in v[0]:
             nam = cry(v[0]['$schema'])
-            mport = ('package:sofieru/json/ajax/' if v[0]['$schema'].startswith('$/') else '')+v[0]['$schema'].removeprefix("$/")
-            if mport not in imported: 
-                output=f"import '{mport}.dart' show {nam};"+"\n"+output
-                imported.append(mport)
+            tryimport(pathparse(v[0]['$schema'],'package:sofieru/json/ajax/'),nam)
             return f"List<{nam}>"
         try: 
             if type(v[0])==dict: v[0]["$toJson"] = toJson
@@ -64,11 +65,21 @@ def generate(data, name=""):
     if private: name = "_"+name
     if "$name" in data: name = data["$name"]
     if "$type" in data: return data["$type"]
-    out = f"class {name} "+"{\n"
+    doExtends = "$extends" in data
+    supers = list(json.load(open(pathparse(data["$extends"],"./payloads/ajax/"))).keys())
+    tryimport(pathparse(data['$extends'],'package:sofieru/json/ajax/'),cry(data["$extends"]))
+
+    out = f"class {name} "
+    if doExtends: out+=f"extends {data['$extends']} "
+    out += "{\n"
     const = f"  {name}("+"{\n"
     # This code is essentially not recommended, but since pixiv apis is built for javascript, i have no other choice
     # the way they check for whether the response contains data is via an empty string (i suppose, but i dont think they did it)
-    fromJson = f"  factory {name}.fromJson(Map<String, dynamic> json) => {name}("+"\n"
+    fromJson=""
+    if doExtends: fromJson+="  @override"
+    fromJson += f"  factory {name}.fromJson(Map<String, dynamic> json) "+"{\n"
+    if doExtends: fromJson+="    final parent = super.fromJson(json);"
+    fromJson+=f"    return {name}("+"\n"
     toJson = "  Map<String, dynamic> toJson() => <String,dynamic>{\n"
     # toJson = "" # we dont need toJson
     private = True
@@ -104,34 +115,44 @@ def generate(data, name=""):
         out+=f"  final {vt}{'' if required else '?'} {k};"+"\n"
         const+=f"    {'required ' if required else ''}this.{k},"+"\n"
 
-        fromJson+=f"    {k}: json['{k}']"
         toJson+=f'    "{k}": {k}'
-        if k in emptiable: fromJson+=f" is List?null:json['{k}']"
-        if k in nullable: fromJson+=f" == null?null:json['{k}']"
-        if vt.startswith("Map<"):
-            # vt2 = vt.removeprefix('Map<String, ').removesuffix('>')
-            fromJson=fromJson[:-8-len(k)]+f"(json['{k}'] as Map<String,dynamic>)"
-        if k not in emptiable and (vto not in [list,dict]): 'fromJson+=f" as {vt}"'
-        elif vto==list: 
-            j = vt.removesuffix(">").removeprefix("List<") # we might not having to
-            fromJson=fromJson[:-8-len(k)]+f"(json['{k}'] as List<dynamic>)"
-            if j != "dynamic": 
-                fromJson+=f".map((e)=>"+(f"{j}.fromJson(e)" if j not in classes.values() else f"e as {j}")+").toList()"
-                if j not in classes.values(): 
-                    if k in g: toJson+="?"
-                    toJson+=".toJson()"
-        else: 
+        if k not in supers:
+            fromJson+=f"    {k}: json['{k}']"
+            if k in emptiable: fromJson+=f" is List?null:json['{k}']"
+            if k in nullable: fromJson+=f" == null?null:json['{k}']"
             if vt.startswith("Map<"):
-                vt2 = vt.removeprefix('Map<String, ').removesuffix('>').removesuffix("?")
-                n = "-" in v.get("$nullable",[]) # pyright: ignore 
-                # dart really just do a 🤫🧏 on type conversion lmao
-                fromJson+=".map((k,v)=>MapEntry(k,"+("v==null?null:" if n else "")+(f"{vt2}.fromJson(v)" if vt2 not in classes.values() else f"v as {vt2}"+("?" if n else ""))+"))"
-            else:
-                fromJson=fromJson[:-8-len(k)]+f"{vt}.fromJson(json['{k}'])"
+                # vt2 = vt.removeprefix('Map<String, ').removesuffix('>')
+                fromJson=fromJson[:-8-len(k)]+f"(json['{k}'] as Map<String,dynamic>)"
+            if k not in emptiable and (vto not in [list,dict]): 'fromJson+=f" as {vt}"'
+            elif vto==list: 
+                j = vt.removesuffix(">").removeprefix("List<") # we might not having to
+                fromJson=fromJson[:-8-len(k)]+f"(json['{k}'] as List<dynamic>)"
+                if j != "dynamic": 
+                    fromJson+=f".map((e)=>"+(f"{j}.fromJson(e)" if j not in classes.values() else f"e as {j}")+").toList()"
+                    """
+                    if j not in classes.values(): 
+                        if k in g: toJson+="?"
+                        toJson+=".toJson()"
+                    """
+            else: 
+                if vt.startswith("Map<"):
+                    vt2 = vt.removeprefix('Map<String, ').removesuffix('>').removesuffix("?")
+                    n = "-" in v.get("$nullable",[]) # pyright: ignore 
+                    # dart really just do a 🤫🧏 on type conversion lmao
+                    fromJson+=".map((k,v)=>MapEntry(k,"+("v==null?null:" if n else "")+(f"{vt2}.fromJson(v)" if vt2 not in classes.values() else f"v as {vt2}"+("?" if n else ""))+"))"
+                else:
+                    fromJson=fromJson[:-8-len(k)]+f"{vt}.fromJson(json['{k}'])"
+        else: 
+            fromJson+=f"    {k}: parent.{k}"
+        if vto==list:
+            j = vt.removesuffix(">").removeprefix("List<") # we might not having to
+            if j != "dynamic" and j not in classes.values(): 
+                if k in g: toJson+="?"
+                toJson+=".toJson()"
         fromJson+=",\n"
         toJson+=",\n"
 
-    fromJson+="  );"
+    fromJson+="  );}"
     toJson+="  };"
     const+="  });\n"
     out+=const+fromJson+"\n"

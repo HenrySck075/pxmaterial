@@ -2,6 +2,7 @@ import 'package:sofieru/json/ajax/commission/page/request/Request.dart' show Req
 import 'package:sofieru/json/ajax/shared/ExtraData.dart' show ExtraData;
 import 'package:sofieru/json/ajax/illust/PartialArtwork.dart' show PartialArtwork;
 import 'package:sofieru/json/ajax/shared/TagInfo.dart' show TagInfo;
+import 'package:sofieru/json/ajax/shared/bubumonkey.dart';
 class _Urls {
   final String mini;
   final String thumb;
@@ -119,7 +120,7 @@ class _Request {
 
 }
 
-class Artwork {
+class Artwork extends shutup{
   /// Artwork id
   final String illustId;
   /// Artwork title
