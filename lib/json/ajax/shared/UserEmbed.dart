@@ -5,10 +5,11 @@ class UserEmbed {
     required this.id,
     required this.illustIds,
   });
-  factory UserEmbed.fromJson(Map<String, dynamic> json) => UserEmbed(
+  factory UserEmbed.fromJson(Map<String, dynamic> json) {
+    return UserEmbed(
     id: json['id'],
     illustIds: (json['illustIds'] as List<dynamic>).map((e)=>e as String).toList(),
-  );
+  );}
 
 }
 

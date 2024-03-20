@@ -9,12 +9,13 @@ class _Background {
     required this.url,
     required this.isPrivate,
   });
-  factory _Background.fromJson(Map<String, dynamic> json) => _Background(
+  factory _Background.fromJson(Map<String, dynamic> json) {
+    return _Background(
     repeat: json['repeat'] == null?null:json['repeat'],
     color: json['color'] == null?null:json['color'],
     url: json['url'],
     isPrivate: json['isPrivate'],
-  );
+  );}
 
 }
 
@@ -47,7 +48,8 @@ class PartialUser {
     this.background,
     required this.acceptRequest,
   });
-  factory PartialUser.fromJson(Map<String, dynamic> json) => PartialUser(
+  factory PartialUser.fromJson(Map<String, dynamic> json) {
+    return PartialUser(
     partial: json['partial'],
     comment: json['comment'] == null?null:json['comment'],
     followedBack: json['followedBack'] == null?null:json['followedBack'],
@@ -61,7 +63,7 @@ class PartialUser {
     isBlocking: json['isBlocking'],
     background: json['background'] == null?null:_Background.fromJson(json['background']),
     acceptRequest: json['acceptRequest'],
-  );
+  );}
 
 }
 

@@ -16,13 +16,14 @@ class _Creator {
     required this.requestPriceUpperLimit,
     this.tokusho,
   });
-  factory _Creator.fromJson(Map<String, dynamic> json) => _Creator(
+  factory _Creator.fromJson(Map<String, dynamic> json) {
+    return _Creator(
     creatorUserId: json['creatorUserId'],
     creatorStoppedFlg: json['creatorStoppedFlg'],
     requestPriceLowerLimit: json['requestPriceLowerLimit'],
     requestPriceUpperLimit: json['requestPriceUpperLimit'],
     tokusho: json['tokusho'],
-  );
+  );}
 
 }
 
@@ -35,11 +36,12 @@ class _ConfettiModalStatus {
     required this.inProgressCreator,
     required this.completeFanOrCollaborateUser,
   });
-  factory _ConfettiModalStatus.fromJson(Map<String, dynamic> json) => _ConfettiModalStatus(
+  factory _ConfettiModalStatus.fromJson(Map<String, dynamic> json) {
+    return _ConfettiModalStatus(
     inProgressFan: json['inProgressFan'],
     inProgressCreator: json['inProgressCreator'],
     completeFanOrCollaborateUser: json['completeFanOrCollaborateUser'],
-  );
+  );}
 
 }
 
@@ -54,12 +56,13 @@ class _Twitter_card {
     required this.description,
     required this.image,
   });
-  factory _Twitter_card.fromJson(Map<String, dynamic> json) => _Twitter_card(
+  factory _Twitter_card.fromJson(Map<String, dynamic> json) {
+    return _Twitter_card(
     card: json['card'],
     title: json['title'],
     description: json['description'],
     image: json['image'],
-  );
+  );}
 
 }
 
@@ -76,13 +79,14 @@ class _Meta_ogp {
     required this.url,
     required this.image,
   });
-  factory _Meta_ogp.fromJson(Map<String, dynamic> json) => _Meta_ogp(
+  factory _Meta_ogp.fromJson(Map<String, dynamic> json) {
+    return _Meta_ogp(
     type: json['type'],
     title: json['title'],
     description: json['description'],
     url: json['url'],
     image: json['image'],
-  );
+  );}
 
 }
 
@@ -97,12 +101,13 @@ class _Ogp {
     required this.page_title,
     required this.description,
   });
-  factory _Ogp.fromJson(Map<String, dynamic> json) => _Ogp(
+  factory _Ogp.fromJson(Map<String, dynamic> json) {
+    return _Ogp(
     twitter_card: _Twitter_card.fromJson(json['twitter_card']),
     meta_ogp: _Meta_ogp.fromJson(json['meta_ogp']),
     page_title: json['page_title'],
     description: json['description'],
-  );
+  );}
 
 }
 
@@ -133,7 +138,8 @@ class _Page {
     required this.ogp,
     required this.locationMask,
   });
-  factory _Page.fromJson(Map<String, dynamic> json) => _Page(
+  factory _Page.fromJson(Map<String, dynamic> json) {
+    return _Page(
     creator: _Creator.fromJson(json['creator']),
     recommendedUserIds: (json['recommendedUserIds'] as List<dynamic>).map((e)=>e as int).toList(),
     confettiModalStatus: _ConfettiModalStatus.fromJson(json['confettiModalStatus']),
@@ -146,7 +152,7 @@ class _Page {
     isUnlisted: json['isUnlisted'],
     ogp: _Ogp.fromJson(json['ogp']),
     locationMask: json['locationMask'],
-  );
+  );}
 
 }
 
@@ -165,14 +171,15 @@ class RequestPage {
     required this.requests,
     required this.users,
   });
-  factory RequestPage.fromJson(Map<String, dynamic> json) => RequestPage(
+  factory RequestPage.fromJson(Map<String, dynamic> json) {
+    return RequestPage(
     page: _Page.fromJson(json['page']),
     tagTranslation: (json['tagTranslation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,TagTranslation.fromJson(v))),
     thumbnails: Thumbnails.fromJson(json['thumbnails']),
     illustSeries: (json['illustSeries'] as List<dynamic>),
     requests: (json['requests'] as List<dynamic>).map((e)=>Request.fromJson(e)).toList(),
     users: (json['users'] as List<dynamic>).map((e)=>PartialUser.fromJson(e)).toList(),
-  );
+  );}
 
 }
 

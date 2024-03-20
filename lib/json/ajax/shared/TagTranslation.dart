@@ -11,13 +11,14 @@ class TagTranslation {
     this.zh_tw,
     this.romaji,
   });
-  factory TagTranslation.fromJson(Map<String, dynamic> json) => TagTranslation(
+  factory TagTranslation.fromJson(Map<String, dynamic> json) {
+    return TagTranslation(
     en: json['en'] == null?null:json['en'],
     ko: json['ko'] == null?null:json['ko'],
     zh: json['zh'] == null?null:json['zh'],
     zh_tw: json['zh_tw'] == null?null:json['zh_tw'],
     romaji: json['romaji'] == null?null:json['romaji'],
-  );
+  );}
   Map<String, dynamic> toJson() => <String,dynamic>{
     "en": en,
     "ko": ko,

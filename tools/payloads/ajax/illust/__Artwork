@@ -1,4 +1,5 @@
 {
+    "$extends": "$/shared/Work",
     "$desc": {
         "illustId": "Artwork id",
         "illustTitle": "Artwork title",
@@ -35,11 +36,6 @@
     "width": 1381,
     "height": 975,
     "responseCount": 0,
-    "$nullable": [
-        "bookStyle",
-        "yes, the key exists, but i deleted it so i dont have to hardcode a special behaviour for that one",
-        "request"
-    ],
     "isHowto": false,
     "reuploadDate": null,
     "locationMask": false

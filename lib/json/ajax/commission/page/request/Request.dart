@@ -7,11 +7,12 @@ class _RequestTranslationProposal {
     required this.requestProposalHtml,
     required this.requestProposalLang,
   });
-  factory _RequestTranslationProposal.fromJson(Map<String, dynamic> json) => _RequestTranslationProposal(
+  factory _RequestTranslationProposal.fromJson(Map<String, dynamic> json) {
+    return _RequestTranslationProposal(
     requestProposal: json['requestProposal'],
     requestProposalHtml: json['requestProposalHtml'],
     requestProposalLang: json['requestProposalLang'],
-  );
+  );}
 
 }
 
@@ -26,12 +27,13 @@ class _RequestProposal {
     required this.requestOriginalProposalLang,
     required this.requestTranslationProposal,
   });
-  factory _RequestProposal.fromJson(Map<String, dynamic> json) => _RequestProposal(
+  factory _RequestProposal.fromJson(Map<String, dynamic> json) {
+    return _RequestProposal(
     requestOriginalProposal: json['requestOriginalProposal'],
     requestOriginalProposalHtml: json['requestOriginalProposalHtml'],
     requestOriginalProposalLang: json['requestOriginalProposalLang'],
     requestTranslationProposal: (json['requestTranslationProposal'] as List<dynamic>).map((e)=>_RequestTranslationProposal.fromJson(e)).toList(),
-  );
+  );}
 
 }
 
@@ -42,10 +44,11 @@ class _PlanTranslationTitleContent {
     required this.planTitle,
     required this.planTtieLang,
   });
-  factory _PlanTranslationTitleContent.fromJson(Map<String, dynamic> json) => _PlanTranslationTitleContent(
+  factory _PlanTranslationTitleContent.fromJson(Map<String, dynamic> json) {
+    return _PlanTranslationTitleContent(
     planTitle: json['planTitle'],
     planTtieLang: json['planTtieLang'],
-  );
+  );}
 
 }
 
@@ -58,11 +61,12 @@ class _PlanTitle {
     required this.planOriginalTitleLang,
     this.planTranslationTitle,
   });
-  factory _PlanTitle.fromJson(Map<String, dynamic> json) => _PlanTitle(
+  factory _PlanTitle.fromJson(Map<String, dynamic> json) {
+    return _PlanTitle(
     planOriginalTitle: json['planOriginalTitle'],
     planOriginalTitleLang: json['planOriginalTitleLang'],
     planTranslationTitle: json['planTranslationTitle'] is List?null:(json['planTranslationTitle'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_PlanTranslationTitleContent.fromJson(v))),
-  );
+  );}
 
 }
 
@@ -75,11 +79,12 @@ class _PlanTranslationDescriptionContent {
     required this.planDescriptionHtml,
     required this.planLang,
   });
-  factory _PlanTranslationDescriptionContent.fromJson(Map<String, dynamic> json) => _PlanTranslationDescriptionContent(
+  factory _PlanTranslationDescriptionContent.fromJson(Map<String, dynamic> json) {
+    return _PlanTranslationDescriptionContent(
     planDescription: json['planDescription'],
     planDescriptionHtml: json['planDescriptionHtml'],
     planLang: json['planLang'],
-  );
+  );}
 
 }
 
@@ -94,12 +99,13 @@ class _PlanDescription {
     required this.planOriginalLang,
     this.planTranslationDescription,
   });
-  factory _PlanDescription.fromJson(Map<String, dynamic> json) => _PlanDescription(
+  factory _PlanDescription.fromJson(Map<String, dynamic> json) {
+    return _PlanDescription(
     planOriginalDescription: json['planOriginalDescription'],
     planOriginalDescriptionHtml: json['planOriginalDescriptionHtml'],
     planOriginalLang: json['planOriginalLang'],
     planTranslationDescription: json['planTranslationDescription'] is List?null:(json['planTranslationDescription'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_PlanTranslationDescriptionContent.fromJson(v))),
-  );
+  );}
 
 }
 
@@ -110,10 +116,11 @@ class _Urls {
     required this.cover,
     required this.card,
   });
-  factory _Urls.fromJson(Map<String, dynamic> json) => _Urls(
+  factory _Urls.fromJson(Map<String, dynamic> json) {
+    return _Urls(
     cover: json['cover'],
     card: json['card'],
-  );
+  );}
 
 }
 
@@ -122,9 +129,10 @@ class _PlanCoverImage {
   _PlanCoverImage({
     required this.urls,
   });
-  factory _PlanCoverImage.fromJson(Map<String, dynamic> json) => _PlanCoverImage(
+  factory _PlanCoverImage.fromJson(Map<String, dynamic> json) {
+    return _PlanCoverImage(
     urls: _Urls.fromJson(json['urls']),
-  );
+  );}
 
 }
 
@@ -161,7 +169,8 @@ class _Plan {
     this.planCoverImage,
     required this.planAiType,
   });
-  factory _Plan.fromJson(Map<String, dynamic> json) => _Plan(
+  factory _Plan.fromJson(Map<String, dynamic> json) {
+    return _Plan(
     currentPlanId: json['currentPlanId'],
     planId: json['planId'],
     creatorUserId: json['creatorUserId'],
@@ -177,7 +186,7 @@ class _Plan {
     planAcceptNovelFlg: json['planAcceptNovelFlg'],
     planCoverImage: json['planCoverImage'] == null?null:_PlanCoverImage.fromJson(json['planCoverImage']),
     planAiType: json['planAiType'],
-  );
+  );}
 
 }
 
@@ -192,12 +201,13 @@ class _CollaborateStatus {
     required this.collaboratedCnt,
     required this.collaborateUserSamples,
   });
-  factory _CollaborateStatus.fromJson(Map<String, dynamic> json) => _CollaborateStatus(
+  factory _CollaborateStatus.fromJson(Map<String, dynamic> json) {
+    return _CollaborateStatus(
     collaborating: json['collaborating'],
     collaborateAnonymousFlg: json['collaborateAnonymousFlg'],
     collaboratedCnt: json['collaboratedCnt'],
     collaborateUserSamples: (json['collaborateUserSamples'] as List<dynamic>),
-  );
+  );}
 
 }
 
@@ -208,10 +218,11 @@ class _Work {
     required this.isUnlisted,
     this.secret,
   });
-  factory _Work.fromJson(Map<String, dynamic> json) => _Work(
+  factory _Work.fromJson(Map<String, dynamic> json) {
+    return _Work(
     isUnlisted: json['isUnlisted'],
     secret: json['secret'],
-  );
+  );}
 
 }
 
@@ -224,11 +235,12 @@ class _PostWork {
     required this.postWorkType,
     this.work,
   });
-  factory _PostWork.fromJson(Map<String, dynamic> json) => _PostWork(
+  factory _PostWork.fromJson(Map<String, dynamic> json) {
+    return _PostWork(
     postWorkId: json['postWorkId'],
     postWorkType: json['postWorkType'],
     work: json['work'] == null?null:_Work.fromJson(json['work']),
-  );
+  );}
 
 }
 
@@ -237,9 +249,10 @@ class _Fanbox {
   _Fanbox({
     required this.fanIsSupporter,
   });
-  factory _Fanbox.fromJson(Map<String, dynamic> json) => _Fanbox(
+  factory _Fanbox.fromJson(Map<String, dynamic> json) {
+    return _Fanbox(
     fanIsSupporter: json['fanIsSupporter'],
-  );
+  );}
 
 }
 
@@ -250,10 +263,11 @@ class _Modification {
     this.requestPostWorkType,
     this.requestAdultFlg,
   });
-  factory _Modification.fromJson(Map<String, dynamic> json) => _Modification(
+  factory _Modification.fromJson(Map<String, dynamic> json) {
+    return _Modification(
     requestPostWorkType: json['requestPostWorkType'],
     requestAdultFlg: json['requestAdultFlg'],
-  );
+  );}
 
 }
 
@@ -274,7 +288,8 @@ class _RequestResend {
     this.fanAdultSendable,
     this.isResentRequest,
   });
-  factory _RequestResend.fromJson(Map<String, dynamic> json) => _RequestResend(
+  factory _RequestResend.fromJson(Map<String, dynamic> json) {
+    return _RequestResend(
     requestResendDeadlineDatetime: json['requestResendDeadlineDatetime'],
     requestResendOfferEnabled: json['requestResendOfferEnabled'],
     requestResendEnabled: json['requestResendEnabled'],
@@ -282,7 +297,7 @@ class _RequestResend {
     modification: _Modification.fromJson(json['modification']),
     fanAdultSendable: json['fanAdultSendable'],
     isResentRequest: json['isResentRequest'],
-  );
+  );}
 
 }
 
@@ -293,10 +308,11 @@ class _FanLetter {
     required this.fanLetterArrived,
     required this.fanLetterSendEnabled,
   });
-  factory _FanLetter.fromJson(Map<String, dynamic> json) => _FanLetter(
+  factory _FanLetter.fromJson(Map<String, dynamic> json) {
+    return _FanLetter(
     fanLetterArrived: json['fanLetterArrived'],
     fanLetterSendEnabled: json['fanLetterSendEnabled'],
-  );
+  );}
 
 }
 
@@ -353,7 +369,8 @@ class Request {
     this.requestResend,
     this.fanLetter,
   });
-  factory Request.fromJson(Map<String, dynamic> json) => Request(
+  factory Request.fromJson(Map<String, dynamic> json) {
+    return Request(
     requestId: json['requestId'],
     planId: json['planId'],
     fanUserId: json['fanUserId'],
@@ -379,7 +396,7 @@ class Request {
     fanbox: json['fanbox'] == null?null:_Fanbox.fromJson(json['fanbox']),
     requestResend: json['requestResend'] == null?null:_RequestResend.fromJson(json['requestResend']),
     fanLetter: json['fanLetter'] == null?null:_FanLetter.fromJson(json['fanLetter']),
-  );
+  );}
 
 }
 

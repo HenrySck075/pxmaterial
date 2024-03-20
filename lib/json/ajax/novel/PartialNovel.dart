@@ -5,10 +5,11 @@ class _TitleCaptionTranslation {
     this.workTitle,
     this.workCaption,
   });
-  factory _TitleCaptionTranslation.fromJson(Map<String, dynamic> json) => _TitleCaptionTranslation(
+  factory _TitleCaptionTranslation.fromJson(Map<String, dynamic> json) {
+    return _TitleCaptionTranslation(
     workTitle: json['workTitle'],
     workCaption: json['workCaption'],
-  );
+  );}
 
 }
 
@@ -67,7 +68,8 @@ class PartialNovel {
     required this.aiType,
     required this.genre,
   });
-  factory PartialNovel.fromJson(Map<String, dynamic> json) => PartialNovel(
+  factory PartialNovel.fromJson(Map<String, dynamic> json) {
+    return PartialNovel(
     id: json['id'],
     title: json['title'],
     xRestrict: json['xRestrict'],
@@ -94,7 +96,7 @@ class PartialNovel {
     isUnlisted: json['isUnlisted'],
     aiType: json['aiType'],
     genre: json['genre'],
-  );
+  );}
 
 }
 

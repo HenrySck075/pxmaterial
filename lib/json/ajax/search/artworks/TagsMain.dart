@@ -5,10 +5,11 @@ class _TitleCaptionTranslation {
     this.workTitle,
     this.workCaption,
   });
-  factory _TitleCaptionTranslation.fromJson(Map<String, dynamic> json) => _TitleCaptionTranslation(
+  factory _TitleCaptionTranslation.fromJson(Map<String, dynamic> json) {
+    return _TitleCaptionTranslation(
     workTitle: json['workTitle'],
     workCaption: json['workCaption'],
-  );
+  );}
 
 }
 
@@ -63,7 +64,8 @@ class _Data {
     required this.aiType,
     required this.profileImageUrl,
   });
-  factory _Data.fromJson(Map<String, dynamic> json) => _Data(
+  factory _Data.fromJson(Map<String, dynamic> json) {
+    return _Data(
     id: json['id'],
     title: json['title'],
     illustType: json['illustType'],
@@ -88,7 +90,7 @@ class _Data {
     isMasked: json['isMasked'],
     aiType: json['aiType'],
     profileImageUrl: json['profileImageUrl'],
-  );
+  );}
 
 }
 
@@ -99,10 +101,11 @@ class _BookmarkRanges {
     this.min,
     this.max,
   });
-  factory _BookmarkRanges.fromJson(Map<String, dynamic> json) => _BookmarkRanges(
+  factory _BookmarkRanges.fromJson(Map<String, dynamic> json) {
+    return _BookmarkRanges(
     min: json['min'],
     max: json['max'],
-  );
+  );}
 
 }
 
@@ -117,12 +120,13 @@ class _IllustManga {
     required this.lastPage,
     required this.bookmarkRanges,
   });
-  factory _IllustManga.fromJson(Map<String, dynamic> json) => _IllustManga(
+  factory _IllustManga.fromJson(Map<String, dynamic> json) {
+    return _IllustManga(
     data: (json['data'] as List<dynamic>).map((e)=>_Data.fromJson(e)).toList(),
     total: json['total'],
     lastPage: json['lastPage'],
     bookmarkRanges: (json['bookmarkRanges'] as List<dynamic>).map((e)=>_BookmarkRanges.fromJson(e)).toList(),
-  );
+  );}
 
 }
 
@@ -133,10 +137,11 @@ class _Popular {
     required this.recent,
     required this.permanent,
   });
-  factory _Popular.fromJson(Map<String, dynamic> json) => _Popular(
+  factory _Popular.fromJson(Map<String, dynamic> json) {
+    return _Popular(
     recent: (json['recent'] as List<dynamic>),
     permanent: (json['permanent'] as List<dynamic>),
-  );
+  );}
 
 }
 
@@ -145,9 +150,10 @@ class _TagTranslationContent {
   _TagTranslationContent({
     required this.en,
   });
-  factory _TagTranslationContent.fromJson(Map<String, dynamic> json) => _TagTranslationContent(
+  factory _TagTranslationContent.fromJson(Map<String, dynamic> json) {
+    return _TagTranslationContent(
     en: json['en'],
-  );
+  );}
 
 }
 
@@ -158,10 +164,11 @@ class _AlternateLanguages {
     required this.ja,
     required this.en,
   });
-  factory _AlternateLanguages.fromJson(Map<String, dynamic> json) => _AlternateLanguages(
+  factory _AlternateLanguages.fromJson(Map<String, dynamic> json) {
+    return _AlternateLanguages(
     ja: json['ja'],
     en: json['en'],
-  );
+  );}
 
 }
 
@@ -178,13 +185,14 @@ class _Meta {
     required this.alternateLanguages,
     required this.descriptionHeader,
   });
-  factory _Meta.fromJson(Map<String, dynamic> json) => _Meta(
+  factory _Meta.fromJson(Map<String, dynamic> json) {
+    return _Meta(
     title: json['title'],
     description: json['description'],
     canonical: json['canonical'],
     alternateLanguages: _AlternateLanguages.fromJson(json['alternateLanguages']),
     descriptionHeader: json['descriptionHeader'],
-  );
+  );}
 
 }
 
@@ -193,9 +201,10 @@ class _ExtraData {
   _ExtraData({
     required this.meta,
   });
-  factory _ExtraData.fromJson(Map<String, dynamic> json) => _ExtraData(
+  factory _ExtraData.fromJson(Map<String, dynamic> json) {
+    return _ExtraData(
     meta: _Meta.fromJson(json['meta']),
-  );
+  );}
 
 }
 
@@ -212,13 +221,14 @@ class TagsMain {
     required this.tagTranslation,
     required this.extraData,
   });
-  factory TagsMain.fromJson(Map<String, dynamic> json) => TagsMain(
+  factory TagsMain.fromJson(Map<String, dynamic> json) {
+    return TagsMain(
     illustManga: _IllustManga.fromJson(json['illustManga']),
     popular: _Popular.fromJson(json['popular']),
     relatedTags: (json['relatedTags'] as List<dynamic>).map((e)=>e as String).toList(),
     tagTranslation: (json['tagTranslation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_TagTranslationContent.fromJson(v))),
     extraData: _ExtraData.fromJson(json['extraData']),
-  );
+  );}
 
 }
 

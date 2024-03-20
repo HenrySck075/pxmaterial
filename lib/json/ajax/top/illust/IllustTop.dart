@@ -10,9 +10,10 @@ class _Recommend {
   _Recommend({
     required this.ids,
   });
-  factory _Recommend.fromJson(Map<String, dynamic> json) => _Recommend(
+  factory _Recommend.fromJson(Map<String, dynamic> json) {
+    return _Recommend(
     ids: (json['ids'] as List<dynamic>).map((e)=>e as String).toList(),
-  );
+  );}
 
 }
 
@@ -23,10 +24,11 @@ class _RecommendByTag {
     required this.tag,
     required this.ids,
   });
-  factory _RecommendByTag.fromJson(Map<String, dynamic> json) => _RecommendByTag(
+  factory _RecommendByTag.fromJson(Map<String, dynamic> json) {
+    return _RecommendByTag(
     tag: json['tag'],
     ids: (json['ids'] as List<dynamic>).map((e)=>e as String).toList(),
-  );
+  );}
 
 }
 
@@ -41,12 +43,13 @@ class _Pixivision {
     required this.thumbnailUrl,
     required this.url,
   });
-  factory _Pixivision.fromJson(Map<String, dynamic> json) => _Pixivision(
+  factory _Pixivision.fromJson(Map<String, dynamic> json) {
+    return _Pixivision(
     id: json['id'],
     title: json['title'],
     thumbnailUrl: json['thumbnailUrl'],
     url: json['url'],
-  );
+  );}
 
 }
 
@@ -59,11 +62,12 @@ class _RecommendUser {
     required this.illustIds,
     required this.novelIds,
   });
-  factory _RecommendUser.fromJson(Map<String, dynamic> json) => _RecommendUser(
+  factory _RecommendUser.fromJson(Map<String, dynamic> json) {
+    return _RecommendUser(
     id: json['id'],
     illustIds: (json['illustIds'] as List<dynamic>).map((e)=>e as String).toList(),
     novelIds: (json['novelIds'] as List<dynamic>),
-  );
+  );}
 
 }
 
@@ -84,7 +88,8 @@ class _ContestOngoing {
     required this.workIds,
     required this.isNew,
   });
-  factory _ContestOngoing.fromJson(Map<String, dynamic> json) => _ContestOngoing(
+  factory _ContestOngoing.fromJson(Map<String, dynamic> json) {
+    return _ContestOngoing(
     slug: json['slug'],
     type: json['type'],
     name: json['name'],
@@ -92,7 +97,7 @@ class _ContestOngoing {
     iconUrl: json['iconUrl'],
     workIds: (json['workIds'] as List<dynamic>).map((e)=>e as int).toList(),
     isNew: json['isNew'],
-  );
+  );}
 
 }
 
@@ -103,10 +108,11 @@ class _EditorRecommend {
     required this.illustId,
     required this.comment,
   });
-  factory _EditorRecommend.fromJson(Map<String, dynamic> json) => _EditorRecommend(
+  factory _EditorRecommend.fromJson(Map<String, dynamic> json) {
+    return _EditorRecommend(
     illustId: json['illustId'],
     comment: json['comment'],
-  );
+  );}
 
 }
 
@@ -119,11 +125,12 @@ class _TrendingTags {
     required this.trendingRate,
     required this.ids,
   });
-  factory _TrendingTags.fromJson(Map<String, dynamic> json) => _TrendingTags(
+  factory _TrendingTags.fromJson(Map<String, dynamic> json) {
+    return _TrendingTags(
     tag: json['tag'],
     trendingRate: json['trendingRate'],
     ids: (json['ids'] as List<dynamic>).map((e)=>e as int).toList(),
-  );
+  );}
 
 }
 
@@ -173,7 +180,8 @@ class _Page {
     required this.completeRequestIds,
     required this.userEventIds,
   });
-  factory _Page.fromJson(Map<String, dynamic> json) => _Page(
+  factory _Page.fromJson(Map<String, dynamic> json) {
+    return _Page(
     tags: (json['tags'] as List<dynamic>).map((e)=>Tag.fromJson(e)).toList(),
     follow: (json['follow'] as List<dynamic>).map((e)=>e as int).toList(),
     mypixiv: (json['mypixiv'] as List<dynamic>),
@@ -193,7 +201,7 @@ class _Page {
     trendingTags: (json['trendingTags'] as List<dynamic>).map((e)=>_TrendingTags.fromJson(e)).toList(),
     completeRequestIds: (json['completeRequestIds'] as List<dynamic>).map((e)=>e as String).toList(),
     userEventIds: (json['userEventIds'] as List<dynamic>).map((e)=>e as String).toList(),
-  );
+  );}
 
 }
 
@@ -212,14 +220,15 @@ class _BoothItems {
     required this.imageUrl,
     required this.adult,
   });
-  factory _BoothItems.fromJson(Map<String, dynamic> json) => _BoothItems(
+  factory _BoothItems.fromJson(Map<String, dynamic> json) {
+    return _BoothItems(
     id: json['id'],
     userId: json['userId'],
     title: json['title'],
     url: json['url'],
     imageUrl: json['imageUrl'],
     adult: json['adult'],
-  );
+  );}
 
 }
 
@@ -250,7 +259,8 @@ class IllustTop {
     required this.boothItems,
     required this.sketchLives,
   });
-  factory IllustTop.fromJson(Map<String, dynamic> json) => IllustTop(
+  factory IllustTop.fromJson(Map<String, dynamic> json) {
+    return IllustTop(
     tagTranslation: (json['tagTranslation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,TagTranslation.fromJson(v))),
     thumbnails: Thumbnails.fromJson(json['thumbnails']),
     illustSeries: (json['illustSeries'] as List<dynamic>),
@@ -259,7 +269,7 @@ class IllustTop {
     page: _Page.fromJson(json['page']),
     boothItems: (json['boothItems'] as List<dynamic>).map((e)=>_BoothItems.fromJson(e)).toList(),
     sketchLives: (json['sketchLives'] as List<dynamic>),
-  );
+  );}
 
 }
 

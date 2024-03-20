@@ -22,7 +22,8 @@ class _Page {
     required this.recommendIllustIdsByCreatorAcceptingRequest,
     required this.userList,
   });
-  factory _Page.fromJson(Map<String, dynamic> json) => _Page(
+  factory _Page.fromJson(Map<String, dynamic> json) {
+    return _Page(
     completeRequestIdsIllust: (json['completeRequestIdsIllust'] as List<dynamic>).map((e)=>e as String).toList(),
     completeRequestIdsManga: (json['completeRequestIdsManga'] as List<dynamic>).map((e)=>e as String).toList(),
     completeRequestIdsNovels: (json['completeRequestIdsNovels'] as List<dynamic>).map((e)=>e as String).toList(),
@@ -31,7 +32,7 @@ class _Page {
     followCreatorUserIds: (json['followCreatorUserIds'] as List<dynamic>),
     recommendIllustIdsByCreatorAcceptingRequest: (json['recommendIllustIdsByCreatorAcceptingRequest'] as List<dynamic>).map((e)=>e as String).toList(),
     userList: (json['userList'] as List<dynamic>).map((e)=>UserEmbed.fromJson(e)).toList(),
-  );
+  );}
 
 }
 
@@ -50,14 +51,15 @@ class Requests {
     required this.requests,
     required this.users,
   });
-  factory Requests.fromJson(Map<String, dynamic> json) => Requests(
+  factory Requests.fromJson(Map<String, dynamic> json) {
+    return Requests(
     page: _Page.fromJson(json['page']),
     tagTranslation: (json['tagTranslation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,TagTranslation.fromJson(v))),
     thumbnails: Thumbnails.fromJson(json['thumbnails']),
     illustSeries: (json['illustSeries'] as List<dynamic>),
     requests: (json['requests'] as List<dynamic>).map((e)=>Request.fromJson(e)).toList(),
     users: (json['users'] as List<dynamic>).map((e)=>PartialUser.fromJson(e)).toList(),
-  );
+  );}
 
 }
 

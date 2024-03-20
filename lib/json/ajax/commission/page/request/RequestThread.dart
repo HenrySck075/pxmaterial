@@ -10,11 +10,12 @@ class _ThreadEntryBody {
     this.requestAnonymousFlg,
     this.creatorUserId,
   });
-  factory _ThreadEntryBody.fromJson(Map<String, dynamic> json) => _ThreadEntryBody(
+  factory _ThreadEntryBody.fromJson(Map<String, dynamic> json) {
+    return _ThreadEntryBody(
     fanUserId: json['fanUserId'] == null?null:json['fanUserId'],
     requestAnonymousFlg: json['requestAnonymousFlg'] == null?null:json['requestAnonymousFlg'],
     creatorUserId: json['creatorUserId'] == null?null:json['creatorUserId'],
-  );
+  );}
 
 }
 
@@ -29,11 +30,12 @@ class _ThreadEntries {
     required this.threadEntryType,
     required this.threadEntryBody,
   });
-  factory _ThreadEntries.fromJson(Map<String, dynamic> json) => _ThreadEntries(
+  factory _ThreadEntries.fromJson(Map<String, dynamic> json) {
+    return _ThreadEntries(
     threadEntryId: json['threadEntryId'],
     threadEntryType: json['threadEntryType'],
     threadEntryBody: _ThreadEntryBody.fromJson(json['threadEntryBody']),
-  );
+  );}
 
 }
 
@@ -46,11 +48,12 @@ class RequestThread {
     required this.requestId,
     required this.threadEntries,
   });
-  factory RequestThread.fromJson(Map<String, dynamic> json) => RequestThread(
+  factory RequestThread.fromJson(Map<String, dynamic> json) {
+    return RequestThread(
     threadId: json['threadId'],
     requestId: json['requestId'],
     threadEntries: (json['threadEntries'] as List<dynamic>).map((e)=>_ThreadEntries.fromJson(e)).toList(),
-  );
+  );}
 
 }
 

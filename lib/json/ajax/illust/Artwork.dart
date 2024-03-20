@@ -1,8 +1,8 @@
 import 'package:sofieru/json/ajax/commission/page/request/Request.dart' show Request;
 import 'package:sofieru/json/ajax/shared/ExtraData.dart' show ExtraData;
-import 'package:sofieru/json/ajax/illust/PartialArtwork.dart' show PartialArtwork;
 import 'package:sofieru/json/ajax/shared/TagInfo.dart' show TagInfo;
-import 'package:sofieru/json/ajax/shared/bubumonkey.dart';
+import 'package:sofieru/json/ajax/illust/PartialArtwork.dart' show PartialArtwork;
+import 'package:sofieru/json/ajax/shared/Work.dart' show Work;
 class _Urls {
   final String mini;
   final String thumb;
@@ -16,13 +16,14 @@ class _Urls {
     required this.regular,
     required this.original,
   });
-  factory _Urls.fromJson(Map<String, dynamic> json) => _Urls(
+  factory _Urls.fromJson(Map<String, dynamic> json) {
+    return _Urls(
     mini: json['mini'],
     thumb: json['thumb'],
     small: json['small'],
     regular: json['regular'],
     original: json['original'],
-  );
+  );}
 
 }
 
@@ -37,12 +38,13 @@ class _Tags {
     required this.tags,
     required this.writable,
   });
-  factory _Tags.fromJson(Map<String, dynamic> json) => _Tags(
+  factory _Tags.fromJson(Map<String, dynamic> json) {
+    return _Tags(
     authorId: json['authorId'],
     isLocked: json['isLocked'],
     tags: (json['tags'] as List<dynamic>).map((e)=>TagInfo.fromJson(e)).toList(),
     writable: json['writable'],
-  );
+  );}
 
 }
 
@@ -53,10 +55,11 @@ class _TitleCaptionTranslation {
     this.workTitle,
     this.workCaption,
   });
-  factory _TitleCaptionTranslation.fromJson(Map<String, dynamic> json) => _TitleCaptionTranslation(
+  factory _TitleCaptionTranslation.fromJson(Map<String, dynamic> json) {
+    return _TitleCaptionTranslation(
     workTitle: json['workTitle'],
     workCaption: json['workCaption'],
-  );
+  );}
 
 }
 
@@ -69,11 +72,12 @@ class RequestUser {
     required this.userName,
     required this.profileImg,
   });
-  factory RequestUser.fromJson(Map<String, dynamic> json) => RequestUser(
+  factory RequestUser.fromJson(Map<String, dynamic> json) {
+    return RequestUser(
     userId: json['userId'],
     userName: json['userName'],
     profileImg: json['profileImg'],
-  );
+  );}
 
 }
 
@@ -88,12 +92,13 @@ class _CollaborateStatus {
     required this.collaboratedCnt,
     required this.userSamples,
   });
-  factory _CollaborateStatus.fromJson(Map<String, dynamic> json) => _CollaborateStatus(
+  factory _CollaborateStatus.fromJson(Map<String, dynamic> json) {
+    return _CollaborateStatus(
     collaborating: json['collaborating'],
     collaborateAnonymousFlg: json['collaborateAnonymousFlg'],
     collaboratedCnt: json['collaboratedCnt'],
     userSamples: (json['userSamples'] as List<dynamic>),
-  );
+  );}
 
 }
 
@@ -110,186 +115,149 @@ class _Request {
     required this.collaborateStatus,
     required this.editable,
   });
-  factory _Request.fromJson(Map<String, dynamic> json) => _Request(
+  factory _Request.fromJson(Map<String, dynamic> json) {
+    return _Request(
     request: Request.fromJson(json['request']),
     creator: RequestUser.fromJson(json['creator']),
     fan: RequestUser.fromJson(json['fan']),
     collaborateStatus: _CollaborateStatus.fromJson(json['collaborateStatus']),
     editable: json['editable'],
-  );
+  );}
 
 }
 
-class Artwork extends shutup{
+class Artwork extends Work {
   /// Artwork id
   final String illustId;
   /// Artwork title
   final String illustTitle;
   /// Artwork description
   final String illustComment;
-  /// una copia
-  final String id;
-  /// de lós 3
-  final String title;
-  /// parámetros anteriores
-  final String description;
   /// Artwork type 
   /// 1: Single-image artwork
   /// 2:Multi-image-artwork
   /// 3:Animated artwork
   final int illustType;
-  final String createDate;
-  final String uploadDate;
-  /// Sub-prop for `xRestrict`. 0 is just p, 1 is violent stuff included
-  final int restrict;
-  /// Whether the work is marked as R-18
-  final int xRestrict;
   final int sl;
   final _Urls urls;
-  final _Tags tags;
   final String alt;
-  final String userId;
-  final String userName;
   final String userAccount;
   final Map<String, PartialArtwork?> userIllusts;
-  final bool likeData;
   final int width;
   final int height;
-  final int pageCount;
-  final int bookmarkCount;
-  final int likeCount;
-  final int commentCount;
   final int responseCount;
-  final int viewCount;
   final bool isHowto;
-  final bool isOriginal;
-  final List<dynamic> imageResponseOutData;
-  final List<dynamic> imageResponseData;
-  final int imageResponseCount;
-  final String? pollData;
-  final String? seriesNavData;
-  final String? descriptionBoothId;
-  final String? descriptionYoutubeId;
-  final String? comicPromotion;
-  final String? fanboxPromotion;
-  final List<dynamic> contestBanners;
-  final bool isBookmarkable;
-  final String? bookmarkData;
-  final String? contestData;
-  final ExtraData extraData;
-  final _TitleCaptionTranslation titleCaptionTranslation;
-  final bool isUnlisted;
-  final _Request? request;
-  final int commentOff;
-  final int aiType;
   final String? reuploadDate;
   final bool locationMask;
   Artwork({
     required this.illustId,
     required this.illustTitle,
     required this.illustComment,
-    required this.id,
-    required this.title,
-    required this.description,
     required this.illustType,
-    required this.createDate,
-    required this.uploadDate,
-    required this.restrict,
-    required this.xRestrict,
     required this.sl,
     required this.urls,
-    required this.tags,
     required this.alt,
-    required this.userId,
-    required this.userName,
     required this.userAccount,
     required this.userIllusts,
-    required this.likeData,
     required this.width,
     required this.height,
-    required this.pageCount,
-    required this.bookmarkCount,
-    required this.likeCount,
-    required this.commentCount,
     required this.responseCount,
-    required this.viewCount,
     required this.isHowto,
-    required this.isOriginal,
-    required this.imageResponseOutData,
-    required this.imageResponseData,
-    required this.imageResponseCount,
-    this.pollData,
-    this.seriesNavData,
-    this.descriptionBoothId,
-    this.descriptionYoutubeId,
-    this.comicPromotion,
-    this.fanboxPromotion,
-    required this.contestBanners,
-    required this.isBookmarkable,
-    this.bookmarkData,
-    this.contestData,
-    required this.extraData,
-    required this.titleCaptionTranslation,
-    required this.isUnlisted,
-    this.request,
-    required this.commentOff,
-    required this.aiType,
     this.reuploadDate,
     required this.locationMask,
+    required super.id,
+    required super.title,
+    required super.description,
+    required super.createDate,
+    required super.uploadDate,
+    required super.restrict,
+    required super.xRestrict,
+    required super.tags,
+    required super.userId,
+    required super.userName,
+    required super.likeData,
+    required super.pageCount,
+    required super.bookmarkCount,
+    required super.likeCount,
+    required super.commentCount,
+    required super.viewCount,
+    required super.isOriginal,
+    required super.imageResponseOutData,
+    required super.imageResponseData,
+    required super.imageResponseCount,
+    super.pollData,
+    super.seriesNavData,
+    super.descriptionBoothId,
+    super.descriptionYoutubeId,
+    super.comicPromotion,
+    super.fanboxPromotion,
+    required super.contestBanners,
+    required super.isBookmarkable,
+    super.bookmarkData,
+    super.contestData,
+    required super.extraData,
+    required super.titleCaptionTranslation,
+    required super.isUnlisted,
+    super.request,
+    required super.commentOff,
+    required super.aiType,
   });
-  factory Artwork.fromJson(Map<String, dynamic> json) => Artwork(
+  @override
+  factory Artwork.fromJson(Map<String, dynamic> json) {
+    final parent = Work.fromJson(json);
+    return Artwork(
     illustId: json['illustId'],
     illustTitle: json['illustTitle'],
     illustComment: json['illustComment'],
-    id: json['id'],
-    title: json['title'],
-    description: json['description'],
     illustType: json['illustType'],
-    createDate: json['createDate'],
-    uploadDate: json['uploadDate'],
-    restrict: json['restrict'],
-    xRestrict: json['xRestrict'],
     sl: json['sl'],
     urls: _Urls.fromJson(json['urls']),
-    tags: _Tags.fromJson(json['tags']),
     alt: json['alt'],
-    userId: json['userId'],
-    userName: json['userName'],
     userAccount: json['userAccount'],
     userIllusts: (json['userIllusts'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,v==null?null:PartialArtwork.fromJson(v))),
-    likeData: json['likeData'],
     width: json['width'],
     height: json['height'],
-    pageCount: json['pageCount'],
-    bookmarkCount: json['bookmarkCount'],
-    likeCount: json['likeCount'],
-    commentCount: json['commentCount'],
     responseCount: json['responseCount'],
-    viewCount: json['viewCount'],
     isHowto: json['isHowto'],
-    isOriginal: json['isOriginal'],
-    imageResponseOutData: (json['imageResponseOutData'] as List<dynamic>),
-    imageResponseData: (json['imageResponseData'] as List<dynamic>),
-    imageResponseCount: json['imageResponseCount'],
-    pollData: json['pollData'],
-    seriesNavData: json['seriesNavData'],
-    descriptionBoothId: json['descriptionBoothId'],
-    descriptionYoutubeId: json['descriptionYoutubeId'],
-    comicPromotion: json['comicPromotion'],
-    fanboxPromotion: json['fanboxPromotion'],
-    contestBanners: (json['contestBanners'] as List<dynamic>),
-    isBookmarkable: json['isBookmarkable'],
-    bookmarkData: json['bookmarkData'],
-    contestData: json['contestData'],
-    extraData: ExtraData.fromJson(json['extraData']),
-    titleCaptionTranslation: _TitleCaptionTranslation.fromJson(json['titleCaptionTranslation']),
-    isUnlisted: json['isUnlisted'],
-    request: json['request'] == null?null:_Request.fromJson(json['request']),
-    commentOff: json['commentOff'],
-    aiType: json['aiType'],
     reuploadDate: json['reuploadDate'],
     locationMask: json['locationMask'],
-  );
+    id: parent.id,
+    title: parent.title,
+    description: parent.description,
+    createDate: parent.createDate,
+    uploadDate: parent.uploadDate,
+    restrict: parent.restrict,
+    xRestrict: parent.xRestrict,
+    tags: parent.tags,
+    userId: parent.userId,
+    userName: parent.userName,
+    likeData: parent.likeData,
+    pageCount: parent.pageCount,
+    bookmarkCount: parent.bookmarkCount,
+    likeCount: parent.likeCount,
+    commentCount: parent.commentCount,
+    viewCount: parent.viewCount,
+    isOriginal: parent.isOriginal,
+    imageResponseOutData: parent.imageResponseOutData,
+    imageResponseData: parent.imageResponseData,
+    imageResponseCount: parent.imageResponseCount,
+    pollData: parent.pollData,
+    seriesNavData: parent.seriesNavData,
+    descriptionBoothId: parent.descriptionBoothId,
+    descriptionYoutubeId: parent.descriptionYoutubeId,
+    comicPromotion: parent.comicPromotion,
+    fanboxPromotion: parent.fanboxPromotion,
+    contestBanners: parent.contestBanners,
+    isBookmarkable: parent.isBookmarkable,
+    bookmarkData: parent.bookmarkData,
+    contestData: parent.contestData,
+    extraData: parent.extraData,
+    titleCaptionTranslation: parent.titleCaptionTranslation,
+    isUnlisted: parent.isUnlisted,
+    request: parent.request,
+    commentOff: parent.commentOff,
+    aiType: parent.aiType,
+  );}
 
 }
 

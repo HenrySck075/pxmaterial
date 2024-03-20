@@ -1,26 +1,20 @@
 {
+    "$extends": "$/shared/Work",
     "$desc": {
         "illustId": "Artwork id",
         "illustTitle": "Artwork title",
         "illustComment": "Artwork description",
         "id": "una copia",
-        "title": "de lós 3",
-        "description": "parámetros anteriores",
+        "title": "de l\u00f3s 3",
+        "description": "par\u00e1metros anteriores",
         "illustType": "Artwork type \n1: Single-image artwork\n2:Multi-image-artwork\n3:Animated artwork",
         "restrict": "Sub-prop for `xRestrict`. 0 is just p, 1 is violent stuff included",
         "xRestrict": "Whether the work is marked as R-18"
     },
     "illustId": "91140348",
-    "illustTitle": "水着レミリア",
-    "illustComment": "妹様の方はこちら↓<br /><strong><a href=\"https://www.pixiv.net/en/artworks/91030831\">illust/91030831</a></strong>",
-    "id": "91140348",
-    "title": "水着レミリア",
-    "description": "妹様の方はこちら↓<br /><strong><a href=\"https://www.pixiv.net/en/artworks/91030831\">illust/91030831</a></strong>",
+    "illustTitle": "\u6c34\u7740\u30ec\u30df\u30ea\u30a2",
+    "illustComment": "\u59b9\u69d8\u306e\u65b9\u306f\u3053\u3061\u3089\u2193<br /><strong><a href=\"https://www.pixiv.net/en/artworks/91030831\">illust/91030831</a></strong>",
     "illustType": 0,
-    "createDate": "2021-07-10T03:35:00+00:00",
-    "uploadDate": "2021-07-10T03:35:00+00:00",
-    "restrict": 0,
-    "xRestrict": 0,
     "sl": 4,
     "urls": {
         "mini": "https://i.pximg.net/c/48x48/img-master/img/2021/07/10/12/35/29/91140348_p0_square1200.jpg",
@@ -29,82 +23,25 @@
         "regular": "https://i.pximg.net/img-master/img/2021/07/10/12/35/29/91140348_p0_master1200.jpg",
         "original": "https://i.pximg.net/img-original/img/2021/07/10/12/35/29/91140348_p0.jpg"
     },
-    "tags": {
-        "authorId": "1507561",
-        "isLocked": false,
-        "tags": [
-           {"$schema":"$/shared/TagInfo"} 
-        ],
-        "writable": true
-    },
-    "alt": "Touhou, Touhou Project, cat ears / 水着レミリア",
-    "userId": "1507561",
-    "userName": "ソラリス(Solarisu)",
+    "alt": "Touhou, Touhou Project, cat ears / \u6c34\u7740\u30ec\u30df\u30ea\u30a2",
     "userAccount": "solarisu",
     "userIllusts": {
-        "$nullable": ["-"],
+        "$nullable": [
+            "-"
+        ],
         "-": {
             "$schema": "$/illust/PartialArtwork"
         }
     },
-    "likeData": false,
     "width": 1381,
     "height": 975,
-    "pageCount": 1,
-    "bookmarkCount": 2560,
-    "likeCount": 1485,
-    "commentCount": 15,
     "responseCount": 0,
-    "viewCount": 9434,
     "$nullable": [
-      "bookStyle",
-      "yes, the key exists, but i deleted it so i dont have to hardcode a special behaviour for that one",
-      "request"
+        "bookStyle",
+        "yes, the key exists, but i deleted it so i dont have to hardcode a special behaviour for that one",
+        "request"
     ],
     "isHowto": false,
-    "isOriginal": false,
-    "imageResponseOutData": [],
-    "imageResponseData": [],
-    "imageResponseCount": 0,
-    "pollData": null,
-    "seriesNavData": null,
-    "descriptionBoothId": null,
-    "descriptionYoutubeId": null,
-    "comicPromotion": null,
-    "fanboxPromotion": null,
-    "contestBanners": [],
-    "isBookmarkable": true,
-    "bookmarkData": null,
-    "contestData": null,
-    "extraData": {
-        "$schema": "$/shared/ExtraData"
-    },
-    "titleCaptionTranslation": {
-        "workTitle": null,
-        "workCaption": null
-    },
-    "isUnlisted": false,
-    "request": {
-        "request": {"$schema": "$/commission/page/request/Request"},
-        "creator": {
-            "userId": "31383108",
-            "userName": "COCOball",
-            "profileImg": "https://i.pximg.net/user-profile/img/2023/10/16/08/23/39/25053980_0c03a35f449f71ed83b855533e6f6a24_170.jpg",
-            "$name": "RequestUser"
-        },
-        "fan": {
-            "$type": "RequestUser"
-        },
-        "collaborateStatus": {
-            "collaborating": false,
-            "collaborateAnonymousFlg": false,
-            "collaboratedCnt": 0,
-            "userSamples": []
-        },
-        "editable": false
-    },
-    "commentOff": 0,
-    "aiType": 0,
     "reuploadDate": null,
     "locationMask": false
 }

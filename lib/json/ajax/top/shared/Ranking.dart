@@ -5,10 +5,11 @@ class _Items {
     required this.rank,
     required this.id,
   });
-  factory _Items.fromJson(Map<String, dynamic> json) => _Items(
+  factory _Items.fromJson(Map<String, dynamic> json) {
+    return _Items(
     rank: json['rank'],
     id: json['id'],
-  );
+  );}
 
 }
 
@@ -19,10 +20,11 @@ class Ranking {
     required this.items,
     required this.date,
   });
-  factory Ranking.fromJson(Map<String, dynamic> json) => Ranking(
+  factory Ranking.fromJson(Map<String, dynamic> json) {
+    return Ranking(
     items: (json['items'] as List<dynamic>).map((e)=>_Items.fromJson(e)).toList(),
     date: json['date'],
-  );
+  );}
 
 }
 

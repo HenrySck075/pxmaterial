@@ -3,9 +3,10 @@ class _FirstEpisode {
   _FirstEpisode({
     required this.url,
   });
-  factory _FirstEpisode.fromJson(Map<String, dynamic> json) => _FirstEpisode(
+  factory _FirstEpisode.fromJson(Map<String, dynamic> json) {
+    return _FirstEpisode(
     url: json['url'],
-  );
+  );}
 
 }
 
@@ -14,9 +15,10 @@ class _Cover {
   _Cover({
     required this.urls,
   });
-  factory _Cover.fromJson(Map<String, dynamic> json) => _Cover(
+  factory _Cover.fromJson(Map<String, dynamic> json) {
+    return _Cover(
     urls: (json['urls'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,v as String)),
-  );
+  );}
 
 }
 
@@ -31,12 +33,13 @@ class SEOEmbedMeta {
     required this.description,
     required this.image,
   });
-  factory SEOEmbedMeta.fromJson(Map<String, dynamic> json) => SEOEmbedMeta(
+  factory SEOEmbedMeta.fromJson(Map<String, dynamic> json) {
+    return SEOEmbedMeta(
     type: json['type'],
     title: json['title'],
     description: json['description'],
     image: json['image'],
-  );
+  );}
 
 }
 
@@ -53,13 +56,14 @@ class TwitterEmbedMeta {
     required this.description,
     required this.image,
   });
-  factory TwitterEmbedMeta.fromJson(Map<String, dynamic> json) => TwitterEmbedMeta(
+  factory TwitterEmbedMeta.fromJson(Map<String, dynamic> json) {
+    return TwitterEmbedMeta(
     card: json['card'],
     site: json['site'],
     title: json['title'],
     description: json['description'],
     image: json['image'],
-  );
+  );}
 
 }
 
@@ -76,13 +80,14 @@ class _Meta {
     required this.ogp,
     required this.twitter,
   });
-  factory _Meta.fromJson(Map<String, dynamic> json) => _Meta(
+  factory _Meta.fromJson(Map<String, dynamic> json) {
+    return _Meta(
     title: json['title'],
     description: json['description'],
     canonical: json['canonical'],
     ogp: SEOEmbedMeta.fromJson(json['ogp']),
     twitter: TwitterEmbedMeta.fromJson(json['twitter']),
-  );
+  );}
 
 }
 
@@ -91,9 +96,10 @@ class _ExtraData {
   _ExtraData({
     required this.meta,
   });
-  factory _ExtraData.fromJson(Map<String, dynamic> json) => _ExtraData(
+  factory _ExtraData.fromJson(Map<String, dynamic> json) {
+    return _ExtraData(
     meta: _Meta.fromJson(json['meta']),
-  );
+  );}
 
 }
 
@@ -174,7 +180,8 @@ class Series {
     required this.hasGlossary,
     required this.extraData,
   });
-  factory Series.fromJson(Map<String, dynamic> json) => Series(
+  factory Series.fromJson(Map<String, dynamic> json) {
+    return Series(
     id: json['id'],
     userId: json['userId'],
     userName: json['userName'],
@@ -212,7 +219,7 @@ class Series {
     aiType: json['aiType'],
     hasGlossary: json['hasGlossary'],
     extraData: _ExtraData.fromJson(json['extraData']),
-  );
+  );}
 
 }
 

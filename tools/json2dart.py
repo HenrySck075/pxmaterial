@@ -66,24 +66,9 @@ def generate(data, name=""):
     if "$name" in data: name = data["$name"]
     if "$type" in data: return data["$type"]
     doExtends = "$extends" in data
-    supers = list(json.load(open(pathparse(data["$extends"],"./payloads/ajax/"))).keys())
-    tryimport(pathparse(data['$extends'],'package:sofieru/json/ajax/'),cry(data["$extends"]))
-
+    supers=[]
+    extends = ""
     out = f"class {name} "
-    if doExtends: out+=f"extends {data['$extends']} "
-    out += "{\n"
-    const = f"  {name}("+"{\n"
-    # This code is essentially not recommended, but since pixiv apis is built for javascript, i have no other choice
-    # the way they check for whether the response contains data is via an empty string (i suppose, but i dont think they did it)
-    fromJson=""
-    if doExtends: fromJson+="  @override"
-    fromJson += f"  factory {name}.fromJson(Map<String, dynamic> json) "+"{\n"
-    if doExtends: fromJson+="    final parent = super.fromJson(json);"
-    fromJson+=f"    return {name}("+"\n"
-    toJson = "  Map<String, dynamic> toJson() => <String,dynamic>{\n"
-    # toJson = "" # we dont need toJson
-    private = True
-    optInToJson:bool = data.get("$toJson", False)
 
     emptiable = data.get("$emptiable",[])
     nullable = data.get("$nullable",[])
@@ -93,6 +78,31 @@ def generate(data, name=""):
     g = emptiable+nullable
     if "$all" in emptiable: emptiable = list(data.keys())
     if "$all" in nullable: nullable = list(data.keys())
+
+    if doExtends: 
+        c = json.load(open(pathparse(data["$extends"],"./payloads/ajax/")))
+        supers = list(c.keys())
+        extends = cry(data["$extends"])
+        tryimport(pathparse(data['$extends'],'package:sofieru/json/ajax/'),extends)
+        data = data | c 
+        emptiable.extend(c.get("$emptiable",[]))
+        nullable.extend(c.get("$nullable",[]))
+
+    if doExtends: out+=f"extends {extends} "
+    out += "{\n"
+    const = f"  {name}("+"{\n"
+    # This code is essentially not recommended, but since pixiv apis is built for javascript, i have no other choice
+    # the way they check for whether the response contains data is via an empty string (i suppose, but i dont think they did it)
+    fromJson=""
+    if doExtends: fromJson+="  @override\n"
+    fromJson += f"  factory {name}.fromJson(Map<String, dynamic> json) "+"{\n"
+    if doExtends: fromJson+=f"    final parent = {extends}.fromJson(json);"+"\n"
+    fromJson+=f"    return {name}("+"\n"
+    toJson = "  Map<String, dynamic> toJson() => <String,dynamic>{\n"
+    # toJson = "" # we dont need toJson
+    private = True
+    optInToJson:bool = data.get("$toJson", False)
+
 
     for k,v in data.items():
         if k == "zoneConfig" or k.startswith("$"): continue
@@ -108,12 +118,14 @@ def generate(data, name=""):
         if vt=="Null": 
             vt="String"
             required = False
-        if k in desc:
-            out+="  /// "+"\n  /// ".join(desc[k].splitlines())+"\n"
+        inSuper = k in supers
         if vt.startswith("Map<") and "-" in v.get("$nullable",[]): # pyright: ignore 
             vt=vt[:-1]+"?>"
-        out+=f"  final {vt}{'' if required else '?'} {k};"+"\n"
-        const+=f"    {'required ' if required else ''}this.{k},"+"\n"
+        if not inSuper:
+            if k in desc:
+                out+="  /// "+"\n  /// ".join(desc[k].splitlines())+"\n"
+            out+=f"  final {vt}{'' if required else '?'} {k};"+"\n"
+        const+=f"    {'required ' if required else ''}{'super' if inSuper else 'this'}.{k},"+"\n"
 
         toJson+=f'    "{k}": {k}'
         if k not in supers:
@@ -164,6 +176,6 @@ def generate(data, name=""):
             out+=f"typedef {k}={v};"+"\n"
     output+=out+"\n"
     return name
-    
+
 generate(d, name)
 open(name+".dart","w",encoding="utf-8").write(output)

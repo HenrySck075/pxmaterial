@@ -5,10 +5,11 @@ class _TitleCaptionTranslation {
     this.workTitle,
     this.workCaption,
   });
-  factory _TitleCaptionTranslation.fromJson(Map<String, dynamic> json) => _TitleCaptionTranslation(
+  factory _TitleCaptionTranslation.fromJson(Map<String, dynamic> json) {
+    return _TitleCaptionTranslation(
     workTitle: json['workTitle'],
     workCaption: json['workCaption'],
-  );
+  );}
 
 }
 
@@ -65,7 +66,8 @@ class PartialArtwork {
     this.urls,
     this.profileImageUrl,
   });
-  factory PartialArtwork.fromJson(Map<String, dynamic> json) => PartialArtwork(
+  factory PartialArtwork.fromJson(Map<String, dynamic> json) {
+    return PartialArtwork(
     id: json['id'],
     title: json['title'],
     illustType: json['illustType'],
@@ -91,7 +93,7 @@ class PartialArtwork {
     aiType: json['aiType'],
     urls: json['urls'] == null?null:(json['urls'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,v as String)),
     profileImageUrl: json['profileImageUrl'] == null?null:json['profileImageUrl'],
-  );
+  );}
 
 }
 

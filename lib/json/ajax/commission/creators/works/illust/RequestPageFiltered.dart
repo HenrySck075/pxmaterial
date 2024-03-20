@@ -9,10 +9,11 @@ class _Pager {
     required this.page,
     required this.hasNextPage,
   });
-  factory _Pager.fromJson(Map<String, dynamic> json) => _Pager(
+  factory _Pager.fromJson(Map<String, dynamic> json) {
+    return _Pager(
     page: json['page'],
     hasNextPage: json['hasNextPage'],
-  );
+  );}
 
 }
 
@@ -39,7 +40,8 @@ class RequestPageFiltered {
     required this.requests,
     required this.users,
   });
-  factory RequestPageFiltered.fromJson(Map<String, dynamic> json) => RequestPageFiltered(
+  factory RequestPageFiltered.fromJson(Map<String, dynamic> json) {
+    return RequestPageFiltered(
     workIds: (json['workIds'] as List<dynamic>).map((e)=>e as int).toList(),
     workType: json['workType'],
     mode: json['mode'],
@@ -50,7 +52,7 @@ class RequestPageFiltered {
     illustSeries: (json['illustSeries'] as List<dynamic>),
     requests: (json['requests'] as List<dynamic>).map((e)=>Request.fromJson(e)).toList(),
     users: (json['users'] as List<dynamic>).map((e)=>User.fromJson(e)).toList(),
-  );
+  );}
 
 }
 

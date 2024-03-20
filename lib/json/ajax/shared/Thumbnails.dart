@@ -13,13 +13,14 @@ class Thumbnails {
     required this.novelDraft,
     required this.collection,
   });
-  factory Thumbnails.fromJson(Map<String, dynamic> json) => Thumbnails(
+  factory Thumbnails.fromJson(Map<String, dynamic> json) {
+    return Thumbnails(
     illust: (json['illust'] as List<dynamic>).map((e)=>PartialArtwork.fromJson(e)).toList(),
     novel: (json['novel'] as List<dynamic>).map((e)=>PartialNovel.fromJson(e)).toList(),
     novelSeries: (json['novelSeries'] as List<dynamic>),
     novelDraft: (json['novelDraft'] as List<dynamic>),
     collection: (json['collection'] as List<dynamic>),
-  );
+  );}
 
 }
 

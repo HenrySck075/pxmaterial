@@ -15,7 +15,8 @@ class TagInfo {
     this.translation,
     this.userName,
   });
-  factory TagInfo.fromJson(Map<String, dynamic> json) => TagInfo(
+  factory TagInfo.fromJson(Map<String, dynamic> json) {
+    return TagInfo(
     tag: json['tag'],
     locked: json['locked'],
     deletable: json['deletable'],
@@ -23,7 +24,7 @@ class TagInfo {
     romaji: json['romaji'] == null?null:json['romaji'],
     translation: json['translation'] == null?null:(json['translation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,v as String)),
     userName: json['userName'] == null?null:json['userName'],
-  );
+  );}
 
 }
 

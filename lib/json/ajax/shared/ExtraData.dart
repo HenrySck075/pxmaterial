@@ -5,10 +5,11 @@ class _AlternateLanguages {
     required this.ja,
     required this.en,
   });
-  factory _AlternateLanguages.fromJson(Map<String, dynamic> json) => _AlternateLanguages(
+  factory _AlternateLanguages.fromJson(Map<String, dynamic> json) {
+    return _AlternateLanguages(
     ja: json['ja'],
     en: json['en'],
-  );
+  );}
 
 }
 
@@ -25,13 +26,14 @@ class _EmbedMeta {
     this.type,
     this.card,
   });
-  factory _EmbedMeta.fromJson(Map<String, dynamic> json) => _EmbedMeta(
+  factory _EmbedMeta.fromJson(Map<String, dynamic> json) {
+    return _EmbedMeta(
     description: json['description'],
     image: json['image'],
     title: json['title'],
     type: json['type'] == null?null:json['type'],
     card: json['card'] == null?null:json['card'],
-  );
+  );}
 
 }
 
@@ -55,7 +57,8 @@ class _Meta {
     required this.ogp,
     required this.twitter,
   });
-  factory _Meta.fromJson(Map<String, dynamic> json) => _Meta(
+  factory _Meta.fromJson(Map<String, dynamic> json) {
+    return _Meta(
     title: json['title'],
     description: json['description'],
     canonical: json['canonical'],
@@ -63,7 +66,7 @@ class _Meta {
     descriptionHeader: json['descriptionHeader'],
     ogp: _EmbedMeta.fromJson(json['ogp']),
     twitter: _EmbedMeta.fromJson(json['twitter']),
-  );
+  );}
 
 }
 
@@ -72,9 +75,10 @@ class ExtraData {
   ExtraData({
     required this.meta,
   });
-  factory ExtraData.fromJson(Map<String, dynamic> json) => ExtraData(
+  factory ExtraData.fromJson(Map<String, dynamic> json) {
+    return ExtraData(
     meta: _Meta.fromJson(json['meta']),
-  );
+  );}
 
 }
 

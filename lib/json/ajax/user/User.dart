@@ -9,12 +9,13 @@ class _Background {
     required this.url,
     required this.isPrivate,
   });
-  factory _Background.fromJson(Map<String, dynamic> json) => _Background(
+  factory _Background.fromJson(Map<String, dynamic> json) {
+    return _Background(
     repeat: json['repeat'] == null?null:json['repeat'],
     color: json['color'] == null?null:json['color'],
     url: json['url'],
     isPrivate: json['isPrivate'],
-  );
+  );}
 
 }
 
@@ -23,9 +24,10 @@ class _SocialContent {
   _SocialContent({
     required this.url,
   });
-  factory _SocialContent.fromJson(Map<String, dynamic> json) => _SocialContent(
+  factory _SocialContent.fromJson(Map<String, dynamic> json) {
+    return _SocialContent(
     url: json['url'],
-  );
+  );}
 
 }
 
@@ -40,12 +42,13 @@ class _Region {
     required this.prefecture,
     required this.privacyLevel,
   });
-  factory _Region.fromJson(Map<String, dynamic> json) => _Region(
+  factory _Region.fromJson(Map<String, dynamic> json) {
+    return _Region(
     name: json['name'],
     region: json['region'],
     prefecture: json['prefecture'],
     privacyLevel: json['privacyLevel'],
-  );
+  );}
 
 }
 
@@ -59,10 +62,11 @@ class PrivacyLeveledData {
     this.name,
     this.privacyLevel,
   });
-  factory PrivacyLeveledData.fromJson(Map<String, dynamic> json) => PrivacyLeveledData(
+  factory PrivacyLeveledData.fromJson(Map<String, dynamic> json) {
+    return PrivacyLeveledData(
     name: json['name'] == null?null:json['name'],
     privacyLevel: json['privacyLevel'] == null?null:json['privacyLevel'],
-  );
+  );}
 
 }
 
@@ -91,7 +95,8 @@ class _Workspace {
     this.userWorkspaceDesk,
     this.userWorkspaceChair,
   });
-  factory _Workspace.fromJson(Map<String, dynamic> json) => _Workspace(
+  factory _Workspace.fromJson(Map<String, dynamic> json) {
+    return _Workspace(
     userWorkspacePc: json['userWorkspacePc'] == null?null:json['userWorkspacePc'],
     userWorkspaceMonitor: json['userWorkspaceMonitor'] == null?null:json['userWorkspaceMonitor'],
     userWorkspaceTool: json['userWorkspaceTool'] == null?null:json['userWorkspaceTool'],
@@ -103,7 +108,7 @@ class _Workspace {
     userWorkspaceMusic: json['userWorkspaceMusic'] == null?null:json['userWorkspaceMusic'],
     userWorkspaceDesk: json['userWorkspaceDesk'] == null?null:json['userWorkspaceDesk'],
     userWorkspaceChair: json['userWorkspaceChair'] == null?null:json['userWorkspaceChair'],
-  );
+  );}
 
 }
 
@@ -171,7 +176,8 @@ class User {
     required this.official,
     this.group,
   });
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
     userId: json['userId'],
     name: json['name'],
     image: json['image'],
@@ -201,7 +207,7 @@ class User {
     workspace: _Workspace.fromJson(json['workspace']),
     official: json['official'],
     group: json['group'],
-  );
+  );}
 
 }
 

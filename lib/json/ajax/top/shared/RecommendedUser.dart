@@ -7,11 +7,12 @@ class RecommendedUser {
     required this.illustIds,
     required this.novelIds,
   });
-  factory RecommendedUser.fromJson(Map<String, dynamic> json) => RecommendedUser(
+  factory RecommendedUser.fromJson(Map<String, dynamic> json) {
+    return RecommendedUser(
     id: json['id'],
     illustIds: (json['illustIds'] as List<dynamic>).map((e)=>e as String).toList(),
     novelIds: (json['novelIds'] as List<dynamic>).map((e)=>e as String).toList(),
-  );
+  );}
 
 }
 
