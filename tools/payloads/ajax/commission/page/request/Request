@@ -45,7 +45,8 @@
             "planTranslationTitle": {
                 "-": {
                     "planTitle": "Diamond Plan",
-                    "planTtieLang": "en"
+                    "planTtieLang": "en",
+                    "$nullable": ["planTtieLang"]
                 }                
             },
             "$emptiable": ["planTranslationTitle"]
@@ -58,7 +59,8 @@
                 "-": {
                     "planDescription": "I accept requests for illustrations for underage people, mainly those that are more wholesome.\nIllustrations with a light kissing aspect can be accepted here as well!\nPlease make a request for 18-rated illustrations under a different plan.",
                     "planDescriptionHtml": "I accept requests for illustrations for underage people&#44; mainly those that are more wholesome.<br />Illustrations with a light kissing aspect can be accepted here as well!<br />Please make a request for 18-rated illustrations under a different plan.",
-                    "planLang": "en"
+                    "planLang": "en",
+                    "$nullable": ["planLang"]
                 }
             },
             "$emptiable": ["planTranslationDescription"]

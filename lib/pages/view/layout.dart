@@ -1,14 +1,12 @@
 // should we use refactor
 
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 import 'package:sofieru/json/ajax/illust/Artwork.dart' show Artwork;
 import 'package:sofieru/json/ajax/novel/Novel.dart';
 import 'package:sofieru/json/ajax/user/PartialUser.dart';
@@ -23,7 +21,18 @@ class WorkLayout extends StatefulWidget {
   final String id;
   final WorkType wtype;
   final Map<String, dynamic> data;
-  const WorkLayout({super.key, required this.id, required this.wtype, required this.data});
+
+  /// The work view section
+  final Widget view;
+  /// Author works item builder
+  final Widget Function(Map<String,dynamic> data) authorWorksItemBuilder;
+  final Widget Function(Map<String,dynamic> data) relatedWorksItemBuilder;
+
+
+  const WorkLayout({
+    super.key, required this.id, required this.wtype, required this.data,
+    required this.view, required this.authorWorksItemBuilder, required this.relatedWorksItemBuilder
+  });
   @override
   State<WorkLayout> createState() => _WorkLayoutState();
 }
@@ -57,20 +66,6 @@ class _WorkLayoutState extends State<WorkLayout> {
     if (visibleRange[1]==-1||end>visibleRange[1]) visibleRange[1]=end;
     if (visibleRange[0]==-1||start<visibleRange[0]) visibleRange[0]=start;
     range = [start,end];
-  }
-  (double, double) calcDim(int w, int h) {
-    double neww = w.toDouble();
-    double newh = h.toDouble();
-    if (w>350) {
-      neww = 350/w;
-      newh = h*neww;
-      neww = 350;
-    } else if (h>1000) {
-      newh = 1000/h;
-      neww = w*newh;
-      newh = 1000;
-    }
-    return (neww, newh);
   }
   @override
   void initState() {
@@ -115,7 +110,7 @@ class _WorkLayoutState extends State<WorkLayout> {
         /// please for the love of god add union types
         var data = widget.wtype==WorkType.illust?Artwork.fromJson(widget.data):Novel.fromJson(widget.data);
         authorId = data.userId;
-        authArtworkIds = [...data.userIllusts.keys];
+        authArtworkIds = [...(data is Artwork?data.userIllusts:(data as Novel).userNovels).keys];
         illustIndex = authArtworkIds.indexOf(id);
         updateRange(illustIndex-7, illustIndex+7);
         if (data is Artwork) setTitle("${data.alt} - pixiv");
@@ -125,9 +120,7 @@ class _WorkLayoutState extends State<WorkLayout> {
             crossAxisAlignment:CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              // The artwork view
-              // the lsp broke when using ternary so dont use it
-              /// TODO: view widget goes here 
+              widget.view,
               
               // Toolbar
               Row(
@@ -153,16 +146,21 @@ class _WorkLayoutState extends State<WorkLayout> {
               // Artwork info
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(data.titleCaptionTranslation.workTitle??data.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
-                  const SizedBox(height: 10,),
-                  HtmlWidget(data.titleCaptionTranslation.workCaption??data.description,onTapUrl: HtmlUrlLauncher),
-                  const SizedBox(height: 10,),
-                  Wrap(
-                    spacing: 8,
-                    children: List.from(data.tags.tags.map((t)=>tagChipBuilder(t)),
-                  ))
-                ]),
+                child: Card(
+                  child: Padding( 
+                    padding: const EdgeInsets.all(4),
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Text(data.titleCaptionTranslation.workTitle??data.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
+                      const SizedBox(height: 10,),
+                      HtmlWidget(data.titleCaptionTranslation.workCaption??data.description,onTapUrl: HtmlUrlLauncher),
+                      const SizedBox(height: 10,),
+                      Wrap(
+                        spacing: 8,
+                        children: List.from(data.tags.tags.map((t)=>tagChipBuilder(t)),
+                      ))
+                    ])
+                  )
+                ),
               ),
               
               // Author view
@@ -202,11 +200,7 @@ class _WorkLayoutState extends State<WorkLayout> {
                           padding: const EdgeInsets.only(left:2,right:2),
                           children: [...authArtworkData.value.map((e) => Padding(
                             padding: const EdgeInsets.only(left:2.0, right:2),
-                            child: PxSimpleArtwork.fromJson(
-                              key: (e["id"]==id)?current:null,
-                              payload: e,
-                              isCurrent: e["id"]==id,
-                            ),
+                            child: widget.authorWorksItemBuilder(e),
                           ))],
                         )
                       );
@@ -225,13 +219,13 @@ class _WorkLayoutState extends State<WorkLayout> {
               
               const Text("Related artworks",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left),
               futureWidget(
-                future: pxRequest("https://www.pixiv.net/ajax/illust/$id/recommend/init?limit=18"), 
+                future: pxRequest("https://www.pixiv.net/ajax/$type/$id/recommend/init?limit=18"), 
                 builder:(ctx,snap) {
-                  related.value = snap.data!["illusts"];
+                  related.value = snap.data!["${type}s"];
                   relatedNextIds = snap.data!["nextIds"];
                   return ListenableBuilder(
                     listenable: related,
-                    builder: (ctx,w)=>artworkGrid([...related.value.map((e) => PxArtwork.fromJson(payload: e))])
+                    builder: (ctx,w)=>artworkGrid([...related.value.map((e) => widget.relatedWorksItemBuilder(e))])
                   );
                 } 
               ),

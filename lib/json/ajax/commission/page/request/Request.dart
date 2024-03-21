@@ -39,15 +39,15 @@ class _RequestProposal {
 
 class _PlanTranslationTitleContent {
   final String planTitle;
-  final String planTtieLang;
+  final String? planTtieLang;
   _PlanTranslationTitleContent({
     required this.planTitle,
-    required this.planTtieLang,
+    this.planTtieLang,
   });
   factory _PlanTranslationTitleContent.fromJson(Map<String, dynamic> json) {
     return _PlanTranslationTitleContent(
     planTitle: json['planTitle'],
-    planTtieLang: json['planTtieLang'],
+    planTtieLang: json['planTtieLang'] == null?null:json['planTtieLang'],
   );}
 
 }
@@ -73,17 +73,17 @@ class _PlanTitle {
 class _PlanTranslationDescriptionContent {
   final String planDescription;
   final String planDescriptionHtml;
-  final String planLang;
+  final String? planLang;
   _PlanTranslationDescriptionContent({
     required this.planDescription,
     required this.planDescriptionHtml,
-    required this.planLang,
+    this.planLang,
   });
   factory _PlanTranslationDescriptionContent.fromJson(Map<String, dynamic> json) {
     return _PlanTranslationDescriptionContent(
     planDescription: json['planDescription'],
     planDescriptionHtml: json['planDescriptionHtml'],
-    planLang: json['planLang'],
+    planLang: json['planLang'] == null?null:json['planLang'],
   );}
 
 }
