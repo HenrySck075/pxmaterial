@@ -293,6 +293,7 @@ class _ShellPageState extends State<ShellPage> {
     "is that",
   ];
   String MadeWithLoveByHenry = "";
+  final List<String> navBarEntries = ["/","/discovery"];
   @override
   void initState() {
     super.initState();
@@ -336,6 +337,9 @@ class _ShellPageState extends State<ShellPage> {
       const Text("Do not redistribute without crediting authors of this repository and the original app.",style: TextStyle(color: Colors.grey, fontSize: 8),), // - HenrySck075 (Henry Spheria)
     ];
     // var appState = context.watch<MyAppState>();
+    var navBarIndex = navBarEntries.indexOf(currentRouteURI().path);
+    // usually -1
+    if (navBarIndex<0) {navBarIndex = 0;}
     return Scaffold(
       drawer: NavigationDrawer(
         selectedIndex: pageIndex,
@@ -393,9 +397,19 @@ class _ShellPageState extends State<ShellPage> {
           
           constraints: const BoxConstraints(maxWidth:1260),
           clipBehavior: Clip.hardEdge,
-          child:widget.child
+          child: widget.child
         ) 
-      )
+      ),
+      bottomNavigationBar: NavigationBar(destinations: const [
+        NavigationDestination(
+          icon: Icon(Icons.home),
+          label: 'Home',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.favorite),
+          label: 'Discovery',
+        ),
+      ],onDestinationSelected: (idx)=>navigate(navBarEntries[idx]),selectedIndex: navBarIndex,),
     );
   }
 }

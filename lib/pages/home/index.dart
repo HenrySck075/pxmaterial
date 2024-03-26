@@ -25,28 +25,30 @@ class _ShellPageState extends State<ShellPage> with SingleTickerProviderStateMix
   @override
   Widget build(context) {
     return Scaffold(
-      appBar: AppBar(bottom:TabBar(
-        controller: _ctrl,
-        tabs: const [
-          Tab(
-            icon: Icon(Icons.palette_outlined), 
-            text: "Illusts"
-          ),
-          Tab(
-            icon: Icon(Icons.photo_library_outlined), 
-            text: "Manga"
-          ),
-          Tab(
-            icon: Icon(Icons.art_track_outlined), 
-            text: "Novels"
-          )
-        ],
-        onTap: (a){
-          navigate(h[a]);
-        },
-      )),
+      appBar: AppBar(
+        toolbarHeight: 0,
+        bottom:TabBar(
+          controller: _ctrl,
+          tabs: const [
+            Tab(
+              icon: Icon(Icons.palette_outlined), 
+              text: "Illusts"
+            ),
+            Tab(
+              icon: Icon(Icons.photo_library_outlined), 
+              text: "Manga"
+            ),
+            Tab(
+              icon: Icon(Icons.art_track_outlined), 
+              text: "Novels"
+            )
+          ],
+          onTap: (a){
+            navigate(h[a]);
+          },
+        )
+      ),
       body: TabBarView(
-        physics: AlwaysScrollableScrollPhysics(), 
         controller: _ctrl,
         children: const [
           IllustsPage(),
