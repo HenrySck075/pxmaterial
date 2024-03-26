@@ -20,21 +20,19 @@ class _WorksState extends State<Works> with TickerProviderStateMixin{
     if (idx==-1) idx=0;
     _tabCtrl.index=idx;
     
-    return NestedScrollView(
-      headerSliverBuilder: (ctx,what) => [
-        SliverToBoxAdapter(child: TabBar(
-          controller: _tabCtrl,
-          tabs: const [
-            Tab(text: "Illusts & Manga"),
-            Tab(text: "Novels"),
-          ],
-          onTap: (v)=>navigate(ture[v]))
-        )
-      ],
-      body: TabBarView(
+    return Column(children: [
+      TabBar.secondary(
+        controller: _tabCtrl,
+        tabs: const [
+          Tab(text: "Illusts & Manga"),
+          Tab(text: "Novels"),
+        ],
+        onTap: (v)=>navigate(ture[v])
+      ),
+      TabBarView(
         controller: _tabCtrl,
         children: [IllustManga(),Placeholder()]
       ),
-    );
+    ]);
   }
 }

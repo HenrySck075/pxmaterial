@@ -27,25 +27,13 @@ class _ArtworkPageState extends State<ArtworkPage> {
   // Future<List<Map<String,String>>>? op;
   List<dynamic>? op;
   int illustIndex = 0;
-  List<String> authArtworkIds = [];
-  List<int> range = [0,0];
-  List<int> visibleRange = [-1,-1];
-  var authArtworkData = VisibleNotifyNotifier([]);
   final current = GlobalKey();
 
   // related artworks
   var related = VisibleNotifyNotifier([]);
   List<dynamic> relatedNextIds = []; // bruh
   /// to prevent spamming the request
-  bool relatedFetching = false;
 
-  void updateRange(int start, int end) {
-    if (end >= authArtworkIds.length-1) end=authArtworkIds.length-1;
-    if (start <= 0) start=0;
-    if (visibleRange[1]==-1||end>visibleRange[1]) visibleRange[1]=end;
-    if (visibleRange[0]==-1||start<visibleRange[0]) visibleRange[0]=start;
-    range = [start,end];
-  }
   (double, double) calcDim(int w, int h) {
     double neww = w.toDouble();
     double newh = h.toDouble();
@@ -141,7 +129,6 @@ class _ArtworkPageState extends State<ArtworkPage> {
             ),
           ];
         return WorkLayout( 
-          id: id,
           wtype: WorkType.illust,
           data: data,
           // The artwork view

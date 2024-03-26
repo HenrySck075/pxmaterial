@@ -11,8 +11,8 @@ class _Background {
   });
   factory _Background.fromJson(Map<String, dynamic> json) {
     return _Background(
-    repeat: json['repeat'] == null?null:json['repeat'],
-    color: json['color'] == null?null:json['color'],
+    repeat: json['repeat'],
+    color: json['color'],
     url: json['url'],
     isPrivate: json['isPrivate'],
   );}
@@ -51,8 +51,8 @@ class PartialUser {
   factory PartialUser.fromJson(Map<String, dynamic> json) {
     return PartialUser(
     partial: json['partial'],
-    comment: json['comment'] == null?null:json['comment'],
-    followedBack: json['followedBack'] == null?null:json['followedBack'],
+    comment: json['comment'],
+    followedBack: json['followedBack'],
     userId: json['userId'],
     name: json['name'],
     image: json['image'],

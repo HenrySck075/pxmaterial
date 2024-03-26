@@ -162,6 +162,7 @@ def generate(data, name=""):
                 if k in g: toJson+="?"
                 toJson+=".toJson()"
         fromJson+=",\n"
+        fromJson = fromJson.replace(f"json['{k}'] == null?null:json['{k}']", f"json['{k}']")
         toJson+=",\n"
 
     fromJson+="  );}"

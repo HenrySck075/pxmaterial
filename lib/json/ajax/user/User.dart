@@ -11,8 +11,8 @@ class _Background {
   });
   factory _Background.fromJson(Map<String, dynamic> json) {
     return _Background(
-    repeat: json['repeat'] == null?null:json['repeat'],
-    color: json['color'] == null?null:json['color'],
+    repeat: json['repeat'],
+    color: json['color'],
     url: json['url'],
     isPrivate: json['isPrivate'],
   );}
@@ -64,8 +64,8 @@ class PrivacyLeveledData {
   });
   factory PrivacyLeveledData.fromJson(Map<String, dynamic> json) {
     return PrivacyLeveledData(
-    name: json['name'] == null?null:json['name'],
-    privacyLevel: json['privacyLevel'] == null?null:json['privacyLevel'],
+    name: json['name'],
+    privacyLevel: json['privacyLevel'],
   );}
 
 }
@@ -97,17 +97,17 @@ class _Workspace {
   });
   factory _Workspace.fromJson(Map<String, dynamic> json) {
     return _Workspace(
-    userWorkspacePc: json['userWorkspacePc'] == null?null:json['userWorkspacePc'],
-    userWorkspaceMonitor: json['userWorkspaceMonitor'] == null?null:json['userWorkspaceMonitor'],
-    userWorkspaceTool: json['userWorkspaceTool'] == null?null:json['userWorkspaceTool'],
-    userWorkspaceScanner: json['userWorkspaceScanner'] == null?null:json['userWorkspaceScanner'],
-    userWorkspaceTablet: json['userWorkspaceTablet'] == null?null:json['userWorkspaceTablet'],
-    userWorkspaceMouse: json['userWorkspaceMouse'] == null?null:json['userWorkspaceMouse'],
-    userWorkspacePrinter: json['userWorkspacePrinter'] == null?null:json['userWorkspacePrinter'],
-    userWorkspaceDesktop: json['userWorkspaceDesktop'] == null?null:json['userWorkspaceDesktop'],
-    userWorkspaceMusic: json['userWorkspaceMusic'] == null?null:json['userWorkspaceMusic'],
-    userWorkspaceDesk: json['userWorkspaceDesk'] == null?null:json['userWorkspaceDesk'],
-    userWorkspaceChair: json['userWorkspaceChair'] == null?null:json['userWorkspaceChair'],
+    userWorkspacePc: json['userWorkspacePc'],
+    userWorkspaceMonitor: json['userWorkspaceMonitor'],
+    userWorkspaceTool: json['userWorkspaceTool'],
+    userWorkspaceScanner: json['userWorkspaceScanner'],
+    userWorkspaceTablet: json['userWorkspaceTablet'],
+    userWorkspaceMouse: json['userWorkspaceMouse'],
+    userWorkspacePrinter: json['userWorkspacePrinter'],
+    userWorkspaceDesktop: json['userWorkspaceDesktop'],
+    userWorkspaceMusic: json['userWorkspaceMusic'],
+    userWorkspaceDesk: json['userWorkspaceDesk'],
+    userWorkspaceChair: json['userWorkspaceChair'],
   );}
 
 }
@@ -133,7 +133,7 @@ class User {
   final String comment;
   final String commentHtml;
   final String? webpage;
-  final Map<String, _SocialContent> social;
+  final Map<String, _SocialContent>? social;
   final bool canSendMessage;
   final _Region region;
   final PrivacyLeveledData age;
@@ -165,7 +165,7 @@ class User {
     required this.comment,
     required this.commentHtml,
     this.webpage,
-    required this.social,
+    this.social,
     required this.canSendMessage,
     required this.region,
     required this.age,
@@ -197,7 +197,7 @@ class User {
     comment: json['comment'],
     commentHtml: json['commentHtml'],
     webpage: json['webpage'],
-    social: (json['social'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_SocialContent.fromJson(v))),
+    social: json['social'] is List?null:(json['social'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_SocialContent.fromJson(v))),
     canSendMessage: json['canSendMessage'],
     region: _Region.fromJson(json['region']),
     age: PrivacyLeveledData.fromJson(json['age']),

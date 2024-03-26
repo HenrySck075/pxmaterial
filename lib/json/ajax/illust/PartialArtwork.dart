@@ -92,7 +92,7 @@ class PartialArtwork {
     isMasked: json['isMasked'],
     aiType: json['aiType'],
     urls: json['urls'] == null?null:(json['urls'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,v as String)),
-    profileImageUrl: json['profileImageUrl'] == null?null:json['profileImageUrl'],
+    profileImageUrl: json['profileImageUrl'],
   );}
 
 }

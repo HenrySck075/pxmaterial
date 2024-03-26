@@ -391,7 +391,7 @@ class _ShellPageState extends State<ShellPage> {
           
           // basic google layout constraint
           
-          constraints: const BoxConstraints(maxWidth:1160),
+          constraints: const BoxConstraints(maxWidth:1260),
           clipBehavior: Clip.hardEdge,
           child:widget.child
         ) 

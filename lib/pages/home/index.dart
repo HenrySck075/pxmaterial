@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:sofieru/pages/home/illust.dart';
+import 'package:sofieru/pages/home/novel.dart';
 import 'package:sofieru/shared.dart';
 export 'illust.dart' show IllustsPage;
 export 'novel.dart' show NovelsPage;
@@ -10,38 +12,49 @@ class ShellPage extends StatefulWidget {
   @override
   State<ShellPage> createState()=>_ShellPageState();
 }
-class _ShellPageState extends State<ShellPage> {
-  List<String> h = ["/","/manga","/novel"];
+class _ShellPageState extends State<ShellPage> with SingleTickerProviderStateMixin{
+  final List<String> h = ["/","/manga","/novel"];
+  late TabController _ctrl;
   @override 
   void initState() {
     super.initState();
+    var d = h.indexOf(router.routeInformationProvider.value.uri.path);
+    _ctrl = TabController(length: 3, vsync: this, initialIndex:d==-1?0:d );
     setTitle("pixiv Material Design Concept - As if Google did it (/j)");
   }
   @override
   Widget build(context) {
-    var d = h.indexOf(router.routeInformationProvider.value.uri.path);
     return Scaffold(
-      bottomNavigationBar: NavigationBar(
-        destinations: const [
-          NavigationDestination(
+      appBar: AppBar(bottom:TabBar(
+        controller: _ctrl,
+        tabs: const [
+          Tab(
             icon: Icon(Icons.palette_outlined), 
-            label: "Illusts"
+            text: "Illusts"
           ),
-          NavigationDestination(
+          Tab(
             icon: Icon(Icons.photo_library_outlined), 
-            label: "Manga"
+            text: "Manga"
           ),
-          NavigationDestination(
+          Tab(
             icon: Icon(Icons.art_track_outlined), 
-            label: "Novels"
+            text: "Novels"
           )
         ],
-        selectedIndex: d==-1?0:d,
-        onDestinationSelected: (a){
+        onTap: (a){
           navigate(h[a]);
         },
-      ),
-      body: Padding(padding: const EdgeInsets.all(8),child:widget.child,)
+      )),
+      body: TabBarView(
+        physics: AlwaysScrollableScrollPhysics(), 
+        controller: _ctrl,
+        children: const [
+          IllustsPage(),
+          Expanded(child:Placeholder()),
+          NovelsPage()
+        ]
+      )
+
     );
   }
 }

@@ -18,7 +18,6 @@ import "package:sofieru/skeltal/skeltal.dart";
 enum WorkType {illust,novel}
 
 class WorkLayout extends StatefulWidget {
-  final String id;
   final WorkType wtype;
   final Map<String, dynamic> data;
 
@@ -30,7 +29,7 @@ class WorkLayout extends StatefulWidget {
 
 
   const WorkLayout({
-    super.key, required this.id, required this.wtype, required this.data,
+    super.key, required this.wtype, required this.data,
     required this.view, required this.authorWorksItemBuilder, required this.relatedWorksItemBuilder
   });
   @override
@@ -70,7 +69,7 @@ class _WorkLayoutState extends State<WorkLayout> {
   @override
   void initState() {
     super.initState();
-    id = widget.id;
+    id = widget.data["id"]!;
     type = widget.wtype.name;
     var param = "${type}_ids[]";
     _scsvCtrl.addListener(() {

@@ -12,9 +12,9 @@ class _ThreadEntryBody {
   });
   factory _ThreadEntryBody.fromJson(Map<String, dynamic> json) {
     return _ThreadEntryBody(
-    fanUserId: json['fanUserId'] == null?null:json['fanUserId'],
-    requestAnonymousFlg: json['requestAnonymousFlg'] == null?null:json['requestAnonymousFlg'],
-    creatorUserId: json['creatorUserId'] == null?null:json['creatorUserId'],
+    fanUserId: json['fanUserId'],
+    requestAnonymousFlg: json['requestAnonymousFlg'],
+    creatorUserId: json['creatorUserId'],
   );}
 
 }

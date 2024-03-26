@@ -31,8 +31,8 @@ class _EmbedMeta {
     description: json['description'],
     image: json['image'],
     title: json['title'],
-    type: json['type'] == null?null:json['type'],
-    card: json['card'] == null?null:json['card'],
+    type: json['type'],
+    card: json['card'],
   );}
 
 }

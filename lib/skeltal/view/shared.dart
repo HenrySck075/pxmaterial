@@ -7,4 +7,7 @@ ListTile listTileWidget = const ListTile(
   subtitle: Text("       "), 
 );
 
-Column comments = Column(children: List.generate(3, (index) => listTileWidget),);
+SizedBox comments = SizedBox(
+  height: 400,
+  child: Column(children: List.generate(3, (index) => listTileWidget),)
+);
