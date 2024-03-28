@@ -24,7 +24,6 @@ import 'pages/tags/index.dart' as tags;
 import 'pages/discovery/index.dart' as discovery;
 import 'pages/users/index.dart' as users;
 import 'package:sofieru/pages/requests/index.dart' as request;
-import 'pages/1984.dart';
 import "pages/helpcenter/helpcenter.dart" as hc;
 
 import 'package:flutter/material.dart';
@@ -98,11 +97,6 @@ void main() async {
         navigatorKey: pa,
         builder: (ctx,st,wid)=>ShellPage(child: wid),
         routes: [
-          GoRoute(
-            path:"/pg",
-            parentNavigatorKey: pa,
-            builder:(ctx,st)=>Playground()
-          ),
           ShellRoute(
             builder: (hs,jdjd,child) => Scaffold(body: child,),
             routes: [

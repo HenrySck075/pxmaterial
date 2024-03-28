@@ -61,28 +61,28 @@ class _ArtworkPageState extends State<ArtworkPage> {
       pxRequest("https://www.pixiv.net/ajax/illust/$id/pages"),
     ];
     return Scaffold(
-      body: futureWidget(placeholder: mainSkel(), future: Future.wait(ed), builder: (context,dd) {
+      body: futureWidget(placeholder: SingleChildScrollView(child:mainSkel()), future: Future.wait(ed), builder: (context,dd) {
         var data = dd.data![0];
         List<dynamic> gang = dd.data![1];
         op = (shownAll?gang:[gang[0]]);
         final view = (data["illustType"]!=2) ? [
           Center(child:Column(
-            children: List.from(enumerate(op!, (idx,i)=>Padding(
-              padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-              child: GestureDetector(
+            children: List.from(enumerate(op!, (idx,i){
+
+              final (w,h) = calcDim(i["width"],i["height"]);
+              return Padding(
+                padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                child: GestureDetector(
                   onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (builder)=>ArtworkImageView(data: i,heroTag: "${id}_p$idx",))),
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 350, maxHeight: 1000),
-                    child: Hero(tag: "${id}_p$idx", child: pxImage(i["urls"]["regular"],placeholder:(lmao, h){
-                      final (w,h) = calcDim(i["width"],i["height"]);
-                      return Skeletonizer(child:Skeleton.leaf(
-                        child: Material(child: SizedBox(width:w,height:h),) 
-                      ));
-                    }))
+                    child: Hero(tag: "${id}_p$idx", child: pxImage(i["urls"]["regular"],placeholder:Skeletonizer(child:Skeleton.leaf(
+                      child: Material(child: SizedBox(width:w,height:h),) 
+                    ))))
                   )
                 ),
-              ))
-            )
+              );}
+            ))
           )),
           if (data["pageCount"]>1) Center(child:FilledButton(child: Text(shownAll?"Collapse":"Show all"),onPressed: ()=>setState((){
             op=(shownAll?gang:[gang[0]]);

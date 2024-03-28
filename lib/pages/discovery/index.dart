@@ -20,7 +20,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> with SingleTickerProvider
   @override
   Widget build(context) {
     return Scaffold( 
-      appBar: AppBar(bottom:TabBar(
+      appBar: AppBar(toolbarHeight: 0,bottom:TabBar(
       controller: _ctrl,
         tabs: const[
           Tab(

@@ -1,5 +1,6 @@
 // Widgets & builder
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
@@ -9,7 +10,7 @@ import 'package:sofieru/json/ajax/user/User.dart';
 import 'package:sofieru/shared.dart' show pxRequest, tryCast, navigate, JSON, currentRouteURI;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_image/flutter_image.dart';
 /// Header text
 Text header(String label)=>Text(label,style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold));
 
@@ -48,8 +49,10 @@ SizedBox TabChips({
     scrollDirection: Axis.horizontal,
     itemCount: labels.length,
     itemBuilder: (c,i) => ChoiceChip(
-      selected: false,
-      label: Text(labels[i]), onSelected: (selected) {
+      selected: i==index,
+      showCheckmark: false,
+      label: Text(labels[i]), 
+      onSelected: (selected) {
         if (selected) {
           index = i;
           if (onSelect!=null) onSelect(index);
@@ -79,13 +82,10 @@ FutureBuilder<T> futureWidget<T>({required Future<T>? future, required AsyncWidg
   });
 }
 
+/// TODO: implement retry on this fraud
+CachedNetworkImage pxImage(String url, {double? width, double? height, Widget? placeholder}) => CachedNetworkImage(imageUrl: url,httpHeaders: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, width: width, height: height,placeholder: (c,d)=>placeholder??SizedBox(width: width,height: height,),);
 
-CachedNetworkImage pxImage(String url, {bool includeCircle = false, double? width, double? height, Widget Function(BuildContext,String)? placeholder}) => CachedNetworkImage(
-  imageUrl: url, width: width, height: height, httpHeaders: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, placeholder: includeCircle?(context, url) => const CircularProgressIndicator():placeholder,
-  
-);
-
-Image pxImageFlutter(String url, {bool includeCircle = false, int? width, int? height}) => Image.network(url, width: tryCast<double>(width), height: tryCast<double>(height), cacheHeight: height, cacheWidth: width, headers: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, loadingBuilder:  includeCircle?(ctx,w,imgChunk) => const CircularProgressIndicator():null,);
+Image pxImageFlutter(String url, {double? width, double? height, Widget? placeholder}) => Image(image: NetworkImageWithRetry(url,headers: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"},), width: width, height: height, loadingBuilder: (ctx,w,imgChunk) => placeholder??SizedBox(width: width, height: height,),);
 
 String hm(int seconds) {
   int m = (seconds/60).floor()%60;
@@ -403,7 +403,7 @@ class _PxSimpleArtworkState extends State<PxSimpleArtwork> {
       children: [
         GestureDetector(
           onTap: (){
-            navigate("/artworks/"+id);
+            navigate("/artworks/$id");
           },
           child:Container(
             decoration: BoxDecoration(

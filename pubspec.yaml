@@ -63,6 +63,7 @@ dependencies:
   webview_flutter: ^4.7.0
   memoized: ^2.2.1
   skeletonizer: ^1.1.0
+  flutter_image: ^4.1.11
 
 dev_dependencies:
   flutter_test:

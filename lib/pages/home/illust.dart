@@ -30,7 +30,7 @@ class IllustsPage extends StatelessWidget {
           (String id) {
             try {
               return mainresp.thumbnails.illust!.firstWhere(
-                (e) => e.id==id, 
+                (e) => e.id==id 
               );
             } on StateError {return null;}
           }
@@ -76,7 +76,7 @@ class IllustsPage extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               children: mainresp.page.tags.map((e) => Padding(padding: const EdgeInsets.only(left: 2,right:2),child:Column(children: [
                 Builder(builder: (ctx){
-                  var h = pxImageFlutter(getData(e.ids[random.nextInt(e.ids.length)].toString())!.url,height: 287);
+                  var h = pxImage(getData(e.ids[random.nextInt(e.ids.length)].toString())!.url,height: 257);
                   // var h5n1 = img.copyCrop(img.Image.fromBytes(width: h.width, height: h.height, bytes: h), x: 287/2-(183/2), y: 0, width: 183, height: 287);
                   return Container(
                     decoration: const BoxDecoration( 
@@ -97,11 +97,15 @@ class IllustsPage extends StatelessWidget {
               List.from(mainresp.page.recommendByTag.map((e)=>[
                 GestureDetector( 
                   onTap: ()=>navigate("/tags/${e.tag}"),
-                  child: header("#${mainresp.tagTranslation[e.tag]?.en??e.tag} artworks")
+                  child: header("#${mainresp.tagTranslation[e.tag]?.en??e.tag} works")
                 ),
                 SizedBox(height:280,child:ListView( 
                   scrollDirection: Axis.horizontal,
-                  children: List.from(e.ids.map((i)=>PxArtwork(data: getData(i)!))),
+                  children: List.from(e.ids.map((i){
+                    var d = getData(i);
+                    return d!=null?PxArtwork(data: d):null;
+
+                  }).where((element) => element!=null)),
                 )),
                 const SizedBox(height: 50,),
               ])

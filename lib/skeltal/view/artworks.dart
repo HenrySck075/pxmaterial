@@ -12,7 +12,7 @@ Column mainSkel({
   children: [
     const SizedBox.square(dimension: 350,),
 
-    if (desc==null) const Card(child: SizedBox(),)
+    if (desc==null) const Card(child: SizedBox(width: 400,height: 200,),)
     else Skeleton.keep(child: Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(

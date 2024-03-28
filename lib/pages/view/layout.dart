@@ -147,7 +147,7 @@ class _WorkLayoutState extends State<WorkLayout> {
                 padding: const EdgeInsets.all(8.0),
                 child: Card(
                   child: Padding( 
-                    padding: const EdgeInsets.all(4),
+                    padding: const EdgeInsets.all(8),
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                       Text(data.titleCaptionTranslation.workTitle??data.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
                       const SizedBox(height: 10,),
@@ -210,11 +210,13 @@ class _WorkLayoutState extends State<WorkLayout> {
               ),
               // Comments
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("Comments",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left),
+                  const Padding(padding:EdgeInsets.only(left:4),child: Text("Comments",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left)),
                   Comments(id: id)
                 ],
               ),
+              const SizedBox(height: 35,),
               
               const Text("Related artworks",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left),
               futureWidget(

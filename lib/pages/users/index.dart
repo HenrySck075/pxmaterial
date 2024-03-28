@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sofieru/json/ajax/user/User.dart';
 import 'package:sofieru/pages/users/illusts.dart';
 import 'package:sofieru/shared.dart';
