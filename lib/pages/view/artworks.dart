@@ -10,6 +10,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:sofieru/pages/view/layout.dart';
 import 'package:sofieru/shared.dart';
 import 'package:archive/archive.dart' as arch;
+import 'package:sofieru/skeltal/view/artworks.dart';
 
 
 class ArtworkPage extends StatefulWidget {
@@ -60,7 +61,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
       pxRequest("https://www.pixiv.net/ajax/illust/$id/pages"),
     ];
     return Scaffold(
-      body: futureWidget(future: Future.wait(ed), builder: (context,dd) {
+      body: futureWidget(placeholder: mainSkel(), future: Future.wait(ed), builder: (context,dd) {
         var data = dd.data![0];
         List<dynamic> gang = dd.data![1];
         op = (shownAll?gang:[gang[0]]);

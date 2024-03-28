@@ -11,7 +11,7 @@ import 'package:sofieru/json/ajax/illust/Artwork.dart' show Artwork;
 import 'package:sofieru/json/ajax/novel/Novel.dart';
 import 'package:sofieru/json/ajax/user/PartialUser.dart';
 import 'package:sofieru/shared.dart';
-import 'package:sofieru/skeltal/view/artworks.dart';
+import 'package:sofieru/skeltal/view/layout.dart';
 import 'shared.dart';
 import "package:sofieru/skeltal/skeltal.dart";
 

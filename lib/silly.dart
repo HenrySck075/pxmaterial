@@ -39,24 +39,25 @@ Wrap artworkGrid(Iterable<Widget> h) => Wrap(
   children: h.toList(),
 );
 
-Column TabChips({
+SizedBox TabChips({
   required List<String> labels,
-  ValueChanged<bool>? onSelect,
+  ValueChanged<int>? onSelect,
   int index = 0
 }) {
-  return Column( 
-    children: [
-      SizedBox(height: 36,child: ListView(
-        scrollDirection: Axis.vertical,
-        children: labels.map((e) => ChoiceChip(
-          selected: false,
-          label: Text(e), onSelected: (selected) {
-            if (selected) {index = labels.indexOf(e);}
-          }
-        )
-      ).toList(),)
-    )],
-  );
+  return SizedBox(height: 36,child: ListView.separated(
+    scrollDirection: Axis.horizontal,
+    itemCount: labels.length,
+    itemBuilder: (c,i) => ChoiceChip(
+      selected: false,
+      label: Text(labels[i]), onSelected: (selected) {
+        if (selected) {
+          index = i;
+          if (onSelect!=null) onSelect(index);
+        }
+      }
+    ),
+    separatorBuilder: (c,i)=>const SizedBox(width: 4,),
+  ));
 }
 
 /// FutureBuilder that will only build passed builder if the future is fulfilled.
@@ -224,7 +225,7 @@ class _PxArtworkState extends State<PxArtwork> {
                         right: 0,
                         child: Icon(Icons.favorite_outline,color:Colors.black)
                       ),
-                      if (data.illustType==2) const Positioned.fill(child: Align(alignment: Alignment.center,child: Icon(Icons.play_circle_outlined,size: 24,),)),
+                      if (data.illustType==2) const Positioned.fill(child: Align(alignment: Alignment.center,child: Icon(Icons.play_circle_outlined,size: 48,),)),
                       if (widget.rank != 0) Positioned(
                         top:4, left:4,
                         child:SizedBox(
