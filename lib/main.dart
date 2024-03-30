@@ -346,53 +346,59 @@ class _ShellPageState extends State<ShellPage> {
         },
         children: navs
       ),
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer, 
-        actions: [
-          SearchAnchor(
-            builder: (ctx,ctrl) => IconButton( 
-              icon: const Icon(Icons.search),
-              onPressed: ctrl.openView,
-            ), 
-            suggestionsBuilder: (dontcare,ctrl)=>[
-              const Text("Number 15, Burger King Foot Lettuce")
+      backgroundColor:Theme.of(context).colorScheme.primaryContainer,
+      body: NestedScrollView( 
+        headerSliverBuilder: (c,isScrolling) =>[
+          SliverAppBar(
+            forceElevated: isScrolling,
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer, 
+            actions: [
+              SearchAnchor(
+                builder: (ctx,ctrl) => IconButton( 
+                  icon: const Icon(Icons.search),
+                  onPressed: ctrl.openView,
+                ), 
+                suggestionsBuilder: (dontcare,ctrl)=>[
+                  const Text("Number 15, Burger King Foot Lettuce")
+                ],
+              ),
+              IconButton(onPressed: ()=>showDialog(
+                context: context, 
+                builder: (c) => AlertDialog(
+                  title: const Text("Navigate to"),
+                  content: TextField(
+                    onSubmitted: (v)=>c.go(v),
+                  ),
+                )
+              ), icon: const Icon(Icons.navigation)),
+              IconButton(onPressed: (){
+                if (router.canPop()) router.pop();
+              }, icon: const Icon(Icons.arrow_left), tooltip: "back",),
+              IconButton(onPressed: (){
+                Clipboard.setData(ClipboardData(text: currentRouteURI().path)).then((value) => ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Current path URL copied to clipboard! Debug: ${currentRouteURI().path}"))
+                ));
+              }, icon: const Icon(Icons.link)),
+              if (kDebugMode) const IconButton(onPressed: clearRequestCache, icon:Icon(Icons.refresh), tooltip: "Reset request cache (DEBUG)",)
             ],
           ),
-          IconButton(onPressed: ()=>showDialog(
-            context: context, 
-            builder: (c) => AlertDialog(
-              title: const Text("Navigate to"),
-              content: TextField(
-                onSubmitted: (v)=>c.go(v),
-              ),
-            )
-          ), icon: const Icon(Icons.navigation)),
-          IconButton(onPressed: (){
-            if (router.canPop()) router.pop();
-          }, icon: const Icon(Icons.arrow_left), tooltip: "back",),
-          IconButton(onPressed: (){
-            Clipboard.setData(ClipboardData(text: currentRouteURI().path)).then((value) => ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Current path URL copied to clipboard! Debug: ${currentRouteURI().path}"))
-            ));
-          }, icon: const Icon(Icons.link)),
-          if (kDebugMode) const IconButton(onPressed: clearRequestCache, icon:Icon(Icons.refresh), tooltip: "Reset request cache (DEBUG)",)
+
         ],
-      ),
-      backgroundColor:Theme.of(context).colorScheme.primaryContainer,
-      body: Center(
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-            color: Theme.of(context).scaffoldBackgroundColor
-          ),
-          padding: const EdgeInsets.only(top: 8),
-          
-          // basic google layout constraint
-          
-          constraints: const BoxConstraints(maxWidth:1260),
-          clipBehavior: Clip.hardEdge,
-          child: widget.child
-        ) 
+        body:Center(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+              color: Theme.of(context).scaffoldBackgroundColor
+            ),
+            padding: const EdgeInsets.only(top: 8),
+            
+            // basic google layout constraint
+            
+            constraints: const BoxConstraints(maxWidth:1260),
+            clipBehavior: Clip.hardEdge,
+            child: widget.child
+          ) 
+        )
       ),
       bottomNavigationBar: NavigationBar(destinations: const [
         NavigationDestination(

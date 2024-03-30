@@ -60,7 +60,6 @@ dependencies:
   json_serializable: ^6.7.1
   json_annotation: ^4.8.1
   dart_eval: ^0.7.4
-  webview_flutter: ^4.7.0
   memoized: ^2.2.1
   skeletonizer: ^1.1.0
   flutter_image: ^4.1.11

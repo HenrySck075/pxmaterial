@@ -2,8 +2,8 @@
 
 import sys
 name = sys.argv[1]
-print(name)
-import json
+print(name+"\n------")
+import json, re
 from typing import Any
 classes = {
     "str": "String",
@@ -25,6 +25,26 @@ d: dict[str,Any] = json.load(open(sys.argv[2],encoding="utf-8"))
 imported = []
 output = """"""
 cry = lambda x: x.split("/")[-1]
+
+bed = re.compile("class ([a-zA-Z|_]*) {(.*)}",re.S|re.M)
+
+def _purgeUnusedClasses(file: str):
+    ret = file
+    for c in bed.finditer(file):
+        print(c.group(1))
+        fileR = ret.replace(c.group(),"")
+        "the one with the class removed"
+        className = c.group(1)
+        if className == name: continue
+
+        if className not in fileR:
+            ret = fileR
+
+    return ret
+
+def purgeUnusedClasses(f): 
+    "TODO: actual code is above this"
+    return f
 
 def pathparse(path:str, start:str):
     return (start if path.startswith('$/') else '')+path.removeprefix("$/")
@@ -179,4 +199,4 @@ def generate(data, name=""):
     return name
 
 generate(d, name)
-open(name+".dart","w",encoding="utf-8").write(output)
+open(name+".dart","w",encoding="utf-8").write(purgeUnusedClasses(output))
