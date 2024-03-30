@@ -331,7 +331,11 @@ class _ShellPageState extends State<ShellPage> {
       const Text("Do not redistribute without crediting authors of this repository and the original app.",style: TextStyle(color: Colors.grey, fontSize: 8),), // - HenrySck075 (Henry Spheria)
     ];
     // var appState = context.watch<MyAppState>();
-    var navBarIndex = navBarEntries.indexOf(currentRouteURI().path);
+    const theFunny = {
+      "/novel/discovery": '/discovery'
+    };
+    var d = currentRouteURI().path;
+    var navBarIndex = navBarEntries.indexOf(theFunny[d]??d);
     // usually -1
     if (navBarIndex<0) {navBarIndex = 0;}
     return Scaffold(
@@ -346,61 +350,50 @@ class _ShellPageState extends State<ShellPage> {
         },
         children: navs
       ),
-      backgroundColor:Theme.of(context).colorScheme.primaryContainer,
-      body: NestedScrollView( 
-        headerSliverBuilder: (c,isScrolling) =>[
-          SliverAppBar(
-            forceElevated: isScrolling,
-            backgroundColor: Theme.of(context).colorScheme.primaryContainer, 
-            actions: [
-              SearchAnchor(
-                builder: (ctx,ctrl) => IconButton( 
-                  icon: const Icon(Icons.search),
-                  onPressed: ctrl.openView,
-                ), 
-                suggestionsBuilder: (dontcare,ctrl)=>[
-                  const Text("Number 15, Burger King Foot Lettuce")
-                ],
-              ),
-              IconButton(onPressed: ()=>showDialog(
-                context: context, 
-                builder: (c) => AlertDialog(
-                  title: const Text("Navigate to"),
-                  content: TextField(
-                    onSubmitted: (v)=>c.go(v),
-                  ),
-                )
-              ), icon: const Icon(Icons.navigation)),
-              IconButton(onPressed: (){
-                if (router.canPop()) router.pop();
-              }, icon: const Icon(Icons.arrow_left), tooltip: "back",),
-              IconButton(onPressed: (){
-                Clipboard.setData(ClipboardData(text: currentRouteURI().path)).then((value) => ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Current path URL copied to clipboard! Debug: ${currentRouteURI().path}"))
-                ));
-              }, icon: const Icon(Icons.link)),
-              if (kDebugMode) const IconButton(onPressed: clearRequestCache, icon:Icon(Icons.refresh), tooltip: "Reset request cache (DEBUG)",)
+      appBar: AppBar(
+        //backgroundColor: Theme.of(context).colorScheme.surfaceVariant, 
+        actions: [
+          SearchAnchor(
+            builder: (ctx,ctrl) => IconButton( 
+              icon: const Icon(Icons.search),
+              onPressed: ctrl.openView,
+            ), 
+            suggestionsBuilder: (dontcare,ctrl)=>[
+              const Text("Number 15, Burger King Foot Lettuce")
             ],
           ),
-
+          IconButton(onPressed: ()=>showDialog(
+            context: context, 
+            builder: (c) => AlertDialog(
+              title: const Text("Navigate to"),
+              content: TextField(
+                onSubmitted: (v)=>c.go(v),
+              ),
+            )
+          ), icon: const Icon(Icons.navigation)),
+          IconButton(onPressed: (){
+            if (router.canPop()) router.pop();
+          }, icon: const Icon(Icons.arrow_left), tooltip: "back",),
+          IconButton(onPressed: (){
+            Clipboard.setData(ClipboardData(text: currentRouteURI().path)).then((value) => ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Current path URL copied to clipboard! Debug: ${currentRouteURI().path}"))
+            ));
+          }, icon: const Icon(Icons.link)),
+          if (kDebugMode) const IconButton(onPressed: clearRequestCache, icon:Icon(Icons.refresh), tooltip: "Reset request cache (DEBUG)",)
         ],
-        body:Center(
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-              color: Theme.of(context).scaffoldBackgroundColor
-            ),
-            padding: const EdgeInsets.only(top: 8),
-            
-            // basic google layout constraint
-            
-            constraints: const BoxConstraints(maxWidth:1260),
-            clipBehavior: Clip.hardEdge,
-            child: widget.child
-          ) 
-        )
       ),
-      bottomNavigationBar: NavigationBar(destinations: const [
+      body: Center(
+        child: Container(
+          padding: const EdgeInsets.only(top: 8),
+          
+          // basic google layout constraint
+          
+          constraints: const BoxConstraints(maxWidth:1260),
+          child: widget.child
+        ) 
+      ),
+      bottomNavigationBar: NavigationBar(
+      destinations: const [
         NavigationDestination(
           icon: Icon(Icons.home),
           label: 'Home',
@@ -409,7 +402,25 @@ class _ShellPageState extends State<ShellPage> {
           icon: Icon(Icons.favorite),
           label: 'Discovery',
         ),
-      ],onDestinationSelected: (idx)=>navigate(navBarEntries[idx]),selectedIndex: navBarIndex,),
+        NavigationDestination(
+          icon: Icon(Icons.add_circle),
+          label: '',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.home),
+          label: 'filler',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.favorite),
+          label: 'items',
+        ),
+      ],
+      onDestinationSelected: (idx){
+        if (idx<navBarEntries.length) {navigate(navBarEntries[idx]);}
+        else {showDialog(context: context, builder: (nuh)=>const AlertDialog(title: Text("no lol"),content: Text("hi"),));}
+      },
+      selectedIndex: navBarIndex,
+      ),
     );
   }
 }

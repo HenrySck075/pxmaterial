@@ -40,27 +40,28 @@ Wrap artworkGrid(Iterable<Widget> h) => Wrap(
   children: h.toList(),
 );
 
-SizedBox TabChips({
+ListenableBuilder TabChips({
   required List<String> labels,
   ValueChanged<int>? onSelect,
-  int index = 0
+  int idx = 0
 }) {
-  return SizedBox(height: 36,child: ListView.separated(
+  var index = ValueNotifier(idx);
+  return ListenableBuilder(listenable: index, builder: (n,e)=>SizedBox(height: 36,child: ListView.separated(
     scrollDirection: Axis.horizontal,
     itemCount: labels.length,
     itemBuilder: (c,i) => ChoiceChip(
-      selected: i==index,
+      selected: i==index.value,
       showCheckmark: false,
       label: Text(labels[i]), 
       onSelected: (selected) {
         if (selected) {
-          index = i;
-          if (onSelect!=null) onSelect(index);
+          if (onSelect!=null) onSelect(index.value);
+          index.value = i;
         }
       }
     ),
     separatorBuilder: (c,i)=>const SizedBox(width: 4,),
-  ));
+  )));
 }
 
 /// FutureBuilder that will only build passed builder if the future is fulfilled.

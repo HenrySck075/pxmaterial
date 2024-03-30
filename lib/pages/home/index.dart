@@ -31,15 +31,15 @@ class _ShellPageState extends State<ShellPage> with SingleTickerProviderStateMix
           controller: _ctrl,
           tabs: const [
             Tab(
-              icon: Icon(Icons.palette_outlined), 
+              //icon: Icon(Icons.palette_outlined), 
               text: "Illusts"
             ),
             Tab(
-              icon: Icon(Icons.photo_library_outlined), 
+              //icon: Icon(Icons.photo_library_outlined), 
               text: "Manga"
             ),
             Tab(
-              icon: Icon(Icons.art_track_outlined), 
+              //icon: Icon(Icons.art_track_outlined), 
               text: "Novels"
             )
           ],
