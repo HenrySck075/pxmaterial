@@ -49,7 +49,7 @@
                     "$nullable": ["$all"]
                 }                
             },
-            "$emptiable": ["planTranslationTitle"]
+            "$checkFalsy": ["planTranslationTitle"]
         },
         "planDescription": {
             "planOriginalDescription": "未成年の人向けの、主に健全寄りのイラストのリクエストを受け付けてます。\n軽いキス程度のイラストはこちらでも受けれます！\nなお、18禁のイラストは別のプランの方でリクエストしてください。",
@@ -63,7 +63,7 @@
                     "$nullable": ["$all"]
                 }
             },
-            "$emptiable": ["planTranslationDescription"]
+            "$checkFalsy": ["planTranslationDescription"]
         },
         "planAcceptAdultFlg": false,
         "planAcceptAnonymousFlg": true,

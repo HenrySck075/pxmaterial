@@ -7,13 +7,21 @@ import 'package:flutter_context_menu/flutter_context_menu.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sofieru/json/ajax/illust/PartialArtwork.dart';
 import 'package:sofieru/json/ajax/user/User.dart';
-import 'package:sofieru/shared.dart' show pxRequest, tryCast, navigate, JSON, currentRouteURI;
+import 'package:sofieru/shared.dart' show pxRequest, navigate, JSON, currentRouteURI;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_image/flutter_image.dart';
 /// Header text
 Text header(String label)=>Text(label,style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold));
 
+Widget redirectionHeader(BuildContext context, Text label) =>TextButton(
+style: TextButton.styleFrom(textStyle: DefaultTextStyle.of(context).style.merge(label.style)),
+  child: Row(
+    children:[label,const SizedBox(width: 4,),const Icon(Icons.arrow_right_alt)]
+  ),
+  onPressed: ()=>navigate("/discovery"),
+  
+);
 /// make `notifyListeners` non-protected :trollskullirl:
 class VisibleNotifyNotifier<T> extends ChangeNotifier {
   T _value;

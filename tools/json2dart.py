@@ -90,13 +90,14 @@ def generate(data, name=""):
     extends = ""
     out = f"class {name} "
 
-    emptiable = data.get("$emptiable",[])
+    checkFalsy = data.get("$checkFalsy",[])
     nullable = data.get("$nullable",[])
     desc: dict[str,str] = data.get("$desc",{})
+    b = "import 'package:sofieru/json/base.dart' show checkFalsy;"
     if "$this" in desc:
         out="/// "+"\n/// ".join(desc["$this"].splitlines())+"\n"+out
-    g = emptiable+nullable
-    if "$all" in emptiable: emptiable = list(data.keys())
+    g = checkFalsy+nullable
+    if "$all" in checkFalsy: checkFalsy = list(data.keys())
     if "$all" in nullable: nullable = list(data.keys())
 
     if doExtends: 
@@ -105,7 +106,7 @@ def generate(data, name=""):
         extends = cry(data["$extends"])
         tryimport(pathparse(data['$extends'],'package:sofieru/json/ajax/'),extends)
         data = data | c 
-        emptiable.extend(c.get("$emptiable",[]))
+        #checkFalsy.extend(c.get("$checkFalsy",[]))
         nullable.extend(c.get("$nullable",[]))
 
     if doExtends: out+=f"extends {extends} "
@@ -130,11 +131,11 @@ def generate(data, name=""):
         #b = (vto==list and len(v)==0)
 
         if isInvalidPropName(k):return f"Map<String, {boy(name.removeprefix('_')+'Content',v)}>"
-        required = not (k in emptiable or k in nullable) #or b
+        required = not (k in checkFalsy or k in nullable) #or b
         # fnnuy = {"$schema":"$/shared/Placeholder"}
         fnnuy = dynamic()
         # if k=="planTranslationTitle":breakpoint()
-        vt=boy(k,v if not (k in emptiable and len(v)!=0 and vto == list and v[0]==dict) else fnnuy if type(v)!=list else [fnnuy])
+        vt=boy(k,v if not (k in checkFalsy and len(v)!=0 and vto == list and v[0]==dict) else fnnuy if type(v)!=list else [fnnuy])
         if vt=="Null": 
             vt="String"
             required = False
@@ -150,12 +151,12 @@ def generate(data, name=""):
         toJson+=f'    "{k}": {k}'
         if k not in supers:
             fromJson+=f"    {k}: json['{k}']"
-            if k in emptiable: fromJson+=f" is List?null:json['{k}']"
+            if k in checkFalsy: fromJson=fromJson[:-8-len(k)]+f"checkFalsy(json['{k}'])?null:json['{k}']"
             if k in nullable: fromJson+=f" == null?null:json['{k}']"
             if vt.startswith("Map<"):
                 # vt2 = vt.removeprefix('Map<String, ').removesuffix('>')
                 fromJson=fromJson[:-8-len(k)]+f"(json['{k}'] as Map<String,dynamic>)"
-            if k not in emptiable and (vto not in [list,dict]): 'fromJson+=f" as {vt}"'
+            if k not in checkFalsy and (vto not in [list,dict]): 'fromJson+=f" as {vt}"'
             elif vto==list: 
                 j = vt.removesuffix(">").removeprefix("List<") # we might not having to
                 fromJson=fromJson[:-8-len(k)]+f"(json['{k}'] as List<dynamic>)"
@@ -173,7 +174,9 @@ def generate(data, name=""):
                     # dart really just do a 🤫🧏 on type conversion lmao
                     fromJson+=".map((k,v)=>MapEntry(k,"+("v==null?null:" if n else "")+(f"{vt2}.fromJson(v)" if vt2 not in classes.values() else f"v as {vt2}"+("?" if n else ""))+"))"
                 else:
-                    fromJson=fromJson[:-8-len(k)]+f"{vt}.fromJson(json['{k}'])"
+                    fromJson=fromJson[:-8-len(k)]
+                    if vt not in ["String", "int","bool","double"]:fromJson+=f"{vt}.fromJson(json['{k}'])"
+                    else: fromJson+=f"json['{k}'] as {vt}"
         else: 
             fromJson+=f"    {k}: parent.{k}"
         if vto==list:
@@ -195,6 +198,8 @@ def generate(data, name=""):
     if "$typedef" in data: 
         for k,v in data["$typedef"].items():
             out+=f"typedef {k}={v};"+"\n"
+    if len(checkFalsy) != 0 and b not in output:
+        output=b+"\n"+output
     output+=out+"\n"
     return name
 

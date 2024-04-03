@@ -5,7 +5,7 @@ tl;dr:
 $name: use this name instead of the key
 $type: this object is this type 
 $schema: ref the type of an external file
-$emptiable: list of emptiable objects (those who returns empty arrays for "nothing")
+$checkFalsy: list of objects that needs to check for falsy to nullfies it 
 $nullable: nullable 
 $typedef: typedefing my beloved (it hasnt bern used)
 $desc: Map of item comments

@@ -5,6 +5,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
@@ -338,6 +339,8 @@ class _ShellPageState extends State<ShellPage> {
     var navBarIndex = navBarEntries.indexOf(theFunny[d]??d);
     // usually -1
     if (navBarIndex<0) {navBarIndex = 0;}
+
+    final medQuery = MediaQuery.of(context);
     return Scaffold(
       drawer: NavigationDrawer(
         selectedIndex: pageIndex,
@@ -392,35 +395,34 @@ class _ShellPageState extends State<ShellPage> {
           child: widget.child
         ) 
       ),
-      bottomNavigationBar: NavigationBar(
-      destinations: const [
-        NavigationDestination(
-          icon: Icon(Icons.home),
-          label: 'Home',
-        ),
-        NavigationDestination(
-          icon: Icon(Icons.favorite),
-          label: 'Discovery',
-        ),
-        NavigationDestination(
-          icon: Icon(Icons.add_circle),
-          label: '',
-        ),
-        NavigationDestination(
-          icon: Icon(Icons.home),
-          label: 'filler',
-        ),
-        NavigationDestination(
-          icon: Icon(Icons.favorite),
-          label: 'items',
-        ),
-      ],
-      onDestinationSelected: (idx){
-        if (idx<navBarEntries.length) {navigate(navBarEntries[idx]);}
-        else {showDialog(context: context, builder: (nuh)=>const AlertDialog(title: Text("no lol"),content: Text("hi"),));}
-      },
-      selectedIndex: navBarIndex,
-      ),
+      floatingActionButton: FloatingActionButton(onPressed: ()=>print("nice >:]"),child: Icon(Icons.add),),
+      bottomNavigationBar: medQuery.size.width<=820?NavigationBar(
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.favorite),
+            label: 'Discovery',
+          ),
+          SizedBox(width:80),
+          NavigationDestination(
+            icon: Icon(Icons.home),
+            label: 'filler',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.favorite),
+            label: 'items',
+          ),
+        ],
+        onDestinationSelected: (idx){
+          if (idx<navBarEntries.length) {navigate(navBarEntries[idx]);}
+          else {showDialog(context: context, builder: (nuh)=>const AlertDialog(title: Text("no lol"),content: Text("hi"),));}
+        },
+        selectedIndex: navBarIndex,
+      ):null,
+      floatingActionButtonLocation: medQuery.size.width>=820?FloatingActionButtonLocation.endFloat:FloatingActionButtonLocation.centerDocked,
     );
   }
 }

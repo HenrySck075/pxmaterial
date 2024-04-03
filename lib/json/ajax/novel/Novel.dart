@@ -45,6 +45,57 @@ class _Tags {
 
 }
 
+class _Prev {
+  final String id;
+  final String title;
+  final int order;
+  _Prev({
+    required this.id,
+    required this.title,
+    required this.order,
+  });
+  factory _Prev.fromJson(Map<String, dynamic> json) {
+    return _Prev(
+    id: json['id'],
+    title: json['title'],
+    order: json['order'],
+  );}
+
+}
+
+class _SeriesNavData {
+  final String seriesType;
+  final String seriesId;
+  final String title;
+  final int order;
+  final bool isWatched;
+  final bool isNotifying;
+  final _Prev prev;
+  final String? next;
+  _SeriesNavData({
+    required this.seriesType,
+    required this.seriesId,
+    required this.title,
+    required this.order,
+    required this.isWatched,
+    required this.isNotifying,
+    required this.prev,
+    this.next,
+  });
+  factory _SeriesNavData.fromJson(Map<String, dynamic> json) {
+    return _SeriesNavData(
+    seriesType: json['seriesType'],
+    seriesId: json['seriesId'],
+    title: json['title'],
+    order: json['order'],
+    isWatched: json['isWatched'],
+    isNotifying: json['isNotifying'],
+    prev: _Prev.fromJson(json['prev']),
+    next: json['next'],
+  );}
+
+}
+
 class _TitleCaptionTranslation {
   final String? workTitle;
   final String? workCaption;
@@ -158,6 +209,7 @@ class Novel extends Work {
     required super.id,
     required super.title,
     required super.description,
+    required super.bookStyle,
     required super.createDate,
     required super.uploadDate,
     required super.restrict,
@@ -214,6 +266,7 @@ class Novel extends Work {
     id: parent.id,
     title: parent.title,
     description: parent.description,
+    bookStyle: parent.bookStyle,
     createDate: parent.createDate,
     uploadDate: parent.uploadDate,
     restrict: parent.restrict,

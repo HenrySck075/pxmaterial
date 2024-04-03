@@ -4,19 +4,27 @@ class LatestFollowingPage extends StatefulWidget {
   @override
   State<LatestFollowingPage> createState()=>_LatestFollowingPageState();
 }
-class _LatestFollowingPageState extends State<LatestFollowingPage>{
+class _LatestFollowingPageState extends State<LatestFollowingPage> with SingleTickerProviderStateMixin{
   int idx = 0;
+  late final TabController _shut;
+  @override
+  void initState() {
+    super.initState();
+    _shut = TabController(length: 3, vsync: this,initialIndex: idx);
+  }
   @override
   Widget build(context) {
     return Scaffold( 
-      bottomNavigationBar: NavigationBar(destinations: const[
-        NavigationDestination(icon: Icon(Icons.favorite_outlined), label: "Following"),
-        NavigationDestination(icon: Icon(Icons.bookmark_outlined), label: "Watchlist"),
-        NavigationDestination(icon: Icon(Icons.person_outlined), label: "Mypixiv"),// need better icon
-      ],selectedIndex: idx, onDestinationSelected: (v)=>setState(() {
+      appBar: AppBar(bottom:TabBar(tabs: const[
+        Tab(icon: Icon(Icons.favorite_outlined), text: "Following"),
+        Tab(icon: Icon(Icons.bookmark_outlined), text: "Watchlist"),
+        Tab(icon: Icon(Icons.person_outlined), text: "Mypixiv"),// need better icon
+      ],onTap: (v)=>setState(() {
         idx = v;
-      }),),
-      body: [Placeholder(),Placeholder(),Placeholder()][idx],
+      }),controller: _shut,),toolbarHeight: 0,),
+      body: TabBarView(controller: _shut,children: [
+        Placeholder(), Placeholder(), Placeholder()
+      ]),
     );
   }
 }

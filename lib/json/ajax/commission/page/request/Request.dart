@@ -1,3 +1,4 @@
+import 'package:sofieru/json/base.dart' show checkFalsy;
 class _RequestTranslationProposal {
   final String requestProposal;
   final String requestProposalHtml;
@@ -65,7 +66,7 @@ class _PlanTitle {
     return _PlanTitle(
     planOriginalTitle: json['planOriginalTitle'],
     planOriginalTitleLang: json['planOriginalTitleLang'],
-    planTranslationTitle: json['planTranslationTitle'] is List?null:(json['planTranslationTitle'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_PlanTranslationTitleContent.fromJson(v))),
+    planTranslationTitle: checkFalsy(json['planTranslationTitle'])?null:(json['planTranslationTitle'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_PlanTranslationTitleContent.fromJson(v))),
   );}
 
 }
@@ -104,7 +105,7 @@ class _PlanDescription {
     planOriginalDescription: json['planOriginalDescription'],
     planOriginalDescriptionHtml: json['planOriginalDescriptionHtml'],
     planOriginalLang: json['planOriginalLang'],
-    planTranslationDescription: json['planTranslationDescription'] is List?null:(json['planTranslationDescription'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_PlanTranslationDescriptionContent.fromJson(v))),
+    planTranslationDescription: checkFalsy(json['planTranslationDescription'])?null:(json['planTranslationDescription'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_PlanTranslationDescriptionContent.fromJson(v))),
   );}
 
 }

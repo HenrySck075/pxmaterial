@@ -1,3 +1,4 @@
+import 'package:sofieru/json/base.dart' show checkFalsy;
 class _Background {
   final String? repeat;
   final String? color;
@@ -197,7 +198,7 @@ class User {
     comment: json['comment'],
     commentHtml: json['commentHtml'],
     webpage: json['webpage'],
-    social: json['social'] is List?null:(json['social'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_SocialContent.fromJson(v))),
+    social: checkFalsy(json['social'])?null:(json['social'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_SocialContent.fromJson(v))),
     canSendMessage: json['canSendMessage'],
     region: _Region.fromJson(json['region']),
     age: PrivacyLeveledData.fromJson(json['age']),

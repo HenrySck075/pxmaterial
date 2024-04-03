@@ -1,8 +1,15 @@
 {
-    "$nullable": ["request"],
+    "$desc": {
+        "restrict": "Sub-prop for `xRestrict`. 0 is just p, 1 is violent stuff included",
+        "xRestrict": "Whether the work is marked as R-18",
+        "bookStyle": "Denotes how the user advances a page in the manga work.\nValues are \"0\" for vertical and \"1\" for rtl (known values)\nalso its 0 (a falsy value) if its an artwork for some fucking reason"
+    },
+    "$checkFalsy": ["bookStyle"],
+    "$nullable": ["request","seriesNavData"],
     "id": "91140348",
     "title": "\u6c34\u7740\u30ec\u30df\u30ea\u30a2",
     "description": "\u59b9\u69d8\u306e\u65b9\u306f\u3053\u3061\u3089\u2193<br /><strong><a href=\"https://www.pixiv.net/en/artworks/91030831\">illust/91030831</a></strong>",
+    "bookStyle": "1",
     "createDate": "2021-07-10T03:35:00+00:00",
     "uploadDate": "2021-07-10T03:35:00+00:00",
     "restrict": 0,
@@ -30,7 +37,20 @@
     "imageResponseData": [],
     "imageResponseCount": 0,
     "pollData": null,
-    "seriesNavData": null,
+    "seriesNavData": {
+        "seriesType":"manga",
+        "seriesId":"221727",
+        "title":"A.I x Family",
+        "order":4,
+        "isWatched":false,
+        "isNotifying":false,
+        "prev":{
+            "id":"117241738",
+            "title":"A.I x FAMILY chapter 3",
+            "order":3
+        },
+        "next":null
+    },
     "descriptionBoothId": null,
     "descriptionYoutubeId": null,
     "comicPromotion": null,

@@ -1,3 +1,4 @@
+import 'package:sofieru/json/base.dart' show checkFalsy;
 import 'package:sofieru/json/ajax/commission/page/request/Request.dart' show Request;
 import 'package:sofieru/json/ajax/shared/ExtraData.dart' show ExtraData;
 import 'package:sofieru/json/ajax/shared/TagInfo.dart' show TagInfo;
@@ -18,6 +19,57 @@ class _Tags {
     isLocked: json['isLocked'],
     tags: (json['tags'] as List<dynamic>).map((e)=>TagInfo.fromJson(e)).toList(),
     writable: json['writable'],
+  );}
+
+}
+
+class _Prev {
+  final String id;
+  final String title;
+  final int order;
+  _Prev({
+    required this.id,
+    required this.title,
+    required this.order,
+  });
+  factory _Prev.fromJson(Map<String, dynamic> json) {
+    return _Prev(
+    id: json['id'],
+    title: json['title'],
+    order: json['order'],
+  );}
+
+}
+
+class _SeriesNavData {
+  final String seriesType;
+  final String seriesId;
+  final String title;
+  final int order;
+  final bool isWatched;
+  final bool isNotifying;
+  final _Prev prev;
+  final String? next;
+  _SeriesNavData({
+    required this.seriesType,
+    required this.seriesId,
+    required this.title,
+    required this.order,
+    required this.isWatched,
+    required this.isNotifying,
+    required this.prev,
+    this.next,
+  });
+  factory _SeriesNavData.fromJson(Map<String, dynamic> json) {
+    return _SeriesNavData(
+    seriesType: json['seriesType'],
+    seriesId: json['seriesId'],
+    title: json['title'],
+    order: json['order'],
+    isWatched: json['isWatched'],
+    isNotifying: json['isNotifying'],
+    prev: _Prev.fromJson(json['prev']),
+    next: json['next'],
   );}
 
 }
@@ -104,9 +156,15 @@ class Work {
   final String id;
   final String title;
   final String description;
+  /// Denotes how the user advances a page in the manga work.
+  /// Values are "0" for vertical and "1" for rtl (known values)
+  /// also its 0 (a falsy value) if its an artwork for some fucking reason
+  final String? bookStyle;
   final String createDate;
   final String uploadDate;
+  /// Sub-prop for `xRestrict`. 0 is just p, 1 is violent stuff included
   final int restrict;
+  /// Whether the work is marked as R-18
   final int xRestrict;
   final _Tags tags;
   final String userId;
@@ -122,7 +180,7 @@ class Work {
   final List<dynamic> imageResponseData;
   final int imageResponseCount;
   final String? pollData;
-  final String? seriesNavData;
+  final _SeriesNavData? seriesNavData;
   final String? descriptionBoothId;
   final String? descriptionYoutubeId;
   final String? comicPromotion;
@@ -141,6 +199,7 @@ class Work {
     required this.id,
     required this.title,
     required this.description,
+    this.bookStyle,
     required this.createDate,
     required this.uploadDate,
     required this.restrict,
@@ -180,6 +239,7 @@ class Work {
     id: json['id'],
     title: json['title'],
     description: json['description'],
+    bookStyle: checkFalsy(json['bookStyle'])?null:json['bookStyle'] as String,
     createDate: json['createDate'],
     uploadDate: json['uploadDate'],
     restrict: json['restrict'],
@@ -198,7 +258,7 @@ class Work {
     imageResponseData: (json['imageResponseData'] as List<dynamic>),
     imageResponseCount: json['imageResponseCount'],
     pollData: json['pollData'],
-    seriesNavData: json['seriesNavData'],
+    seriesNavData: json['seriesNavData'] == null?null:_SeriesNavData.fromJson(json['seriesNavData']),
     descriptionBoothId: json['descriptionBoothId'],
     descriptionYoutubeId: json['descriptionYoutubeId'],
     comicPromotion: json['comicPromotion'],

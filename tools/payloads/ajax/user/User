@@ -2,7 +2,7 @@
     "$nullable": [
       "background"
     ],
-    "$emptiable":[
+    "$checkFalsy":[
       "social"
     ],
     "userId": "2416323",

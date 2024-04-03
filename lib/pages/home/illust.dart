@@ -38,18 +38,17 @@ class IllustsPage extends StatelessWidget {
         var random = math.Random();
         return SingleChildScrollView(child:Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             header("From users that you follows"),
             SizedBox(height:290, child: ListView( 
               scrollDirection: Axis.horizontal,
               children: [...mainresp.page.follow.map((id)=>PxArtwork(data:getData(id.toString())!))],
             )),
+            const SizedBox(height: 50,),
             // Recommended Illusts
-            header("Recommended works"),
+            redirectionHeader(ctx,header("Recommended works")),
             artworkGrid(List.from(mainresp.page.recommend.ids.map((id)=>PxArtwork(data:getData(id)!)))),
-            const SizedBox(height: 8,),
-            FilledButton(child: const Text("Show all"),onPressed: ()=>navigate("/discovery"),),
             const SizedBox(height: 50,),
             // Ranking
             header("Daily ranking"),
