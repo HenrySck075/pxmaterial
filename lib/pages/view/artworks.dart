@@ -11,6 +11,7 @@ import 'package:sofieru/pages/view/layout.dart';
 import 'package:sofieru/shared.dart';
 import 'package:archive/archive.dart' as arch;
 import 'package:sofieru/skeltal/view/artworks.dart';
+import 'package:sofieru/json/ajax/illust/Artwork.dart';
 
 
 class ArtworkPage extends StatefulWidget {
@@ -62,10 +63,11 @@ class _ArtworkPageState extends State<ArtworkPage> {
     ];
     return Scaffold(
       body: futureWidget(placeholder: SingleChildScrollView(child:mainSkel()), future: Future.wait(ed), builder: (context,dd) {
-        var data = dd.data![0];
+        var rawData = dd.data![0];
+        var data = Artwork.fromJson(rawData);
         List<dynamic> gang = dd.data![1];
         op = (shownAll?gang:[gang[0]]);
-        final view = (data["illustType"]!=2) ? [
+        final view = (data.illustType!=2) ? [
           Center(child:Column(
             children: List.from(enumerate(op!, (idx,i){
 
@@ -84,7 +86,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
               );}
             ))
           )),
-          if (data["pageCount"]>1) Center(child:FilledButton(child: Text(shownAll?"Collapse":"Show all"),onPressed: ()=>setState((){
+          if (data.pageCount>1) Center(child:FilledButton(child: Text(data.bookStyle!=null?"Read":shownAll?"Collapse":"Show all"),onPressed: ()=>setState((){
             op=(shownAll?gang:[gang[0]]);
             shownAll=!shownAll;
           }))),]
@@ -131,7 +133,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
           ];
         return WorkLayout( 
           wtype: WorkType.illust,
-          data: data,
+          data: rawData,
           // The artwork view
           // the lsp broke when using ternary so dont use it
           // Static artworks

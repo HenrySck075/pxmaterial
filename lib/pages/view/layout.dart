@@ -113,11 +113,10 @@ class _WorkLayoutState extends State<WorkLayout> {
         illustIndex = authArtworkIds.indexOf(id);
         updateRange(illustIndex-7, illustIndex+7);
         if (data is Artwork) setTitle("${data.alt} - pixiv");
-        return SingleChildScrollView(
-          controller: _scsvCtrl,
-          child: Column(
-            crossAxisAlignment:CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+        return ListView(
+            //crossAxisAlignment:CrossAxisAlignment.start,
+            //mainAxisSize: MainAxisSize.min,
+            controller: _scsvCtrl,
             children: [
               widget.view,
               
@@ -232,7 +231,6 @@ class _WorkLayoutState extends State<WorkLayout> {
               ),
               SizedBox(height: 35,)
             ],
-          ),
         );
       }),
     );

@@ -14,14 +14,6 @@ import 'package:flutter_image/flutter_image.dart';
 /// Header text
 Text header(String label)=>Text(label,style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold));
 
-Widget redirectionHeader(BuildContext context, Text label) =>TextButton(
-style: TextButton.styleFrom(textStyle: DefaultTextStyle.of(context).style.merge(label.style)),
-  child: Row(
-    children:[label,const SizedBox(width: 4,),const Icon(Icons.arrow_right_alt)]
-  ),
-  onPressed: ()=>navigate("/discovery"),
-  
-);
 /// make `notifyListeners` non-protected :trollskullirl:
 class VisibleNotifyNotifier<T> extends ChangeNotifier {
   T _value;

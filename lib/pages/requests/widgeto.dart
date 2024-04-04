@@ -1,6 +1,6 @@
 
 import 'package:sofieru/json/ajax/user/PartialUser.dart';
-import 'package:sofieru/json/ajax/commission/page/request/Request.dart' show Request;
+import 'package:sofieru/json/ajax/commission/page/requests/Request.dart' show Request;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:sofieru/json/ajax/illust/PartialArtwork.dart';

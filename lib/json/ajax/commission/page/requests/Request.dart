@@ -323,7 +323,7 @@ class Request {
   final String? fanUserId;
   final String creatorUserId;
   final String requestStatus;
-  final String requestAcceptStatus;
+  final String? requestAcceptStatus;
   final String requestPostWorkType;
   final int requestPrice;
   final _RequestProposal requestProposal;
@@ -349,7 +349,7 @@ class Request {
     this.fanUserId,
     required this.creatorUserId,
     required this.requestStatus,
-    required this.requestAcceptStatus,
+    this.requestAcceptStatus,
     required this.requestPostWorkType,
     required this.requestPrice,
     required this.requestProposal,

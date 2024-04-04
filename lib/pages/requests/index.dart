@@ -11,7 +11,7 @@ import 'package:sofieru/pages/requests/widgeto.dart';
 import 'package:sofieru/pages/view/shared.dart';
 import 'package:sofieru/shared.dart';
 import 'package:sofieru/json/ajax/commission/page/request/RequestThread.dart';
-import 'package:sofieru/json/ajax/commission/page/request/Request.dart';
+import 'package:sofieru/json/ajax/commission/page/requests/Request.dart';
 import 'package:sofieru/json/ajax/commission/creators/works/recommended_tags/RecommendedTags.dart';
 import 'package:memoized/memoized.dart';
 

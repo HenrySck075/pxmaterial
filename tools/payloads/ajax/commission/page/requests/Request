@@ -116,5 +116,5 @@
         "fanLetterArrived": false,
         "fanLetterSendEnabled": false
     },
-    "$nullable": ["postWork", "requestResend", "fanbox", "fanLetter"]
+    "$nullable": ["postWork", "requestResend", "fanbox", "fanLetter","requestAcceptStatus"]
 }

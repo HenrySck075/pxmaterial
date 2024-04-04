@@ -13,6 +13,9 @@ export 'package:sofieru/silly.dart';
 
 import 'package:window_size/window_size.dart';
 
+/// automatically set by tools/version.py
+String apiVersion = "471f117fcde85f9ce382c9d945dc8dd854ff4358";
+
 final kIsMobile = Platform.isIOS||Platform.isAndroid;
 /// set app's title
 /// i love hoisting
@@ -59,7 +62,6 @@ Uri currentRouteURI() {
   return matchList.uri;
 }
 
-String apiVersion = "36708994901981268c36d47831f566a7ceb62f39";
 List<T> concat2d<T>(Iterable<Iterable<T>> inp) {
   List<T> tri = [];
   inp.forEach((element) {tri.addAll(element); });

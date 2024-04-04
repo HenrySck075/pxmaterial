@@ -1,4 +1,4 @@
-import 'package:sofieru/json/ajax/commission/page/request/Request.dart' show Request;
+import 'package:sofieru/json/ajax/commission/page/requests/Request.dart' show Request;
 class RequestUser {
   final String userId;
   final String userName;
