@@ -72,7 +72,7 @@
     },
     "illustSeries": [],
     "requests": [
-      {"$schema": "Request"}
+      {"$schema": "../requests/Request"}
     ],
     "users": [
       {"$schema":"$/user/PartialUser"}

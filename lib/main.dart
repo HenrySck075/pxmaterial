@@ -340,6 +340,8 @@ class _ShellPageState extends State<ShellPage> {
     // usually -1
     if (navBarIndex<0) {navBarIndex = 0;}
 
+    final uploadWorkButton = FloatingActionButton(onPressed: ()=>print("nice >:]"),child: Icon(Icons.add),);
+
     final medQuery = MediaQuery.of(context);
     return Scaffold(
       drawer: NavigationDrawer(
@@ -395,9 +397,9 @@ class _ShellPageState extends State<ShellPage> {
           child: widget.child
         ) 
       ),
-      floatingActionButton: FloatingActionButton(onPressed: ()=>print("nice >:]"),child: Icon(Icons.add),),
+      floatingActionButton: medQuery.size.width>=820?uploadWorkButton:null,
       bottomNavigationBar: medQuery.size.width<=820?NavigationBar(
-        destinations: const [
+        destinations: [
           NavigationDestination(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -406,7 +408,7 @@ class _ShellPageState extends State<ShellPage> {
             icon: Icon(Icons.favorite),
             label: 'Discovery',
           ),
-          SizedBox(width:80),
+          SizedBox(width: 24,child: uploadWorkButton,),
           NavigationDestination(
             icon: Icon(Icons.home),
             label: 'filler',
@@ -422,7 +424,7 @@ class _ShellPageState extends State<ShellPage> {
         },
         selectedIndex: navBarIndex,
       ):null,
-      floatingActionButtonLocation: medQuery.size.width>=820?FloatingActionButtonLocation.endFloat:FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

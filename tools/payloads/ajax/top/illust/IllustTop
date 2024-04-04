@@ -14,7 +14,7 @@
   "thumbnails": {"$schema":"../../shared/Thumbnails"},
   "illustSeries": [],
   "requests": [
-    {"$schema":"$/commission/page/request/Request"}
+    {"$schema":"$/commission/page/requests/Request"}
   ],
   "users": [
     {"$schema":"$/user/PartialUser"}

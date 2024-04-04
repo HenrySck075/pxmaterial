@@ -1,6 +1,6 @@
 "You should add typed maps NOW!!"
 
-import sys
+import sys,os
 name = sys.argv[1]
 print(name+"\n------")
 import json, re
@@ -21,7 +21,13 @@ class dynamic:
     def __repr__(self) -> str:
         return "dynamic"
     
-d: dict[str,Any] = json.load(open(sys.argv[2],encoding="utf-8"))
+path = sys.argv[2]
+d: dict[str,Any] = json.load(open(path,encoding="utf-8"))
+cachePath = os.path.join(".cache",path)
+if os.path.exists(cachePath) and json.load(open(cachePath,encoding="utf-8")) == d: 
+    print("Already generated, not doing that again")
+    exit()
+
 imported = []
 output = """"""
 cry = lambda x: x.split("/")[-1]
@@ -135,21 +141,23 @@ def generate(data, name=""):
         # fnnuy = {"$schema":"$/shared/Placeholder"}
         fnnuy = dynamic()
         # if k=="planTranslationTitle":breakpoint()
-        vt=boy(k,v if not (k in checkFalsy and len(v)!=0 and vto == list and v[0]==dict) else fnnuy if type(v)!=list else [fnnuy])
-        if vt=="Null": 
-            vt="String"
-            required = False
-        inSuper = k in supers
-        if vt.startswith("Map<") and "-" in v.get("$nullable",[]): # pyright: ignore 
-            vt=vt[:-1]+"?>"
-        if not inSuper:
+        if k in supers: 
+            fromJson+=f"    {k}: parent.{k}"
+            const+=f"    {'required ' if required else ''} super.{k},"+"\n"
+        else:
+            vt=boy(k,v if not (k in checkFalsy and len(v)!=0 and vto == list and v[0]==dict) else fnnuy if type(v)!=list else [fnnuy])
+            if vt=="Null": 
+                vt="String"
+                required = False
+            if vt.startswith("Map<") and "-" in v.get("$nullable",[]): # pyright: ignore 
+                vt=vt[:-1]+"?>"
             if k in desc:
                 out+="  /// "+"\n  /// ".join(desc[k].splitlines())+"\n"
             out+=f"  final {vt}{'' if required else '?'} {k};"+"\n"
-        const+=f"    {'required ' if required else ''}{'super' if inSuper else 'this'}.{k},"+"\n"
+            const+=f"    {'required ' if required else ''}this.{k},"+"\n"
 
-        toJson+=f'    "{k}": {k}'
-        if k not in supers:
+            toJson+=f'    "{k}": {k}'
+
             fromJson+=f"    {k}: json['{k}']"
             if k in checkFalsy: fromJson=fromJson[:-8-len(k)]+f"checkFalsy(json['{k}'])?null:json['{k}']"
             if k in nullable: fromJson+=f" == null?null:json['{k}']"
@@ -177,13 +185,11 @@ def generate(data, name=""):
                     fromJson=fromJson[:-8-len(k)]
                     if vt not in ["String", "int","bool","double"]:fromJson+=f"{vt}.fromJson(json['{k}'])"
                     else: fromJson+=f"json['{k}'] as {vt}"
-        else: 
-            fromJson+=f"    {k}: parent.{k}"
-        if vto==list:
-            j = vt.removesuffix(">").removeprefix("List<") # we might not having to
-            if j != "dynamic" and j not in classes.values(): 
-                if k in g: toJson+="?"
-                toJson+=".toJson()"
+            if vto==list:
+                j = vt.removesuffix(">").removeprefix("List<") # we might not having to
+                if j != "dynamic" and j not in classes.values(): 
+                    if k in g: toJson+="?"
+                    toJson+=".toJson()"
         fromJson+=",\n"
         fromJson = fromJson.replace(f"json['{k}'] == null?null:json['{k}']", f"json['{k}']")
         toJson+=",\n"
@@ -204,4 +210,11 @@ def generate(data, name=""):
     return name
 
 generate(d, name)
+cacheDir = os.path.dirname(cachePath)
+
+if not os.path.exists(cacheDir): 
+    os.makedirs(cacheDir)
+import shutil
+shutil.copyfile(path,cachePath)
+
 open(name+".dart","w",encoding="utf-8").write(purgeUnusedClasses(output))

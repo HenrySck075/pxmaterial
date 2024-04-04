@@ -1,6 +1,3 @@
-import 'package:sofieru/json/ajax/commission/page/requests/Request.dart' show Request;
-import 'package:sofieru/json/ajax/shared/ExtraData.dart' show ExtraData;
-import 'package:sofieru/json/ajax/shared/TagInfo.dart' show TagInfo;
 import 'package:sofieru/json/ajax/illust/PartialArtwork.dart' show PartialArtwork;
 import 'package:sofieru/json/ajax/shared/Work.dart' show Work;
 class _Urls {
@@ -23,156 +20,6 @@ class _Urls {
     small: json['small'],
     regular: json['regular'],
     original: json['original'],
-  );}
-
-}
-
-class _Tags {
-  final String authorId;
-  final bool isLocked;
-  final List<TagInfo> tags;
-  final bool writable;
-  _Tags({
-    required this.authorId,
-    required this.isLocked,
-    required this.tags,
-    required this.writable,
-  });
-  factory _Tags.fromJson(Map<String, dynamic> json) {
-    return _Tags(
-    authorId: json['authorId'],
-    isLocked: json['isLocked'],
-    tags: (json['tags'] as List<dynamic>).map((e)=>TagInfo.fromJson(e)).toList(),
-    writable: json['writable'],
-  );}
-
-}
-
-class _Prev {
-  final String id;
-  final String title;
-  final int order;
-  _Prev({
-    required this.id,
-    required this.title,
-    required this.order,
-  });
-  factory _Prev.fromJson(Map<String, dynamic> json) {
-    return _Prev(
-    id: json['id'],
-    title: json['title'],
-    order: json['order'],
-  );}
-
-}
-
-class _SeriesNavData {
-  final String seriesType;
-  final String seriesId;
-  final String title;
-  final int order;
-  final bool isWatched;
-  final bool isNotifying;
-  final _Prev prev;
-  final String? next;
-  _SeriesNavData({
-    required this.seriesType,
-    required this.seriesId,
-    required this.title,
-    required this.order,
-    required this.isWatched,
-    required this.isNotifying,
-    required this.prev,
-    this.next,
-  });
-  factory _SeriesNavData.fromJson(Map<String, dynamic> json) {
-    return _SeriesNavData(
-    seriesType: json['seriesType'],
-    seriesId: json['seriesId'],
-    title: json['title'],
-    order: json['order'],
-    isWatched: json['isWatched'],
-    isNotifying: json['isNotifying'],
-    prev: _Prev.fromJson(json['prev']),
-    next: json['next'],
-  );}
-
-}
-
-class _TitleCaptionTranslation {
-  final String? workTitle;
-  final String? workCaption;
-  _TitleCaptionTranslation({
-    this.workTitle,
-    this.workCaption,
-  });
-  factory _TitleCaptionTranslation.fromJson(Map<String, dynamic> json) {
-    return _TitleCaptionTranslation(
-    workTitle: json['workTitle'],
-    workCaption: json['workCaption'],
-  );}
-
-}
-
-class RequestUser {
-  final String userId;
-  final String userName;
-  final String profileImg;
-  RequestUser({
-    required this.userId,
-    required this.userName,
-    required this.profileImg,
-  });
-  factory RequestUser.fromJson(Map<String, dynamic> json) {
-    return RequestUser(
-    userId: json['userId'],
-    userName: json['userName'],
-    profileImg: json['profileImg'],
-  );}
-
-}
-
-class _CollaborateStatus {
-  final bool collaborating;
-  final bool collaborateAnonymousFlg;
-  final int collaboratedCnt;
-  final List<dynamic> userSamples;
-  _CollaborateStatus({
-    required this.collaborating,
-    required this.collaborateAnonymousFlg,
-    required this.collaboratedCnt,
-    required this.userSamples,
-  });
-  factory _CollaborateStatus.fromJson(Map<String, dynamic> json) {
-    return _CollaborateStatus(
-    collaborating: json['collaborating'],
-    collaborateAnonymousFlg: json['collaborateAnonymousFlg'],
-    collaboratedCnt: json['collaboratedCnt'],
-    userSamples: (json['userSamples'] as List<dynamic>),
-  );}
-
-}
-
-class _Request {
-  final Request request;
-  final RequestUser creator;
-  final RequestUser fan;
-  final _CollaborateStatus collaborateStatus;
-  final bool editable;
-  _Request({
-    required this.request,
-    required this.creator,
-    required this.fan,
-    required this.collaborateStatus,
-    required this.editable,
-  });
-  factory _Request.fromJson(Map<String, dynamic> json) {
-    return _Request(
-    request: Request.fromJson(json['request']),
-    creator: RequestUser.fromJson(json['creator']),
-    fan: RequestUser.fromJson(json['fan']),
-    collaborateStatus: _CollaborateStatus.fromJson(json['collaborateStatus']),
-    editable: json['editable'],
   );}
 
 }
@@ -216,43 +63,43 @@ class Artwork extends Work {
     required this.isHowto,
     this.reuploadDate,
     required this.locationMask,
-    required super.id,
-    required super.title,
-    required super.description,
-    super.bookStyle,
-    required super.createDate,
-    required super.uploadDate,
-    required super.restrict,
-    required super.xRestrict,
-    required super.tags,
-    required super.userId,
-    required super.userName,
-    required super.likeData,
-    required super.pageCount,
-    required super.bookmarkCount,
-    required super.likeCount,
-    required super.commentCount,
-    required super.viewCount,
-    required super.isOriginal,
-    required super.imageResponseOutData,
-    required super.imageResponseData,
-    required super.imageResponseCount,
-    super.pollData,
-    super.seriesNavData,
-    super.descriptionBoothId,
-    super.descriptionYoutubeId,
-    super.comicPromotion,
-    super.fanboxPromotion,
-    required super.contestBanners,
-    required super.isBookmarkable,
-    super.bookmarkData,
-    super.contestData,
-    required super.extraData,
-    required super.titleCaptionTranslation,
-    required super.isUnlisted,
-    super.request,
-    required super.commentOff,
-    required super.aiType,
+    required  super.id,
+    required  super.title,
+    required  super.description,
+     super.bookStyle,
+    required  super.createDate,
+    required  super.uploadDate,
+    required  super.restrict,
+    required  super.xRestrict,
+    required  super.tags,
+    required  super.userId,
+    required  super.userName,
+    required  super.likeData,
+    required  super.pageCount,
+    required  super.bookmarkCount,
+    required  super.likeCount,
+    required  super.commentCount,
+    required  super.viewCount,
+    required  super.isOriginal,
+    required  super.imageResponseOutData,
+    required  super.imageResponseData,
+    required  super.imageResponseCount,
+    required  super.pollData,
+     super.seriesNavData,
+    required  super.descriptionBoothId,
+    required  super.descriptionYoutubeId,
+    required  super.comicPromotion,
+    required  super.fanboxPromotion,
+    required  super.contestBanners,
+    required  super.isBookmarkable,
+    required  super.bookmarkData,
+    required  super.contestData,
+    required  super.extraData,
+    required  super.titleCaptionTranslation,
+    required  super.isUnlisted,
+     super.request,
+    required  super.commentOff,
+    required  super.aiType,
   });
   @override
   factory Artwork.fromJson(Map<String, dynamic> json) {

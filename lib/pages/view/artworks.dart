@@ -86,7 +86,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
               );}
             ))
           )),
-          if (data.pageCount>1) Center(child:FilledButton(child: Text(data.bookStyle!=null?"Read":shownAll?"Collapse":"Show all"),onPressed: ()=>setState((){
+          if (data.pageCount>1) Center(child:FilledButton(child: Text(data.bookStyle==null?"Read":shownAll?"Collapse":"Show all"),onPressed: ()=>setState((){
             op=(shownAll?gang:[gang[0]]);
             shownAll=!shownAll;
           }))),]

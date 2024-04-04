@@ -20,6 +20,6 @@
     },
     "thumbnails": {"$schema":"$/shared/Thumbnails"},
     "illustSeries": [],
-    "requests": [{"$schema":"../../../page/request/Request"}],
+    "requests": [{"$schema":"../../../page/requests/Request"}],
     "users": [{"$schema":"$/user/User"}]
 }

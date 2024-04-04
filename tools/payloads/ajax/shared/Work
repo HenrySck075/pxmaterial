@@ -69,7 +69,7 @@
     "isUnlisted": false,
     "request": {
         "request": {
-            "$schema": "$/commission/page/request/Request"
+            "$schema": "$/commission/page/requests/Request"
         },
         "creator": {
             "userId": "31383108",

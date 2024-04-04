@@ -1,5 +1,5 @@
 {
-    "request": {"$schema": "$/commission/page/request/Request"},
+    "request": {"$schema": "$/commission/page/requests/Request"},
     "creator": {
         "userId": "31383108",
         "userName": "COCOball",
