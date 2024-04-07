@@ -10,7 +10,8 @@ for r, s, fs in os.walk("payloads"):
             raise SystemError("you stupid")
         pat = r.replace('payloads','json')
         the = lambda: os.system(f"mv {f}.dart {os.path.join(pat,f)}.dart")
-        
-        if the() == 256: # assuming were cooking in linux
+        ret = the() 
+        if ret == 1: continue
+        if ret == 256: # assuming were cooking in linux
             os.system("mkdir -p "+pat)
             the()

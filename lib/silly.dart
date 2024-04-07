@@ -11,6 +11,10 @@ import 'package:sofieru/shared.dart' show pxRequest, navigate, JSON, currentRout
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_image/flutter_image.dart';
+import 'package:flutter_cache_manager/src/web/file_service.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/retry.dart' show RetryClient;
+
 /// Header text
 Text header(String label)=>Text(label,style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold));
 
@@ -83,10 +87,25 @@ FutureBuilder<T> futureWidget<T>({required Future<T>? future, required AsyncWidg
   });
 }
 
-/// TODO: implement retry on this fraud
-CachedNetworkImage pxImage(String url, {double? width, double? height, Widget? placeholder}) => CachedNetworkImage(imageUrl: url,httpHeaders: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, width: width, height: height,placeholder: (c,d)=>placeholder??SizedBox(width: width,height: height,),);
 
-Image pxImageFlutter(String url, {double? width, double? height, Widget? placeholder}) => Image(image: NetworkImageWithRetry(url,headers: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"},), width: width, height: height, loadingBuilder: (ctx,w,imgChunk) => placeholder??SizedBox(width: width, height: height,),);
+var _httpClient = RetryClient(http.Client());
+extension ImGenuinelyDyingHelp on HttpFileService {
+  Future<FileServiceResponse> get(String url,
+      {Map<String, String>? headers}) async {
+    final req = http.Request('GET', Uri.parse(url));
+    if (headers != null) {
+      req.headers.addAll(headers);
+    }
+    final httpResponse = await _httpClient.send(req);
+
+    return HttpGetResponse(httpResponse);
+  }
+}
+
+/// TODO: implement retry on this fraud
+CachedNetworkImage pxImage(String url, {double? width, double? height, Widget? placeholder}) => CachedNetworkImage(imageUrl:url,httpHeaders: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, placeholder: (c,d)=>placeholder??SizedBox(width: width,height: height,),width: width, height: height,);
+
+Image pxImageFlutter(String url, {double? width, double? height, Widget? placeholder,Animation<double>? opacity}) => Image(image: NetworkImageWithRetry(url,headers: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"},), width: width, height: height, loadingBuilder: (ctx,w,imgChunk) => placeholder??SizedBox(width: width, height: height,),opacity: opacity,);
 
 String hm(int seconds) {
   int m = (seconds/60).floor()%60;

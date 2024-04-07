@@ -65,28 +65,64 @@ class _ArtworkPageState extends State<ArtworkPage> {
       body: futureWidget(placeholder: SingleChildScrollView(child:mainSkel()), future: Future.wait(ed), builder: (context,dd) {
         var rawData = dd.data![0];
         var data = Artwork.fromJson(rawData);
-        List<dynamic> gang = dd.data![1];
-        op = (shownAll?gang:[gang[0]]);
-        final view = (data.illustType!=2) ? [
-          Center(child:Column(
-            children: List.from(enumerate(op!, (idx,i){
 
-              final (w,h) = calcDim(i["width"],i["height"]);
-              return Padding(
-                padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                child: GestureDetector(
-                  onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (builder)=>ArtworkImageView(data: i,heroTag: "${id}_p$idx",))),
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 350, maxHeight: 1000),
-                    child: Hero(tag: "${id}_p$idx", child: pxImage(i["urls"]["regular"],placeholder:Skeletonizer(child:Skeleton.leaf(
-                      child: Material(child: SizedBox(width:w,height:h),) 
-                    ))))
-                  )
-                ),
-              );}
-            ))
-          )),
-          if (data.pageCount>1) Center(child:FilledButton(child: Text(data.bookStyle==null?"Read":shownAll?"Collapse":"Show all"),onPressed: ()=>setState((){
+        Widget artworkImageBuilder(idx,i,w,h,onTap,{double opacity = 1})=>Padding(
+          padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+          child: GestureDetector(
+            onTap: onTap,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 350, maxHeight: 1000),
+              child: Hero(tag: "${id}_p$idx", child: pxImage(i["urls"]["regular"],placeholder:Skeletonizer(child:Skeleton.leaf(
+                child: Material(child: SizedBox(width:w,height:h),) 
+              ))))
+            )
+          ),
+        );
+
+        List<dynamic> gang = dd.data![1];
+        op = ((shownAll||data.bookStyle!=null)?gang:[gang[0]]);
+        final view = (data.illustType!=2) ? [
+          Center(
+            child:data.bookStyle==null
+            // illust view
+            ?Column(
+              children: List.from(enumerate(op!, (idx,i){
+
+                final (w,h) = calcDim(i["width"],i["height"]);
+                return artworkImageBuilder(idx,i,w,h,()=>navigate("/artwork/view/$id/$idx",extra: i));}
+              ))
+            )
+            // manga view
+            :Builder(builder: (ctx){
+              List<Offset> offsets = List.generate(7, (index) => Offset(0, 0));
+              int itemsCount = offsets.length;
+              return MouseRegion(
+                onEnter: (e){
+                  for (var i = itemsCount-1; i >= 0; i--) {
+                    offsets[i]=Offset((-100*i).toDouble(),0);
+                  }
+                },
+                onExit: (e){
+                  for (var i = itemsCount-1; i >= 0; i--) {
+                    offsets[i]=Offset(0,0);
+                  }
+                },
+                
+                child:Stack(alignment: Alignment.centerLeft,children: enumerate(op!.sublist(0,7), (idx, i) {
+                    final (w,h) = calcDim(i["width"],i["height"]);
+                    double the = idx+1;
+                    return AnimatedSlide(
+                      offset: offsets[idx],
+                      duration: Durations.medium1,
+                      curve: Easing.emphasizedDecelerate,
+                      child:artworkImageBuilder(idx,i,w/the,h/the,()=>null)
+                    );
+                  
+                }).toList().reversed.toList(),)
+              );
+            })
+          ),
+          if (data.pageCount>1) Center(child:FilledButton(child: Text(shownAll?"Collapse":"Show all"),onPressed: ()=>setState((){
             op=(shownAll?gang:[gang[0]]);
             shownAll=!shownAll;
           }))),]
@@ -153,17 +189,17 @@ class _ArtworkPageState extends State<ArtworkPage> {
 void ugoiraSave(List<Image> frames, List<int> delay) {
 }
 class ArtworkImageView extends StatelessWidget {
-  final JSON data;
+  JSON? data;
   String heroTag;
   ArtworkImageView({super.key, required this.data, required this.heroTag});
   void downlo(BuildContext context, String quality) {
-    String? fn = data["urls"][quality]?.split("/").last;
+    String? fn = data!["urls"][quality]?.split("/").last;
     var scaf = ScaffoldMessenger.of(context);
     if (fn==null) scaf.showSnackBar(const SnackBar(content: Text("Invalid image size")));
     scaf.showSnackBar(
       SnackBar(content: Text("Downloading $fn"))
     );
-    pxRequestUnprocessed(data["urls"][quality]!).then((value)async{
+    pxRequestUnprocessed(data!["urls"][quality]!).then((value)async{
       final directory = await getDownloadsDirectory() ?? await getApplicationDocumentsDirectory();
       await File("${directory.path}/$fn").writeAsBytes(value.bodyBytes);
       scaf.showSnackBar(
@@ -179,6 +215,11 @@ class ArtworkImageView extends StatelessWidget {
   }
   @override
   Widget build(context) {
+    bool pendingDataGather = false;
+    if (data==null) {
+      pendingDataGather=true;
+    }
+    String id = heroTag.split("_")[0];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -204,14 +245,21 @@ class ArtworkImageView extends StatelessWidget {
       backgroundColor: Colors.black,
       
       body: InteractiveViewer(
+        trackpadScrollCausesScale: true,
         panEnabled: false,
         minScale: 1,
         maxScale: 20,
         child: Center(
-          child:Hero(
-            tag: heroTag,
-            child: pxImage(data["urls"]["regular"]!)
-          )
+          child: pendingDataGather?futureWidget(future:pxRequest("https://www.pixiv.net/ajax/illust/$id/pages"),builder: (e,snap){
+              data = snap.data!; 
+              return Hero(
+                tag: heroTag,
+                child: pxImage(data!["urls"]["regular"]!)
+              );
+            }):Hero(
+              tag: heroTag,
+              child: pxImage(data!["urls"]["regular"]!)
+            )
         )
       )
     );

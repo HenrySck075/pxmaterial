@@ -239,17 +239,17 @@ class _WorkLayoutState extends State<WorkLayout> {
 void ugoiraSave(List<Image> frames, List<int> delay) {
 }
 class ArtworkImageView extends StatelessWidget {
-  final JSON data;
+  JSON? data;
   String heroTag;
   ArtworkImageView({super.key, required this.data, required this.heroTag});
   void downlo(BuildContext context, String quality) {
-    String? fn = data["urls"][quality]?.split("/").last;
+    String? fn = data!["urls"][quality]?.split("/").last;
     var scaf = ScaffoldMessenger.of(context);
     if (fn==null) scaf.showSnackBar(const SnackBar(content: Text("Invalid image size")));
     scaf.showSnackBar(
       SnackBar(content: Text("Downloading $fn"))
     );
-    pxRequestUnprocessed(data["urls"][quality]!).then((value)async{
+    pxRequestUnprocessed(data!["urls"][quality]!).then((value)async{
       final directory = await getDownloadsDirectory() ?? await getApplicationDocumentsDirectory();
       await File("${directory.path}/$fn").writeAsBytes(value.bodyBytes);
       scaf.showSnackBar(
@@ -265,7 +265,15 @@ class ArtworkImageView extends StatelessWidget {
   }
   @override
   Widget build(context) {
-    return Scaffold(
+    bool pendingDataGather = false;
+    if (data==null) {
+      // fake data
+      data = {
+        "urls": {"regular":""}
+      };
+      pendingDataGather=true;
+    }
+    final wid = Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
@@ -296,10 +304,14 @@ class ArtworkImageView extends StatelessWidget {
         child: Center(
           child:Hero(
             tag: heroTag,
-            child: pxImage(data["urls"]["regular"]!)
+            child: pxImage(data!["urls"]["regular"]!)
           )
         )
       )
     );
+    return pendingDataGather?futureWidget(future: pxRequest(""), builder: (e,snap){
+      data = snap.data!;
+      return wid;
+    }):wid;
   }
 }

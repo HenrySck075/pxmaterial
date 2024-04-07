@@ -23,17 +23,17 @@ class _Tags {
 
 }
 
-class _Prev {
+class _SeriesNavInfo {
   final String id;
   final String title;
   final int order;
-  _Prev({
+  _SeriesNavInfo({
     required this.id,
     required this.title,
     required this.order,
   });
-  factory _Prev.fromJson(Map<String, dynamic> json) {
-    return _Prev(
+  factory _SeriesNavInfo.fromJson(Map<String, dynamic> json) {
+    return _SeriesNavInfo(
     id: json['id'],
     title: json['title'],
     order: json['order'],
@@ -48,8 +48,8 @@ class _SeriesNavData {
   final int order;
   final bool isWatched;
   final bool isNotifying;
-  final _Prev prev;
-  final String? next;
+  final _SeriesNavInfo? prev;
+  final _SeriesNavInfo? next;
   _SeriesNavData({
     required this.seriesType,
     required this.seriesId,
@@ -57,7 +57,7 @@ class _SeriesNavData {
     required this.order,
     required this.isWatched,
     required this.isNotifying,
-    required this.prev,
+    this.prev,
     this.next,
   });
   factory _SeriesNavData.fromJson(Map<String, dynamic> json) {
@@ -68,8 +68,8 @@ class _SeriesNavData {
     order: json['order'],
     isWatched: json['isWatched'],
     isNotifying: json['isNotifying'],
-    prev: _Prev.fromJson(json['prev']),
-    next: json['next'],
+    prev: json['prev'] == null?null:_SeriesNavInfo.fromJson(json['prev']),
+    next: json['next'] == null?null:_SeriesNavInfo.fromJson(json['next']),
   );}
 
 }

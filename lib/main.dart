@@ -11,6 +11,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:sofieru/pages/helpcenter/hchtml.dart';
+import 'package:sofieru/pages/view/layout.dart';
 // import 'package:url_launcher/url_launcher.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:uni_links_desktop/uni_links_desktop.dart';
@@ -166,6 +167,10 @@ void main() async {
             ], builder: (context, state, child) => discovery.DiscoveryPage(child: child,)
           ),
           GoRoute(
+            path: "/artwork/view/:id/:idx",
+            builder: (n, state) => ArtworkImageView(data: null, heroTag: "${state.pathParameters['id']}_p${state.pathParameters['idx']}")
+          ),
+          GoRoute(
             parentNavigatorKey: pa,
             path: "/artworks/:id",
             builder: (no, state) => ArtworkPage(id:state.pathParameters["id"]!)
@@ -236,7 +241,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
       title: 'pixiv Material Design Concept', // doesnt work on desktop
       theme: ThemeData(
         useMaterial3: true,

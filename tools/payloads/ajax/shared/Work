@@ -47,9 +47,13 @@
         "prev":{
             "id":"117241738",
             "title":"A.I x FAMILY chapter 3",
-            "order":3
+            "order":3,
+            "$name":"_SeriesNavInfo"
         },
-        "next":null
+        "next":{
+            "$type":"_SeriesNavInfo"
+        },
+        "$nullable": ["prev","next"]
     },
     "descriptionBoothId": null,
     "descriptionYoutubeId": null,
