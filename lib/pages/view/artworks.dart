@@ -2,17 +2,14 @@
 
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:sofieru/pages/view/layout.dart';
 import 'package:sofieru/shared.dart';
 import 'package:archive/archive.dart' as arch;
 import 'package:sofieru/skeltal/view/artworks.dart';
 import 'package:sofieru/json/ajax/illust/Artwork.dart';
-
 
 class ArtworkPage extends StatefulWidget {
   final String id;
@@ -66,63 +63,71 @@ class _ArtworkPageState extends State<ArtworkPage> {
         var rawData = dd.data![0];
         var data = Artwork.fromJson(rawData);
 
-        Widget artworkImageBuilder(idx,i,w,h,onTap,{double opacity = 1})=>Padding(
-          padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-          child: GestureDetector(
-            onTap: onTap,
-            child: ConstrainedBox(
+        Widget artworkImageBuilder(idx,i,w,h,{Function()? onTap,double opacity = 1}){
+          var ver = Padding(
+            padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+            child:ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 350, maxHeight: 1000),
-              child: Hero(tag: "${id}_p$idx", child: pxImage(i["urls"]["regular"],placeholder:Skeletonizer(child:Skeleton.leaf(
+              child: Hero(tag: "${id}_p$idx", child: pxImageFlutter(i["urls"]["regular"],placeholder:Skeletonizer(child:Skeleton.leaf(
                 child: Material(child: SizedBox(width:w,height:h),) 
-              ))))
+              )),width: w, height: h, opacity: AlwaysStoppedAnimation(opacity)))
             )
-          ),
-        );
+          );
+            
+          return onTap!=null? GestureDetector(
+            onTap: onTap,
+            child: ver
+          ):ver;
+        }
 
+        
         List<dynamic> gang = dd.data![1];
-        op = ((shownAll||data.bookStyle!=null)?gang:[gang[0]]);
+        op = ((shownAll||data.illustType!=0)?gang:[gang[0]]);
         final view = (data.illustType!=2) ? [
           Center(
-            child:data.bookStyle==null
+            child:data.illustType==0
             // illust view
             ?Column(
               children: List.from(enumerate(op!, (idx,i){
 
                 final (w,h) = calcDim(i["width"],i["height"]);
-                return artworkImageBuilder(idx,i,w,h,()=>navigate("/artwork/view/$id/$idx",extra: i));}
+                return artworkImageBuilder(idx,i,w,h,onTap: ()=>navigate("/artwork/view/$id?index=$idx",extra: i));}
               ))
             )
             // manga view
             :Builder(builder: (ctx){
-              List<Offset> offsets = List.generate(7, (index) => Offset(0, 0));
+              List<ValueNotifier<Offset>> offsets = List.generate(7, (index) => ValueNotifier(Offset.zero));
               int itemsCount = offsets.length;
+              int scrollDirection = int.parse(data.bookStyle??"0");
+              final alignments = [Alignment.bottomCenter,Alignment.centerLeft,Alignment.centerRight];
               return MouseRegion(
                 onEnter: (e){
                   for (var i = itemsCount-1; i >= 0; i--) {
-                    offsets[i]=Offset((-100*i).toDouble(),0);
+                    var o = [Offset(0,i/20),Offset(-i/10,0),Offset(i/10,0)][scrollDirection];
+                    offsets[i].value=o;
                   }
                 },
                 onExit: (e){
                   for (var i = itemsCount-1; i >= 0; i--) {
-                    offsets[i]=Offset(0,0);
+                    offsets[i].value=Offset(0,0);
                   }
                 },
                 
-                child:Stack(alignment: Alignment.centerLeft,children: enumerate(op!.sublist(0,7), (idx, i) {
-                    final (w,h) = calcDim(i["width"],i["height"]);
-                    double the = idx+1;
-                    return AnimatedSlide(
-                      offset: offsets[idx],
-                      duration: Durations.medium1,
-                      curve: Easing.emphasizedDecelerate,
-                      child:artworkImageBuilder(idx,i,w/the,h/the,()=>null)
-                    );
+                child:GestureDetector(onTap:()=>navigate("/artwork/manga/$id?scrollDirection=${data.bookStyle}",extra:op?.cast<Map<String,dynamic>>()),child:Stack(alignment: alignments[scrollDirection],children: enumerate(trySublist(op!,0,5), (idx, i) {
+                  final (w,h) = calcDim(i["width"],i["height"]);
+                  double the = 1-(idx)/10;
+                  return ListenableBuilder(listenable: offsets[idx],child:artworkImageBuilder(idx,i,w*the,h*the,opacity:1-(0.1*idx*1.5)), builder: (ctx,artworkImageWidget)=>AnimatedSlide(
+                    offset: offsets[idx].value,
+                    duration: Durations.medium1,
+                    curve: Easing.emphasizedDecelerate,
+                    child:artworkImageWidget
+                  ));
                   
-                }).toList().reversed.toList(),)
+                }).toList().reversed.toList(),))
               );
             })
           ),
-          if (data.pageCount>1) Center(child:FilledButton(child: Text(shownAll?"Collapse":"Show all"),onPressed: ()=>setState((){
+          if (data.pageCount>1&&data.illustType==0) Center(child:FilledButton(child: Text(shownAll?"Collapse":"Show all"),onPressed: ()=>setState((){
             op=(shownAll?gang:[gang[0]]);
             shownAll=!shownAll;
           }))),]
@@ -188,80 +193,4 @@ class _ArtworkPageState extends State<ArtworkPage> {
 }
 void ugoiraSave(List<Image> frames, List<int> delay) {
 }
-class ArtworkImageView extends StatelessWidget {
-  JSON? data;
-  String heroTag;
-  ArtworkImageView({super.key, required this.data, required this.heroTag});
-  void downlo(BuildContext context, String quality) {
-    String? fn = data!["urls"][quality]?.split("/").last;
-    var scaf = ScaffoldMessenger.of(context);
-    if (fn==null) scaf.showSnackBar(const SnackBar(content: Text("Invalid image size")));
-    scaf.showSnackBar(
-      SnackBar(content: Text("Downloading $fn"))
-    );
-    pxRequestUnprocessed(data!["urls"][quality]!).then((value)async{
-      final directory = await getDownloadsDirectory() ?? await getApplicationDocumentsDirectory();
-      await File("${directory.path}/$fn").writeAsBytes(value.bodyBytes);
-      scaf.showSnackBar(
-        const SnackBar(content: Text("Download completed!"))
-      );
-    }).catchError((e){
-      scaf.showSnackBar(
-        const SnackBar(content: Text("Download (or save) failed. Check the logs for more info."))
-      );
-      throw e;
-    }
-    );
-  }
-  @override
-  Widget build(context) {
-    bool pendingDataGather = false;
-    if (data==null) {
-      pendingDataGather=true;
-    }
-    String id = heroTag.split("_")[0];
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
-        actions: [
-          IconButton(onPressed: ()=>showDialog(
-            context: context, builder: (c)=>SimpleDialog(
-              title: const Text("Select quality"),
-              children: [
-                SimpleDialogOption(
-                  onPressed: ()=>downlo(context, "original"),
-                  child: const Text("Original quality"),
-                ),
-                SimpleDialogOption(
-                  onPressed: ()=>downlo(context, "regular"),
-                  child: const Text("SD quality"),
-                )
-              ],
-            )
-          ), icon: const Icon(Icons.download))
-        ],
-      ),
-      backgroundColor: Colors.black,
-      
-      body: InteractiveViewer(
-        trackpadScrollCausesScale: true,
-        panEnabled: false,
-        minScale: 1,
-        maxScale: 20,
-        child: Center(
-          child: pendingDataGather?futureWidget(future:pxRequest("https://www.pixiv.net/ajax/illust/$id/pages"),builder: (e,snap){
-              data = snap.data!; 
-              return Hero(
-                tag: heroTag,
-                child: pxImage(data!["urls"]["regular"]!)
-              );
-            }):Hero(
-              tag: heroTag,
-              child: pxImage(data!["urls"]["regular"]!)
-            )
-        )
-      )
-    );
-  }
-}
+

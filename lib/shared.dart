@@ -1,4 +1,4 @@
-// Collection of classes and utilities that will be used across the codebases
+// Collection of classes and utilities that will be used across the codebases (unordered) (actually its sort by newest and relevancy)
 // ignore_for_file: no_logic_in_create_state
 import 'dart:async';
 import 'dart:io';
@@ -15,7 +15,10 @@ import 'package:window_size/window_size.dart';
 
 /// automatically set by tools/version.py
 String apiVersion = "471f117fcde85f9ce382c9d945dc8dd854ff4358";
-
+List<T> trySublist<T>(List<T> list, int start, int? end) {
+  if ((end??list.length)>list.length) end = list.length;
+  return list.sublist(start,end);
+}
 final kIsMobile = Platform.isIOS||Platform.isAndroid;
 /// set app's title
 /// i love hoisting

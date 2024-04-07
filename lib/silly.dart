@@ -105,7 +105,14 @@ extension ImGenuinelyDyingHelp on HttpFileService {
 /// TODO: implement retry on this fraud
 CachedNetworkImage pxImage(String url, {double? width, double? height, Widget? placeholder}) => CachedNetworkImage(imageUrl:url,httpHeaders: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, placeholder: (c,d)=>placeholder??SizedBox(width: width,height: height,),width: width, height: height,);
 
-Image pxImageFlutter(String url, {double? width, double? height, Widget? placeholder,Animation<double>? opacity}) => Image(image: NetworkImageWithRetry(url,headers: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"},), width: width, height: height, loadingBuilder: (ctx,w,imgChunk) => placeholder??SizedBox(width: width, height: height,),opacity: opacity,);
+Image pxImageFlutter(String url, {double? width, double? height, Widget? placeholder,Animation<double>? opacity}) => Image(
+  image: NetworkImageWithRetry(url,headers: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"},), 
+  width: width, 
+  height: height, 
+  frameBuilder: (ctx,w,f,isSyncLoaded)=>w, // will figure out how to omit this
+  loadingBuilder: (ctx,w,imgChunk) => imgChunk==null?w:placeholder??SizedBox(width: width, height: height,),
+  opacity: opacity,
+);
 
 String hm(int seconds) {
   int m = (seconds/60).floor()%60;

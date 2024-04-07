@@ -11,6 +11,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:sofieru/pages/helpcenter/hchtml.dart';
+import 'package:sofieru/pages/view/artworkview.dart';
 import 'package:sofieru/pages/view/layout.dart';
 // import 'package:url_launcher/url_launcher.dart';
 import 'package:uni_links/uni_links.dart';
@@ -166,10 +167,16 @@ void main() async {
               ),
             ], builder: (context, state, child) => discovery.DiscoveryPage(child: child,)
           ),
+
           GoRoute(
-            path: "/artwork/view/:id/:idx",
-            builder: (n, state) => ArtworkImageView(data: null, heroTag: "${state.pathParameters['id']}_p${state.pathParameters['idx']}")
+            path: "/artwork/view/:id",
+            builder: (n, state) => ArtworkImageView(data: (state.extra as Map<String, dynamic>?), heroTag: "${state.pathParameters['id']}_p${state.uri.queryParameters['index']??'0'}")
           ),
+          GoRoute(
+            path: "/artwork/manga/:id",
+            builder: (n, state) => MangaView(data: ((state.extra as List?)?.cast<Map<String,dynamic>>()), id: state.pathParameters['id']!,bookStyle: int.parse(state.uri.queryParameters["scrollDirection"]??"0"))
+          ),
+
           GoRoute(
             parentNavigatorKey: pa,
             path: "/artworks/:id",
