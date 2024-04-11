@@ -70,6 +70,16 @@ List<T> concat2d<T>(Iterable<Iterable<T>> inp) {
   inp.forEach((element) {tri.addAll(element); });
   return tri;
 }
+List<List<T>> split2d<T>(Iterable<T> inp, {int splitEvery=2}) {
+  List<List<T>> ret = [];
+  for (var i = 0; i < inp.length; i++) {
+    if (i%splitEvery==0) {
+      ret.add([]);
+    }
+    ret.last.add(inp.elementAt(i));
+  }
+  return ret
+}
 GoRouter router = GoRouter(routes: []);
 String cooki = "";
 String userId = "";
