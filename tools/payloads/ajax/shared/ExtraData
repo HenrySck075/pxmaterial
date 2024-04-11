@@ -1,30 +1,30 @@
 {
-        "meta": {
-            "$desc": {
-              "title": "Page title",
-              "description": "Page description",
-              "descriptionHeader": "that one text that appears on any users that views the works without logged in"
-            },
+    "meta": {
+        "$desc": {
+          "title": "Page title",
+          "description": "Page description",
+          "descriptionHeader": "that one text that appears on any users that views the page without logged in"
+        },
+        "title": "Touhou, Touhou Project, cat ears / 水着レミリア - pixiv",
+        "description": "この作品 「水着レミリア」 は 「東方」「東方Project」 等のタグがつけられた「ソラリス(Solarisu)」さんのイラストです。 「妹様の方はこちら↓https://www.pixiv.net/artworks/91030831」",
+        "canonical": "https://www.pixiv.net/en/artworks/91140348",
+        "alternateLanguages": {
+            "ja": "https://www.pixiv.net/artworks/91140348",
+            "en": "https://www.pixiv.net/en/artworks/91140348"
+        },
+        "$nullable": ["alternateLanguages","ogp","twitter"],
+        "descriptionHeader": "Touhou, Touhou Project, cat ears, remilia scarlet are the most prominent tags for this work posted on July 10th, 2021.",
+        "ogp": {
+            "description": "妹様の方はこちら↓https://www.pixiv.net/artworks/91030831",
+            "image": "https://embed.pixiv.net/artwork.php?illust_id=91140348",
             "title": "Touhou, Touhou Project, cat ears / 水着レミリア - pixiv",
-            "description": "この作品 「水着レミリア」 は 「東方」「東方Project」 等のタグがつけられた「ソラリス(Solarisu)」さんのイラストです。 「妹様の方はこちら↓https://www.pixiv.net/artworks/91030831」",
-            "canonical": "https://www.pixiv.net/en/artworks/91140348",
-            "alternateLanguages": {
-                "ja": "https://www.pixiv.net/artworks/91140348",
-                "en": "https://www.pixiv.net/en/artworks/91140348"
-            },
-            "$nullable": ["alternateLanguages"],
-            "descriptionHeader": "Touhou, Touhou Project, cat ears, remilia scarlet are the most prominent tags for this work posted on July 10th, 2021.",
-            "ogp": {
-                "description": "妹様の方はこちら↓https://www.pixiv.net/artworks/91030831",
-                "image": "https://embed.pixiv.net/artwork.php?illust_id=91140348",
-                "title": "Touhou, Touhou Project, cat ears / 水着レミリア - pixiv",
-                "type": "article",
-                "card": "summary_large_image",
-                "$nullable": ["type","card"],
-                "$name": "_EmbedMeta"
-            },
-            "twitter": {
-                "$type": "_EmbedMeta"
-            }
+            "type": "article",
+            "card": "summary_large_image",
+            "$nullable": ["type","card"],
+            "$name": "_EmbedMeta"
+        },
+        "twitter": {
+            "$type": "_EmbedMeta"
         }
     }
+}

@@ -1,0 +1,18 @@
+{
+    "$desc": {
+        "$this": "Ads"
+    },
+    "logo": {
+        "url": "https://pixon.ads-pixiv.net/show?zone_id=logo_side&format=js&s=1&up=0&a=33&ng=g&l=en&uri=%2Fajax%2Fsearch%2Fartworks%2F_PARAM_&ref=www.pixiv.net%2Fen%2Ftags%2FJellyDoodle%2Fartworks&K=a60ef41229a2c4&ab_test_digits_first=3&uab=18&yuid=FTIQBXQ&num=65d85be5825",
+        "$name": "_adUrl"
+    },
+    "header": {
+        "$type": "_adUrl"
+    },
+    "footer": {
+        "$type": "_adUrl"
+    },
+    "infeed": {
+        "$type": "_adUrl"
+    }
+}

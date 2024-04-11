@@ -1,0 +1,54 @@
+{
+    "tagTranslation": {
+        "-": {"$schema":"TagTranslation"}
+    },
+    "thumbnails": {
+        "$schema": "../shared/Thumbnails"
+    },
+    "illustSeries": [
+        {"$schema":"IllustSeries"} 
+    ],
+    "requests": [],
+    "users": [
+        {"$schema":"../user/PartialUser"}
+    ]
+    "page": {
+        "series": [
+            {
+                "workId": "117667073",
+                "order": 5
+            },
+            {
+                "workId": "117451998",
+                "order": 4
+            },
+            {
+                "workId": "117241738",
+                "order": 3
+            },
+            {
+                "workId": "116356010",
+                "order": 2
+            },
+            {
+                "workId": "114624021",
+                "order": 1
+            }
+        ],
+        "isSetCover": true,
+        "seriesId": 221727,
+        "otherSeriesId": "223142",
+        "recentUpdatedWorkIds": [
+            117667073,
+            117451998,
+            117241738,
+            116386573
+        ],
+        "total": 5,
+        "isWatched": false,
+        "isNotifying": false
+    },
+    "extraData": {
+        "$schema": "../shared/ExtraData"
+    }
+}

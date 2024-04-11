@@ -68,12 +68,12 @@ def boy(k,v,ld=False, toJson=False):
         v["$toJson"] = toJson
         if "$schema" not in v: return generate(v,nam)
         else: 
-            nam = cry(v['$schema'])
+            nam = v.get("$useType") or cry(v['$schema'])
             tryimport(pathparse(v['$schema'],'package:sofieru/json/ajax/'),nam)
             return nam
     if type(v) == list: 
         if len(v) != 0 and type(v[0]) == dict and "$schema" in v[0]:
-            nam = cry(v[0]['$schema'])
+            nam = v[0].get("$useType") or cry(v[0]['$schema'])
             tryimport(pathparse(v[0]['$schema'],'package:sofieru/json/ajax/'),nam)
             return f"List<{nam}>"
         try: 

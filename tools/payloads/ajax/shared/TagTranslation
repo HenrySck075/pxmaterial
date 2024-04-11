@@ -5,5 +5,8 @@
   "zh_tw": "女孩",
   "romaji": "",
   "$toJson": true,
-  "$nullable": ["$all"]
+  "$nullable": ["$all"],
+  "$typedef": {
+      "TagTranslations": "Map<String, TagTranslation>"
+  }
 }
