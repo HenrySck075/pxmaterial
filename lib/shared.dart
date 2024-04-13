@@ -23,6 +23,7 @@ final kIsMobile = Platform.isIOS||Platform.isAndroid;
 /// set app's title
 /// i love hoisting
 Future<bool> HtmlUrlLauncher(String mimk) async => launchUrl(Uri.parse(mimk.contains("pixiv.net")?mimk.replaceFirst("https","pxmat").replaceFirst("www.","").replaceFirst("/en",""):mimk));
+
 Future<void> setTitle(String title) async {
   try {
     if (kIsMobile) {
@@ -34,6 +35,7 @@ Future<void> setTitle(String title) async {
     routeObserver.addUrl(currentRouteURI().path, title);
   } catch (e) {}
 }
+
 /// for cascade ~~operator~~ syntax
 T returnSelf<T>(T value) => value;
 /// Listens to navigation change to modify the title
@@ -78,7 +80,7 @@ List<List<T>> split2d<T>(Iterable<T> inp, {int splitEvery=2}) {
     }
     ret.last.add(inp.elementAt(i));
   }
-  return ret
+  return ret;
 }
 GoRouter router = GoRouter(routes: []);
 String cooki = "";

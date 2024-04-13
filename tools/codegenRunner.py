@@ -9,6 +9,7 @@ for r, s, fs in os.walk("payloads"):
         if os.system(f"{inter} json2dart.py {f} {os.path.join(r,f)}")!=0:
             raise SystemError("you stupid")
         pat = r.replace('payloads','json')
+        if not os.path.exists(f+".dart"): continue
         the = lambda: os.system(f"mv {f}.dart {os.path.join(pat,f)}.dart")
         ret = the() 
         if ret == 1: continue

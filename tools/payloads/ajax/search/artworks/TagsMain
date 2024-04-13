@@ -13,7 +13,7 @@
                 "min": 5000,
                 "max": 10000,
                 "$nullable": ["$all"]
-            },
+            }
         ]
     },
     "popular": {

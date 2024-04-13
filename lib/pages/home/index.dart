@@ -20,7 +20,8 @@ class _ShellPageState extends State<ShellPage> with SingleTickerProviderStateMix
     super.initState();
     var d = h.indexOf(router.routeInformationProvider.value.uri.path);
     _ctrl = TabController(length: 3, vsync: this, initialIndex:d==-1?0:d );
-    setTitle("pixiv Material Design Concept - As if Google did it (/j)");
+
+    setTitle("Online communty for artists [pixiv Material Design Concept]");
   }
   @override
   Widget build(context) {

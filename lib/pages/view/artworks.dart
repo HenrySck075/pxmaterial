@@ -83,6 +83,12 @@ class _ArtworkPageState extends State<ArtworkPage> {
         
         List<dynamic> gang = dd.data![1];
         op = ((shownAll||data.illustType!=0)?gang:[gang[0]]);
+        const seriesType = {
+          "illust": "artworks",
+          "manga": "artworks",
+          "novel": "novel"
+        };
+        String pathJoin(List<String> segments) => "/"+segments.join("/");
         final view = (data.illustType!=2) ? [
           Center(
             child:data.illustType==0
@@ -127,10 +133,40 @@ class _ArtworkPageState extends State<ArtworkPage> {
               );
             })
           ),
+          // show all button
           if (data.pageCount>1&&data.illustType==0) Center(child:FilledButton(child: Text(shownAll?"Collapse":"Show all"),onPressed: ()=>setState((){
             op=(shownAll?gang:[gang[0]]);
             shownAll=!shownAll;
-          }))),]
+          }))),
+          // series navigation, if any
+          if (data.seriesNavData!=null) Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Next
+              FilledButton.tonal(
+                onPressed: data.seriesNavData?.next==null
+                  ?null
+                  :()=>navigate(pathJoin([
+                    seriesType[data.seriesNavData!.seriesType]!,
+                    data.seriesNavData!.next!.id
+                  ])), 
+                child: Text("#${data.seriesNavData!.order+1} "+(data.seriesNavData!.next?.title??"has not been posted"))
+              ),
+              // index
+              FilledButton.tonal(onPressed: ()=>navigate(pathJoin([
+                "users", data.userId,
+                "series", data.seriesNavData!.seriesId
+              ])), child: const Text("See index")),
+              // Previous
+              if (data.seriesNavData?.prev!=null) FilledButton.tonal(
+                onPressed: ()=>navigate(pathJoin([
+                    seriesType[data.seriesNavData!.seriesType]!,
+                  data.seriesNavData!.prev!.id
+                ])), 
+                child: Text("#${data.seriesNavData!.order-1} "+(data.seriesNavData!.prev!.title))),
+            ]
+          )
+          ]
           // Animated artworks 
           :[
           Center(
@@ -140,7 +176,6 @@ class _ArtworkPageState extends State<ArtworkPage> {
               builder: (ctx,snap){
                 var data = snap.data! as Map<String, dynamic>;
                 final List<dynamic> frames = data["frames"];
-                ///   offset  length (look into the source code)
                 return futureWidget(
                   future: pxRequestUnprocessed(data["src"],otherHeaders: {"Upgrade-Insecure-Requests":"1"}), 
                   placeholder: const Center(child: Text("Downloading...")),
@@ -154,6 +189,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
                       var element = frames[i];
                       widgetFrames.add(Image.memory(archive.findFile(element["file"])!.content));              
                     }
+                    // schedule frame change
                     Timer.periodic(Duration(milliseconds:total), (timer) { 
                       int ts = 0;
                       for (int i = 0; i < frames.length; i++) {
@@ -162,6 +198,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
                         Timer(Duration(milliseconds: ts),()=>curImg.value=widgetFrames[i]);
                       }
                     });
+                    // 1 more future widget to preload the images (it doesnt)
                     return futureWidget(
                       future: Future.wait(widgetFrames.map((e)=>precacheImage(e.image, ctx))), 
                       placeholder: const Center(child: Text("Loading frames...")),
@@ -176,8 +213,6 @@ class _ArtworkPageState extends State<ArtworkPage> {
           wtype: WorkType.illust,
           data: rawData,
           // The artwork view
-          // the lsp broke when using ternary so dont use it
-          // Static artworks
           view: Column(children:view),
           // author works
           authorWorksItemBuilder: (e)=> PxSimpleArtwork.fromJson(
@@ -191,6 +226,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
     );
   }
 }
+/// cant compile gifski rn
 void ugoiraSave(List<Image> frames, List<int> delay) {
 }
 

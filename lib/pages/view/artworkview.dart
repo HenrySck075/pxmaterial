@@ -1,11 +1,10 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sofieru/shared.dart';
+import 'package:collection/collection.dart';
 
 class ArtworkImageView extends StatelessWidget {
   JSON? data;
@@ -95,7 +94,12 @@ class MangaView extends StatelessWidget {
   @override
   Widget build(ctx){
     var routerState = GoRouterState.of(ctx);
-    return bookStyle==0?Placeholder():MangaHorizontalView(id: id,direction: bookStyle-1,data:data);
+    setTitle("Manga view - pixiv");
+    return Scaffold(
+      appBar:AppBar(backgroundColor:Colors.black,foregroundColor: Colors.white,),
+      backgroundColor: Colors.black,
+      body:bookStyle==0?Placeholder():MangaHorizontalView(id: id,direction: bookStyle-1,data:data)
+    );
   }
 }
 
@@ -127,41 +131,53 @@ class _MangaHorizontalViewState extends State<MangaHorizontalView>{
   // widget.data is supposed to be non-null here
   Widget theChild(ctx){
     var data = widget.data!;
-    List<Widget> pages = data.mapIndexed((i,e) => FittedBox(
-      fit: BoxFit.fitHeight,
-      child:GestureDetector(
-        onTap:()=>navigate("/artwork/view/${widget.id}?index=$i",extra: data[idx-1]), 
-        child:Hero(tag:"${widget.id}_p$i",child:pxImage(e["urls"]["regular"],width: e["width"].toDouble(),height: e["height"].toDouble()))
+    /// this is a widget, defined as a widget, and lives as awidget
+    List<Widget> pages = <Widget>[...data.mapIndexed((i,e) => GestureDetector(
+        onTap:()=>navigate("/artwork/view/${widget.id}?index=$i",extra: data[i]), 
+        child:Hero(tag:"${widget.id}_p$i",child:pxImage(e["urls"]["regular"],fit: BoxFit.fitHeight))
       )
-    )).toList();
+    )];
     // if the amount of pages is odd, insert a blank page
     if (data.length.isOdd) {pages.insert(0, FittedBox(fit:BoxFit.fitHeight,child:Container(color: Colors.white,width: data[0]["width"].toDouble(),height: data[0]["height"].toDouble(),)));}
     // group every 2 pages to 1 on desktop
-    if (!kIsMobile) pages = split2d(pages).map((e)=>Row(children:widget.direction==0?e.reverse:e, mainAxisSize: MainAxisSize.min));
-    return Scaffold(appBar:AppBar(),backgroundColor: Colors.transparent,body:Stack(children: [
+    if (!kIsMobile) pages = split2d(pages).map((e)=>Row(children:widget.direction==0?e.reversed.toList():e, mainAxisSize: MainAxisSize.min,mainAxisAlignment: MainAxisAlignment.center,)).toList();
+    return Stack(alignment: Alignment.bottomCenter, children: [
       PageView( 
         reverse: true,
         controller: _pageCtrl,
         children: pages
       ),
       // dont move this to before PageView or batman will use your shower
-      MouseRegion(
-        cursor: SystemMouseCursors.click, 
-        child:GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: ()=>_updateIndex(widget.direction==0?idx+1:idx-1),
-          child: const SizedBox(width: 200,),
-        ),
-      ),
-      Positioned(right:0,child:MouseRegion(
-        cursor:SystemMouseCursors.click, 
-        child:GestureDetector(behavior: 
-          HitTestBehavior.translucent,
-          onTap: ()=>_updateIndex(widget.direction==0?idx-1:idx+1),
-          child: const SizedBox(width: 200,),),
-        )
-      ),
-    ],));
+      Builder(builder:(bctx){
+        ValueNotifier opacity = ValueNotifier<double>(0);
+        return MouseRegion( 
+          onEnter: (e){opacity.value=1.0;},
+          onExit: (e){opacity.value=0.0;},
+          child: ListenableBuilder(listenable: opacity, builder: (lctx,ehar)=>AnimatedOpacity(
+            opacity: opacity.value, 
+            duration: Durations.medium1, 
+            child: Container(
+              decoration: BoxDecoration( 
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(24)
+              ),
+              child:Row(mainAxisSize:MainAxisSize.min,children: [
+                IconButton(
+                  icon: Icon(Icons.chevron_left),
+                  color: Colors.white,
+                  onPressed: ()=>_updateIndex(widget.direction==0?idx+1:idx-1),
+                ),
+                IconButton(
+                  icon: Icon(Icons.chevron_right),
+                  color: Colors.white,
+                  onPressed: ()=>_updateIndex(widget.direction==0?idx-1:idx+1),
+                ),
+              ])
+            )
+          ))
+        );
+      })
+    ],);
   }
   void _updateIndex(int index) {
     debugPrint(index.toString());

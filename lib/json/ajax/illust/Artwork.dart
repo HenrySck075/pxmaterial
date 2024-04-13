@@ -32,8 +32,8 @@ class Artwork extends Work {
   /// Artwork description
   final String illustComment;
   /// Artwork type 
-  /// 1: Single-image artwork
-  /// 2:Multi-image-artwork
+  /// 1: Illustration
+  /// 2: Manga
   /// 3:Animated artwork
   final int illustType;
   final int sl;

@@ -12,7 +12,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:sofieru/pages/helpcenter/hchtml.dart';
 import 'package:sofieru/pages/view/artworkview.dart';
-import 'package:sofieru/pages/view/layout.dart';
 // import 'package:url_launcher/url_launcher.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:uni_links_desktop/uni_links_desktop.dart';
@@ -404,7 +403,7 @@ class _ShellPageState extends State<ShellPage> {
           
           // basic google layout constraint
           
-          constraints: const BoxConstraints(maxWidth:1260),
+          constraints: GoRouterState.of(context).uri.path.startsWith("/artwork/")?null:const BoxConstraints(maxWidth:1260),
           child: widget.child
         ) 
       ),

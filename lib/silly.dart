@@ -103,9 +103,9 @@ extension ImGenuinelyDyingHelp on HttpFileService {
 }
 
 /// TODO: implement retry on this fraud
-CachedNetworkImage pxImage(String url, {double? width, double? height, Widget? placeholder}) => CachedNetworkImage(imageUrl:url,httpHeaders: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, placeholder: (c,d)=>placeholder??SizedBox(width: width,height: height,),width: width, height: height,);
+CachedNetworkImage pxImage(String url, {double? width, double? height, Widget? placeholder, BoxFit? fit}) => CachedNetworkImage(imageUrl:url,httpHeaders: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, placeholder: (c,d)=>placeholder??SizedBox(width: width,height: height,),width: width, height: height,fit: fit,);
 
-Image pxImageFlutter(String url, {double? width, double? height, Widget? placeholder,Animation<double>? opacity}) => Image(
+Image pxImageFlutter(String url, {double? width, double? height, Widget? placeholder,Animation<double>? opacity, BoxFit? fit}) => Image(
   image: NetworkImageWithRetry(url,headers: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"},), 
   width: width, 
   height: height, 

@@ -1,6 +1,7 @@
 {
     "tagTranslation": {
-        "-": {"$schema":"TagTranslation"}
+        "$schema":"TagTranslation",
+        "$useType": "TagTranslations"
     },
     "thumbnails": {
         "$schema": "../shared/Thumbnails"
@@ -11,7 +12,7 @@
     "requests": [],
     "users": [
         {"$schema":"../user/PartialUser"}
-    ]
+    ],
     "page": {
         "series": [
             {

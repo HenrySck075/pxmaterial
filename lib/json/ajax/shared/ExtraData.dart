@@ -44,18 +44,18 @@ class _Meta {
   final String description;
   final String canonical;
   final _AlternateLanguages? alternateLanguages;
-  /// that one text that appears on any users that views the works without logged in
+  /// that one text that appears on any users that views the page without logged in
   final String descriptionHeader;
-  final _EmbedMeta ogp;
-  final _EmbedMeta twitter;
+  final _EmbedMeta? ogp;
+  final _EmbedMeta? twitter;
   _Meta({
     required this.title,
     required this.description,
     required this.canonical,
     this.alternateLanguages,
     required this.descriptionHeader,
-    required this.ogp,
-    required this.twitter,
+    this.ogp,
+    this.twitter,
   });
   factory _Meta.fromJson(Map<String, dynamic> json) {
     return _Meta(
@@ -64,8 +64,8 @@ class _Meta {
     canonical: json['canonical'],
     alternateLanguages: json['alternateLanguages'] == null?null:_AlternateLanguages.fromJson(json['alternateLanguages']),
     descriptionHeader: json['descriptionHeader'],
-    ogp: _EmbedMeta.fromJson(json['ogp']),
-    twitter: _EmbedMeta.fromJson(json['twitter']),
+    ogp: json['ogp'] == null?null:_EmbedMeta.fromJson(json['ogp']),
+    twitter: json['twitter'] == null?null:_EmbedMeta.fromJson(json['twitter']),
   );}
 
 }
