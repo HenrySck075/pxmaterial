@@ -64,6 +64,7 @@ dependencies:
   skeletonizer: ^1.1.0
   flutter_image: ^4.1.11
   collection: ^1.18.0
+  context_menus: ^1.0.2
 
 dev_dependencies:
   flutter_test:

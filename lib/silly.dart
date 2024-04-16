@@ -37,12 +37,28 @@ class VisibleNotifyNotifier<T> extends ChangeNotifier {
 }
 SizedBox Function(BuildContext, GoRouterState) emptyBuilder()=>(ctx,s)=>const SizedBox(width: 1,height: 1,);
 /// i love when i have to find a fix related to dimensions with all the flex widgets that i know so that it can be inside other flex widgets
+/*
 Wrap artworkGrid(Iterable<Widget> h) => Wrap(
   runAlignment: WrapAlignment.center,
   spacing: 4,
   runSpacing: 4,
   children: h.toList(),
 );
+*/
+
+/// the above is func impl, trying a class variant to see if theres any perf diff
+class artworkGrid extends StatelessWidget{
+  Iterable<Widget> children;
+  artworkGrid(this.children,{super.key});
+  @override
+  Widget build(ctx)=>Wrap(
+    runAlignment: WrapAlignment.center,
+    spacing: 4,
+    runSpacing: 4,
+    children: children.toList(),
+  );
+}
+
 
 ListenableBuilder TabChips({
   required List<String> labels,
@@ -206,124 +222,123 @@ class _PxArtworkState extends State<PxArtwork> {
   Widget build(context) {
     var id = data.id;
     // if (int.tryParse(id)==null) {return Center(child: Text("invalid id"),);}
-    return ContextMenuRegion(
-      contextMenu:ContextMenu(
-        entries: [
-          MenuItem(label: "Copy URL", icon: Icons.link_outlined,onSelected: ()=>Clipboard.setData(ClipboardData(text: "/artworks/$id")).then((value) => ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Path copied to clipboard!"))
-          ))),
-        ]
-      ), 
-      child: SizedBox(
-        width: 190,
-        height: 285,
+    return SizedBox(
+      width: 190,
+      height: 285,
+      child: ContextMenuRegion(
+      
+        contextMenu:ContextMenu(
+          entries: [
+            // i know like 3 perspn who do this
+            MenuItem(label: "Open", icon: Icons.link_outlined,onSelected: ()=>navigate( "/artworks/$id")),
+            MenuItem(label: "Copy URL", icon: Icons.link_outlined,onSelected: ()=>Clipboard.setData(ClipboardData(text: "/artworks/$id")).then((value) => ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Path copied to clipboard!"))
+            ))),
+          ]
+        ), 
         child: Card(
           clipBehavior: Clip.hardEdge,
-          child:InkWell(
-            borderRadius:BorderRadius.circular(20),
-            splashColor: Colors.blue.withAlpha(30),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 40),
-              child: Column( 
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Stack(
-                    children: [
-                      GestureDetector(
-                        onTap: (){navigate("/artworks/$id");},
-                        child:pxImage(data.url),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: GestureDetector(
-                          onTap:(){
-                            pxRequest("https://www.pixiv.net/ajax/illusts/bookmarks/add",body: {"illust_id":id, "comment":"", "restrict": 0, "tags": []},method: "post");
-                            setState(() {
-                              bookmarked = !bookmarked;
-                              print("imagine bookmarked");
-                            });
-                          },
-                          child:Icon(Icons.favorite,color: bookmarked?Colors.red:Colors.white),
-                        ),
-                      ),
-                      const Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Icon(Icons.favorite_outline,color:Colors.black)
-                      ),
-                      if (data.illustType==2) const Positioned.fill(child: Align(alignment: Alignment.center,child: Icon(Icons.play_circle_outlined,size: 48,),)),
-                      if (widget.rank != 0) Positioned(
-                        top:4, left:4,
-                        child:SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: Container(
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color:widget.rank==1?Colors.yellow.shade700:widget.rank==2?Colors.grey[300]:widget.rank==3?Colors.brown:Colors.grey.withOpacity(0.5)),
-                            child:Center(child: Text(widget.rank.toString())), 
-                          ),
-                        )
-                      ),
-                      if (data.xRestrict == 1) Positioned(
-                        top:4, left:4,
-                        child:SizedBox(
-                          width: 36,
-                          height: 24,
-                          child: Container(
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color:const Color(0xFFFF4060)),
-                            child:const Center(child: Text("R-18",style: TextStyle(color: Colors.white))), 
-                          ),
-                        )
-                      ),
-                      if (data.pageCount!=1) Positioned(
-                        top:4,right:4,
-                        child: SizedBox(
-                          width:24,
-                          height:24,
-                          child: Container(
-                            decoration: BoxDecoration(color: Colors.grey.withOpacity(0.5),borderRadius: BorderRadius.circular(4)),
-                            child: Center(child: Text(data.pageCount.toString(),style: const TextStyle(color:Colors.white)))
-                          ),
-                        )
-                      )
-                    ],
-                  ),
-                  const Spacer(),
-                  // weak ahh check ik
-                  Flexible(
-                    flex: 4,
-                    child: ListTile(
-                      title: Text(
-                        data.titleCaptionTranslation.workTitle??data.title,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      subtitle: GestureDetector(
-                        onTap: (){
-                          showDialog(context: context, builder: (b)=>AuthorInfo(userId: data.userId,));
+          child:Padding(
+            padding: const EdgeInsets.only(bottom: 40),
+            child: Column( 
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Stack(
+                  children: [
+                    GestureDetector(
+                      onTap: (){navigate("/artworks/$id");},
+                      child:pxImage(data.url),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: GestureDetector(
+                        onTap:(){
+                          pxRequest("https://www.pixiv.net/ajax/illusts/bookmarks/add",body: {"illust_id":id, "comment":"", "restrict": 0, "tags": []},method: "post");
+                          setState(() {
+                            bookmarked = !bookmarked;
+                            print("imagine bookmarked");
+                          });
                         },
-                        child: Row(
-                          children: [if (!currentRouteURI().path.startsWith("/users")) ...[
-                            /// TODO: get the default pfp
-                            if (data.profileImageUrl!=null) CircleAvatar(backgroundImage: pxImageFlutter(data.profileImageUrl!).image),
-                            const SizedBox.square(dimension:10),
-                            Flexible(
-                              flex:4,
-                              child: Text(
-                                data.userName,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            )
-                          ] else ...[const SizedBox(height: 40,)]],
+                        child:Icon(Icons.favorite,color: bookmarked?Colors.red:Colors.white),
+                      ),
+                    ),
+                    const Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Icon(Icons.favorite_outline,color:Colors.black)
+                    ),
+                    if (data.illustType==2) const Positioned.fill(child: Align(alignment: Alignment.center,child: Icon(Icons.play_circle_outlined,size: 48,),)),
+                    if (widget.rank != 0) Positioned(
+                      top:4, left:4,
+                      child:SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: Container(
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color:widget.rank==1?Colors.yellow.shade700:widget.rank==2?Colors.grey[300]:widget.rank==3?Colors.brown:Colors.grey.withOpacity(0.5)),
+                          child:Center(child: Text(widget.rank.toString())), 
                         ),
+                      )
+                    ),
+                    if (data.xRestrict == 1) Positioned(
+                      top:4, left:4,
+                      child:SizedBox(
+                        width: 36,
+                        height: 24,
+                        child: Container(
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color:const Color(0xFFFF4060)),
+                          child:const Center(child: Text("R-18",style: TextStyle(color: Colors.white))), 
+                        ),
+                      )
+                    ),
+                    if (data.pageCount!=1) Positioned(
+                      top:4,right:4,
+                      child: SizedBox(
+                        width:24,
+                        height:24,
+                        child: Container(
+                          decoration: BoxDecoration(color: Colors.grey.withOpacity(0.5),borderRadius: BorderRadius.circular(4)),
+                          child: Center(child: Text(data.pageCount.toString(),style: const TextStyle(color:Colors.white)))
+                        ),
+                      )
+                    )
+                  ],
+                ),
+                const Spacer(),
+                // weak ahh check ik
+                Flexible(
+                  flex: 4,
+                  child: ListTile(
+                    title: Text(
+                      data.titleCaptionTranslation.workTitle??data.title,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: GestureDetector(
+                      onTap: (){
+                        showDialog(context: context, builder: (b)=>AuthorInfo(userId: data.userId,));
+                      },
+                      child: Row(
+                        children: [if (!currentRouteURI().path.startsWith("/users")) ...[
+                          /// TODO: get the default pfp
+                          if (data.profileImageUrl!=null) CircleAvatar(backgroundImage: pxImageFlutter(data.profileImageUrl!).image),
+                          const SizedBox.square(dimension:10),
+                          Flexible(
+                            flex:4,
+                            child: Text(
+                              data.userName,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          )
+                        ] else ...[const SizedBox(height: 40,)]],
                       ),
                     ),
                   ),
-                ]
-              ),
-            )
+                ),
+              ]
+            ),
           )
-        ),
-      )
+        )
+      ),
     );
   }
 }

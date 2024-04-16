@@ -5,7 +5,6 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'dart:ui';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
@@ -16,6 +15,7 @@ import 'package:sofieru/pages/view/artworkview.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:uni_links_desktop/uni_links_desktop.dart';
 import 'shared.dart';
+import 'package:context_menus/context_menus.dart' show ContextMenuOverlay;
 
 // Routes
 import 'pages/home/index.dart' as home;
@@ -233,10 +233,9 @@ void main() async {
 
             ]
           ),
-
-        ]
+        ],
       )
-    ]
+    ],
   ));
   runApp(const MyApp());
 }
@@ -260,6 +259,38 @@ class MyApp extends StatelessWidget {
       ),
       themeMode: ThemeMode.system,
       routerConfig: router,
+      /*
+      builder: (ctx,c)=>ContextMenuOverlay(
+        cardBuilder: (ctx,children) => Container(
+          clipBehavior: Clip.hardEdge,
+          decoration: BoxDecoration( 
+            color: ElevationOverlay.applySurfaceTint(
+              Theme.of(ctx).colorScheme.surface,
+              Theme.of(ctx).colorScheme.surfaceTint,
+              Theme.of(ctx).cardTheme.elevation??1.0,
+              
+            ),
+            borderRadius: BorderRadius.circular(12)
+          ),
+          child:Column(
+            children: children,
+          )
+        ),
+        buttonBuilder: (ctx, cfg, [s])=>Material(
+          borderRadius: BorderRadius.circular(2),
+          color: Colors.transparent,
+          clipBehavior: Clip.hardEdge,
+          child: InkWell( 
+            onTap: cfg.onPressed,
+            child: ListTile( 
+              title: Text(cfg.label,style: s?.textStyle,),
+              leading: cfg.icon,
+            ),
+          ),
+        ),
+        child: c??Placeholder(),
+      )
+      */
     );
   }
 }
@@ -353,6 +384,8 @@ class _ShellPageState extends State<ShellPage> {
     final uploadWorkButton = FloatingActionButton(onPressed: ()=>print("nice >:]"),child: Icon(Icons.add),);
 
     final medQuery = MediaQuery.of(context);
+
+    final inView = GoRouterState.of(context).uri.path.startsWith("/artwork/");
     return Scaffold(
       drawer: NavigationDrawer(
         selectedIndex: pageIndex,
@@ -397,33 +430,31 @@ class _ShellPageState extends State<ShellPage> {
           if (kDebugMode) const IconButton(onPressed: clearRequestCache, icon:Icon(Icons.refresh), tooltip: "Reset request cache (DEBUG)",)
         ],
       ),
-      body: Center(
-        child: Container(
+      body: Container(
           padding: const EdgeInsets.only(top: 8),
           
           // basic google layout constraint
           
-          constraints: GoRouterState.of(context).uri.path.startsWith("/artwork/")?null:const BoxConstraints(maxWidth:1260),
+          constraints: inView?null:const BoxConstraints(maxWidth:1260),
           child: widget.child
-        ) 
       ),
-      floatingActionButton: medQuery.size.width>=820?uploadWorkButton:null,
-      bottomNavigationBar: medQuery.size.width<=820?NavigationBar(
+      floatingActionButton: medQuery.size.width>=820&&!inView?uploadWorkButton:null,
+      bottomNavigationBar: medQuery.size.width<=820&&!inView?NavigationBar(
         destinations: [
-          NavigationDestination(
+          const NavigationDestination(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
-          NavigationDestination(
+          const NavigationDestination(
             icon: Icon(Icons.favorite),
             label: 'Discovery',
           ),
           SizedBox(width: 24,child: uploadWorkButton,),
-          NavigationDestination(
+          const NavigationDestination(
             icon: Icon(Icons.home),
             label: 'filler',
           ),
-          NavigationDestination(
+          const NavigationDestination(
             icon: Icon(Icons.favorite),
             label: 'items',
           ),
