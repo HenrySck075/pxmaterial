@@ -1,6 +1,5 @@
 {
-  "$nullable": ["comment", "background", "followedBack"],
-  "partial": 0,
+  "$nullable": ["comment", "background", "followedBack", "image", "imageBig"],
   "comment": "pixiv(ピクシブ)は、「作品を介したコミュニケーション」にフォーカスしているクリエイターとそのファンのためのSNSです。\r\n\r\nあなたが投稿した作品(イラスト、漫画、小説)やブックマークした作品そのものがプロフィールを形成し、それが中心となって作品によるコミュニケーションが行われています。\r\n\r\npixivには幅広いジャンルの作品が投稿されユーザー発のイラスト企画やメーカー公認のコンテストが頻繁に開催されています。\r\nそしてユーザー同士が協力しあい新たな作品が生まれる協創(co-creation)のプラットフォームとして活用されています。\r\n\r\n「お絵かきがもっと楽しくなる場所」\r\n\r\npixivは、そんな場所を目指しています。\r\n\r\npixivのご利用方法、ご不明点、その他のご連絡・お問い合わせについては、以下のお問い合わせフォームをご利用ください。\r\n\r\nお問い合わせフォーム https://www.pixiv.net/support.php",
   "followedBack": false,
   "userId": "11",

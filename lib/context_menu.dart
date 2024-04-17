@@ -1,150 +1,73 @@
 
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-typedef ContextMenuBuilder = Widget Function(
-    BuildContext context, Offset offset);
-/// Shows and hides the context menu based on user gestures.
-///
-/// By default, shows the menu on right clicks and long presses.
-///
-///Taken from widgets.ContextMenuController.1
-class ContextMenuRegion extends StatefulWidget {
-  /// Creates an instance of [_ContextMenuRegion].
-  const ContextMenuRegion({
-    required this.child,
-    required this.contextMenuBuilder,
-  });
+MenuStyle _style = const MenuStyle(padding: MaterialStatePropertyAll(EdgeInsets.all(4)));
+ButtonStyle _btnStyle = ButtonStyle(shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))));
 
-  /// Builds the context menu.
-  final ContextMenuBuilder contextMenuBuilder;
-
-  /// The child widget that will be listened to for gestures.
-  final Widget child;
-
-  @override
-  State<ContextMenuRegion> createState() => _ContextMenuRegionState();
-}
-
-class _ContextMenuRegionState extends State<ContextMenuRegion> {
-  Offset? _longPressOffset;
-
-  final ContextMenuController _contextMenuController = ContextMenuController();
-
-  static bool get _longPressEnabled {
-    switch (defaultTargetPlatform) {
-      case TargetPlatform.android:
-      case TargetPlatform.iOS:
-        return true;
-      case TargetPlatform.macOS:
-      case TargetPlatform.fuchsia:
-      case TargetPlatform.linux:
-      case TargetPlatform.windows:
-        return false;
-    }
-  }
-
-  void _onSecondaryTapUp(TapUpDetails details) {
-    _show(details.globalPosition);
-  }
-
-  void _onTap() {
-    if (!_contextMenuController.isShown) {
-      return;
-    }
-    _hide();
-  }
-
-  void _onLongPressStart(LongPressStartDetails details) {
-    _longPressOffset = details.globalPosition;
-  }
-
-  void _onLongPress() {
-    assert(_longPressOffset != null);
-    _show(_longPressOffset!);
-    _longPressOffset = null;
-  }
-
-  void _show(Offset position) {
-    _contextMenuController.show(
-      context: context,
-      contextMenuBuilder: (BuildContext context) {
-        return widget.contextMenuBuilder(context, position);
-      },
-    );
-  }
-
-  void _hide() {
-    _contextMenuController.remove();
-  }
-
-  @override
-  void dispose() {
-    _hide();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onSecondaryTapUp: _onSecondaryTapUp,
-      onTap: _onTap,
-      onLongPress: _longPressEnabled ? _onLongPress : null,
-      onLongPressStart: _longPressEnabled ? _onLongPressStart : null,
-      child: widget.child,
-    );
-  }
-}
-
-/// which is just [Card] wrapping [ListTile] with a smaller border
 class ContextMenuItem extends StatelessWidget {
-  String? label;
-  String? subtitle;
   IconData? icon;
-  bool isThreeLine;
-  void Function()? onSelected;
+  String label;
+  /// does nothing if [items] is non-null
+  LogicalKeyboardKey? shortcut;
+  (bool ctrl, bool alt, bool shift, bool meta) shortcutModifiers;
+  List<ContextMenuItem>? items;
+  VoidCallback? onPressed;
 
-  ContextMenuItem({super.key, this.label, this.subtitle, this.icon, this.isThreeLine=false, this.onSelected});
+  ContextMenuItem({super.key, required this.label, this.icon, this.shortcut, this.shortcutModifiers = (false, false, false, false), this.onPressed});
 
   @override
-  /// i lied
-  Widget build(ctx) => Material( 
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
-    child: InkWell( 
-      onTap: (){
-        if (onSelected!=null) {onSelected!();}
-        ContextMenuController.removeAny();
-      },
-      child:ListTile( 
-        title: label==null?null:Text(label!),
-        subtitle: subtitle==null?null:Text(subtitle!),
-        leading: icon==null?Icon(icon):null,
-        isThreeLine: isThreeLine,
-      ),
-    )
+  Widget build(ctx)=>items==null
+  ?MenuItemButton( 
+    leadingIcon: icon!=null?Icon(icon):null,
+    shortcut: shortcut!=null ?SingleActivator(shortcut!,control: shortcutModifiers.$1, alt: shortcutModifiers.$2, shift: shortcutModifiers.$3, meta: shortcutModifiers.$4):null,
+    onPressed: onPressed,
+    style: _btnStyle,
+    child: Text(label),
+  )
+  :SubmenuButton(
+    menuChildren: items!, 
+    leadingIcon: icon!=null?Icon(icon):null,
+    menuStyle: _style,
+    style: _btnStyle,
+    child: Text(label),
   );
 }
 
-/// Style: Pixel Launcher context menu (app drawer) (google didn't do this to google workspace but i think it's cool)
-class ContextMenu extends StatelessWidget {
+/// https://dartpad.dev/?split=60&sample_id=material.MenuAnchor.2&sample_channel=stable&channel=stable
+class ContextMenuWrapper extends StatefulWidget { 
   final List<ContextMenuItem> items;
-  Widget child; 
+  final Widget child;
+  ContextMenuWrapper({super.key, required this.items, required this.child});
 
-  ContextMenu({required this.items, required this.child});
+  @override
+  State<ContextMenuWrapper> createState()=>_ContextMenuWrapperState();
+}
 
-  @override 
-  Widget build(ctx) => ContextMenuRegion(
-    child: child, 
-    contextMenuBuilder: (ctx,off)=>Card( 
-        clipBehavior: Clip.hardEdge,
-          child: SizedBox(
-        width: 100, height: 99,
-        child: Column(
-            mainAxisSize:MainAxisSize.min,
-            children: items,
-          ),
+class _ContextMenuWrapperState extends State<ContextMenuWrapper> {
+  MenuController _menuController = MenuController();
+  @override
+  void initState(){
+    super.initState();
+    if (kIsWeb) {
+      if (BrowserContextMenu.enabled) {BrowserContextMenu.disableContextMenu();}
+    }
+  }
+
+  void _openContext(Offset position) => _menuController.open(position: position);
+
+  @override
+  Widget build(ctx) {
+    return GestureDetector(
+      onLongPressDown: (d)=>_openContext(d.localPosition),
+      onSecondaryTapUp: (d)=>_openContext(d.localPosition),
+      child: MenuAnchor(
+        controller: _menuController,
+        menuChildren: widget.items,
+        child: widget.child,
+        style: _style,
       ),
-    )
-  );
+    );
+  }
 }

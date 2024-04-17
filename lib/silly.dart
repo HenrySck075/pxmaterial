@@ -3,7 +3,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_context_menu/flutter_context_menu.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sofieru/json/ajax/illust/PartialArtwork.dart';
 import 'package:sofieru/json/ajax/shared/Booth.dart';
@@ -16,6 +15,7 @@ import 'package:flutter_image/flutter_image.dart';
 import 'package:flutter_cache_manager/src/web/file_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/retry.dart' show RetryClient;
+import 'context_menu.dart';
 
 /// Header text
 Text header(String label)=>Text(label,style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold));
@@ -228,17 +228,21 @@ class _PxArtworkState extends State<PxArtwork> {
     return SizedBox(
       width: 190,
       height: 285,
-      child: ContextMenuRegion(
-      
-        contextMenu:ContextMenu(
-          entries: [
-            // i know like 3 perspn who do this
-            MenuItem(label: "Open", icon: Icons.link_outlined,onSelected: ()=>navigate( "/artworks/$id")),
-            MenuItem(label: "Copy URL", icon: Icons.link_outlined,onSelected: ()=>Clipboard.setData(ClipboardData(text: "/artworks/$id")).then((value) => ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Path copied to clipboard!"))
-            ))),
-          ]
-        ), 
+      child: ContextMenuWrapper(
+        items: [
+          // i know like 3 perspn who do this
+          ContextMenuItem(
+            label: "Open", 
+            icon: Icons.link_outlined,
+            onPressed: ()=>navigate( "/artworks/$id")
+          ),
+          ContextMenuItem(
+            label: "Copy URL", 
+            icon: Icons.link_outlined,
+            onPressed: ()=>Clipboard.setData(ClipboardData(text: "/artworks/$id")).then((value) => ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Path copied to clipboard!"))
+          ))),
+        ],
         child: Card(
           clipBehavior: Clip.hardEdge,
           child:Padding(
@@ -255,15 +259,15 @@ class _PxArtworkState extends State<PxArtwork> {
                     Positioned(
                       bottom: 0,
                       right: 0,
-                      child: GestureDetector(
-                        onTap:(){
+                      child: IconButton(
+                        onPressed:(){
                           pxRequest("https://www.pixiv.net/ajax/illusts/bookmarks/add",body: {"illust_id":id, "comment":"", "restrict": 0, "tags": []},method: "post");
                           setState(() {
                             bookmarked = !bookmarked;
                             print("imagine bookmarked");
                           });
                         },
-                        child:Icon(Icons.favorite,color: bookmarked?Colors.red:Colors.white),
+                        icon:Icon(Icons.favorite,color: bookmarked?Colors.red:Colors.white),
                       ),
                     ),
                     const Positioned(
@@ -332,7 +336,7 @@ class _PxArtworkState extends State<PxArtwork> {
                               overflow: TextOverflow.ellipsis,
                             ),
                           )
-                        ] else ...[const SizedBox(height: 40,)]],
+                        ] else const SizedBox(height: 40,)],
                       ),
                     ),
                   ),
@@ -370,17 +374,22 @@ class _PxBoothState extends State<PxBooth> {
     return SizedBox(
       width: 190,
       height: 285,
-      child: ContextMenuRegion(
+      child: ContextMenuWrapper(
       
-        contextMenu:ContextMenu(
-          entries: [
+          items: [
             // i know like 3 perspn who do this
-            MenuItem(label: "Open", icon: Icons.link_outlined,onSelected: ()=>null),
-            MenuItem(label: "Copy URL", icon: Icons.link_outlined,onSelected: ()=>Clipboard.setData(ClipboardData(text: "hi")).then((value) => ScaffoldMessenger.of(context).showSnackBar(
+            ContextMenuItem(
+              label: "Open", 
+              icon: Icons.link_outlined,
+              onPressed: ()=>launchUrl(Uri.parse(data.url))
+            ),
+            ContextMenuItem(
+              label: "Copy URL", 
+              icon: Icons.link_outlined,
+              onPressed: ()=>Clipboard.setData(ClipboardData(text: "hi")).then((value) => ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text("Path copied to clipboard!"))
             ))),
-          ]
-        ), 
+          ], 
         child: Card(
           clipBehavior: Clip.hardEdge,
           child:Padding(

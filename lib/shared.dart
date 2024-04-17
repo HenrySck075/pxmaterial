@@ -184,7 +184,7 @@ Iterable<T> enumerate<T, E>(Iterable<E> iter, T Function(int index, E e) cooker)
 
 Map<String, http.Response> _cachedResponse = {};
 void clearRequestCache(){
-  _cachedResponse = {};
+  _cachedResponse.clear();
 }
 var client = http.Client();
 Future<void> wait(FutureOr<bool> Function(dynamic) predicate) async => await Future.doWhile(() => Future.delayed(const Duration(milliseconds: 500)).then(predicate));
@@ -228,6 +228,13 @@ Future<http.Response> pxRequestUnprocessed(String url, {
   
   return (_cachedResponse[url] = http.Response(String.fromCharCodes(bytes), resp.statusCode, headers: resp.headers));
 }
+Map<String, List<String>> _requestsOnPage = {};
+void deletePageRequestCache(String page) {
+  _requestsOnPage[page]?.forEach((element) {
+    _cachedResponse.remove(element);
+  });
+  _requestsOnPage.remove(page);
+}
 Future<dynamic> pxRequest(String url, {Map<String, String>? otherHeaders, String method="GET", Object? body, bool noCache = false, Map<String, dynamic> extraData = const {}}) {
   otherHeaders ??= {};
   url = '${url+(url.contains("?")?"&":"?")}lang=en&version=$apiVersion';
@@ -235,8 +242,10 @@ Future<dynamic> pxRequest(String url, {Map<String, String>? otherHeaders, String
   var d = pxRequestUnprocessed(url,otherHeaders: otherHeaders..addEntries([MapEntry("cookie", cooki.trim())]), method: method, body:body, noCache: noCache, extraData: extraData).then((v){
     return jsonDecode(v.body)["body"];
   });
+  var h = currentRouteURI().path;
+  if (_requestsOnPage[h]==null) _requestsOnPage[h] = [];
+  _requestsOnPage[h]!.add(url);
   return d;
-
 }
 T? tryCast<T>(obj) {
   return obj is T?obj:null;
