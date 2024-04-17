@@ -771,54 +771,7 @@
     ]
   },
   "boothItems": [
-    {
-      "id": "5430675",
-      "userId": "11",
-      "title": "アクリルブロック Queen of clovers - らんぐ",
-      "url": "https://pixiv.booth.pm/items/5430675",
-      "imageUrl": "https://booth.pximg.net/c/300x300_a2_g5/77c6444b-e8fa-46d9-a5e2-6463c889a13b/i/5430675/3581f59a-06b3-42ca-a9e3-d29423aca049_base_resized.jpg",
-      "adult": false
-    },
-    {
-      "id": "5430673",
-      "userId": "11",
-      "title": "アクリルブロック Queen of diamonds - 美和野らぐ",
-      "url": "https://pixiv.booth.pm/items/5430673",
-      "imageUrl": "https://booth.pximg.net/c/300x300_a2_g5/77c6444b-e8fa-46d9-a5e2-6463c889a13b/i/5430673/0ef3861f-d1f1-4379-adab-df1437ce586c_base_resized.jpg",
-      "adult": false
-    },
-    {
-      "id": "5429107",
-      "userId": "11",
-      "title": "【バスグッズ】お風呂ポスター 咲良ゆき",
-      "url": "https://pixiv.booth.pm/items/5429107",
-      "imageUrl": "https://booth.pximg.net/c/300x300_a2_g5/77c6444b-e8fa-46d9-a5e2-6463c889a13b/i/5429107/7c0d3235-c80e-411e-9296-fc90751b5dcc_base_resized.jpg",
-      "adult": false
-    },
-    {
-      "id": "5430659",
-      "userId": "11",
-      "title": "アクリルブロック Queen of spades - Noyu",
-      "url": "https://pixiv.booth.pm/items/5430659",
-      "imageUrl": "https://booth.pximg.net/c/300x300_a2_g5/77c6444b-e8fa-46d9-a5e2-6463c889a13b/i/5430659/6fbf3696-fb22-468b-98d4-f78920e0b322_base_resized.jpg",
-      "adult": false
-    },
-    {
-      "id": "5430630",
-      "userId": "11",
-      "title": "アクリルブロック Queen of hearts - おしおしお",
-      "url": "https://pixiv.booth.pm/items/5430630",
-      "imageUrl": "https://booth.pximg.net/c/300x300_a2_g5/77c6444b-e8fa-46d9-a5e2-6463c889a13b/i/5430630/55ff141e-a056-401f-8ef3-568b65007271_base_resized.jpg",
-      "adult": false
-    },
-    {
-      "id": "5429244",
-      "userId": "11",
-      "title": "【バスグッズ】防水スマホケース  咲良ゆき",
-      "url": "https://pixiv.booth.pm/items/5429244",
-      "imageUrl": "https://booth.pximg.net/c/300x300_a2_g5/77c6444b-e8fa-46d9-a5e2-6463c889a13b/i/5429244/e728c06d-31ea-4d67-ab79-31b7db875bf7_base_resized.jpg",
-      "adult": false
-    }
+    {"$schema": "$/shared/Booth"}
   ],
   "sketchLives": [],
   "zoneConfig": {

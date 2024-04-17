@@ -6,7 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sofieru/json/ajax/illust/PartialArtwork.dart';
+import 'package:sofieru/json/ajax/shared/Booth.dart';
 import 'package:sofieru/json/ajax/user/User.dart';
+import 'package:sofieru/json/ajax/user/PartialUser.dart';
 import 'package:sofieru/shared.dart' show pxRequest, navigate, JSON, currentRouteURI;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -135,6 +137,7 @@ String hm(int seconds) {
   int h = (m/60).floor();
   return (h==0?"":"$h hrs ")+(m==0?"":"$m mins");
 }
+
 class PxNovel extends StatefulWidget {
   final Map<String,dynamic> data;
   int rank;
@@ -342,6 +345,92 @@ class _PxArtworkState extends State<PxArtwork> {
     );
   }
 }
+class PxBooth extends StatefulWidget {
+  final Booth data;
+  final PartialUser Function(String id) getUser;
+  PxBooth.fromJson({Key? key, required Map<String, dynamic> payload, required PartialUser Function(String id) getUser}) : this(key:key,data:Booth.fromJson(payload),getUser:getUser);
+  PxBooth({super.key,required this.data, required this.getUser});
+
+  @override
+  State<PxBooth> createState() => _PxBoothState();
+}
+
+class _PxBoothState extends State<PxBooth> {
+  bool bookmarked = false;
+  late final Booth data;
+  @override
+  void initState() {
+    super.initState();
+    data = widget.data;
+  }
+  @override
+  Widget build(context) {
+    var user = widget.getUser(data.userId);
+    // if (int.tryParse(id)==null) {return Center(child: Text("invalid id"),);}
+    return SizedBox(
+      width: 190,
+      height: 285,
+      child: ContextMenuRegion(
+      
+        contextMenu:ContextMenu(
+          entries: [
+            // i know like 3 perspn who do this
+            MenuItem(label: "Open", icon: Icons.link_outlined,onSelected: ()=>null),
+            MenuItem(label: "Copy URL", icon: Icons.link_outlined,onSelected: ()=>Clipboard.setData(ClipboardData(text: "hi")).then((value) => ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Path copied to clipboard!"))
+            ))),
+          ]
+        ), 
+        child: Card(
+          clipBehavior: Clip.hardEdge,
+          child:Padding(
+            padding: const EdgeInsets.only(bottom: 40),
+            child: Column( 
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                GestureDetector(
+                  onTap: (){launchUrl(Uri.parse(data.url));},
+                  child:pxImage(data.imageUrl),
+                ),
+                const Spacer(),
+                // weak ahh check ik
+                Flexible(
+                  flex: 4,
+                  child: ListTile(
+                    title: Text(
+                      data.title,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: GestureDetector(
+                      onTap: (){
+                        showDialog(context: context, builder: (b)=>AuthorInfo(userId: data.userId,));
+                      },
+                      child: Row(
+                        children: [if (!currentRouteURI().path.startsWith("/users")) ...[
+                          /// TODO: get the default pfp
+                          if (user.image!=null) CircleAvatar(backgroundImage: pxImageFlutter(user.image!).image),
+                          const SizedBox.square(dimension:10),
+                          Flexible(
+                            flex:4,
+                            child: Text(
+                              user.name,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          )
+                        ] else ...[const SizedBox(height: 40,)]],
+                      ),
+                    ),
+                  ),
+                ),
+              ]
+            ),
+          )
+        )
+      ),
+    );
+  }
+}
+
 Map<String,String> _svgs = {
   "webpage": '<svg viewBox="0 0 32 32" size="32" class="sc-11csm01-0 fidkxa"><path d="M14 15.0796C14 13.4228 12.6569 12.0796 11 12.0796 C9.34315 12.0796 8.00001 13.4228 8.00001 15.0796L8.00001 20.5796 C8.00001 21.1319 7.55229 21.5796 7.00001 21.5796L1 21.5797C0.447716 21.5797 4e-07 21.1319 0 20.5797V20.5797 L7.15256e-06 10.9939C7.15256e-06 10.7286 0.105364 10.4743 0.292901 10.2868L10.2868 0.292893 C10.6773 -0.0976311 11.3104 -0.0976311 11.701 0.292893C11.7023 0.294252 15.0397 3.68986 21.7132 10.4797 C21.897 10.6667 22 10.9185 22 11.1807L22 20.5797C22 21.1319 21.5523 21.5797 21 21.5797H21L15 21.5796 C14.4477 21.5796 14 21.1319 14 20.5796V15.0796Z" transform="translate(5 4.42035)"></path></svg>',
   "facebook": '<svg viewBox="0 0 32 32" size="32" class="sc-11csm01-0 fidkxa"><path d="M6.2141899,5 C5.5434592,5 5,5.5434592 5,6.2141899 L5,25.7858101 C5,26.4563759 5.5434592,27 6.2141899,27 L16.7508524,27 L16.7508524,18.4804754 L13.883864,18.4804754 L13.883864,15.1602059 L16.7508524,15.1602059 L16.7508524,12.7116308 C16.7508524,9.8700308 18.4864103,8.32274236 21.0212894,8.32274236 C22.2354793,8.32274236 23.279122,8.41316777 23.5832053,8.45355834 L23.5832053,11.4231717 L21.8251441,11.423996 C20.4465069,11.423996 20.1795994,12.0790651 20.1795994,13.0403606 L20.1795994,15.1602059 L23.467474,15.1602059 L23.039334,18.4804754 L20.1795994,18.4804754 L20.1795994,27 L25.7858101,27 C26.4563759,27 27,26.4563759 27,25.7858101 L27,6.2141899 C27,5.5434592 26.4563759,5 25.7858101,5 L6.2141899,5 Z" transform=""></path></svg>',

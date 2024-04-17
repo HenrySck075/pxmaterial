@@ -1,4 +1,4 @@
-// Collection of classes and utilities that will be used across the codebases (unordered) (actually its sort by newest and relevancy)
+/// Collection of classes and utilities that will be used across the codebases (unordered) (actually its sort by newest and relevancy)
 // ignore_for_file: no_logic_in_create_state
 import 'dart:async';
 import 'dart:io';
@@ -15,6 +15,19 @@ import 'package:window_size/window_size.dart';
 
 /// automatically set by tools/version.py
 String apiVersion = "471f117fcde85f9ce382c9d945dc8dd854ff4358";
+
+class Breakpoints {
+  BuildContext context;
+  MediaQueryData _q;
+  Breakpoints({required this.context}):_q=MediaQuery.of(context);
+
+  bool get compact=>_q.size.width<60;
+  bool get medium=>_q.size.width>=600&&_q.size.width<840;
+  bool get extended=>_q.size.width>=840;
+  bool get large=>_q.size.width>=1200&&_q.size.width<1600;
+  bool get extralarge=>_q.size.width>=1600;
+}
+
 List<T> trySublist<T>(List<T> list, int start, int? end) {
   if ((end??list.length)>list.length) end = list.length;
   return list.sublist(start,end);

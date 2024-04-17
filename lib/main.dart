@@ -386,8 +386,8 @@ class _ShellPageState extends State<ShellPage> {
     final medQuery = MediaQuery.of(context);
 
     final inView = GoRouterState.of(context).uri.path.startsWith("/artwork/");
-    return Scaffold(
-      drawer: NavigationDrawer(
+
+    final drawer = NavigationDrawer(
         selectedIndex: pageIndex,
         onDestinationSelected: (value) {
           setState(() {
@@ -397,9 +397,12 @@ class _ShellPageState extends State<ShellPage> {
           navigate(e[value],method: e.contains(currentRouteURI().path) ? "replace" : "push");
         },
         children: navs
-      ),
+      );
+    return Scaffold(
+      drawer: drawer,
       appBar: AppBar(
         //backgroundColor: Theme.of(context).colorScheme.surfaceVariant, 
+        backgroundColor: Colors.transparent,
         actions: [
           SearchAnchor(
             builder: (ctx,ctrl) => IconButton( 
@@ -430,13 +433,15 @@ class _ShellPageState extends State<ShellPage> {
           if (kDebugMode) const IconButton(onPressed: clearRequestCache, icon:Icon(Icons.refresh), tooltip: "Reset request cache (DEBUG)",)
         ],
       ),
-      body: Container(
+      body: Center(
+        child: Container(
           padding: const EdgeInsets.only(top: 8),
           
           // basic google layout constraint
           
-          constraints: inView?null:const BoxConstraints(maxWidth:1260),
-          child: widget.child
+          constraints: inView?null:const BoxConstraints(maxWidth:1160),
+          child: widget.child 
+        )
       ),
       floatingActionButton: medQuery.size.width>=820&&!inView?uploadWorkButton:null,
       bottomNavigationBar: medQuery.size.width<=820&&!inView?NavigationBar(

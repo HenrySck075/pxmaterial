@@ -1,3 +1,4 @@
+import 'package:sofieru/json/ajax/shared/Booth.dart' show Booth;
 import 'package:sofieru/json/ajax/top/shared/Ranking.dart' show Ranking;
 import 'Tag.dart' show Tag;
 import 'package:sofieru/json/ajax/user/PartialUser.dart' show PartialUser;
@@ -205,33 +206,6 @@ class _Page {
 
 }
 
-class _BoothItems {
-  final String id;
-  final String userId;
-  final String title;
-  final String url;
-  final String imageUrl;
-  final bool adult;
-  _BoothItems({
-    required this.id,
-    required this.userId,
-    required this.title,
-    required this.url,
-    required this.imageUrl,
-    required this.adult,
-  });
-  factory _BoothItems.fromJson(Map<String, dynamic> json) {
-    return _BoothItems(
-    id: json['id'],
-    userId: json['userId'],
-    title: json['title'],
-    url: json['url'],
-    imageUrl: json['imageUrl'],
-    adult: json['adult'],
-  );}
-
-}
-
 /// Represents the payload of `/ajax/top/illust` request.
 /// Objects like works, requests, ... are in partial
 class IllustTop {
@@ -247,7 +221,7 @@ class IllustTop {
   final List<PartialUser> users;
   /// Data to build page content (need better explaination)
   final _Page page;
-  final List<_BoothItems> boothItems;
+  final List<Booth> boothItems;
   final List<dynamic> sketchLives;
   IllustTop({
     required this.tagTranslation,
@@ -267,7 +241,7 @@ class IllustTop {
     requests: (json['requests'] as List<dynamic>).map((e)=>Request.fromJson(e)).toList(),
     users: (json['users'] as List<dynamic>).map((e)=>PartialUser.fromJson(e)).toList(),
     page: _Page.fromJson(json['page']),
-    boothItems: (json['boothItems'] as List<dynamic>).map((e)=>_BoothItems.fromJson(e)).toList(),
+    boothItems: (json['boothItems'] as List<dynamic>).map((e)=>Booth.fromJson(e)).toList(),
     sketchLives: (json['sketchLives'] as List<dynamic>),
   );}
 

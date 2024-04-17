@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:memoized/memoized.dart'; 
 import 'package:sofieru/json/ajax/illust/PartialArtwork.dart';
+import 'package:sofieru/json/ajax/user/PartialUser.dart';
 import 'shared.dart';
 import 'package:sofieru/shared.dart';
 import 'package:sofieru/json/ajax/top/illust/IllustTop.dart' show IllustTop;
@@ -35,6 +36,7 @@ class IllustsPage extends StatelessWidget {
             } on StateError {return null;}
           }
         ); 
+        final getUser = Memoized1<PartialUser, String>((p0) => mainresp.users.firstWhere((element) => element.userId == p0));
         var random = math.Random();
         return ListView(
           //mainAxisSize: MainAxisSize.min,
@@ -76,15 +78,14 @@ class IllustsPage extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               children: mainresp.page.tags.map((e) => Padding(padding: const EdgeInsets.only(left: 2,right:2),child:Column(children: [
                 Builder(builder: (ctx){
-                  var h = pxImage(getData(e.ids[random.nextInt(e.ids.length)].toString())!.url,height: 257);
+                  var h = pxImage(getData(e.ids[random.nextInt(e.ids.length)].toString())!.url,height: 183);
                   // var h5n1 = img.copyCrop(img.Image.fromBytes(width: h.width, height: h.height, bytes: h), x: 287/2-(183/2), y: 0, width: 183, height: 287);
                   return Container(
-                    decoration: const BoxDecoration( 
+                    foregroundDecoration: const BoxDecoration( 
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       gradient: LinearGradient(colors: [Colors.transparent, Colors.black38], begin: Alignment(0,0.8), end: Alignment.bottomCenter)
                     ),
                     width: 183,
-                    clipBehavior: Clip.hardEdge,
                     child: h//Image.memory(h5n1.toUint8List())
                   );
                 }),
@@ -93,6 +94,15 @@ class IllustsPage extends StatelessWidget {
             )),
             const SizedBox(height: 50,),
             // Recommended works tagged #tag
+            // Newest booths
+            header("Newest booths by following"),
+            SizedBox( 
+              height: 280,
+              child: ListView( 
+                scrollDirection: Axis.horizontal,
+                children: mainresp.boothItems.map((e) => PxBooth(data: e, getUser: getUser)).toList(),
+              ),
+            ),
             ...concat2d(
               List.from(mainresp.page.recommendByTag.map((e)=>[
                 GestureDetector( 

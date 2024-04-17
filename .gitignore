@@ -46,3 +46,6 @@ app.*.map.json
 
 # Private things
 /assets/cookie
+
+# Google Sans
+/assets/fonts/ProductSans*.ttf
