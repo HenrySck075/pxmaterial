@@ -20,7 +20,6 @@ class _Background {
 }
 
 class PartialUser {
-  final int partial;
   final String? comment;
   final bool? followedBack;
   final String userId;
@@ -34,13 +33,12 @@ class PartialUser {
   final _Background? background;
   final bool acceptRequest;
   PartialUser({
-    required this.partial,
     this.comment,
     this.followedBack,
     required this.userId,
     required this.name,
-    required this.image,
-    required this.imageBig,
+    this.image = 'https://i.pximg.net/user-profile/img/2024/01/06/23/08/52/25361717_78a1808990ec4effc6d8417a09b67725_50.jpg',
+    this.imageBig = 'https://i.pximg.net/user-profile/img/2024/01/06/23/08/52/25361717_78a1808990ec4effc6d8417a09b67725_50.jpg',
     required this.premium,
     required this.isFollowed,
     required this.isMypixiv,
@@ -50,7 +48,6 @@ class PartialUser {
   });
   factory PartialUser.fromJson(Map<String, dynamic> json) {
     return PartialUser(
-    partial: json['partial'],
     comment: json['comment'],
     followedBack: json['followedBack'],
     userId: json['userId'],

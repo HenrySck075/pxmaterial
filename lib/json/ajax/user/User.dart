@@ -125,8 +125,8 @@ class User {
   final bool isBlocking;
   final _Background? background;
   final String? sketchLiveId;
-  final int partial;
   final bool acceptRequest;
+  /// TODO: If you manages to get the sketchLive object, please paste it as a list item of this property
   final List<dynamic> sketchLives;
   final int following;
   final int mypixivCount;
@@ -149,15 +149,14 @@ class User {
   User({
     required this.userId,
     required this.name,
-    required this.image,
-    required this.imageBig,
+    this.image = 'https://i.pximg.net/user-profile/img/2024/01/06/23/08/52/25361717_78a1808990ec4effc6d8417a09b67725_50.jpg',
+    this.imageBig = 'https://i.pximg.net/user-profile/img/2024/01/06/23/08/52/25361717_78a1808990ec4effc6d8417a09b67725_50.jpg',
     required this.premium,
     required this.isFollowed,
     required this.isMypixiv,
     required this.isBlocking,
     this.background,
     this.sketchLiveId,
-    required this.partial,
     required this.acceptRequest,
     required this.sketchLives,
     required this.following,
@@ -165,7 +164,7 @@ class User {
     required this.followedBack,
     required this.comment,
     required this.commentHtml,
-    this.webpage,
+    required this.webpage,
     this.social,
     required this.canSendMessage,
     required this.region,
@@ -175,7 +174,7 @@ class User {
     required this.job,
     required this.workspace,
     required this.official,
-    this.group,
+    required this.group,
   });
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -189,7 +188,6 @@ class User {
     isBlocking: json['isBlocking'],
     background: json['background'] == null?null:_Background.fromJson(json['background']),
     sketchLiveId: json['sketchLiveId'],
-    partial: json['partial'],
     acceptRequest: json['acceptRequest'],
     sketchLives: (json['sketchLives'] as List<dynamic>),
     following: json['following'],

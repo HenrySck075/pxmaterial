@@ -5,6 +5,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:sofieru/appdata.dart';
 import 'package:sofieru/pages/view/layout.dart';
 import 'package:sofieru/shared.dart';
 import 'package:archive/archive.dart' as arch;
@@ -62,6 +63,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
       body: futureWidget(placeholder: SingleChildScrollView(child:mainSkel()), future: Future.wait(ed), builder: (context,dd) {
         var rawData = dd.data![0];
         var data = Artwork.fromJson(rawData);
+        AppData.of(context).watchHistoryManager().addHistory(data.toJson());
 
         Widget artworkImageBuilder(idx,i,w,h,{Function()? onTap,double opacity = 1}){
           var ver = Padding(

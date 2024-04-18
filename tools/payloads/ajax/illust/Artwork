@@ -1,4 +1,5 @@
 {
+    "$toJson": true,
     "$extends": "$/shared/Work",
     "$desc": {
         "illustId": "Artwork id",

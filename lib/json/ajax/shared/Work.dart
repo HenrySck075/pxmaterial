@@ -78,8 +78,8 @@ class _TitleCaptionTranslation {
   final String? workTitle;
   final String? workCaption;
   _TitleCaptionTranslation({
-    this.workTitle,
-    this.workCaption,
+    required this.workTitle,
+    required this.workCaption,
   });
   factory _TitleCaptionTranslation.fromJson(Map<String, dynamic> json) {
     return _TitleCaptionTranslation(
@@ -217,16 +217,16 @@ class Work {
     required this.imageResponseOutData,
     required this.imageResponseData,
     required this.imageResponseCount,
-    this.pollData,
+    required this.pollData,
     this.seriesNavData,
-    this.descriptionBoothId,
-    this.descriptionYoutubeId,
-    this.comicPromotion,
-    this.fanboxPromotion,
+    required this.descriptionBoothId,
+    required this.descriptionYoutubeId,
+    required this.comicPromotion,
+    required this.fanboxPromotion,
     required this.contestBanners,
     required this.isBookmarkable,
-    this.bookmarkData,
-    this.contestData,
+    required this.bookmarkData,
+    required this.contestData,
     required this.extraData,
     required this.titleCaptionTranslation,
     required this.isUnlisted,

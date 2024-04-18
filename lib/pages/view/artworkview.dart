@@ -98,8 +98,26 @@ class MangaView extends StatelessWidget {
     return Scaffold(
       appBar:AppBar(backgroundColor:Colors.black,foregroundColor: Colors.white,),
       backgroundColor: Colors.black,
-      body:bookStyle==0?Placeholder():MangaHorizontalView(id: id,direction: bookStyle-1,data:data)
+      body:bookStyle==0?MangaVerticalView(id: id, data:data):MangaHorizontalView(id: id,direction: bookStyle-1,data:data)
     );
+  }
+}
+
+class MangaVerticalView extends StatelessWidget {
+  List<JSON>? data;
+  final String id;
+  MangaVerticalView({super.key, this.data, required this.id});
+  
+  Widget theChild(ctx) => ListView(children: data!.map((e) => pxImage(e["urls"]["regular"],fit:BoxFit.fitWidth)).toList());
+  @override
+  Widget build(ctx) {
+    if (data==null) {
+      return futureWidget(future: pxRequest("https://pixiv.net/ajax/illust/$id/pages"),builder: (c,s){ 
+        data = <JSON>[...s.data!];
+        return theChild(c);
+      });
+    }
+    else {return theChild(ctx);}
   }
 }
 
@@ -134,7 +152,7 @@ class _MangaHorizontalViewState extends State<MangaHorizontalView>{
     /// this is a widget, defined as a widget, and lives as awidget
     List<Widget> pages = <Widget>[...data.mapIndexed((i,e) => GestureDetector(
         onTap:()=>navigate("/artwork/view/${widget.id}?index=$i",extra: data[i]), 
-        child:Hero(tag:"${widget.id}_p$i",child:pxImage(e["urls"]["regular"],fit: BoxFit.fitHeight))
+        child:Hero(tag:"${widget.id}_p$i",child:pxImage(e["urls"]["regular"],fit: BoxFit.fitHeight,placeholder: const CircularProgressIndicator()))
       )
     )];
     // if the amount of pages is odd, insert a blank page
@@ -190,7 +208,7 @@ class _MangaHorizontalViewState extends State<MangaHorizontalView>{
   }
   @override
   Widget build(ctx) => widget.data==null?futureWidget(future:pxRequest("https://www.pixiv.net/ajax/illust/${widget.id}/pages"),builder: (e,snap){
-    widget.data = snap.data!; 
+    widget.data = <JSON>[...snap.data!]; 
     return theChild(ctx);
   }):theChild(ctx);
 

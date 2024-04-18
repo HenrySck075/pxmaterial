@@ -14,7 +14,7 @@ class _Creator {
     required this.creatorStoppedFlg,
     required this.requestPriceLowerLimit,
     required this.requestPriceUpperLimit,
-    this.tokusho,
+    required this.tokusho,
   });
   factory _Creator.fromJson(Map<String, dynamic> json) {
     return _Creator(
@@ -132,7 +132,7 @@ class _Page {
     required this.inProgressRequestIds,
     required this.completeRequestIds,
     required this.alreadyRequestCollaborate,
-    this.platformFeeCampaignLabel,
+    required this.platformFeeCampaignLabel,
     required this.eligibleCampaignList,
     required this.isUnlisted,
     required this.ogp,

@@ -20,7 +20,12 @@ samples, guidance on mobile development, and a full API reference.
 git clone https://github.com/HenrySck075/pxmaterial
 cd pxmaterial
 ```
-- sqflite (the ffi one) setup: see https://pub.dev/packages/sqflite_common_ffi#getting-started
+- Setup prerequisites:
+    + sqlite3 setup: 
+    + (linux) unicode fonts support: 
+```
+sudo apt install fonts-noto
+```
 - Run the app
 
 but first you will have to get the cookie and place it in assets/cookie

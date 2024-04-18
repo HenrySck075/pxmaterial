@@ -2,8 +2,8 @@ class _TitleCaptionTranslation {
   final String? workTitle;
   final String? workCaption;
   _TitleCaptionTranslation({
-    this.workTitle,
-    this.workCaption,
+    required this.workTitle,
+    required this.workCaption,
   });
   factory _TitleCaptionTranslation.fromJson(Map<String, dynamic> json) {
     return _TitleCaptionTranslation(
@@ -56,10 +56,10 @@ class PartialNovel {
     required this.useWordCount,
     required this.description,
     required this.isBookmarkable,
-    this.bookmarkData,
+    required this.bookmarkData,
     required this.bookmarkCount,
     required this.isOriginal,
-    this.marker,
+    required this.marker,
     required this.titleCaptionTranslation,
     required this.createDate,
     required this.updateDate,

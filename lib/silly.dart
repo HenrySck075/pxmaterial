@@ -497,7 +497,13 @@ class AuthorInfo extends StatelessWidget {
                   child:dd.background!=null?pxImage(dd.background!.url,height:160):const SizedBox(height: 1, width: 1,)
                 ),
                 const SizedBox(height: 12,),
-                CircleAvatar(backgroundImage: pxImageFlutter(dd.imageBig,width: 45, height: 45).image),
+                CircleAvatar(
+                  backgroundImage: pxImageFlutter(
+                    dd.imageBig??"https://i.pximg.net/user-profile/img/2024/01/06/23/08/52/25361717_78a1808990ec4effc6d8417a09b67725_50.jpg",
+                    width: 45, 
+                    height: 45
+                  ).image
+                ),
                 Text(dd.name,style: const TextStyle(fontWeight: FontWeight.bold),),
                 Flexible(flex:4,child: Text(dd.comment!=""?dd.comment:"No description provided",style: const TextStyle(fontSize:12),overflow: TextOverflow.ellipsis,)),
                 AuthorInfo_Medias(dd,ctx),

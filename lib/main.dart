@@ -15,7 +15,7 @@ import 'package:sofieru/pages/view/artworkview.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:uni_links_desktop/uni_links_desktop.dart';
 import 'shared.dart';
-import 'package:context_menus/context_menus.dart' show ContextMenuOverlay;
+import 'appdata.dart';
 
 // Routes
 import 'pages/home/index.dart' as home;
@@ -251,6 +251,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         brightness: Brightness.light,
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff0495f6),brightness: Brightness.light,),
+        fontFamily: "GoogleSans"
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
@@ -388,17 +389,18 @@ class _ShellPageState extends State<ShellPage> {
     final inView = GoRouterState.of(context).uri.path.startsWith("/artwork/");
 
     final drawer = NavigationDrawer(
-        selectedIndex: pageIndex,
-        onDestinationSelected: (value) {
-          setState(() {
-            pageIndex = value;
-          });
-          // this fixes the issue
-          navigate(e[value],method: e.contains(currentRouteURI().path) ? "replace" : "push");
-        },
-        children: navs
-      );
-    return Scaffold(
+      selectedIndex: pageIndex,
+      onDestinationSelected: (value) {
+        setState(() {
+          pageIndex = value;
+        });
+        // this fixes the issue
+        navigate(e[value],method: e.contains(currentRouteURI().path) ? "replace" : "push");
+      },
+      children: navs
+    );
+    return RefreshIndicator(
+    child: Scaffold(
       drawer: drawer,
       appBar: AppBar(
         //backgroundColor: Theme.of(context).colorScheme.surfaceVariant, 
@@ -433,14 +435,16 @@ class _ShellPageState extends State<ShellPage> {
           if (kDebugMode) const IconButton(onPressed: clearRequestCache, icon:Icon(Icons.refresh), tooltip: "Reset request cache (DEBUG)",)
         ],
       ),
-      body: Center(
-        child: Container(
-          padding: const EdgeInsets.only(top: 8),
-          
-          // basic google layout constraint
-          
-          constraints: inView?null:const BoxConstraints(maxWidth:1160),
-          child: widget.child 
+      body: AppData(
+        child:Center(
+          child: Container(
+            padding: const EdgeInsets.only(top: 8),
+            
+            // basic google layout constraint
+            
+            constraints: inView?null:const BoxConstraints(maxWidth:1160),
+            child: widget.child 
+          )
         )
       ),
       floatingActionButton: medQuery.size.width>=820&&!inView?uploadWorkButton:null,
@@ -471,6 +475,13 @@ class _ShellPageState extends State<ShellPage> {
         selectedIndex: navBarIndex,
       ):null,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+    ),
+    onRefresh: (){ 
+      setState(() {
+        deletePageRequestCache(currentRouteURI().path);
+      });
+      return Future.value();
+    },
     );
   }
 }

@@ -135,7 +135,7 @@ class RequestsPage extends StatelessWidget {
                   ...[
                     ListTile(
                       leading: CircleAvatar( 
-                        backgroundImage: pxImageFlutter( fanUser.image).image
+                        backgroundImage: pxImageFlutter(fanUser.image).image
                       ),
                       title: Wrap(children: [
                         Text("${(thread.threadEntries[0].threadEntryBody.requestAnonymousFlg??false)?fanUser.name:'An anonymous user'} sent the request via "),

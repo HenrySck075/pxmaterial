@@ -83,7 +83,7 @@ class _SeriesContents {
     required this.uploadTimestamp,
     required this.reuploadTimestamp,
     required this.isBookmarkable,
-    this.bookmarkData,
+    required this.bookmarkData,
     required this.aiType,
   });
   factory _SeriesContents.fromJson(Map<String, dynamic> json) {

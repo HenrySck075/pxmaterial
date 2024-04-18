@@ -1,4 +1,6 @@
 
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -60,7 +62,9 @@ class _ContextMenuWrapperState extends State<ContextMenuWrapper> {
   @override
   Widget build(ctx) {
     return GestureDetector(
-      onLongPressDown: (d)=>_openContext(d.localPosition),
+      onLongPressDown: (d){
+        if (d.kind == PointerDeviceKind.touch) _openContext(d.localPosition);
+      },
       onSecondaryTapUp: (d)=>_openContext(d.localPosition),
       child: MenuAnchor(
         controller: _menuController,

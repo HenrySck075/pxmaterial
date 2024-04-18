@@ -154,7 +154,7 @@ class _Plan {
   final _PlanCoverImage? planCoverImage;
   final int planAiType;
   _Plan({
-    this.currentPlanId,
+    required this.currentPlanId,
     required this.planId,
     required this.creatorUserId,
     required this.planAcceptRequestFlg,
@@ -217,7 +217,7 @@ class _Work {
   final String? secret;
   _Work({
     required this.isUnlisted,
-    this.secret,
+    required this.secret,
   });
   factory _Work.fromJson(Map<String, dynamic> json) {
     return _Work(
@@ -261,8 +261,8 @@ class _Modification {
   final String? requestPostWorkType;
   final String? requestAdultFlg;
   _Modification({
-    this.requestPostWorkType,
-    this.requestAdultFlg,
+    required this.requestPostWorkType,
+    required this.requestAdultFlg,
   });
   factory _Modification.fromJson(Map<String, dynamic> json) {
     return _Modification(
@@ -281,13 +281,13 @@ class _RequestResend {
   final String? fanAdultSendable;
   final String? isResentRequest;
   _RequestResend({
-    this.requestResendDeadlineDatetime,
-    this.requestResendOfferEnabled,
-    this.requestResendEnabled,
-    this.requestResendStatus,
+    required this.requestResendDeadlineDatetime,
+    required this.requestResendOfferEnabled,
+    required this.requestResendEnabled,
+    required this.requestResendStatus,
     required this.modification,
-    this.fanAdultSendable,
-    this.isResentRequest,
+    required this.fanAdultSendable,
+    required this.isResentRequest,
   });
   factory _RequestResend.fromJson(Map<String, dynamic> json) {
     return _RequestResend(
@@ -346,7 +346,7 @@ class Request {
   Request({
     required this.requestId,
     required this.planId,
-    this.fanUserId,
+    required this.fanUserId,
     required this.creatorUserId,
     required this.requestStatus,
     this.requestAcceptStatus,
@@ -363,9 +363,9 @@ class Request {
     required this.role,
     required this.plan,
     required this.collaborateStatus,
-    this.giftFile,
+    required this.giftFile,
     this.postWork,
-    this.notifyBadge,
+    required this.notifyBadge,
     this.fanbox,
     this.requestResend,
     this.fanLetter,
