@@ -9,6 +9,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:sofieru/pages/devtools.dart';
 import 'package:sofieru/pages/helpcenter/hchtml.dart';
 import 'package:sofieru/pages/view/artworkview.dart';
 import 'package:sofieru/pages/yourip.dart';
@@ -72,7 +73,7 @@ void main() async {
   updateData(d.cast<String, String>(), btns.cast<String, String>());
   updateCookie(await rootBundle.loadString("assets/cookie"));
   updateRouter(GoRouter(
-    initialLocation: kDebugMode?"/terminal":initialUri.path,
+    initialLocation: kDebugMode?"/devtools":initialUri.path,
     observers: [routeObserver],
     errorBuilder: (n,s)=>ShellPage(
       child:Center(
@@ -85,22 +86,14 @@ void main() async {
     ),
     routes: <RouteBase>[
       
-      GoRoute(
-        path: "/terminal",
-        builder: (ctx,idk)=>AlertDialog(
-          title: const Text("Navigate to"),
-          content: Column(children: [
-            TextField(
-              onSubmitted: (v)=>ctx.go(v),
-            ),
-            FilledButton(onPressed: ()=>ctx.go("/"), child: const Text("meh"))
-          ])
-        )
-      ),
       ShellRoute(
         navigatorKey: pa,
         builder: (ctx,st,wid)=>ShellPage(child: wid),
         routes: [
+          GoRoute(
+            path: "/devtools",
+            builder: (ctx,idk)=>DevTools()
+          ),
           GoRoute(
             path: "/history",
             builder: (ctx,youripaddressis1921681160) => HistoryPage()
@@ -405,6 +398,19 @@ class _ShellPageState extends State<ShellPage> {
       },
       children: navs
     );
+
+    final body = AppData(
+      child:Center(
+        child: Container(
+          padding: const EdgeInsets.only(top: 8),
+          
+          // basic google layout constraint
+          
+          constraints: inView?null:const BoxConstraints(maxWidth:1160),
+          child: widget.child 
+        )
+      )
+    );
     return RefreshIndicator(
     child: Scaffold(
       drawer: drawer,
@@ -441,19 +447,7 @@ class _ShellPageState extends State<ShellPage> {
           if (kDebugMode) const IconButton(onPressed: clearRequestCache, icon:Icon(Icons.refresh), tooltip: "Reset request cache (DEBUG)",)
         ],
       ),
-      body: AppData(
-        child:Center(
-          child: Container(
-            padding: const EdgeInsets.only(top: 8),
-            
-            // basic google layout constraint
-            
-            constraints: inView?null:const BoxConstraints(maxWidth:1160),
-            child: widget.child 
-          )
-        )
-      )
-      ..initDb(),
+      body: futureWidget(future: body.initDb(),builder: (ctx,hujiowef)=>body),
       floatingActionButton: medQuery.size.width>=820&&!inView?uploadWorkButton:null,
       bottomNavigationBar: medQuery.size.width<=820&&!inView?NavigationBar(
         destinations: [

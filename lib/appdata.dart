@@ -14,22 +14,26 @@ T? nullOnThrow<T>(T Function() func, List<dynamic>? args, Map<Symbol, dynamic>? 
     return Function.apply(func, args, kwargs);
   } catch (e) {return null;}
 }
-
+/// checker since it will be referenced in [AppData] anyways (and also null check on the langserver sucks)
+sql.Database? _globaldb;
 /// hi chat
 class AppData extends InheritedWidget {
-  late sql.Database _datadb;
+  
   AppData({required super.child,super.key});
-  Future<void> initDb() async {
-    _datadb = sql.sqlite3.open(join((await getApplicationSupportDirectory()).path,"hichat.db"));
-    _datadb.execute('''
-      CREATE TABLE IF NOT EXIST history (
+  Future<String> initDb() async {
+    var p = join((await getApplicationDocumentsDirectory()).path,"data.db");
+    
+    _globaldb ??= sql.sqlite3.open(p);
+    _globaldb!.execute('''
+      CREATE TABLE IF NOT EXISTS history (
         id INTEGER NOT NULL PRIMARY KEY,
-        jsondata TEXT NOT NULL,
+        jsondata TEXT NOT NULL
       );
     '''); 
+    return "wonderhoy";
   }
   _yourwatchhistory watchHistoryManager() {
-    return _yourwatchhistory(_datadb);
+    return _yourwatchhistory(_globaldb!);
   }
 
   static AppData? maybeOf(BuildContext ctx)=>ctx.dependOnInheritedWidgetOfExactType<AppData>();
@@ -48,9 +52,10 @@ class _yourwatchhistory {
   final sql.PreparedStatement insert;
   final sql.PreparedStatement remove; 
   final sql.Database _datadb;
-  _yourwatchhistory(this._datadb) : insert = _datadb.prepare("INSERT OR IGNORE INTO history (id,name,url,authorname,authorid,authoravatar) VALUES (?)"), remove = _datadb.prepare("DELETE FROM history WHERE id = ?");
+  _yourwatchhistory(this._datadb) : insert = _datadb.prepare("INSERT OR IGNORE INTO history (id,jsondata) VALUES (?,?)"), remove = _datadb.prepare("DELETE FROM history WHERE id = ?");
   void addHistory(JSON work) {
-    insert.execute([jsonEncode(work)]);
+    debugPrint(work["id"].toString());
+    insert.execute([int.parse(work["id"]??"0"),jsonEncode(work)]);
   }
   removeHistory(int id) {
     remove.execute([id]);
@@ -58,7 +63,7 @@ class _yourwatchhistory {
   Iterable<PartialArtwork> getHistory() sync* {
     var result = _datadb.select("SELECT * FROM history");
     for (final row in result) {
-      yield PartialArtwork.fromJson(row["jsondata"]);
+      yield PartialArtwork.fromJson(jsonDecode(row["jsondata"]));
     }
   }
 }

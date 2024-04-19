@@ -1,5 +1,5 @@
-import 'ExtraData.dart' show ExtraData;
-import 'TagTranslation.dart' show TagTranslations;
+import 'package:sofieru/json/ajax/shared/ExtraData.dart' show ExtraData;
+import 'package:sofieru/json/ajax/shared/TagTranslation.dart' show TagTranslations;
 import '../../illust/PartialArtwork.dart' show PartialArtwork;
 class _BookmarkRanges {
   final int? min;

@@ -267,13 +267,8 @@ class _PxArtworkState extends State<PxArtwork> {
                             print("imagine bookmarked");
                           });
                         },
-                        icon:Icon(Icons.favorite,color: bookmarked?Colors.red:Colors.white),
+                        icon:Icon(Icons.favorite_outlined,color: bookmarked?Colors.red:Colors.white),
                       ),
-                    ),
-                    const Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Icon(Icons.favorite_outline,color:Colors.black)
                     ),
                     if (data.illustType==2) const Positioned.fill(child: Align(alignment: Alignment.center,child: Icon(Icons.play_circle_outlined,size: 48,),)),
                     if (widget.rank != 0) Positioned(

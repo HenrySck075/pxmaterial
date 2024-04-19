@@ -225,8 +225,9 @@ Future<http.Response> pxRequestUnprocessed(String url, {
   await wait((h) => !done);
   // print("HTTP/"+method);
   // resp.then((value) => print(value.body));
-  
-  return (_cachedResponse[url] = http.Response(String.fromCharCodes(bytes), resp.statusCode, headers: resp.headers));
+  final ret = http.Response(String.fromCharCodes(bytes), resp.statusCode, headers: resp.headers); 
+  if (method.toLowerCase()=="get") {_cachedResponse[url] = ret;}
+  return ret;
 }
 Map<String, List<String>> _requestsOnPage = {};
 void deletePageRequestCache(String page) {

@@ -1,8 +1,8 @@
 "You should add typed maps NOW!!"
 
-import sys,os
+import sys,os,subprocess
 name = sys.argv[1]
-print(name+"\n------")
+nameo = name
 import json, re
 from typing import Any
 classes = {
@@ -22,11 +22,12 @@ class dynamic:
         return "dynamic"
     
 path = sys.argv[2]
-d: dict[str,Any] = json.load(open(path,encoding="utf-8"))
-cachePath = os.path.join(".cache",path)
-if os.path.exists(cachePath) and json.load(open(cachePath,encoding="utf-8")) == d: 
-    print("Already generated, not doing that again")
-    exit()
+useStdin = path=="-"
+d: dict[str,Any] = json.loads(open(path,encoding="utf-8").read() if not useStdin else input())
+if not useStdin:
+    cachePath = os.path.join(".cache",path)
+    if os.path.exists(cachePath) and json.load(open(cachePath,encoding="utf-8")) == d: 
+        exit()
 
 imported = []
 output = """"""
@@ -112,14 +113,26 @@ def generate(data, name=""):
     if "$all" in checkFalsy: checkFalsy = list(data.keys())
     if "$all" in nullable: nullable = list(data.keys())
 
+    optInToJson:bool = data.get("$toJson", False)
     if doExtends: 
-        c = json.load(open(pathparse(data["$extends"],"./payloads/ajax/")))
+        c:dict = json.load(open(pathparse(data["$extends"],"./payloads/ajax/")))
         supers = list(c.keys())
         extends = cry(data["$extends"])
         tryimport(pathparse(data['$extends'],'package:sofieru/json/ajax/'),extends)
         data = data | c 
         #checkFalsy.extend(c.get("$checkFalsy",[]))
         nullable.extend(c.get("$nullable",[]))
+        c.update({"$toJson":optInToJson})
+        f = cry(data['$extends'])
+        subprocess.run(os.environ.get("interpreter",sys.executable)+f" json2dart.py {f} -",shell=True,input=json.dumps(c).encode())
+        pat = os.path.dirname(pathparse(data['$extends'],"json/ajax/"))
+
+        the = lambda: os.system(f"mv {f}.dart {os.path.join(pat,f)}.dart")
+        ret = the() 
+        if ret == 256: # assuming were cooking in linux
+            os.system("mkdir -p "+pat)
+            the()
+        
 
     if doExtends: out+=f"extends {extends} "
     out += "{\n"
@@ -131,11 +144,13 @@ def generate(data, name=""):
     fromJson += f"  factory {name}.fromJson(Map<String, dynamic> json) "+"{\n"
     if doExtends: fromJson+=f"    final parent = {extends}.fromJson(json);"+"\n"
     fromJson+=f"    return {name}("+"\n"
-    toJson = "  Map<String, dynamic> toJson() => <String,dynamic>{\n"
+    toJson=""
+    if doExtends: toJson="  @override\n"
+    toJson += "  Map<String, dynamic> toJson() => "
+    if doExtends: toJson+="super.toJson()..update("
+    toJson+="<String,dynamic>{\n"
     # toJson = "" # we dont need toJson
     private = True
-    optInToJson:bool = data.get("$toJson", False)
-
 
     for k,v in data.items():
         if k == "zoneConfig" or k.startswith("$"): continue
@@ -148,11 +163,12 @@ def generate(data, name=""):
         fnnuy = dynamic()
         # if k=="planTranslationTitle":breakpoint()
         const+=f"    {'' if k in defaults else 'required ' if required else ''}"
+        toJson+=f'    "{k}": {k}'
         if k in supers: 
             fromJson+=f"    {k}: parent.{k}"
             const+=f"super.{k}"
         else:
-            vt=boy(k,v if not (k in checkFalsy and len(v)!=0 and vto == list and v[0]==dict) else fnnuy if type(v)!=list else [fnnuy])
+            vt=boy(k,v if not (k in checkFalsy and len(v)!=0 and vto == list and v[0]==dict) else fnnuy if type(v)!=list else [fnnuy],toJson=optInToJson)
             if vt=="Null": 
                 vt="String"
                 required = False
@@ -163,6 +179,10 @@ def generate(data, name=""):
             out+=f"  final {vt}{'' if required else '?'} {k};"+"\n"
             const+=f"this.{k}"
 
+            # tricking the lsp
+            if type(v) is dict: 
+                if k in g: toJson+="?"
+                toJson+=".toJson()"
 
             fromJson+=f"    {k}: json['{k}']"
             if k in checkFalsy: fromJson=fromJson[:-8-len(k)]+f"checkFalsy(json['{k}'])?null:json['{k}']"
@@ -176,11 +196,6 @@ def generate(data, name=""):
                 fromJson=fromJson[:-8-len(k)]+f"(json['{k}'] as List<dynamic>)"
                 if j != "dynamic": 
                     fromJson+=f".map((e)=>"+(f"{j}.fromJson(e)" if j not in classes.values() else f"e as {j}")+").toList()"
-                    """
-                    if j not in classes.values(): 
-                        if k in g: toJson+="?"
-                        toJson+=".toJson()"
-                    """
             else: 
                 if vt.startswith("Map<"):
                     vt2 = vt.removeprefix('Map<String, ').removesuffix('>').removesuffix("?")
@@ -202,11 +217,10 @@ def generate(data, name=""):
         const+=",\n"
         fromJson+=",\n"
         fromJson = fromJson.replace(f"json['{k}'] == null?null:json['{k}']", f"json['{k}']")
-        toJson+=f'    "{k}": {k}'
         toJson+=",\n"
 
     fromJson+="  );}"
-    toJson+="  };"
+    toJson+="  }"+(")" if doExtends else "")+";"
     const+="  });\n"
     out+=const+fromJson+"\n"
     if optInToJson: out+=toJson
@@ -221,11 +235,12 @@ def generate(data, name=""):
     return name
 
 generate(d, name)
-cacheDir = os.path.dirname(cachePath)
+if not useStdin:
+    cacheDir = os.path.dirname(cachePath)
 
-if not os.path.exists(cacheDir): 
-    os.makedirs(cacheDir)
-import shutil
-shutil.copyfile(path,cachePath)
+    if not os.path.exists(cacheDir): 
+        os.makedirs(cacheDir)
+    import shutil
+    shutil.copyfile(path,cachePath)
 
 open(name+".dart","w",encoding="utf-8").write(purgeUnusedClasses(output))

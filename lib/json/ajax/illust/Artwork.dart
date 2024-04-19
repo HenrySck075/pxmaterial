@@ -21,7 +21,13 @@ class _Urls {
     regular: json['regular'],
     original: json['original'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "mini": mini,
+    "thumb": thumb,
+    "small": small,
+    "regular": regular,
+    "original": original,
+  };
 }
 
 class Artwork extends Work {
@@ -158,16 +164,17 @@ class Artwork extends Work {
     commentOff: parent.commentOff,
     aiType: parent.aiType,
   );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
+  @override
+  Map<String, dynamic> toJson() => super.toJson()..update(<String,dynamic>{
     "illustId": illustId,
     "illustTitle": illustTitle,
     "illustComment": illustComment,
     "illustType": illustType,
     "sl": sl,
-    "urls": urls,
+    "urls": urls.toJson(),
     "alt": alt,
     "userAccount": userAccount,
-    "userIllusts": userIllusts,
+    "userIllusts": userIllusts.toJson(),
     "width": width,
     "height": height,
     "responseCount": responseCount,
