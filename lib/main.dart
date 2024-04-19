@@ -11,6 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:sofieru/pages/helpcenter/hchtml.dart';
 import 'package:sofieru/pages/view/artworkview.dart';
+import 'package:sofieru/pages/yourip.dart';
 // import 'package:url_launcher/url_launcher.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:uni_links_desktop/uni_links_desktop.dart';
@@ -83,6 +84,7 @@ void main() async {
       )
     ),
     routes: <RouteBase>[
+      
       GoRoute(
         path: "/terminal",
         builder: (ctx,idk)=>AlertDialog(
@@ -99,6 +101,10 @@ void main() async {
         navigatorKey: pa,
         builder: (ctx,st,wid)=>ShellPage(child: wid),
         routes: [
+          GoRoute(
+            path: "/history",
+            builder: (ctx,youripaddressis1921681160) => HistoryPage()
+          ),
           ShellRoute(
             builder: (hs,jdjd,child) => Scaffold(body: child,),
             routes: [
@@ -446,7 +452,8 @@ class _ShellPageState extends State<ShellPage> {
             child: widget.child 
           )
         )
-      ),
+      )
+      ..initDb(),
       floatingActionButton: medQuery.size.width>=820&&!inView?uploadWorkButton:null,
       bottomNavigationBar: medQuery.size.width<=820&&!inView?NavigationBar(
         destinations: [

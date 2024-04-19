@@ -101,8 +101,8 @@ def generate(data, name=""):
     defaults = data.get("$defaultValues",{})
     # delete null values since we dont need it 
     # might still need checkFalsy tho
-    for i in defaults:
-        del nullable[nullable.index(i)]
+    for i in defaults.keys():
+        if i in nullable: del nullable[nullable.index(i)]
 
     desc: dict[str,str] = data.get("$desc",{})
     b = "import 'package:sofieru/json/base.dart' show checkFalsy;"

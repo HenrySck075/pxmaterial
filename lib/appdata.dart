@@ -19,7 +19,7 @@ T? nullOnThrow<T>(T Function() func, List<dynamic>? args, Map<Symbol, dynamic>? 
 class AppData extends InheritedWidget {
   late sql.Database _datadb;
   AppData({required super.child,super.key});
-  void main(List<String> args) async {
+  Future<void> initDb() async {
     _datadb = sql.sqlite3.open(join((await getApplicationSupportDirectory()).path,"hichat.db"));
     _datadb.execute('''
       CREATE TABLE IF NOT EXIST history (
