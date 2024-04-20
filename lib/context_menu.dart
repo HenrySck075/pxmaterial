@@ -47,17 +47,30 @@ class ContextMenuWrapper extends StatefulWidget {
   State<ContextMenuWrapper> createState()=>_ContextMenuWrapperState();
 }
 
-class _ContextMenuWrapperState extends State<ContextMenuWrapper> {
+class _ContextMenuWrapperState extends State<ContextMenuWrapper> with SingleTickerProviderStateMixin {
   MenuController _menuController = MenuController();
+  late final AnimationController _animation;
+  Offset position = Offset.zero;
   @override
   void initState(){
     super.initState();
     if (kIsWeb) {
       if (BrowserContextMenu.enabled) {BrowserContextMenu.disableContextMenu();}
     }
+    _animation = AnimationController(vsync:this,duration: Durations.medium1)..addStatusListener((status) {
+      if (status == AnimationStatus.dismissed) {_menuController.close();}
+      else if (!_menuController.isOpen) {_menuController.open(position: position);}
+    });
   }
 
-  void _openContext(Offset position) => _menuController.open(position: position);
+  void _openContext(Offset pos) {
+    if (_animation.status case AnimationStatus.forward || AnimationStatus.completed) {
+      _animation.reverse();
+    } else {
+      position = pos;
+      _animation.forward();
+    }
+  }
 
   @override
   Widget build(ctx) {
@@ -68,9 +81,18 @@ class _ContextMenuWrapperState extends State<ContextMenuWrapper> {
       onSecondaryTapUp: (d)=>_openContext(d.localPosition),
       child: MenuAnchor(
         controller: _menuController,
-        menuChildren: widget.items,
-        child: widget.child,
+        // this guarantees the close animation won't work
+        onClose: _animation.reset,
+        menuChildren: [
+          SizeTransition(
+            sizeFactor: _animation.drive(CurveTween(curve: Easing.emphasizedDecelerate)),
+            child: Column( 
+              children: widget.items,
+            ),
+          )
+        ],
         style: _style,
+        child: widget.child,
       ),
     );
   }

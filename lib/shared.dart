@@ -63,11 +63,7 @@ class kita extends NavigatorObserver {
   @override
   void didPop(Route nocare, Route? r) => didSmth(r);
   @override
-  void didPush(Route r, Route? nocare) => didSmth(r);
-  @override
   void didRemove(Route nocare, Route? r) => didSmth(r);
-  @override
-  void didReplace({Route? newRoute, Route? oldRoute}) => didSmth(newRoute);
   void addUrl(String url, String title) {
     urls[url] = title;
   }

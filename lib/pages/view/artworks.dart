@@ -217,8 +217,8 @@ class _ArtworkPageState extends State<ArtworkPage> {
           // The artwork view
           view: Column(children:view),
           // author works
-          authorWorksItemBuilder: (e)=> PxSimpleArtwork.fromJson(
-            key: (e["id"]==id)?current:null,
+          authorWorksItemBuilder: (e,[k])=> PxSimpleArtwork.fromJson(
+            key: k,
             payload: e,
             isCurrent: e["id"]==id,
           ),

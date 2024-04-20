@@ -64,7 +64,7 @@ class _NovelPageState extends State<NovelPage> {
           data: data,
           wtype: WorkType.novel,
           view: Text(data["content"],softWrap: true,),
-          authorWorksItemBuilder: (e)=>PxNovel(
+          authorWorksItemBuilder: (e,[k])=>PxNovel(
             data: e,
           ),
           relatedWorksItemBuilder: (e) => PxNovel(data: e),

@@ -57,13 +57,24 @@ var _fakeIllustEntry =
 class DevTools extends StatelessWidget {
   @override
   Widget build(ctx){
-    var history = AppData.of(ctx).watchHistoryManager();
+    var appdata = AppData.of(ctx);
+    var history = appdata.watchHistoryManager();
     var rand = Random();
     setTitle("pixiv Material Design Concept | Developer Tools");
     return Row( 
       children: [
         Card(child: Column(children: [
-          FilledButton.tonal(onPressed: ()=>List.generate(7, (_)=>history.addHistory(_fakeIllustEntry..update("id", (value) => rand.nextInt(531).toString()))), child: const Text("Fill history with dummy entries"))
+          FilledButton.tonal(onPressed: ()=>List.generate(7, (_)=>history.addHistory(_fakeIllustEntry..update("id", (value) => rand.nextInt(531).toString()))), child: const Text("Fill history with dummy entries")),
+          FilledButton.tonal(onPressed: (){
+            appdata.database.execute("DROP TABLE history;");
+            appdata.database.execute('''
+              CREATE TABLE IF NOT EXISTS history (
+                id INTEGER NOT NULL PRIMARY KEY,
+                jsondata TEXT NOT NULL
+              );
+            ''');
+          }, child: const Text("Nuke history database"))
+
         ],),),
         AlertDialog(
           title: const Text("Navigate to"),

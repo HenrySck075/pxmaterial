@@ -18,6 +18,7 @@ T? nullOnThrow<T>(T Function() func, List<dynamic>? args, Map<Symbol, dynamic>? 
 sql.Database? _globaldb;
 /// hi chat
 class AppData extends InheritedWidget {
+  late sql.Database database;
   
   AppData({required super.child,super.key});
   Future<String> initDb() async {
@@ -30,6 +31,7 @@ class AppData extends InheritedWidget {
         jsondata TEXT NOT NULL
       );
     '''); 
+    database = _globaldb!;
     return "wonderhoy";
   }
   _yourwatchhistory watchHistoryManager() {
@@ -55,7 +57,7 @@ class _yourwatchhistory {
   _yourwatchhistory(this._datadb) : insert = _datadb.prepare("INSERT OR IGNORE INTO history (id,jsondata) VALUES (?,?)"), remove = _datadb.prepare("DELETE FROM history WHERE id = ?");
   void addHistory(JSON work) {
     debugPrint(work["id"].toString());
-    insert.execute([int.parse(work["id"]??"0"),jsonEncode(work)]);
+    insert.execute([int.parse(work["id"]??"0"),jsonEncode(work..["url"]=work["urls"]!["thumb"]!)]);
   }
   removeHistory(int id) {
     remove.execute([id]);

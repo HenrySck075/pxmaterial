@@ -3,6 +3,7 @@
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class WorkLayout extends StatefulWidget {
   /// The work view section
   final Widget view;
   /// Author works item builder
-  final Widget Function(Map<String,dynamic> data) authorWorksItemBuilder;
+  final Widget Function(Map<String,dynamic> data, [Key? key]) authorWorksItemBuilder;
   final Widget Function(Map<String,dynamic> data) relatedWorksItemBuilder;
 
 
@@ -113,6 +114,12 @@ class _WorkLayoutState extends State<WorkLayout> {
         illustIndex = authArtworkIds.indexOf(id);
         updateRange(illustIndex-7, illustIndex+7);
         if (data is Artwork) setTitle("${data.alt} - pixiv");
+        // scroll to current artwork item after build
+        WidgetsBinding.instance.addPostFrameCallback((_){
+          if (current.currentContext!=null) {
+          Scrollable.ensureVisible(current.currentContext!);
+          }
+        });
         return ListView(
             //crossAxisAlignment:CrossAxisAlignment.start,
             //mainAxisSize: MainAxisSize.min,
@@ -192,14 +199,15 @@ class _WorkLayoutState extends State<WorkLayout> {
                     builder: (ctx,w){
                       return SizedBox(
                         height: 120,
-                        child: ListView(
+                        // so that the elements in the row exists even when not visible (for ensureVisible stuff)
+                        child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           controller: _authorArtworksViewCtrl,
                           padding: const EdgeInsets.only(left:2,right:2),
-                          children: [...authArtworkData.value.map((e) => Padding(
+                          child: Row(children: [...authArtworkData.value.map((e) => Padding(
                             padding: const EdgeInsets.only(left:2.0, right:2),
-                            child: widget.authorWorksItemBuilder(e),
-                          ))],
+                            child: widget.authorWorksItemBuilder(e,e["id"]==id?current:null),
+                          ))]),
                         )
                       );
                     }

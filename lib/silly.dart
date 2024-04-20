@@ -225,9 +225,10 @@ class _PxArtworkState extends State<PxArtwork> {
   Widget build(context) {
     var id = data.id;
     // if (int.tryParse(id)==null) {return Center(child: Text("invalid id"),);}
-    return SizedBox(
+    return Container(
       width: 190,
       height: 285,
+      padding: const EdgeInsets.only(left: 4, right: 4),
       child: ContextMenuWrapper(
         items: [
           // i know like 3 perspn who do this

@@ -245,6 +245,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      shortcuts: {
+        const SingleActivator(LogicalKeyboardKey.f11): VoidCallbackIntent(() {navigate("/devtools");})
+      },
       title: 'pixiv Material Design Concept', // doesnt work on desktop
       theme: ThemeData(
         useMaterial3: true,
@@ -406,7 +410,7 @@ class _ShellPageState extends State<ShellPage> {
           
           // basic google layout constraint
           
-          constraints: inView?null:const BoxConstraints(maxWidth:1160),
+          constraints: inView?null:BoxConstraints(maxWidth:min((190*(medQuery.size.width/190).floor().toDouble()+32),1160)),
           child: widget.child 
         )
       )
@@ -447,7 +451,12 @@ class _ShellPageState extends State<ShellPage> {
           if (kDebugMode) const IconButton(onPressed: clearRequestCache, icon:Icon(Icons.refresh), tooltip: "Reset request cache (DEBUG)",)
         ],
       ),
-      body: futureWidget(future: body.initDb(),builder: (ctx,hujiowef)=>body),
+
+      body: futureWidget(
+        future: body.initDb(),
+        builder: (ctx,hujiowef)=>body
+      ),
+
       floatingActionButton: medQuery.size.width>=820&&!inView?uploadWorkButton:null,
       bottomNavigationBar: medQuery.size.width<=820&&!inView?NavigationBar(
         destinations: [
@@ -476,6 +485,7 @@ class _ShellPageState extends State<ShellPage> {
         selectedIndex: navBarIndex,
       ):null,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      bottomSheet: kDebugMode?Container(height: 24, width:double.infinity, color: Colors.yellow, child: const Text("Debug build, don't scream for slow perfomances.",textAlign:TextAlign.center,style: TextStyle(color: Colors.black))):null,
     ),
     onRefresh: (){ 
       setState(() {
@@ -484,5 +494,13 @@ class _ShellPageState extends State<ShellPage> {
       return Future.value();
     },
     );
+  }
+  KeyEventResult onKeyPresses(KeyEvent key) {
+    if (key is KeyDownEvent) {return KeyEventResult.ignored;}
+    if (key.logicalKey == LogicalKeyboardKey.f11) {
+      navigate("/devtools");
+      return KeyEventResult.handled; // dunno if it will reach the listener
+    }
+    return KeyEventResult.ignored;
   }
 }

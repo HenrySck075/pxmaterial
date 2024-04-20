@@ -49,20 +49,30 @@ class IllustsPage extends StatelessWidget {
             )),
             const SizedBox(height: 50,),
             // Recommended Illusts
-            header("Recommended works"),
+            Row(
+              children: [
+                header("Recommended works"),
+                const Spacer(),
+                FilledButton(child: const Text("Show all"),onPressed: ()=>navigate("/discovery")),
+              ]
+            ),
             artworkGrid(List.from(mainresp.page.recommend.ids.map((id)=>PxArtwork(data:getData(id)!)))),
             const SizedBox(height: 50,),
-            FilledButton(child: const Text("Show all"),onPressed: ()=>navigate("/discovery")),
+
             // Ranking
-            header("Daily ranking"),
-            Text(parseDate(mainresp.page.ranking.date),style: const TextStyle(fontSize: 10,color: Colors.grey)),
+            Row( 
+            children: [
+              Column(children: [header("Daily ranking"), Text(parseDate(mainresp.page.ranking.date),style: const TextStyle(fontSize: 10,color: Colors.grey))]),
+              const Spacer(),
+              FilledButton(child: const Text("Show all"),onPressed: ()=>navigate("/following")),
+            ]
+            ),
             artworkGrid(List.generate(math.max(4, (MediaQuery.sizeOf(context).width/194).floor()), ((index) {
                 var i = mainresp.page.ranking.items[index];
                 return PxArtwork(data:getData(i.id)!,rank:int.parse(i.rank));
               }))
             ),
             const SizedBox(height: 8,),
-            FilledButton(child: const Text("Show all"),onPressed: ()=>navigate("/following")),
             const SizedBox(height: 50,),
             // Requested works
             header("Requested works"),
