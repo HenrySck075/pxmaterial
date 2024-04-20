@@ -15,7 +15,9 @@ class _Recommend {
     return _Recommend(
     ids: (json['ids'] as List<dynamic>).map((e)=>e as String).toList(),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "ids": ids,
+  };
 }
 
 class _RecommendByTag {
@@ -30,7 +32,10 @@ class _RecommendByTag {
     tag: json['tag'],
     ids: (json['ids'] as List<dynamic>).map((e)=>e as String).toList(),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "tag": tag,
+    "ids": ids,
+  };
 }
 
 class _Pixivision {
@@ -51,7 +56,12 @@ class _Pixivision {
     thumbnailUrl: json['thumbnailUrl'],
     url: json['url'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "id": id,
+    "title": title,
+    "thumbnailUrl": thumbnailUrl,
+    "url": url,
+  };
 }
 
 class _RecommendUser {
@@ -69,7 +79,11 @@ class _RecommendUser {
     illustIds: (json['illustIds'] as List<dynamic>).map((e)=>e as String).toList(),
     novelIds: (json['novelIds'] as List<dynamic>),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "id": id,
+    "illustIds": illustIds,
+    "novelIds": novelIds,
+  };
 }
 
 class _ContestOngoing {
@@ -99,7 +113,15 @@ class _ContestOngoing {
     workIds: (json['workIds'] as List<dynamic>).map((e)=>e as int).toList(),
     isNew: json['isNew'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "slug": slug,
+    "type": type,
+    "name": name,
+    "url": url,
+    "iconUrl": iconUrl,
+    "workIds": workIds,
+    "isNew": isNew,
+  };
 }
 
 class _EditorRecommend {
@@ -114,7 +136,10 @@ class _EditorRecommend {
     illustId: json['illustId'],
     comment: json['comment'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "illustId": illustId,
+    "comment": comment,
+  };
 }
 
 class _TrendingTags {
@@ -132,7 +157,11 @@ class _TrendingTags {
     trendingRate: json['trendingRate'],
     ids: (json['ids'] as List<dynamic>).map((e)=>e as int).toList(),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "tag": tag,
+    "trendingRate": trendingRate,
+    "ids": ids,
+  };
 }
 
 class _Page {
@@ -203,7 +232,27 @@ class _Page {
     completeRequestIds: (json['completeRequestIds'] as List<dynamic>).map((e)=>e as String).toList(),
     userEventIds: (json['userEventIds'] as List<dynamic>).map((e)=>e as String).toList(),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "tags": tags.map((e)=>e.toJson()).toList(),
+    "follow": follow,
+    "mypixiv": mypixiv,
+    "recommend": recommend.toJson(),
+    "recommendByTag": recommendByTag.map((e)=>e.toJson()).toList(),
+    "ranking": ranking.toJson(),
+    "pixivision": pixivision.map((e)=>e.toJson()).toList(),
+    "recommendUser": recommendUser.map((e)=>e.toJson()).toList(),
+    "contestOngoing": contestOngoing.map((e)=>e.toJson()).toList(),
+    "contestResult": contestResult,
+    "editorRecommend": editorRecommend.map((e)=>e.toJson()).toList(),
+    "boothFollowItemIds": boothFollowItemIds,
+    "sketchLiveFollowIds": sketchLiveFollowIds,
+    "sketchLivePopularIds": sketchLivePopularIds,
+    "myFavoriteTags": myFavoriteTags,
+    "newPost": newPost,
+    "trendingTags": trendingTags.map((e)=>e.toJson()).toList(),
+    "completeRequestIds": completeRequestIds,
+    "userEventIds": userEventIds,
+  };
 }
 
 /// Represents the payload of `/ajax/top/illust` request.
@@ -244,6 +293,15 @@ class IllustTop {
     boothItems: (json['boothItems'] as List<dynamic>).map((e)=>Booth.fromJson(e)).toList(),
     sketchLives: (json['sketchLives'] as List<dynamic>),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "tagTranslation": tagTranslation.map((k,v)=>MapEntry(k,v.toJson())),
+    "thumbnails": thumbnails.toJson(),
+    "illustSeries": illustSeries,
+    "requests": requests.map((e)=>e.toJson()).toList(),
+    "users": users.map((e)=>e.toJson()).toList(),
+    "page": page.toJson(),
+    "boothItems": boothItems.map((e)=>e.toJson()).toList(),
+    "sketchLives": sketchLives,
+  };
 }
 

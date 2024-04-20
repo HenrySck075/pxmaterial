@@ -14,7 +14,11 @@ class _RequestTranslationProposal {
     requestProposalHtml: json['requestProposalHtml'],
     requestProposalLang: json['requestProposalLang'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "requestProposal": requestProposal,
+    "requestProposalHtml": requestProposalHtml,
+    "requestProposalLang": requestProposalLang,
+  };
 }
 
 class _RequestProposal {
@@ -35,7 +39,12 @@ class _RequestProposal {
     requestOriginalProposalLang: json['requestOriginalProposalLang'],
     requestTranslationProposal: (json['requestTranslationProposal'] as List<dynamic>).map((e)=>_RequestTranslationProposal.fromJson(e)).toList(),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "requestOriginalProposal": requestOriginalProposal,
+    "requestOriginalProposalHtml": requestOriginalProposalHtml,
+    "requestOriginalProposalLang": requestOriginalProposalLang,
+    "requestTranslationProposal": requestTranslationProposal.map((e)=>e.toJson()).toList(),
+  };
 }
 
 class _PlanTranslationTitleContent {
@@ -50,7 +59,10 @@ class _PlanTranslationTitleContent {
     planTitle: json['planTitle'],
     planTtieLang: json['planTtieLang'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "planTitle": planTitle,
+    "planTtieLang": planTtieLang,
+  };
 }
 
 class _PlanTitle {
@@ -68,7 +80,11 @@ class _PlanTitle {
     planOriginalTitleLang: json['planOriginalTitleLang'],
     planTranslationTitle: checkFalsy(json['planTranslationTitle'])?null:(json['planTranslationTitle'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_PlanTranslationTitleContent.fromJson(v))),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "planOriginalTitle": planOriginalTitle,
+    "planOriginalTitleLang": planOriginalTitleLang,
+    "planTranslationTitle": planTranslationTitle?.map((k,v)=>MapEntry(k,v.toJson())),
+  };
 }
 
 class _PlanTranslationDescriptionContent {
@@ -86,7 +102,11 @@ class _PlanTranslationDescriptionContent {
     planDescriptionHtml: json['planDescriptionHtml'],
     planLang: json['planLang'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "planDescription": planDescription,
+    "planDescriptionHtml": planDescriptionHtml,
+    "planLang": planLang,
+  };
 }
 
 class _PlanDescription {
@@ -107,7 +127,12 @@ class _PlanDescription {
     planOriginalLang: json['planOriginalLang'],
     planTranslationDescription: checkFalsy(json['planTranslationDescription'])?null:(json['planTranslationDescription'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_PlanTranslationDescriptionContent.fromJson(v))),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "planOriginalDescription": planOriginalDescription,
+    "planOriginalDescriptionHtml": planOriginalDescriptionHtml,
+    "planOriginalLang": planOriginalLang,
+    "planTranslationDescription": planTranslationDescription?.map((k,v)=>MapEntry(k,v.toJson())),
+  };
 }
 
 class _Urls {
@@ -122,7 +147,10 @@ class _Urls {
     cover: json['cover'],
     card: json['card'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "cover": cover,
+    "card": card,
+  };
 }
 
 class _PlanCoverImage {
@@ -134,7 +162,9 @@ class _PlanCoverImage {
     return _PlanCoverImage(
     urls: _Urls.fromJson(json['urls']),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "urls": urls.toJson(),
+  };
 }
 
 class _Plan {
@@ -188,7 +218,23 @@ class _Plan {
     planCoverImage: json['planCoverImage'] == null?null:_PlanCoverImage.fromJson(json['planCoverImage']),
     planAiType: json['planAiType'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "currentPlanId": currentPlanId,
+    "planId": planId,
+    "creatorUserId": creatorUserId,
+    "planAcceptRequestFlg": planAcceptRequestFlg,
+    "planStandardPrice": planStandardPrice,
+    "planTitle": planTitle.toJson(),
+    "planDescription": planDescription.toJson(),
+    "planAcceptAdultFlg": planAcceptAdultFlg,
+    "planAcceptAnonymousFlg": planAcceptAnonymousFlg,
+    "planAcceptIllustFlg": planAcceptIllustFlg,
+    "planAcceptUgoiraFlg": planAcceptUgoiraFlg,
+    "planAcceptMangaFlg": planAcceptMangaFlg,
+    "planAcceptNovelFlg": planAcceptNovelFlg,
+    "planCoverImage": planCoverImage?.toJson(),
+    "planAiType": planAiType,
+  };
 }
 
 class _CollaborateStatus {
@@ -209,7 +255,12 @@ class _CollaborateStatus {
     collaboratedCnt: json['collaboratedCnt'],
     collaborateUserSamples: (json['collaborateUserSamples'] as List<dynamic>),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "collaborating": collaborating,
+    "collaborateAnonymousFlg": collaborateAnonymousFlg,
+    "collaboratedCnt": collaboratedCnt,
+    "collaborateUserSamples": collaborateUserSamples,
+  };
 }
 
 class _Work {
@@ -224,7 +275,10 @@ class _Work {
     isUnlisted: json['isUnlisted'],
     secret: json['secret'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "isUnlisted": isUnlisted,
+    "secret": secret,
+  };
 }
 
 class _PostWork {
@@ -242,7 +296,11 @@ class _PostWork {
     postWorkType: json['postWorkType'],
     work: json['work'] == null?null:_Work.fromJson(json['work']),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "postWorkId": postWorkId,
+    "postWorkType": postWorkType,
+    "work": work?.toJson(),
+  };
 }
 
 class _Fanbox {
@@ -254,7 +312,9 @@ class _Fanbox {
     return _Fanbox(
     fanIsSupporter: json['fanIsSupporter'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "fanIsSupporter": fanIsSupporter,
+  };
 }
 
 class _Modification {
@@ -269,7 +329,10 @@ class _Modification {
     requestPostWorkType: json['requestPostWorkType'],
     requestAdultFlg: json['requestAdultFlg'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "requestPostWorkType": requestPostWorkType,
+    "requestAdultFlg": requestAdultFlg,
+  };
 }
 
 class _RequestResend {
@@ -299,7 +362,15 @@ class _RequestResend {
     fanAdultSendable: json['fanAdultSendable'],
     isResentRequest: json['isResentRequest'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "requestResendDeadlineDatetime": requestResendDeadlineDatetime,
+    "requestResendOfferEnabled": requestResendOfferEnabled,
+    "requestResendEnabled": requestResendEnabled,
+    "requestResendStatus": requestResendStatus,
+    "modification": modification.toJson(),
+    "fanAdultSendable": fanAdultSendable,
+    "isResentRequest": isResentRequest,
+  };
 }
 
 class _FanLetter {
@@ -314,7 +385,10 @@ class _FanLetter {
     fanLetterArrived: json['fanLetterArrived'],
     fanLetterSendEnabled: json['fanLetterSendEnabled'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "fanLetterArrived": fanLetterArrived,
+    "fanLetterSendEnabled": fanLetterSendEnabled,
+  };
 }
 
 class Request {
@@ -398,6 +472,32 @@ class Request {
     requestResend: json['requestResend'] == null?null:_RequestResend.fromJson(json['requestResend']),
     fanLetter: json['fanLetter'] == null?null:_FanLetter.fromJson(json['fanLetter']),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "requestId": requestId,
+    "planId": planId,
+    "fanUserId": fanUserId,
+    "creatorUserId": creatorUserId,
+    "requestStatus": requestStatus,
+    "requestAcceptStatus": requestAcceptStatus,
+    "requestPostWorkType": requestPostWorkType,
+    "requestPrice": requestPrice,
+    "requestProposal": requestProposal.toJson(),
+    "requestTags": requestTags,
+    "requestAdultFlg": requestAdultFlg,
+    "requestAnonymousFlg": requestAnonymousFlg,
+    "requestRestrictFlg": requestRestrictFlg,
+    "requestAcceptCollaborateFlg": requestAcceptCollaborateFlg,
+    "requestResponseDeadlineDatetime": requestResponseDeadlineDatetime,
+    "requestPostDeadlineDatetime": requestPostDeadlineDatetime,
+    "role": role,
+    "plan": plan.toJson(),
+    "collaborateStatus": collaborateStatus.toJson(),
+    "giftFile": giftFile,
+    "postWork": postWork?.toJson(),
+    "notifyBadge": notifyBadge,
+    "fanbox": fanbox?.toJson(),
+    "requestResend": requestResend?.toJson(),
+    "fanLetter": fanLetter?.toJson(),
+  };
 }
 

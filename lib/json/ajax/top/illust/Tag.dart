@@ -10,6 +10,9 @@ class Tag {
     tag: json['tag'],
     ids: (json['ids'] as List<dynamic>).map((e)=>e as int).toList(),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "tag": tag,
+    "ids": ids,
+  };
 }
 

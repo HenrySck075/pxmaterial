@@ -20,7 +20,12 @@ class _Tags {
     tags: (json['tags'] as List<dynamic>).map((e)=>TagInfo.fromJson(e)).toList(),
     writable: json['writable'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "authorId": authorId,
+    "isLocked": isLocked,
+    "tags": tags.map((e)=>e.toJson()).toList(),
+    "writable": writable,
+  };
 }
 
 class _SeriesNavInfo {
@@ -38,7 +43,11 @@ class _SeriesNavInfo {
     title: json['title'],
     order: json['order'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "id": id,
+    "title": title,
+    "order": order,
+  };
 }
 
 class _SeriesNavData {
@@ -71,7 +80,16 @@ class _SeriesNavData {
     prev: json['prev'] == null?null:_SeriesNavInfo.fromJson(json['prev']),
     next: json['next'] == null?null:_SeriesNavInfo.fromJson(json['next']),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "seriesType": seriesType,
+    "seriesId": seriesId,
+    "title": title,
+    "order": order,
+    "isWatched": isWatched,
+    "isNotifying": isNotifying,
+    "prev": prev?.toJson(),
+    "next": next?.toJson(),
+  };
 }
 
 class _TitleCaptionTranslation {
@@ -86,7 +104,10 @@ class _TitleCaptionTranslation {
     workTitle: json['workTitle'],
     workCaption: json['workCaption'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "workTitle": workTitle,
+    "workCaption": workCaption,
+  };
 }
 
 class RequestUser {
@@ -104,7 +125,11 @@ class RequestUser {
     userName: json['userName'],
     profileImg: json['profileImg'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "userId": userId,
+    "userName": userName,
+    "profileImg": profileImg,
+  };
 }
 
 class _CollaborateStatus {
@@ -125,7 +150,12 @@ class _CollaborateStatus {
     collaboratedCnt: json['collaboratedCnt'],
     userSamples: (json['userSamples'] as List<dynamic>),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "collaborating": collaborating,
+    "collaborateAnonymousFlg": collaborateAnonymousFlg,
+    "collaboratedCnt": collaboratedCnt,
+    "userSamples": userSamples,
+  };
 }
 
 class _Request {
@@ -149,7 +179,13 @@ class _Request {
     collaborateStatus: _CollaborateStatus.fromJson(json['collaborateStatus']),
     editable: json['editable'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "request": request.toJson(),
+    "creator": creator.toJson(),
+    "fan": fan.toJson(),
+    "collaborateStatus": collaborateStatus.toJson(),
+    "editable": editable,
+  };
 }
 
 class Work {
@@ -274,6 +310,44 @@ class Work {
     commentOff: json['commentOff'],
     aiType: json['aiType'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "id": id,
+    "title": title,
+    "description": description,
+    "bookStyle": bookStyle,
+    "createDate": createDate,
+    "uploadDate": uploadDate,
+    "restrict": restrict,
+    "xRestrict": xRestrict,
+    "tags": tags.toJson(),
+    "userId": userId,
+    "userName": userName,
+    "likeData": likeData,
+    "pageCount": pageCount,
+    "bookmarkCount": bookmarkCount,
+    "likeCount": likeCount,
+    "commentCount": commentCount,
+    "viewCount": viewCount,
+    "isOriginal": isOriginal,
+    "imageResponseOutData": imageResponseOutData,
+    "imageResponseData": imageResponseData,
+    "imageResponseCount": imageResponseCount,
+    "pollData": pollData,
+    "seriesNavData": seriesNavData?.toJson(),
+    "descriptionBoothId": descriptionBoothId,
+    "descriptionYoutubeId": descriptionYoutubeId,
+    "comicPromotion": comicPromotion,
+    "fanboxPromotion": fanboxPromotion,
+    "contestBanners": contestBanners,
+    "isBookmarkable": isBookmarkable,
+    "bookmarkData": bookmarkData,
+    "contestData": contestData,
+    "extraData": extraData.toJson(),
+    "titleCaptionTranslation": titleCaptionTranslation.toJson(),
+    "isUnlisted": isUnlisted,
+    "request": request?.toJson(),
+    "commentOff": commentOff,
+    "aiType": aiType,
+  };
 }
 

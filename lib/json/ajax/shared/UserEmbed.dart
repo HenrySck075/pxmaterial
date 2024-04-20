@@ -10,6 +10,9 @@ class UserEmbed {
     id: json['id'],
     illustIds: (json['illustIds'] as List<dynamic>).map((e)=>e as String).toList(),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "id": id,
+    "illustIds": illustIds,
+  };
 }
 

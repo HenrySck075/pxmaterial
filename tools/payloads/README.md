@@ -10,6 +10,7 @@ $nullable: nullable
 $typedef: typedefing my beloved (it hasnt bern used)
 $desc: Map of item comments
 $this (only in $desc): The object itself
+$useType: unused, can be found in objects using TagTranslation
 ```
 these are all block-scope codegen modifier banger use it
 

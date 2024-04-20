@@ -16,7 +16,11 @@ class _ThreadEntryBody {
     requestAnonymousFlg: json['requestAnonymousFlg'],
     creatorUserId: json['creatorUserId'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "fanUserId": fanUserId,
+    "requestAnonymousFlg": requestAnonymousFlg,
+    "creatorUserId": creatorUserId,
+  };
 }
 
 class _ThreadEntries {
@@ -36,7 +40,11 @@ class _ThreadEntries {
     threadEntryType: json['threadEntryType'],
     threadEntryBody: _ThreadEntryBody.fromJson(json['threadEntryBody']),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "threadEntryId": threadEntryId,
+    "threadEntryType": threadEntryType,
+    "threadEntryBody": threadEntryBody.toJson(),
+  };
 }
 
 class RequestThread {
@@ -54,6 +62,10 @@ class RequestThread {
     requestId: json['requestId'],
     threadEntries: (json['threadEntries'] as List<dynamic>).map((e)=>_ThreadEntries.fromJson(e)).toList(),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "threadId": threadId,
+    "requestId": requestId,
+    "threadEntries": threadEntries.map((e)=>e.toJson()).toList(),
+  };
 }
 

@@ -13,6 +13,10 @@ class RecommendedUser {
     illustIds: (json['illustIds'] as List<dynamic>).map((e)=>e as String).toList(),
     novelIds: (json['novelIds'] as List<dynamic>).map((e)=>e as String).toList(),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "id": id,
+    "illustIds": illustIds,
+    "novelIds": novelIds,
+  };
 }
 

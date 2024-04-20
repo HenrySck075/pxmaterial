@@ -14,7 +14,11 @@ class RequestUser {
     userName: json['userName'],
     profileImg: json['profileImg'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "userId": userId,
+    "userName": userName,
+    "profileImg": profileImg,
+  };
 }
 
 class _CollaborateStatus {
@@ -35,7 +39,12 @@ class _CollaborateStatus {
     collaboratedCnt: json['collaboratedCnt'],
     userSamples: (json['userSamples'] as List<dynamic>),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "collaborating": collaborating,
+    "collaborateAnonymousFlg": collaborateAnonymousFlg,
+    "collaboratedCnt": collaboratedCnt,
+    "userSamples": userSamples,
+  };
 }
 
 class WorkRequest {
@@ -59,6 +68,12 @@ class WorkRequest {
     collaborateStatus: _CollaborateStatus.fromJson(json['collaborateStatus']),
     editable: json['editable'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "request": request.toJson(),
+    "creator": creator.toJson(),
+    "fan": fan.toJson(),
+    "collaborateStatus": collaborateStatus.toJson(),
+    "editable": editable,
+  };
 }
 

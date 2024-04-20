@@ -7,7 +7,9 @@ class _adUrl {
     return _adUrl(
     url: json['url'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "url": url,
+  };
 }
 
 /// Ads
@@ -29,6 +31,11 @@ class ZoneConfig {
     footer: _adUrl.fromJson(json['footer']),
     infeed: _adUrl.fromJson(json['infeed']),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "logo": logo.toJson(),
+    "header": header.toJson(),
+    "footer": footer.toJson(),
+    "infeed": infeed.toJson(),
+  };
 }
 

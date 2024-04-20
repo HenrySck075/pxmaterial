@@ -20,7 +20,13 @@ class _Thumbnails {
     novelDraft: (json['novelDraft'] as List<dynamic>),
     collection: (json['collection'] as List<dynamic>),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "illust": illust,
+    "novel": novel.map((e)=>e.toJson()).toList(),
+    "novelSeries": novelSeries,
+    "novelDraft": novelDraft,
+    "collection": collection,
+  };
 }
 
 class _Series {
@@ -38,7 +44,11 @@ class _Series {
     viewableType: json['viewableType'],
     contentOrder: json['contentOrder'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "id": id,
+    "viewableType": viewableType,
+    "contentOrder": contentOrder,
+  };
 }
 
 class _SeriesContents {
@@ -110,7 +120,29 @@ class _SeriesContents {
     bookmarkData: json['bookmarkData'],
     aiType: json['aiType'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "id": id,
+    "userId": userId,
+    "series": series.toJson(),
+    "title": title,
+    "commentHtml": commentHtml,
+    "tags": tags,
+    "restrict": restrict,
+    "xRestrict": xRestrict,
+    "isOriginal": isOriginal,
+    "textLength": textLength,
+    "characterCount": characterCount,
+    "wordCount": wordCount,
+    "useWordCount": useWordCount,
+    "readingTime": readingTime,
+    "bookmarkCount": bookmarkCount,
+    "url": url,
+    "uploadTimestamp": uploadTimestamp,
+    "reuploadTimestamp": reuploadTimestamp,
+    "isBookmarkable": isBookmarkable,
+    "bookmarkData": bookmarkData,
+    "aiType": aiType,
+  };
 }
 
 class _Page {
@@ -122,7 +154,9 @@ class _Page {
     return _Page(
     seriesContents: (json['seriesContents'] as List<dynamic>).map((e)=>_SeriesContents.fromJson(e)).toList(),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "seriesContents": seriesContents.map((e)=>e.toJson()).toList(),
+  };
 }
 
 class Content {
@@ -149,6 +183,13 @@ class Content {
     users: (json['users'] as List<dynamic>),
     page: _Page.fromJson(json['page']),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "tagTranslation": tagTranslation,
+    "thumbnails": thumbnails.toJson(),
+    "illustSeries": illustSeries,
+    "requests": requests,
+    "users": users,
+    "page": page.toJson(),
+  };
 }
 

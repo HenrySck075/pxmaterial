@@ -10,7 +10,10 @@ class _TitleCaptionTranslation {
     workTitle: json['workTitle'],
     workCaption: json['workCaption'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "workTitle": workTitle,
+    "workCaption": workCaption,
+  };
 }
 
 class PartialArtwork {
@@ -94,6 +97,32 @@ class PartialArtwork {
     urls: json['urls'] == null?null:(json['urls'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,v as String)),
     profileImageUrl: json['profileImageUrl'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "id": id,
+    "title": title,
+    "illustType": illustType,
+    "xRestrict": xRestrict,
+    "restrict": restrict,
+    "sl": sl,
+    "url": url,
+    "description": description,
+    "tags": tags,
+    "userId": userId,
+    "userName": userName,
+    "width": width,
+    "height": height,
+    "pageCount": pageCount,
+    "isBookmarkable": isBookmarkable,
+    "bookmarkData": bookmarkData,
+    "alt": alt,
+    "titleCaptionTranslation": titleCaptionTranslation.toJson(),
+    "createDate": createDate,
+    "updateDate": updateDate,
+    "isUnlisted": isUnlisted,
+    "isMasked": isMasked,
+    "aiType": aiType,
+    "urls": urls?.map((k,v)=>MapEntry(k,v as String)),
+    "profileImageUrl": profileImageUrl,
+  };
 }
 

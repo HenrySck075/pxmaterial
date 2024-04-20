@@ -11,6 +11,9 @@ class RecommendedTags {
     recommendedTags: (json['recommendedTags'] as List<dynamic>).map((e)=>e as String).toList(),
     tagTranslation: (json['tagTranslation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,TagTranslation.fromJson(v))),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "recommendedTags": recommendedTags,
+    "tagTranslation": tagTranslation.map((k,v)=>MapEntry(k,v.toJson())),
+  };
 }
 

@@ -10,7 +10,10 @@ class _AlternateLanguages {
     ja: json['ja'],
     en: json['en'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "ja": ja,
+    "en": en,
+  };
 }
 
 class _EmbedMeta {
@@ -34,7 +37,13 @@ class _EmbedMeta {
     type: json['type'],
     card: json['card'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "description": description,
+    "image": image,
+    "title": title,
+    "type": type,
+    "card": card,
+  };
 }
 
 class _Meta {
@@ -67,7 +76,15 @@ class _Meta {
     ogp: json['ogp'] == null?null:_EmbedMeta.fromJson(json['ogp']),
     twitter: json['twitter'] == null?null:_EmbedMeta.fromJson(json['twitter']),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "title": title,
+    "description": description,
+    "canonical": canonical,
+    "alternateLanguages": alternateLanguages?.toJson(),
+    "descriptionHeader": descriptionHeader,
+    "ogp": ogp?.toJson(),
+    "twitter": twitter?.toJson(),
+  };
 }
 
 class ExtraData {
@@ -79,6 +96,8 @@ class ExtraData {
     return ExtraData(
     meta: _Meta.fromJson(json['meta']),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "meta": meta.toJson(),
+  };
 }
 

@@ -10,7 +10,10 @@ class _Items {
     rank: json['rank'],
     id: json['id'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "rank": rank,
+    "id": id,
+  };
 }
 
 class Ranking {
@@ -25,6 +28,9 @@ class Ranking {
     items: (json['items'] as List<dynamic>).map((e)=>_Items.fromJson(e)).toList(),
     date: json['date'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "items": items.map((e)=>e.toJson()).toList(),
+    "date": date,
+  };
 }
 

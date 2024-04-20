@@ -15,7 +15,10 @@ class _Series {
     workId: json['workId'],
     order: json['order'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "workId": workId,
+    "order": order,
+  };
 }
 
 class _Page {
@@ -48,7 +51,16 @@ class _Page {
     isWatched: json['isWatched'],
     isNotifying: json['isNotifying'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "series": series.map((e)=>e.toJson()).toList(),
+    "isSetCover": isSetCover,
+    "seriesId": seriesId,
+    "otherSeriesId": otherSeriesId,
+    "recentUpdatedWorkIds": recentUpdatedWorkIds,
+    "total": total,
+    "isWatched": isWatched,
+    "isNotifying": isNotifying,
+  };
 }
 
 class SeriesRequestPayload {
@@ -78,6 +90,14 @@ class SeriesRequestPayload {
     page: _Page.fromJson(json['page']),
     extraData: ExtraData.fromJson(json['extraData']),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "tagTranslation": tagTranslation.toJson(),
+    "thumbnails": thumbnails.toJson(),
+    "illustSeries": illustSeries.map((e)=>e.toJson()).toList(),
+    "requests": requests,
+    "users": users.map((e)=>e.toJson()).toList(),
+    "page": page.toJson(),
+    "extraData": extraData.toJson(),
+  };
 }
 

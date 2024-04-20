@@ -13,6 +13,10 @@ class RecommendStatus {
     score: json['score'],
     seedIllustIds: (json['seedIllustIds'] as List<dynamic>).map((e)=>e as String).toList(),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "methods": methods,
+    "score": score,
+    "seedIllustIds": seedIllustIds,
+  };
 }
 

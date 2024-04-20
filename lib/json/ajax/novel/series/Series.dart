@@ -7,7 +7,9 @@ class _FirstEpisode {
     return _FirstEpisode(
     url: json['url'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "url": url,
+  };
 }
 
 class _Cover {
@@ -19,7 +21,9 @@ class _Cover {
     return _Cover(
     urls: (json['urls'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,v as String)),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "urls": urls.map((k,v)=>MapEntry(k,v as String)),
+  };
 }
 
 class SEOEmbedMeta {
@@ -40,7 +44,12 @@ class SEOEmbedMeta {
     description: json['description'],
     image: json['image'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "type": type,
+    "title": title,
+    "description": description,
+    "image": image,
+  };
 }
 
 class TwitterEmbedMeta {
@@ -64,7 +73,13 @@ class TwitterEmbedMeta {
     description: json['description'],
     image: json['image'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "card": card,
+    "site": site,
+    "title": title,
+    "description": description,
+    "image": image,
+  };
 }
 
 class _Meta {
@@ -88,7 +103,13 @@ class _Meta {
     ogp: SEOEmbedMeta.fromJson(json['ogp']),
     twitter: TwitterEmbedMeta.fromJson(json['twitter']),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "title": title,
+    "description": description,
+    "canonical": canonical,
+    "ogp": ogp.toJson(),
+    "twitter": twitter.toJson(),
+  };
 }
 
 class _ExtraData {
@@ -100,7 +121,9 @@ class _ExtraData {
     return _ExtraData(
     meta: _Meta.fromJson(json['meta']),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "meta": meta.toJson(),
+  };
 }
 
 class Series {
@@ -220,6 +243,44 @@ class Series {
     hasGlossary: json['hasGlossary'],
     extraData: _ExtraData.fromJson(json['extraData']),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "id": id,
+    "userId": userId,
+    "userName": userName,
+    "profileImageUrl": profileImageUrl,
+    "xRestrict": xRestrict,
+    "isOriginal": isOriginal,
+    "isConcluded": isConcluded,
+    "genreId": genreId,
+    "title": title,
+    "caption": caption,
+    "language": language,
+    "tags": tags,
+    "publishedContentCount": publishedContentCount,
+    "publishedTotalCharacterCount": publishedTotalCharacterCount,
+    "publishedTotalWordCount": publishedTotalWordCount,
+    "publishedReadingTime": publishedReadingTime,
+    "useWordCount": useWordCount,
+    "lastPublishedContentTimestamp": lastPublishedContentTimestamp,
+    "createdTimestamp": createdTimestamp,
+    "updatedTimestamp": updatedTimestamp,
+    "createDate": createDate,
+    "updateDate": updateDate,
+    "firstNovelId": firstNovelId,
+    "latestNovelId": latestNovelId,
+    "displaySeriesContentCount": displaySeriesContentCount,
+    "shareText": shareText,
+    "total": total,
+    "firstEpisode": firstEpisode.toJson(),
+    "watchCount": watchCount,
+    "maxXRestrict": maxXRestrict,
+    "cover": cover.toJson(),
+    "coverSettingData": coverSettingData,
+    "isWatched": isWatched,
+    "isNotifying": isNotifying,
+    "aiType": aiType,
+    "hasGlossary": hasGlossary,
+    "extraData": extraData.toJson(),
+  };
 }
 

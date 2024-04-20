@@ -22,6 +22,13 @@ class Booth {
     imageUrl: json['imageUrl'],
     adult: json['adult'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "id": id,
+    "userId": userId,
+    "title": title,
+    "url": url,
+    "imageUrl": imageUrl,
+    "adult": adult,
+  };
 }
 

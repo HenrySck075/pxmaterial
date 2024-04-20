@@ -13,7 +13,10 @@ class _BookmarkRanges {
     min: json['min'],
     max: json['max'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "min": min,
+    "max": max,
+  };
 }
 
 class _IllustManga {
@@ -35,7 +38,12 @@ class _IllustManga {
     lastPage: json['lastPage'],
     bookmarkRanges: (json['bookmarkRanges'] as List<dynamic>).map((e)=>_BookmarkRanges.fromJson(e)).toList(),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "data": data.map((e)=>e.toJson()).toList(),
+    "total": total,
+    "lastPage": lastPage,
+    "bookmarkRanges": bookmarkRanges.map((e)=>e.toJson()).toList(),
+  };
 }
 
 class _Popular {
@@ -50,7 +58,10 @@ class _Popular {
     recent: (json['recent'] as List<dynamic>).map((e)=>PartialArtwork.fromJson(e)).toList(),
     permanent: (json['permanent'] as List<dynamic>).map((e)=>PartialArtwork.fromJson(e)).toList(),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "recent": recent.map((e)=>e.toJson()).toList(),
+    "permanent": permanent.map((e)=>e.toJson()).toList(),
+  };
 }
 
 class TagsMain {
@@ -74,6 +85,12 @@ class TagsMain {
     tagTranslation: TagTranslations.fromJson(json['tagTranslation']),
     extraData: ExtraData.fromJson(json['extraData']),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "illustManga": illustManga.toJson(),
+    "popular": popular.toJson(),
+    "relatedTags": relatedTags,
+    "tagTranslation": tagTranslation.toJson(),
+    "extraData": extraData.toJson(),
+  };
 }
 

@@ -25,6 +25,14 @@ class TagInfo {
     translation: json['translation'] == null?null:(json['translation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,v as String)),
     userName: json['userName'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "tag": tag,
+    "locked": locked,
+    "deletable": deletable,
+    "userId": userId,
+    "romaji": romaji,
+    "translation": translation?.map((k,v)=>MapEntry(k,v as String)),
+    "userName": userName,
+  };
 }
 

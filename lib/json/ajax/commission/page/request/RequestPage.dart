@@ -24,7 +24,13 @@ class _Creator {
     requestPriceUpperLimit: json['requestPriceUpperLimit'],
     tokusho: json['tokusho'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "creatorUserId": creatorUserId,
+    "creatorStoppedFlg": creatorStoppedFlg,
+    "requestPriceLowerLimit": requestPriceLowerLimit,
+    "requestPriceUpperLimit": requestPriceUpperLimit,
+    "tokusho": tokusho,
+  };
 }
 
 class _ConfettiModalStatus {
@@ -42,7 +48,11 @@ class _ConfettiModalStatus {
     inProgressCreator: json['inProgressCreator'],
     completeFanOrCollaborateUser: json['completeFanOrCollaborateUser'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "inProgressFan": inProgressFan,
+    "inProgressCreator": inProgressCreator,
+    "completeFanOrCollaborateUser": completeFanOrCollaborateUser,
+  };
 }
 
 class _Twitter_card {
@@ -63,7 +73,12 @@ class _Twitter_card {
     description: json['description'],
     image: json['image'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "card": card,
+    "title": title,
+    "description": description,
+    "image": image,
+  };
 }
 
 class _Meta_ogp {
@@ -87,7 +102,13 @@ class _Meta_ogp {
     url: json['url'],
     image: json['image'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "type": type,
+    "title": title,
+    "description": description,
+    "url": url,
+    "image": image,
+  };
 }
 
 class _Ogp {
@@ -108,7 +129,12 @@ class _Ogp {
     page_title: json['page_title'],
     description: json['description'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "twitter_card": twitter_card.toJson(),
+    "meta_ogp": meta_ogp.toJson(),
+    "page_title": page_title,
+    "description": description,
+  };
 }
 
 class _Page {
@@ -153,7 +179,20 @@ class _Page {
     ogp: _Ogp.fromJson(json['ogp']),
     locationMask: json['locationMask'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "creator": creator.toJson(),
+    "recommendedUserIds": recommendedUserIds,
+    "confettiModalStatus": confettiModalStatus.toJson(),
+    "userList": userList.map((e)=>e.toJson()).toList(),
+    "inProgressRequestIds": inProgressRequestIds,
+    "completeRequestIds": completeRequestIds,
+    "alreadyRequestCollaborate": alreadyRequestCollaborate,
+    "platformFeeCampaignLabel": platformFeeCampaignLabel,
+    "eligibleCampaignList": eligibleCampaignList,
+    "isUnlisted": isUnlisted,
+    "ogp": ogp.toJson(),
+    "locationMask": locationMask,
+  };
 }
 
 class RequestPage {
@@ -180,6 +219,13 @@ class RequestPage {
     requests: (json['requests'] as List<dynamic>).map((e)=>Request.fromJson(e)).toList(),
     users: (json['users'] as List<dynamic>).map((e)=>PartialUser.fromJson(e)).toList(),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "page": page.toJson(),
+    "tagTranslation": tagTranslation.map((k,v)=>MapEntry(k,v.toJson())),
+    "thumbnails": thumbnails.toJson(),
+    "illustSeries": illustSeries,
+    "requests": requests.map((e)=>e.toJson()).toList(),
+    "users": users.map((e)=>e.toJson()).toList(),
+  };
 }
 

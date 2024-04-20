@@ -17,7 +17,12 @@ class _Background {
     url: json['url'],
     isPrivate: json['isPrivate'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "repeat": repeat,
+    "color": color,
+    "url": url,
+    "isPrivate": isPrivate,
+  };
 }
 
 class _SocialContent {
@@ -29,7 +34,9 @@ class _SocialContent {
     return _SocialContent(
     url: json['url'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "url": url,
+  };
 }
 
 class _Region {
@@ -50,7 +57,12 @@ class _Region {
     prefecture: json['prefecture'],
     privacyLevel: json['privacyLevel'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "name": name,
+    "region": region,
+    "prefecture": prefecture,
+    "privacyLevel": privacyLevel,
+  };
 }
 
 /// Represents the data with privacy level
@@ -68,7 +80,10 @@ class PrivacyLeveledData {
     name: json['name'],
     privacyLevel: json['privacyLevel'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "name": name,
+    "privacyLevel": privacyLevel,
+  };
 }
 
 class _Workspace {
@@ -110,7 +125,19 @@ class _Workspace {
     userWorkspaceDesk: json['userWorkspaceDesk'],
     userWorkspaceChair: json['userWorkspaceChair'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "userWorkspacePc": userWorkspacePc,
+    "userWorkspaceMonitor": userWorkspaceMonitor,
+    "userWorkspaceTool": userWorkspaceTool,
+    "userWorkspaceScanner": userWorkspaceScanner,
+    "userWorkspaceTablet": userWorkspaceTablet,
+    "userWorkspaceMouse": userWorkspaceMouse,
+    "userWorkspacePrinter": userWorkspacePrinter,
+    "userWorkspaceDesktop": userWorkspaceDesktop,
+    "userWorkspaceMusic": userWorkspaceMusic,
+    "userWorkspaceDesk": userWorkspaceDesk,
+    "userWorkspaceChair": userWorkspaceChair,
+  };
 }
 
 /// Represents the [User] object
@@ -207,6 +234,35 @@ class User {
     official: json['official'],
     group: json['group'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "userId": userId,
+    "name": name,
+    "image": image,
+    "imageBig": imageBig,
+    "premium": premium,
+    "isFollowed": isFollowed,
+    "isMypixiv": isMypixiv,
+    "isBlocking": isBlocking,
+    "background": background?.toJson(),
+    "sketchLiveId": sketchLiveId,
+    "acceptRequest": acceptRequest,
+    "sketchLives": sketchLives,
+    "following": following,
+    "mypixivCount": mypixivCount,
+    "followedBack": followedBack,
+    "comment": comment,
+    "commentHtml": commentHtml,
+    "webpage": webpage,
+    "social": social?.map((k,v)=>MapEntry(k,v.toJson())),
+    "canSendMessage": canSendMessage,
+    "region": region.toJson(),
+    "age": age.toJson(),
+    "birthDay": birthDay.toJson(),
+    "gender": gender.toJson(),
+    "job": job.toJson(),
+    "workspace": workspace.toJson(),
+    "official": official,
+    "group": group,
+  };
 }
 

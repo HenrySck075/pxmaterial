@@ -16,7 +16,12 @@ class _Background {
     url: json['url'],
     isPrivate: json['isPrivate'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "repeat": repeat,
+    "color": color,
+    "url": url,
+    "isPrivate": isPrivate,
+  };
 }
 
 class PartialUser {
@@ -61,6 +66,19 @@ class PartialUser {
     background: json['background'] == null?null:_Background.fromJson(json['background']),
     acceptRequest: json['acceptRequest'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "comment": comment,
+    "followedBack": followedBack,
+    "userId": userId,
+    "name": name,
+    "image": image,
+    "imageBig": imageBig,
+    "premium": premium,
+    "isFollowed": isFollowed,
+    "isMypixiv": isMypixiv,
+    "isBlocking": isBlocking,
+    "background": background?.toJson(),
+    "acceptRequest": acceptRequest,
+  };
 }
 

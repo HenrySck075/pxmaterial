@@ -10,7 +10,10 @@ class _TitleCaptionTranslation {
     workTitle: json['workTitle'],
     workCaption: json['workCaption'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "workTitle": workTitle,
+    "workCaption": workCaption,
+  };
 }
 
 class PartialNovel {
@@ -97,6 +100,33 @@ class PartialNovel {
     aiType: json['aiType'],
     genre: json['genre'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "id": id,
+    "title": title,
+    "xRestrict": xRestrict,
+    "restrict": restrict,
+    "url": url,
+    "tags": tags,
+    "userId": userId,
+    "userName": userName,
+    "profileImageUrl": profileImageUrl,
+    "textCount": textCount,
+    "wordCount": wordCount,
+    "readingTime": readingTime,
+    "useWordCount": useWordCount,
+    "description": description,
+    "isBookmarkable": isBookmarkable,
+    "bookmarkData": bookmarkData,
+    "bookmarkCount": bookmarkCount,
+    "isOriginal": isOriginal,
+    "marker": marker,
+    "titleCaptionTranslation": titleCaptionTranslation.toJson(),
+    "createDate": createDate,
+    "updateDate": updateDate,
+    "isMasked": isMasked,
+    "isUnlisted": isUnlisted,
+    "aiType": aiType,
+    "genre": genre,
+  };
 }
 

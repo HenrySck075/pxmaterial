@@ -165,7 +165,7 @@ class Artwork extends Work {
     aiType: parent.aiType,
   );}
   @override
-  Map<String, dynamic> toJson() => super.toJson()..update(<String,dynamic>{
+  Map<String, dynamic> toJson() => super.toJson()..addAll(<String,dynamic>{
     "illustId": illustId,
     "illustTitle": illustTitle,
     "illustComment": illustComment,
@@ -174,7 +174,7 @@ class Artwork extends Work {
     "urls": urls.toJson(),
     "alt": alt,
     "userAccount": userAccount,
-    "userIllusts": userIllusts.toJson(),
+    "userIllusts": userIllusts.map((k,v)=>MapEntry(k,v==null?null:v.toJson())),
     "width": width,
     "height": height,
     "responseCount": responseCount,
@@ -218,6 +218,6 @@ class Artwork extends Work {
     "request": request,
     "commentOff": commentOff,
     "aiType": aiType,
-  };
+  });
 }
 

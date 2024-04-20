@@ -10,6 +10,9 @@ class WorksResultPayloads {
     tagTranslation: json['tagTranslation'],
     thumbnails: json['thumbnails'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "tagTranslation": tagTranslation,
+    "thumbnails": thumbnails,
+  };
 }
 

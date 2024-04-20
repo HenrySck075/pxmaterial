@@ -14,7 +14,10 @@ class _Pager {
     page: json['page'],
     hasNextPage: json['hasNextPage'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "page": page,
+    "hasNextPage": hasNextPage,
+  };
 }
 
 class RequestPageFiltered {
@@ -53,6 +56,17 @@ class RequestPageFiltered {
     requests: (json['requests'] as List<dynamic>).map((e)=>Request.fromJson(e)).toList(),
     users: (json['users'] as List<dynamic>).map((e)=>User.fromJson(e)).toList(),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "workIds": workIds,
+    "workType": workType,
+    "mode": mode,
+    "tags": tags,
+    "pager": pager.toJson(),
+    "tagTranslation": tagTranslation.map((k,v)=>MapEntry(k,v.toJson())),
+    "thumbnails": thumbnails.toJson(),
+    "illustSeries": illustSeries,
+    "requests": requests.map((e)=>e.toJson()).toList(),
+    "users": users.map((e)=>e.toJson()).toList(),
+  };
 }
 

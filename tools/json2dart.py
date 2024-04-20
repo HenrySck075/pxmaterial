@@ -61,12 +61,11 @@ def tryimport(mport, nam):
         output=f"import '{mport}.dart' show {nam};"+"\n"+output
         imported.append(mport)
 isInvalidPropName = lambda k: any(k[0]==i for i in "0123456789") or any(i in k for i in "-/\\[]{}() *&^%#@!'\":;,?=÷×+|<>°•") or any(ord(i)>126 for i in k)
-def boy(k,v,ld=False, toJson=False):
+def boy(k,v,ld=False):
     global output
     t = type(v)
     nam = k[0].upper()+k[1:]
     if t == dict and not ld: #and not isInvalidPropName(k): 
-        v["$toJson"] = toJson
         if "$schema" not in v: return generate(v,nam)
         else: 
             nam = v.get("$useType") or cry(v['$schema'])
@@ -78,7 +77,6 @@ def boy(k,v,ld=False, toJson=False):
             tryimport(pathparse(v[0]['$schema'],'package:sofieru/json/ajax/'),nam)
             return f"List<{nam}>"
         try: 
-            if type(v[0])==dict: v[0]["$toJson"] = toJson
             return f"List<{generate(v[0],nam)}>"
         except IndexError: return "List<dynamic>"
     else: return classes[str(t).split("'")[1]]
@@ -113,7 +111,6 @@ def generate(data, name=""):
     if "$all" in checkFalsy: checkFalsy = list(data.keys())
     if "$all" in nullable: nullable = list(data.keys())
 
-    optInToJson:bool = data.get("$toJson", False)
     if doExtends: 
         c:dict = json.load(open(pathparse(data["$extends"],"./payloads/ajax/")))
         supers = list(c.keys())
@@ -122,7 +119,6 @@ def generate(data, name=""):
         data = data | c 
         #checkFalsy.extend(c.get("$checkFalsy",[]))
         nullable.extend(c.get("$nullable",[]))
-        c.update({"$toJson":optInToJson})
         f = cry(data['$extends'])
         subprocess.run(os.environ.get("interpreter",sys.executable)+f" json2dart.py {f} -",shell=True,input=json.dumps(c).encode())
         pat = os.path.dirname(pathparse(data['$extends'],"json/ajax/"))
@@ -147,9 +143,10 @@ def generate(data, name=""):
     toJson=""
     if doExtends: toJson="  @override\n"
     toJson += "  Map<String, dynamic> toJson() => "
-    if doExtends: toJson+="super.toJson()..update("
+    if doExtends: toJson+="super.toJson()..addAll("
     toJson+="<String,dynamic>{\n"
     # toJson = "" # we dont need toJson
+    typedefs = data.get("$typedef",{})
     private = True
 
     for k,v in data.items():
@@ -168,7 +165,7 @@ def generate(data, name=""):
             fromJson+=f"    {k}: parent.{k}"
             const+=f"super.{k}"
         else:
-            vt=boy(k,v if not (k in checkFalsy and len(v)!=0 and vto == list and v[0]==dict) else fnnuy if type(v)!=list else [fnnuy],toJson=optInToJson)
+            vt=boy(k,v if not (k in checkFalsy and len(v)!=0 and vto == list and v[0]==dict) else fnnuy if type(v)!=list else [fnnuy])
             if vt=="Null": 
                 vt="String"
                 required = False
@@ -179,10 +176,6 @@ def generate(data, name=""):
             out+=f"  final {vt}{'' if required else '?'} {k};"+"\n"
             const+=f"this.{k}"
 
-            # tricking the lsp
-            if type(v) is dict: 
-                if k in g: toJson+="?"
-                toJson+=".toJson()"
 
             fromJson+=f"    {k}: json['{k}']"
             if k in checkFalsy: fromJson=fromJson[:-8-len(k)]+f"checkFalsy(json['{k}'])?null:json['{k}']"
@@ -190,27 +183,29 @@ def generate(data, name=""):
             if vt.startswith("Map<"):
                 # vt2 = vt.removeprefix('Map<String, ').removesuffix('>')
                 fromJson=fromJson[:-8-len(k)]+f"(json['{k}'] as Map<String,dynamic>)"
+            if (vto is dict or vto is list) and k in g: toJson+="?"
             if k not in checkFalsy and (vto not in [list,dict]): 'fromJson+=f" as {vt}"'
             elif vto==list: 
                 j = vt.removesuffix(">").removeprefix("List<") # we might not having to
                 fromJson=fromJson[:-8-len(k)]+f"(json['{k}'] as List<dynamic>)"
                 if j != "dynamic": 
                     fromJson+=f".map((e)=>"+(f"{j}.fromJson(e)" if j not in classes.values() else f"e as {j}")+").toList()"
+                    toJson+=".map((e)=>e.toJson()).toList()" if j not in classes.values() else "" 
             else: 
                 if vt.startswith("Map<"):
                     vt2 = vt.removeprefix('Map<String, ').removesuffix('>').removesuffix("?")
                     n = "-" in v.get("$nullable",[]) # pyright: ignore 
                     # dart really just do a 🤫🧏 on type conversion lmao
                     fromJson+=".map((k,v)=>MapEntry(k,"+("v==null?null:" if n else "")+(f"{vt2}.fromJson(v)" if vt2 not in classes.values() else f"v as {vt2}"+("?" if n else ""))+"))"
+                    toJson+=".map((k,v)=>MapEntry(k,"+("v==null?null:" if n else "")+("v.toJson()" if vt2 not in classes.values() else f"v as {vt2}"+("?" if n else ""))+"))"
                 else:
                     fromJson=fromJson[:-8-len(k)]
-                    if vt not in ["String", "int","bool","double"]:fromJson+=f"{vt}.fromJson(json['{k}'])"
+                    if vt not in ["String", "int","bool","double"]:
+                        fromJson+=f"{vt}.fromJson(json['{k}'])"
+                        toJson+=".toJson()"
                     else: fromJson+=f"json['{k}'] as {vt}"
             if vto==list:
                 j = vt.removesuffix(">").removeprefix("List<") # we might not having to
-                if j != "dynamic" and j not in classes.values(): 
-                    if k in g: toJson+="?"
-                    toJson+=".toJson()"
 
         if k in defaults: 
             const+= " = "+repr(defaults[k])
@@ -223,12 +218,9 @@ def generate(data, name=""):
     toJson+="  }"+(")" if doExtends else "")+";"
     const+="  });\n"
     out+=const+fromJson+"\n"
-    if optInToJson: out+=toJson
+    out+=toJson
     out+="\n}\n"
 
-    if "$typedef" in data: 
-        for k,v in data["$typedef"].items():
-            out+=f"typedef {k}={v};"+"\n"
     if len(checkFalsy) != 0 and b not in output:
         output=b+"\n"+output
     output+=out+"\n"

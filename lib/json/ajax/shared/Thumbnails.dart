@@ -21,6 +21,12 @@ class Thumbnails {
     novelDraft: (json['novelDraft'] as List<dynamic>),
     collection: (json['collection'] as List<dynamic>),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "illust": illust.map((e)=>e.toJson()).toList(),
+    "novel": novel.map((e)=>e.toJson()).toList(),
+    "novelSeries": novelSeries,
+    "novelDraft": novelDraft,
+    "collection": collection,
+  };
 }
 

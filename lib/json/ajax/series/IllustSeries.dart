@@ -52,6 +52,23 @@ class IllustSeries {
     isWatched: json['isWatched'],
     isNotifying: json['isNotifying'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "id": id,
+    "userId": userId,
+    "title": title,
+    "description": description,
+    "caption": caption,
+    "total": total,
+    "content_order": content_order,
+    "url": url,
+    "coverImageSl": coverImageSl,
+    "firstIllustId": firstIllustId,
+    "latestIllustId": latestIllustId,
+    "createDate": createDate,
+    "updateDate": updateDate,
+    "watchCount": watchCount,
+    "isWatched": isWatched,
+    "isNotifying": isNotifying,
+  };
 }
 

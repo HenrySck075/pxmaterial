@@ -33,7 +33,16 @@ class _Page {
     recommendIllustIdsByCreatorAcceptingRequest: (json['recommendIllustIdsByCreatorAcceptingRequest'] as List<dynamic>).map((e)=>e as String).toList(),
     userList: (json['userList'] as List<dynamic>).map((e)=>UserEmbed.fromJson(e)).toList(),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "completeRequestIdsIllust": completeRequestIdsIllust,
+    "completeRequestIdsManga": completeRequestIdsManga,
+    "completeRequestIdsNovels": completeRequestIdsNovels,
+    "inProgressRequestIds": inProgressRequestIds,
+    "newerCreatorUserIds": newerCreatorUserIds,
+    "followCreatorUserIds": followCreatorUserIds,
+    "recommendIllustIdsByCreatorAcceptingRequest": recommendIllustIdsByCreatorAcceptingRequest,
+    "userList": userList.map((e)=>e.toJson()).toList(),
+  };
 }
 
 class Requests {
@@ -60,6 +69,13 @@ class Requests {
     requests: (json['requests'] as List<dynamic>).map((e)=>Request.fromJson(e)).toList(),
     users: (json['users'] as List<dynamic>).map((e)=>PartialUser.fromJson(e)).toList(),
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "page": page.toJson(),
+    "tagTranslation": tagTranslation.map((k,v)=>MapEntry(k,v.toJson())),
+    "thumbnails": thumbnails.toJson(),
+    "illustSeries": illustSeries,
+    "requests": requests.map((e)=>e.toJson()).toList(),
+    "users": users.map((e)=>e.toJson()).toList(),
+  };
 }
 

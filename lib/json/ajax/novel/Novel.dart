@@ -18,7 +18,12 @@ class _SuggestedSettings {
     themeSize: json['themeSize'],
     themeSpacing: json['themeSpacing'],
   );}
-
+  Map<String, dynamic> toJson() => <String,dynamic>{
+    "viewMode": viewMode,
+    "themeBackground": themeBackground,
+    "themeSize": themeSize,
+    "themeSpacing": themeSpacing,
+  };
 }
 
 class Novel extends Work {
@@ -148,6 +153,60 @@ class Novel extends Work {
     commentOff: parent.commentOff,
     aiType: parent.aiType,
   );}
-
+  @override
+  Map<String, dynamic> toJson() => super.toJson()..addAll(<String,dynamic>{
+    "markerCount": markerCount,
+    "isBungei": isBungei,
+    "content": content,
+    "coverUrl": coverUrl,
+    "suggestedSettings": suggestedSettings.toJson(),
+    "marker": marker,
+    "userNovels": userNovels.map((k,v)=>MapEntry(k,v==null?null:v.toJson())),
+    "hasGlossary": hasGlossary,
+    "language": language,
+    "textEmbeddedImages": textEmbeddedImages,
+    "characterCount": characterCount,
+    "wordCount": wordCount,
+    "useWordCount": useWordCount,
+    "readingTime": readingTime,
+    "genre": genre,
+    "id": id,
+    "title": title,
+    "description": description,
+    "bookStyle": bookStyle,
+    "createDate": createDate,
+    "uploadDate": uploadDate,
+    "restrict": restrict,
+    "xRestrict": xRestrict,
+    "tags": tags,
+    "userId": userId,
+    "userName": userName,
+    "likeData": likeData,
+    "pageCount": pageCount,
+    "bookmarkCount": bookmarkCount,
+    "likeCount": likeCount,
+    "commentCount": commentCount,
+    "viewCount": viewCount,
+    "isOriginal": isOriginal,
+    "imageResponseOutData": imageResponseOutData,
+    "imageResponseData": imageResponseData,
+    "imageResponseCount": imageResponseCount,
+    "pollData": pollData,
+    "seriesNavData": seriesNavData,
+    "descriptionBoothId": descriptionBoothId,
+    "descriptionYoutubeId": descriptionYoutubeId,
+    "comicPromotion": comicPromotion,
+    "fanboxPromotion": fanboxPromotion,
+    "contestBanners": contestBanners,
+    "isBookmarkable": isBookmarkable,
+    "bookmarkData": bookmarkData,
+    "contestData": contestData,
+    "extraData": extraData,
+    "titleCaptionTranslation": titleCaptionTranslation,
+    "isUnlisted": isUnlisted,
+    "request": request,
+    "commentOff": commentOff,
+    "aiType": aiType,
+  });
 }
 
