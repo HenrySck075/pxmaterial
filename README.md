@@ -56,11 +56,11 @@ TODO: retry
 - Commenting the JSON payloads 
 - App screenshots in README
 
-# anstion and queswer
-## Q: why is the project internally called "sofieru" (1) and who is she (2)
+## anstion and queswer
+# Q: why is the project internally called "sofieru" (1) and who is she (2)
 A: 1. i forgor :skull: 2. [this is her](https://www.youtube.com/@sofieruvtuber)
 
-## Q: why does this exist 
+# Q: why does this exist 
 A: 
 1. yes pixiv app does exist, BUT, looking at the app itself, i can say its cluttered (like this app) (will fix)
 2. 1 
@@ -71,8 +71,12 @@ A:
 7. grand dad
 8. the only thing matter in this answer is 1
 
-## Q: 
+# Q: 
 A: 
 
-## Q: hi 
+# Q: hi 
 Q: hi
+
+## Credits
+- [pixiv](https://pixiv.net/en): original app, although their api is nonsensical
+- [](https://youtube.com/watch/)

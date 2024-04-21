@@ -50,7 +50,10 @@ class ContextMenuWrapper extends StatefulWidget {
 class _ContextMenuWrapperState extends State<ContextMenuWrapper> with SingleTickerProviderStateMixin {
   MenuController _menuController = MenuController();
   late final AnimationController _animation;
+  late final Animation<double> _openAnim;
+  late final Animation<double> _closeAnim;
   Offset position = Offset.zero;
+  bool _forward = true;
   @override
   void initState(){
     super.initState();
@@ -60,15 +63,20 @@ class _ContextMenuWrapperState extends State<ContextMenuWrapper> with SingleTick
     _animation = AnimationController(vsync:this,duration: Durations.medium1)..addStatusListener((status) {
       if (status == AnimationStatus.dismissed) {_menuController.close();}
       else if (!_menuController.isOpen) {_menuController.open(position: position);}
+      
     });
+    _openAnim = _animation.drive(CurveTween(curve: Curves.bounceOut));
+    _closeAnim = _animation.drive(CurveTween(curve: Easing.emphasizedAccelerate));
   }
 
   void _openContext(Offset pos) {
     if (_animation.status case AnimationStatus.forward || AnimationStatus.completed) {
       _animation.reverse();
+      _forward = false;
     } else {
       position = pos;
       _animation.forward();
+      _forward = true;
     }
   }
 
@@ -84,8 +92,8 @@ class _ContextMenuWrapperState extends State<ContextMenuWrapper> with SingleTick
         // this guarantees the close animation won't work
         onClose: _animation.reset,
         menuChildren: [
-          SizeTransition(
-            sizeFactor: _animation.drive(CurveTween(curve: Easing.emphasizedDecelerate)),
+          ScaleTransition(
+            scale: _forward?_openAnim:_closeAnim,
             child: Column( 
               children: widget.items,
             ),
