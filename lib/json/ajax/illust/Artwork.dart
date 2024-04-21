@@ -189,7 +189,7 @@ class Artwork extends Work {
     "uploadDate": uploadDate,
     "restrict": restrict,
     "xRestrict": xRestrict,
-    "tags": tags,
+    "tags": tags.toJson(),
     "userId": userId,
     "userName": userName,
     "likeData": likeData,

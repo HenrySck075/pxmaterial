@@ -102,8 +102,7 @@ class IllustsPage extends StatelessWidget {
                 Text("#${e.tag}",style:const TextStyle(fontSize: 18,fontWeight:FontWeight.bold))
               ]))).toList()
             )),
-            const SizedBox(height: 50,),
-            // Recommended works tagged #tag
+            const SizedBox(height: 8,),
             // Newest booths
             header("Newest booths by following"),
             SizedBox( 
@@ -113,6 +112,8 @@ class IllustsPage extends StatelessWidget {
                 children: mainresp.boothItems.map((e) => PxBooth(data: e, getUser: getUser)).toList(),
               ),
             ),
+            // Recommended works tagged #tag
+            const SizedBox(height: 8,),
             ...concat2d(
               List.from(mainresp.page.recommendByTag.map((e)=>[
                 GestureDetector( 

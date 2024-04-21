@@ -4,8 +4,8 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sofieru/appdata.dart';
 
-MenuStyle _style = const MenuStyle(padding: MaterialStatePropertyAll(EdgeInsets.all(4)));
 ButtonStyle _btnStyle = ButtonStyle(shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))));
 
 class ContextMenuItem extends StatelessWidget {
@@ -31,7 +31,6 @@ class ContextMenuItem extends StatelessWidget {
   :SubmenuButton(
     menuChildren: items!, 
     leadingIcon: icon!=null?Icon(icon):null,
-    menuStyle: _style,
     style: _btnStyle,
     child: Text(label),
   );
@@ -65,8 +64,9 @@ class _ContextMenuWrapperState extends State<ContextMenuWrapper> with SingleTick
       else if (!_menuController.isOpen) {_menuController.open(position: position);}
       
     });
-    _openAnim = _animation.drive(CurveTween(curve: Curves.bounceOut));
-    _closeAnim = _animation.drive(CurveTween(curve: Easing.emphasizedAccelerate));
+    _openAnim = _animation.drive(CurveTween(curve: Easing.emphasizedDecelerate));
+    // if this is the same, revert
+    _closeAnim = _animation.drive(CurveTween(curve: Easing.emphasizedAccelerate.flipped));
   }
 
   void _openContext(Offset pos) {
@@ -87,21 +87,28 @@ class _ContextMenuWrapperState extends State<ContextMenuWrapper> with SingleTick
         if (d.kind == PointerDeviceKind.touch) _openContext(d.localPosition);
       },
       onSecondaryTapUp: (d)=>_openContext(d.localPosition),
-      child: MenuAnchor(
-        controller: _menuController,
-        // this guarantees the close animation won't work
-        onClose: _animation.reset,
-        menuChildren: [
-          ScaleTransition(
-            scale: _forward?_openAnim:_closeAnim,
-            child: Column( 
-              children: widget.items,
-            ),
-          )
-        ],
-        style: _style,
-        child: widget.child,
-      ),
+      child: TapRegion(
+        consumeOutsideTaps: nullOnThrow(() => _menuController.isOpen, [], {})??false,
+        onTapOutside: (x)=>_animation.reverse(),
+        child: MenuAnchor(
+          // to prevent the TapRegion from internally created (its deprecated so i think consumeOutsideTap will swap this)
+          anchorTapClosesMenu: false,
+          // we manage our own
+          consumeOutsideTap: false,
+        
+          controller: _menuController,
+          onClose: _animation.reset,
+          menuChildren: [
+            SizeTransition(
+              sizeFactor: _forward?_openAnim:_closeAnim,
+              child: Column( 
+                children: widget.items,
+              ),
+            )
+          ],
+          child: widget.child,
+        ),
+      )
     );
   }
 }

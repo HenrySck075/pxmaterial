@@ -24,6 +24,7 @@ class dynamic:
 path = sys.argv[2]
 useStdin = path=="-"
 d: dict[str,Any] = json.loads(open(path,encoding="utf-8").read() if not useStdin else input())
+if d.get("$skip",False): exit()
 if not useStdin:
     cachePath = os.path.join(".cache",path)
     if os.path.exists(cachePath) and json.load(open(cachePath,encoding="utf-8")) == d: 
@@ -91,6 +92,7 @@ def generate(data, name=""):
     if "$name" in data: name = data["$name"]
     if "$type" in data: return data["$type"]
     doExtends = "$extends" in data
+    copyStruct = data.get("$copy", data.get("$extends",""))
     supers=[]
     extends = ""
     out = f"class {name} "
@@ -110,15 +112,17 @@ def generate(data, name=""):
     g = checkFalsy+nullable
     if "$all" in checkFalsy: checkFalsy = list(data.keys())
     if "$all" in nullable: nullable = list(data.keys())
-
-    if doExtends: 
-        c:dict = json.load(open(pathparse(data["$extends"],"./payloads/ajax/")))
-        supers = list(c.keys())
-        extends = cry(data["$extends"])
-        tryimport(pathparse(data['$extends'],'package:sofieru/json/ajax/'),extends)
+    c:dict = {}
+    if copyStruct != "":
+        c = json.load(open(pathparse(data["$copy"],"./payloads/ajax/")))
         data = data | c 
-        #checkFalsy.extend(c.get("$checkFalsy",[]))
         nullable.extend(c.get("$nullable",[]))
+        checkFalsy.extend(c.get("$checkFalsy",[]))
+    if doExtends: 
+        extends = cry(data["$copy"])
+        supers = list(c.keys())
+        tryimport(pathparse(data['$extends'],'package:sofieru/json/ajax/'),extends)
+        #checkFalsy.extend(c.get("$checkFalsy",[]))
         f = cry(data['$extends'])
         subprocess.run(os.environ.get("interpreter",sys.executable)+f" json2dart.py {f} -",shell=True,input=json.dumps(c).encode())
         pat = os.path.dirname(pathparse(data['$extends'],"json/ajax/"))

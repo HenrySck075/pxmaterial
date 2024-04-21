@@ -1,4 +1,18 @@
 {
-  "tagTranslation": "",
-  "thumbnails": ""
+    "$skip": true,
+    "tagTranslation": {
+        "-": {"$schema": "TagTranslation"}
+    },
+    "illustSeries": [
+        {"$schema": "../series/IllustSeries"}
+    ],
+    "thumbnails": {
+        "$schema": "Thumbnails"
+    },
+    "requests": [
+        {"$schema": "../commission/page/requests/Request"}
+    ],
+    "users": [
+        {"$schema": "../user/PartialUser"}
+    ]
 }

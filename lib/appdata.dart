@@ -57,7 +57,13 @@ class _yourwatchhistory {
   _yourwatchhistory(this._datadb) : insert = _datadb.prepare("INSERT OR IGNORE INTO history (id,jsondata) VALUES (?,?)"), remove = _datadb.prepare("DELETE FROM history WHERE id = ?");
   void addHistory(JSON work) {
     debugPrint(work["id"].toString());
-    insert.execute([int.parse(work["id"]??"0"),jsonEncode(work..["url"]=work["urls"]!["thumb"]!)]);
+    insert.execute([
+      int.parse(work["id"]??"0"),
+      jsonEncode(work
+        ..["url"]=work["urls"]!["thumb"]!
+        ..["tags"]=work["tags"]["tags"].map((e)=>e["tag"]).toList()
+      )
+    ]);
   }
   removeHistory(int id) {
     remove.execute([id]);

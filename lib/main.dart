@@ -125,16 +125,19 @@ void main() async {
               GoRoute(
                 parentNavigatorKey: shellKeys[0],
                 path: "/",
+                name: "/",
                 builder: (nuh,uh)=>const home.IllustsPage()
               ),
               GoRoute(
                 parentNavigatorKey: shellKeys[0],
                 path: "/manga",
+                name: "/manga",
                 builder: (nuh,uh)=>const Placeholder()
               ),
               GoRoute(
                 parentNavigatorKey: shellKeys[0],
                 path: "/novel",
+                name: "/novel",
                 builder: (nuh,uh)=>const home.NovelsPage()
               )
             ], 
@@ -145,7 +148,11 @@ void main() async {
             parentNavigatorKey: pa,
             builder: (no,care,c)=>LatestFollowingPage(),
             routes: [
-              GoRoute(path:"/following",builder: (ctx,kd)=>Placeholder())
+              GoRoute(
+                path:"/following",
+                name:"/following",
+                builder: (ctx,kd)=>Placeholder()
+              )
             ]
           ),
           ShellRoute( 
@@ -156,7 +163,7 @@ void main() async {
                 parentNavigatorKey: shellKeys[1],
                 builder: (context, state, child) => discovery.Works(),
                 routes: [
-                  GoRoute(path: "/discovery",builder: (ctx,s)=>const Placeholder()),
+                  GoRoute(name: "/discovery",path: "/discovery",builder: (ctx,s)=>const Placeholder()),
                   GoRoute(path: "/novel/discovery",builder: (ctx,s)=>const Placeholder()),
                 ]
               ),
@@ -198,6 +205,7 @@ void main() async {
           GoRoute(
             parentNavigatorKey: pa,
             path: "/request",
+            name: "/request",
             builder: (h,h2) => request.HomePage(),
             routes: [
               GoRoute( 
@@ -398,7 +406,7 @@ class _ShellPageState extends State<ShellPage> {
           pageIndex = value;
         });
         // this fixes the issue
-        navigate(e[value],method: e.contains(currentRouteURI().path) ? "replace" : "push");
+        GoRouter.of(context).goNamed(e[value]);
       },
       children: navs
     );

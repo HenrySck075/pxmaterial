@@ -6,6 +6,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:sofieru/appdata.dart';
+import 'package:sofieru/context_menu.dart';
+import 'package:sofieru/pages/view/artworkview.dart' show ArtworkImageView;
 import 'package:sofieru/pages/view/layout.dart';
 import 'package:sofieru/shared.dart';
 import 'package:archive/archive.dart' as arch;
@@ -68,11 +70,14 @@ class _ArtworkPageState extends State<ArtworkPage> {
         Widget artworkImageBuilder(idx,i,w,h,{Function()? onTap,double opacity = 1}){
           var ver = Padding(
             padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-            child:ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 350, maxHeight: 1000),
-              child: Hero(tag: "${id}_p$idx", child: pxImageFlutter(i["urls"]["regular"],placeholder:Skeletonizer(child:Skeleton.leaf(
-                child: Material(child: SizedBox(width:w,height:h),) 
-              )),width: w, height: h, opacity: AlwaysStoppedAnimation(opacity)))
+            child:FractionallySizedBox(
+              widthFactor: 0.4,
+              child:ConstrainedBox(
+                constraints: const BoxConstraints(minWidth: 350,),
+                child: Hero(tag: "${id}_p$idx", child: pxImageFlutter(i["urls"]["regular"],placeholder:Skeletonizer(child:Skeleton.leaf(
+                  child: Material(child: SizedBox(width:w,height:h),) 
+                )),width: w, height: h, opacity: AlwaysStoppedAnimation(opacity)))
+              )
             )
           );
             
@@ -99,7 +104,12 @@ class _ArtworkPageState extends State<ArtworkPage> {
               children: List.from(enumerate(op!, (idx,i){
 
                 final (w,h) = calcDim(i["width"],i["height"]);
-                return artworkImageBuilder(idx,i,w,h,onTap: ()=>navigate("/artwork/view/$id?index=$idx",extra: i));}
+                return ContextMenuWrapper(
+                  items: [
+                    ContextMenuItem(label: "Download", onPressed: ()=>ArtworkImageView.showDownloadDialog(context, i),)
+                  ],
+                  child: artworkImageBuilder(idx,i,w,h,onTap: ()=>navigate("/artwork/view/$id?index=$idx",extra: i))
+                );}
               ))
             )
             // manga view

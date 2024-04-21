@@ -10,14 +10,14 @@ class ArtworkImageView extends StatelessWidget {
   JSON? data;
   String heroTag;
   ArtworkImageView({super.key, this.data, required this.heroTag});
-  void downlo(BuildContext context, String quality) {
-    String? fn = data!["urls"][quality]?.split("/").last;
+  static void download(BuildContext context, String quality, JSON data) {
+    String? fn = data["urls"][quality]?.split("/").last;
     var scaf = ScaffoldMessenger.of(context);
     if (fn==null) scaf.showSnackBar(const SnackBar(content: Text("Invalid image size")));
     scaf.showSnackBar(
       SnackBar(content: Text("Downloading $fn"))
     );
-    pxRequestUnprocessed(data!["urls"][quality]!).then((value)async{
+    pxRequestUnprocessed(data["urls"][quality]!).then((value)async{
       final directory = await getDownloadsDirectory() ?? await getApplicationDocumentsDirectory();
       await File("${directory.path}/$fn").writeAsBytes(value.bodyBytes);
       scaf.showSnackBar(
@@ -31,6 +31,21 @@ class ArtworkImageView extends StatelessWidget {
     }
     );
   }
+  static void showDownloadDialog(BuildContext context, JSON data)=>showDialog(
+    context: context, builder: (c)=>SimpleDialog(
+      title: const Text("Select quality"),
+      children: [
+        SimpleDialogOption(
+          onPressed: ()=>ArtworkImageView.download(context, "original", data),
+          child: const Text("Original quality"),
+        ),
+        SimpleDialogOption(
+          onPressed: ()=>ArtworkImageView.download(context, "regular", data),
+          child: const Text("SD quality"),
+        )
+      ],
+    )
+  );
   @override
   Widget build(context) {
     bool pendingDataGather = false;
@@ -43,21 +58,7 @@ class ArtworkImageView extends StatelessWidget {
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         actions: [
-          IconButton(onPressed: ()=>showDialog(
-            context: context, builder: (c)=>SimpleDialog(
-              title: const Text("Select quality"),
-              children: [
-                SimpleDialogOption(
-                  onPressed: ()=>downlo(context, "original"),
-                  child: const Text("Original quality"),
-                ),
-                SimpleDialogOption(
-                  onPressed: ()=>downlo(context, "regular"),
-                  child: const Text("SD quality"),
-                )
-              ],
-            )
-          ), icon: const Icon(Icons.download))
+          IconButton(onPressed: ()=>ArtworkImageView.showDownloadDialog(context, data!), icon: const Icon(Icons.download))
         ],
       ),
       backgroundColor: Colors.black,
