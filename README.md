@@ -45,7 +45,7 @@ flutter build {target}
 
 the issues tab
 
-## Known issues
+# Known issues
 - Some illustrations does not have their thumbnail displaying as pixiv randomly closes the cdn connection
 TODO: retry
 - ~~newly-implemented ugoira displaying method currently doesn't work~~ i deleted it. Its last existence is on [this commit](https://github.com/HenrySck075/pxmaterial/commit/98ac1836241f2a8908af751faf8882d349021e9e)
@@ -56,11 +56,11 @@ TODO: retry
 - Commenting the JSON payloads 
 - App screenshots in README
 
-## anstion and queswer
+# anstion and queswer
 # Q: why is the project internally called "sofieru" (1) and who is she (2)
 A: 1. i forgor :skull: 2. [this is her](https://www.youtube.com/@sofieruvtuber)
 
-# Q: why does this exist 
+## Q: why does this exist 
 A: 
 1. yes pixiv app does exist, BUT, looking at the app itself, i can say its cluttered (like this app) (will fix)
 2. 1 
@@ -71,12 +71,12 @@ A:
 7. grand dad
 8. the only thing matter in this answer is 1
 
-# Q: 
+## Q: 
 A: 
 
-# Q: hi 
+## Q: hi 
 Q: hi
 
-## Credits
+# Credits
 - [pixiv](https://pixiv.net/en): original app, although their api is nonsensical
 - [](https://youtube.com/watch/)
