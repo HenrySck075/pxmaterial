@@ -8,7 +8,7 @@ import 'package:sofieru/json/ajax/illust/PartialArtwork.dart';
 import 'package:sofieru/json/ajax/shared/Booth.dart';
 import 'package:sofieru/json/ajax/user/User.dart';
 import 'package:sofieru/json/ajax/user/PartialUser.dart';
-import 'package:sofieru/shared.dart' show pxRequest, navigate, JSON, currentRouteURI;
+import 'package:sofieru/shared.dart' show pxRequest, navigate, JSON, currentRouteURI, retry;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_image/flutter_image.dart';
@@ -124,7 +124,7 @@ extension ImGenuinelyDyingHelp on HttpFileService {
 CachedNetworkImage pxImage(String url, {double? width, double? height, Widget? placeholder, BoxFit? fit}) => CachedNetworkImage(imageUrl:url,httpHeaders: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"}, placeholder: (c,d)=>placeholder??SizedBox(width: width,height: height,),width: width, height: height,fit: fit,);
 
 Image pxImageFlutter(String url, {double? width, double? height, Widget? placeholder,Animation<double>? opacity, BoxFit? fit}) => Image(
-  image: NetworkImageWithRetry(url,headers: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"},), 
+  image: NetworkImageWithRetry(url,headers: const {"upgrade-insecure-requests":"1","referer":"https://www.pixiv.net/en"},fetchStrategy: retry), 
   width: width, 
   height: height, 
   frameBuilder: (ctx,w,f,isSyncLoaded)=>w, // will figure out how to omit this
@@ -446,11 +446,11 @@ Map<String,String> _svgs = {
   "tumblr": '<svg data-v-bc32edee="" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path data-v-bc32edee="" fill="#f5f5f5" fill-rule="evenodd" d="M18.0330858,26.25 C14.9126025,26.25 12.5865662,24.6445902 12.5865662,20.8036133 L12.5865662,14.6523205 L9.75,14.6523205 L9.75,11.321564 C12.8717856,10.5111758 14.1767624,7.8256825 14.3278375,5.5 L17.568139,5.5 L17.568139,10.7812618 L21.3489249,10.7812618 L21.3489249,14.6523205 L17.568139,14.6523205 L17.568139,20.0085917 C17.568139,21.6141317 18.3782144,22.1690191 19.668865,22.1690191 L21.5,22.1690191 L21.5,26.25 L18.0330858,26.25"></path></svg>',
   "message": '<svg viewBox="0 0 32 32" class="sc-1l12h90-0 dShozY"><path d="M28,10.7981496 L16,18.7981496 L4,10.7981496 L4,9 C4,7.8954305 4.8954305,7 6,7 L26,7 C27.1045695,7 28,7.8954305 28,9 L28,10.7981496 Z M28,13.2018504 L28,23 C28,24.1045695 27.1045695,25 26,25 L6,25 C4.8954305,25 4,24.1045695 4,23 L4,13.2018504 L16,21.2018504 L28,13.2018504 Z"></path></svg>'
 };
-Row AuthorInfo_Medias(User dd,BuildContext ctx){
+Row AuthorInfo_Medias(User dd,BuildContext ctx,{MainAxisAlignment alignment = MainAxisAlignment.center}){
   var th = Theme.of(ctx);
   ColorFilter svgColorFilter = ColorFilter.mode(th.brightness==Brightness.dark?Colors.white:Colors.black, BlendMode.srcIn);
   return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
+    mainAxisAlignment: alignment,
     mainAxisSize: MainAxisSize.min,
     children: [
       if (dd.webpage!=null) Padding(
@@ -613,4 +613,5 @@ class pixivision extends StatelessWidget {
 }
 
 /// meaning for every time i use MappedIterable in the code
+/// TODO: wtf is this name
 Iterable<T> insertionBuilder<T extends Widget>(Iterable<Widget> list, T Function(Widget) builder) => list.map(builder);

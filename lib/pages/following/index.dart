@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'works/nav.dart';
 
 class LatestFollowingPage extends StatefulWidget {
   @override
@@ -23,7 +24,7 @@ class _LatestFollowingPageState extends State<LatestFollowingPage> with SingleTi
         idx = v;
       }),controller: _shut,),toolbarHeight: 0,),
       body: TabBarView(controller: _shut,children: [
-        Placeholder(), Placeholder(), Placeholder()
+        WorksFromFollowing(), Placeholder(), Placeholder()
       ]),
     );
   }

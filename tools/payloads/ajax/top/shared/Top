@@ -1,0 +1,17 @@
+{
+  "$desc": {
+    "$this": "Represents the payload of `/ajax/top/illust` request.\nObjects like works, requests, ... are in partial",
+    "tagTranslation": "Tag translations",
+    "thumbnails": "Works data",
+    "illustSeries": "i think this is deprecated",
+    "requests": "Request objects",
+    "users": "User objects",
+    "page": "Data to build page content (need better explaination)"
+  },
+  "$skip": true,
+  "$copy": "$/shared/WorksResultPayload",
+  "page": {},
+  "boothItems": [
+    {"$schema": "$/shared/Booth"}
+  ]
+}

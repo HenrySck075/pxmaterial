@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:sofieru/json/ajax/illust/PartialArtwork.dart' show PartialArtwork;
 import 'package:sofieru/json/ajax/shared/Work.dart' show Work;
 class _Urls {

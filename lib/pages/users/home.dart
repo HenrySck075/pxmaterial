@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
                 returnSelf<List<MapEntry<dynamic, dynamic>>>((data["illusts"] is Map?data["illusts"].entries.toList():[]) // illust entries
                 ..addAll(data["manga"] is Map?data["manga"].entries:const Iterable<MapEntry<String,dynamic>>.empty()) // add all manga entries // i adore forced types
                 ..sort((e1,e2)=>DateTime.parse(e1.value["createDate"]).millisecondsSinceEpoch.compareTo(DateTime.parse(e2.value["createDate"]).millisecondsSinceEpoch)) // sort
-                ).sublist(0,18).map((e) => PxArtwork(data: e.value))
+                ).sublist(0,18).map((e) => PxArtwork.fromJson(payload: e.value))
               )
             ],
             // similar to above
@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
               artworkGrid(
                 returnSelf<List<dynamic>>(data["requestPostWorks"]["artworks"].toList()
                 ..sort((e1,e2)=>DateTime.parse(e1["createDate"]).millisecondsSinceEpoch.compareTo(DateTime.parse(e2["createDate"]).millisecondsSinceEpoch))
-                ).map((e) => PxArtwork(data: e))
+                ).map((e) => PxArtwork.fromJson(payload: e))
               )
             ],
           ]

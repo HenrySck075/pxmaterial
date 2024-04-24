@@ -67,37 +67,32 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
           // Reference: Google Contacts
           headerSliverBuilder: (ctx,v)=>[
             SliverList(
-              delegate:SliverChildListDelegate(List.from(insertionBuilder([
+              delegate:SliverChildListDelegate([
                  if (data.background?.url!=null) Container(
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                  height: 160,
+                  height: 280,
                   clipBehavior: Clip.hardEdge,
-                  child:pxImage(data.background!.url,width:MediaQuery.sizeOf(ctx).width*0.9)
+                  child:pxImage(data.background!.url,width:MediaQuery.sizeOf(ctx).width*0.9,fit: BoxFit.fitWidth)
                 ),
-                CircleAvatar(backgroundImage: pxImageFlutter(data.imageBig).image),
-                Text(data.name, style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                )),
-                Card(
-                  child: ListenableBuilder(listenable: _toggleDesc, builder: (ctx,whar)=>Padding(
-                      padding: const EdgeInsets.all(16),
-                      child:Column(
-                        children:[
-                          data.comment!=""?GestureDetector(onTap:(){_toggleDesc.value = !_toggleDesc.value;},child:Text(_toggleDesc.value?data.comment:"View description")):const Text("No description provided"), 
-                          const SizedBox(height:4),
-                          AuthorInfo_Medias(data,ctx),
-                          const SizedBox(height:4),
-                          Text("${data.following} following")
-                        ]
-                      )
-                    )
-                  )
-                ),
-              ], (w)=>Center(child:w)))),
+                Row(mainAxisSize: MainAxisSize.min,children: [
+                  CircleAvatar(backgroundImage: pxImageFlutter(data.imageBig,width: 50).image),
+                  const SizedBox(width: 4,),
+                  Column(mainAxisSize: MainAxisSize.min,crossAxisAlignment:CrossAxisAlignment.start, children: [
+                    Text(data.name, style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 36,
+                    )),
+                    Text("${data.following} following"),
+                  ])
+                ]),
+                const SizedBox(height:4),
+                data.comment!=""?GestureDetector(onTap:(){print("joe");},child:Text(data.comment,maxLines:2,overflow: TextOverflow.ellipsis,)):const Text("No description provided"), 
+                const SizedBox(height:4),
+                AuthorInfo_Medias(data,ctx,alignment: MainAxisAlignment.start),
+              ]),
             ),
             SliverToBoxAdapter(
-              child: StickyHeader(header:TabBar(tabs: habibi.map((e) => e.$2).toList(),onTap: (v)=>navigate("/users/$id/${habibi[v].$1}"),
+              child: StickyHeader(header:WidthDependentTabBar(tabs: habibi.map((e) => e.$2).toList(),onTap: (v)=>navigate("/users/$id/${habibi[v].$1}"),
                 controller: _tabCtrl,
               ),content:const SizedBox(width:1,height:1,),
             )),

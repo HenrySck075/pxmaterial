@@ -48,6 +48,8 @@ extension m on NavigatorState {
     }());
   }
 }
+
+
 void dumpErrorToConsole(details)=>FlutterError.dumpErrorToConsole(details,forceReport:true);
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

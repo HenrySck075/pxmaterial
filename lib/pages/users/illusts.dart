@@ -30,7 +30,7 @@ class _IllustPageState extends State<IllustPage> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        futureWidget(
+        if (widget.illustIds.length!=0) futureWidget(
           future: meta!,
           builder: (ctx,snap) {
             JSON data = snap.data!;
@@ -40,7 +40,7 @@ class _IllustPageState extends State<IllustPage> {
               ).map((e) => PxArtwork(data: PartialArtwork.fromJson(e.value))).toList()
             );
           }
-        ),
+        ) else const Text("nothing lel"),
         NumberPaginator(
           numberPages: totalPages,
           initialPage: widget.page,

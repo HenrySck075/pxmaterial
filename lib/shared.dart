@@ -10,11 +10,22 @@ import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 export 'package:sofieru/silly.dart';
+import 'package:flutter_image/network.dart';
 
 import 'package:window_size/window_size.dart';
 
 /// automatically set by tools/version.py
 String apiVersion = "471f117fcde85f9ce382c9d945dc8dd854ff4358";
+
+Future<FetchInstructions> retry(Uri uri, FetchFailure? fail) async {
+  if (fail != null) {
+    if ([403,500].contains(fail.httpStatusCode)) {return FetchInstructions.giveUp(uri: uri);}
+    else {return await Future.delayed(Duration(milliseconds:500*fail.attemptCount), ()=>FetchInstructions.attempt(uri: uri, timeout: Duration.zero));}
+  }
+  else {
+    return FetchInstructions.giveUp(uri: uri);
+  }
+}
 
 class Breakpoints {
   BuildContext context;
@@ -26,6 +37,28 @@ class Breakpoints {
   bool get extended=>_q.size.width>=840;
   bool get large=>_q.size.width>=1200&&_q.size.width<1600;
   bool get extralarge=>_q.size.width>=1600;
+
+  bool get mediumOrMore=>medium||extended;
+  bool get largeOrMore=>large||extralarge;
+}
+/// skill issue
+class WidthDependentTabBar extends StatelessWidget {
+  List<Widget> tabs;
+  TabController? controller;
+  void Function(int)? onTap;
+  WidthDependentTabBar({
+    super.key, 
+    required this.tabs, 
+    this.controller,
+    this.onTap,
+  });
+  @override
+  Widget build(ctx)=>TabBar(
+    tabs: tabs,
+    controller: controller,
+    isScrollable: Breakpoints(context: ctx).mediumOrMore,
+    tabAlignment:TabAlignment.start
+  );
 }
 
 List<T> trySublist<T>(List<T> list, int start, int? end) {

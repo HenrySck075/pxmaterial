@@ -28,7 +28,7 @@ class _ShellPageState extends State<ShellPage> with SingleTickerProviderStateMix
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
-        bottom:TabBar(
+        bottom:PreferredSize(preferredSize:Size.fromHeight(80),child:WidthDependentTabBar(
           controller: _ctrl,
           tabs: const [
             Tab(
@@ -47,7 +47,7 @@ class _ShellPageState extends State<ShellPage> with SingleTickerProviderStateMix
           onTap: (a){
             navigate(h[a]);
           },
-        )
+        ))
       ),
       body: TabBarView(
         controller: _ctrl,

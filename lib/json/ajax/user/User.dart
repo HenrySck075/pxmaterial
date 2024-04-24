@@ -40,15 +40,15 @@ class _SocialContent {
 }
 
 class _Region {
-  final String name;
-  final String region;
-  final String prefecture;
-  final String privacyLevel;
+  final String? name;
+  final String? region;
+  final String? prefecture;
+  final String? privacyLevel;
   _Region({
-    required this.name,
-    required this.region,
-    required this.prefecture,
-    required this.privacyLevel,
+    this.name,
+    this.region,
+    this.prefecture,
+    this.privacyLevel,
   });
   factory _Region.fromJson(Map<String, dynamic> json) {
     return _Region(
@@ -169,7 +169,7 @@ class User {
   final PrivacyLeveledData gender;
   final PrivacyLeveledData job;
   /// User's workspace specs
-  final _Workspace workspace;
+  final _Workspace? workspace;
   /// Whether or not the account is pixiv's account
   final bool official;
   final String? group;
@@ -199,7 +199,7 @@ class User {
     required this.birthDay,
     required this.gender,
     required this.job,
-    required this.workspace,
+    this.workspace,
     required this.official,
     required this.group,
   });
@@ -230,7 +230,7 @@ class User {
     birthDay: PrivacyLeveledData.fromJson(json['birthDay']),
     gender: PrivacyLeveledData.fromJson(json['gender']),
     job: PrivacyLeveledData.fromJson(json['job']),
-    workspace: _Workspace.fromJson(json['workspace']),
+    workspace: json['workspace'] == null?null:_Workspace.fromJson(json['workspace']),
     official: json['official'],
     group: json['group'],
   );}
@@ -260,7 +260,7 @@ class User {
     "birthDay": birthDay.toJson(),
     "gender": gender.toJson(),
     "job": job.toJson(),
-    "workspace": workspace.toJson(),
+    "workspace": workspace?.toJson(),
     "official": official,
     "group": group,
   };
