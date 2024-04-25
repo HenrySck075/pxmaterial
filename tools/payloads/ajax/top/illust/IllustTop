@@ -1,319 +1,218 @@
 {
-  "$desc": {
-    "$this": "Represents the payload of `/ajax/top/illust` request.\nObjects like works, requests, ... are in partial",
-    "tagTranslation": "Tag translations",
-    "thumbnails": "Works data",
-    "illustSeries": "i think this is deprecated",
-    "requests": "Request objects",
-    "users": "User objects",
-    "page": "Data to build page content (need better explaination)"
-  },
-  "$extends": "../shared/Top",
-  "page": {
-    "recommendByTag": [
-      {
-        "tag": "けもみみ",
-        "ids": [
-          "116098551",
-          "91849208",
-          "116073847",
-          "116208040",
-          "96917363",
-          "116097388",
-          "96588098",
-          "95981643",
-          "97777065",
-          "112576797",
-          "98952817",
-          "90917306"
-        ]
-      }
+    "$copy": "$/shared/WorksResultPayloads",
+    "boothItems": [
+        {
+            "$schema": "$/shared/Booth"
+        }
     ],
-    "recommendUser": [
-      {
-        "id": 88494903,
-        "illustIds": [
-          "116052797",
-          "115609304",
-          "114716726"
+    "page": {
+        "tags": [
+            {
+                "tag": "bluearchive",
+                "ids": [
+                    115577093,
+                    112207482,
+                    112187883
+                ]
+            },
+                        {
+                "tag": "魅惑の谷間",
+                "ids": [
+                    67407348,
+                    68126965,
+                    92390436
+                ]
+            }
         ],
-        "novelIds": []
-      }
-    ],
-    "boothFollowItemIds": [
-      "5430675",
-      "5430673",
-      "5429107",
-      "5430659",
-      "5430630",
-      "5429244"
-    ],
-    "sketchLiveFollowIds": [],
-    "sketchLivePopularIds": [],
-    "myFavoriteTags": [],
-    "newPost": [
-      "116257992",
-      "116257991",
-      "116257990",
-      "116257989",
-      "116257987",
-      "116257984",
-      "116257981",
-      "116257980",
-      "116257976",
-      "116257975",
-      "116257974",
-      "116257973",
-      "116257971",
-      "116257970",
-      "116257969",
-      "116257967",
-      "116257966",
-      "116257963",
-      "116257962",
-      "116257961",
-      "116257960",
-      "116257958",
-      "116257956",
-      "116257953",
-      "116257951",
-      "116257950",
-      "116257949",
-      "116257948",
-      "116257947",
-      "116257944",
-      "116257943",
-      "116257940",
-      "116257938",
-      "116257937",
-      "116257934",
-      "116257931"
-    ],
-    "trendingTags": [
-      {
-        "tag": "BlueArchive",
-        "trendingRate": 5,
-        "ids": [
-          97761601,
-          102150379,
-          94568051
+        "follow": [
+            118116769,
+            118115620,
+            118115568,
+            118088559,
+            118063779,
+            118061786,
+            117973561,
+            116525927,
+            116524244,
+            116518217,
+            116488961,
+            116487157
+        ],
+        "mypixiv": [],
+        "recommend": {
+            "ids": [
+                "115846636",
+                "90917306",
+                "97024682",
+                "74036678",
+                "117993217",
+                "99455666",
+                "117972087",
+                "118016032",
+                "117946421",
+                "117878980",
+                "106739804"
+            ]
+        },
+        "recommendByTag": [
+            {
+                "tag": "オリジナル",
+                "ids": [
+                    "118121092",
+                    "100794268",
+                    "118044561",
+                    "87335249",
+                    "118052347",
+                    "90240043",
+                    "117993217"
+                ]
+            }
+        ],
+        "ranking": {
+            "items": [
+                {
+                    "rank": "1",
+                    "id": "118050711"
+                }
+            ],
+            "date": "20240423"
+        },
+        "pixivision": [
+            {
+                "id": "9694",
+                "title": "Drawings of Girls With Eye Patches - A Sweet Enigma ♡",
+                "thumbnailUrl": "https://i.pximg.net/c/1200x630_q80_a2_g1_u1_icr0.008:0.271:0.825:0.656/img-original/img/2023/11/02/08/17/34/113066209_p0.jpg",
+                "url": "https://www.pixivision.net/en/a/9694"
+            },
+            {
+                "id": "9633",
+                "title": "Drawings Featuring Blue Flowers - Bringing Out the Beauty in You",
+                "thumbnailUrl": "https://i.pximg.net/c/1200x630_q80_a2_g1_u1_icr0:0.224:1:0.965/img-original/img/2024/01/20/11/11/39/115319732_p0.png",
+                "url": "https://www.pixivision.net/en/a/9633"
+            },
+            {
+                "id": "9542",
+                "title": "Themed Color Palettes for Your Next Masterpiece - From Traditional to Retro Pop",
+                "thumbnailUrl": "https://i.pximg.net/c/1200x630_q80_a2_g1_u1_icr0.016:0:0.989:0.682/img-original/img/2021/09/01/19/36/09/92433066_p0.png",
+                "url": "https://www.pixivision.net/en/a/9542"
+            },
+            {
+                "id": "9473",
+                "title": "Drawings Featuring Station Platforms - Where Stories End and Begin",
+                "thumbnailUrl": "https://i.pximg.net/c/1200x630_q80_a2_g1_u1_icr0:0.111:1:0.854/img-original/img/2023/05/19/14/11/10/108252396_p0.png",
+                "url": "https://www.pixivision.net/en/a/9473"
+            }
+        ],
+        "recommendUser": [
+            {
+                "id": 45698448,
+                "illustIds": [
+                    "118046838",
+                    "117776330",
+                    "117176989"
+                ],
+                "novelIds": [
+                    "7"
+                ]
+            }
+        ],
+        "contestOngoing": [
+            {
+                "slug": "MapleStory_lynn",
+                "type": "illust",
+                "name": "『メイプルストーリー』「森の子 リン」実装記念！アバターデザインコンテスト",
+                "url": "https://www.pixiv.net/contest/MapleStory_lynn",
+                "iconUrl": "https://i.pximg.net/imgaz/2024/04/18/18/59/00/contest_icon_778.jpg",
+                "workIds": [
+                    118115568,
+                    118138922
+                ],
+                "isNew": true
+            } 
+        ],
+        "contestResult": [
+            {
+                "slug": "valentine2024",
+                "type": "illust",
+                "name": "Work posting project \"Sweet Valentine 2024\"",
+                "url": "https://www.pixiv.net/contest/valentine2024",
+                "iconUrl": "https://i.pximg.net/imgaz/2024/02/01/17/04/49/contest_icon_755.png",
+                "winnerWorkIds": [
+                    115689143
+                ]
+            }
+        ],
+        "editorRecommend": [
+            {
+                "illustId": "117771137",
+                "comment": "名探偵のパパに憧れているライム。探偵事務所で留守番中、訪ねてきた子供達に迷子のネコちゃん探しを依頼される。泣いている子供たちをほっとけなくてパパのかわりに「謎解きのミス・ライム」が出動！\r\n無事に迷いネコは見つかるか、ライムの推理を一緒に見守りましょう！"
+            }
+        ],
+        "boothFollowItemIds": [
+            "5643481",
+            "5500013",
+            "5430675",
+            "5430673",
+            "5429107",
+            "5430659"
+        ],
+        "sketchLiveFollowIds": [],
+        "sketchLivePopularIds": [],
+        "myFavoriteTags": [],
+        "newPost": [
+            "118140976",
+            "118140974",
+            "118140972",
+            "118140970",
+            "118140968",
+            "118140906",
+            "118140900",
+            "118140898",
+            "118140897",
+            "118140890",
+            "118140889",
+            "118140887"
+        ],
+        "trendingTags": [
+            {
+                "tag": "GenshinImpact",
+                "trendingRate": -7,
+                "ids": [
+                    92390436,
+                    92510896,
+                    80567870
+                ]
+            } 
+        ],
+        "completeRequestIds": [
+            "217894",
+            "214740",
+            "202655",
+            "208195",
+            "202910",
+            "209993",
+            "211220",
+            "205493",
+            "214239",
+            "195417",
+            "207759",
+            "210199"
+        ],
+        "userEventIds": [
+            "117513813",
+            "117909908",
+            "117656163",
+            "117802849",
+            "117421473",
+            "117802190",
+            "117802290",
+            "117761778",
+            "117633898",
+            "117805388",
+            "117316603",
+            "117484719",
+            "117970515",
+            "117483697"
         ]
-      },
-      {
-        "tag": "fanart",
-        "trendingRate": -1,
-        "ids": [
-          87387148,
-          89843345,
-          91046118
-        ]
-      },
-      {
-        "tag": "girl",
-        "trendingRate": -9,
-        "ids": [
-          66747292,
-          97931592,
-          89843345
-        ]
-      },
-      {
-        "tag": "VTuber",
-        "trendingRate": 4,
-        "ids": [
-          73518990,
-          83603397,
-          89604619
-        ]
-      },
-      {
-        "tag": "おっぱい",
-        "trendingRate": 4,
-        "ids": [
-          67407348,
-          82218102,
-          75115124
-        ]
-      },
-      {
-        "tag": "アナログ",
-        "trendingRate": 9,
-        "ids": [
-          70582093,
-          76652739,
-          53209204
-        ]
-      },
-      {
-        "tag": "イラスト",
-        "trendingRate": 4,
-        "ids": [
-          89044801,
-          80431317,
-          63966688
-        ]
-      },
-      {
-        "tag": "ウマ娘",
-        "trendingRate": 3,
-        "ids": [
-          88742579,
-          89286304,
-          89495072
-        ]
-      },
-      {
-        "tag": "ウマ娘プリティーダービー",
-        "trendingRate": 20,
-        "ids": [
-          88742579,
-          89286304,
-          91571374
-        ]
-      },
-      {
-        "tag": "オリキャラ",
-        "trendingRate": 6,
-        "ids": [
-          89912951,
-          57515387,
-          55335359
-        ]
-      },
-      {
-        "tag": "バーチャルYouTuber",
-        "trendingRate": 26,
-        "ids": [
-          69956142,
-          84116049,
-          94162089
-        ]
-      },
-      {
-        "tag": "ブルアカ",
-        "trendingRate": 4,
-        "ids": [
-          87558025,
-          105281765,
-          100454769
-        ]
-      },
-      {
-        "tag": "ブルーアーカイブ",
-        "trendingRate": 1,
-        "ids": [
-          87977276,
-          87297713,
-          97761601
-        ]
-      },
-      {
-        "tag": "ホロライブ",
-        "trendingRate": 10,
-        "ids": [
-          84116049,
-          88401634,
-          87033410
-        ]
-      },
-      {
-        "tag": "ポケモン",
-        "trendingRate": 8,
-        "ids": [
-          83371253,
-          68759403,
-          78127132
-        ]
-      },
-      {
-        "tag": "創作",
-        "trendingRate": 1,
-        "ids": [
-          74481708,
-          67308882,
-          74478908
-        ]
-      },
-      {
-        "tag": "原神",
-        "trendingRate": 15,
-        "ids": [
-          92390436,
-          96866905,
-          85633671
-        ]
-      },
-      {
-        "tag": "女の子",
-        "trendingRate": 2,
-        "ids": [
-          54734137,
-          64039863,
-          67583975
-        ]
-      },
-      {
-        "tag": "少女",
-        "trendingRate": -2,
-        "ids": [
-          85423051,
-          23068463,
-          59612057
-        ]
-      },
-      {
-        "tag": "巨乳",
-        "trendingRate": 2,
-        "ids": [
-          82218102,
-          68126965,
-          83415364
-        ]
-      },
-      {
-        "tag": "東方Project",
-        "trendingRate": 3,
-        "ids": [
-          57534432,
-          65546923,
-          47139274
-        ]
-      },
-      {
-        "tag": "水着",
-        "trendingRate": 23,
-        "ids": [
-          82432085,
-          65913057,
-          83492606
-        ]
-      },
-      {
-        "tag": "魅惑のふともも",
-        "trendingRate": 10,
-        "ids": [
-          63120410,
-          44873217,
-          88102976
-        ]
-      }
-    ],
-    "userEventIds": [
-      "115412989",
-      "115495371",
-      "115519527",
-      "116009527",
-      "115757687",
-      "116187433",
-      "115495437",
-      "116219068",
-      "115687632",
-      "116056792",
-      "115534060",
-      "115894506",
-      "115949509",
-      "115434689"
-    ]
-  },
-  "sketchLives": []
+    }
 }

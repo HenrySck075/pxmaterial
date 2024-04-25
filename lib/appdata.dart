@@ -37,6 +37,7 @@ class AppData extends InheritedWidget {
   _yourwatchhistory watchHistoryManager() {
     return _yourwatchhistory(_globaldb!);
   }
+  _AppSettings get appSettings => _AppSettings();
 
   static AppData? maybeOf(BuildContext ctx)=>ctx.dependOnInheritedWidgetOfExactType<AppData>();
 
@@ -76,4 +77,24 @@ class _yourwatchhistory {
   }
 }
 
-class _AppSettings {}
+class _AppSettings {
+  _AppSettings(){
+    _globaldb!.execute('''
+    CREATE TABLE IF NOT EXIST AppSettings (
+      name TEXT NOT NULL PRIMARY KEY,
+      value BLOB
+    );
+    ''');
+  }
+
+  dynamic _get(String name,[dynamic defaultv]) {
+    return _globaldb!.select("SELECT FROM AppSettings WHERE name = ?", [name]).firstOrNull?["value"]??defaultv;
+  }
+  void _set(String name, dynamic value) {
+    _globaldb!.select("INSERT OR REPLACE INTO AppSettings (name, value) = (?,?)", [name,value]).first["value"];
+  }
+
+
+  bool get noViewConstraints=> _get("no_view_constraints",false);
+  set noViewConstraints(bool v)=> _set("no_view_constraints",v);
+}

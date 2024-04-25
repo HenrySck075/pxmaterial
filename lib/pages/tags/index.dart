@@ -50,37 +50,53 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
       future: pxRequest("https://www.pixiv.net/ajax/search/tags/$tag"), 
       builder: (ctx,snap){
         JSON data = snap.data!;
+        JSON pixpedia = data["pixpedia"];
         return Scaffold(body:NestedScrollView( 
           headerSliverBuilder: (ctx,v)=>[
             SliverList(
               delegate:SliverChildListDelegate([
-                 if (data["pixpedia"]["image"]!=null) Container(
+                 if (pixpedia["image"]!=null) Container(
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                  height: 160,
+                  height: 280,
                   clipBehavior: Clip.hardEdge,
-                  child:pxImage(data["pixpedia"]["image"])
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  
-                  children: [
-                    Text(data["tag"], style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    )),
-                    // pixiv loves doing this
-                    if (data["tagTranslation"] is! List) const SizedBox(width:8),
-                    if (data["tagTranslation"] is! List) Text(data["tagTranslation"][data["tag"]]["en"], style: const TextStyle(
-                      fontSize: 10,
-                      color: Colors.grey
-                    ))
-                  ],
-                ),
-                if (data["pixpedia"].containsKey("abstract")) GestureDetector( 
-                  onTap: ()=>launchUrl(Uri.parse("https://dic.pixiv.net/en/a/${data['pixpedia']['tag']}")),
-                  child: Text(data["pixpedia"]["abstract"]),
-                )
+                  child:futureWidget( 
+                    future: pxRequest("https://www.pixiv.net/ajax/illust/${(pixpedia['image'] as String).split('/').last.split('_').first}/pages").then((value) => value[0]["urls"]["regular"]),
+                    builder: (ctx,snap)=>pxImage(snap.data!,fit: BoxFit.fitWidth)
+                  ),
+                  ),
+                  Row(children: [
+                    if (pixpedia["image"]!=null) Container(
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                      height: 160,
+                      width: 160,
+                      clipBehavior: Clip.hardEdge,
+                      child:pxImage(pixpedia["image"])
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      
+                      children: [
+                        Text("#"+data["tag"], style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        )),
+                        // pixiv loves doing this
+                        if (data["tagTranslation"] is! List) ...[
+                        const SizedBox(width:8),
+                        Text(data["tagTranslation"][data["tag"]]["en"], style: const TextStyle(
+                          fontSize: 10,
+                          color: Colors.grey
+                        ))
+                        ]
+                      ],
+                    ),
+                  ]),
+                  if (pixpedia.containsKey("abstract")) GestureDetector( 
+                    onTap: ()=>launchUrl(Uri.parse("https://dic.pixiv.net/en/a/${data['pixpedia']['tag']}")),
+                    child: Text(pixpedia["abstract"]),
+                  )
+                
               ]),
             ),
             SliverToBoxAdapter(
@@ -126,7 +142,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
               ),
             ),
             SliverToBoxAdapter(
-              child: TabBar(tabs: const [
+              child: WidthDependentTabBar(tabs: const [
                   Tab(text:"Top"),
                   Tab(text:"Illusts"),
                   Tab(text:"Manga"),

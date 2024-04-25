@@ -1,3 +1,4 @@
+import 'package:sofieru/json/base.dart' show checkFalsy;
 import 'package:sofieru/json/ajax/novel/PartialNovel.dart' show PartialNovel;
 import 'package:sofieru/json/ajax/shared/Work.dart' show Work;
 class _SuggestedSettings {
@@ -61,7 +62,7 @@ class Novel extends Work {
     required super.id,
     required super.title,
     required super.description,
-    required super.bookStyle,
+    super.bookStyle,
     required super.createDate,
     required super.uploadDate,
     required super.restrict,

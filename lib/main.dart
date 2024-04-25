@@ -11,6 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:sofieru/pages/devtools.dart';
 import 'package:sofieru/pages/helpcenter/hchtml.dart';
+import 'package:sofieru/pages/settings.dart';
 import 'package:sofieru/pages/view/artworkview.dart';
 import 'package:sofieru/pages/yourip.dart';
 // import 'package:url_launcher/url_launcher.dart';
@@ -92,6 +93,10 @@ void main() async {
         navigatorKey: pa,
         builder: (ctx,st,wid)=>ShellPage(child: wid),
         routes: [
+          GoRoute(
+            path: "/settings",
+            builder: (ctx,idk)=>Settings()
+          ),
           GoRoute(
             path: "/devtools",
             builder: (ctx,idk)=>DevTools()

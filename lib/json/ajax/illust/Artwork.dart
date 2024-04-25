@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:sofieru/json/base.dart' show checkFalsy;
 import 'package:sofieru/json/ajax/illust/PartialArtwork.dart' show PartialArtwork;
 import 'package:sofieru/json/ajax/shared/Work.dart' show Work;
 class _Urls {
@@ -190,7 +190,7 @@ class Artwork extends Work {
     "uploadDate": uploadDate,
     "restrict": restrict,
     "xRestrict": xRestrict,
-    "tags": tags.toJson(),
+    "tags": tags,
     "userId": userId,
     "userName": userName,
     "likeData": likeData,

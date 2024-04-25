@@ -1,10 +1,12 @@
 "You should add typed maps NOW!!"
 
+from os.path import join, normpath, dirname
 import sys,os,subprocess
 name = sys.argv[1]
 nameo = name
 import json, re
 from typing import Any
+from mergedeep import merge, Strategy
 classes = {
     "str": "String",
     "int": "int",
@@ -54,8 +56,8 @@ def purgeUnusedClasses(f):
     "TODO: actual code is above this"
     return f
 
-def pathparse(path:str, start:str):
-    return (start if path.startswith('$/') else '')+path.removeprefix("$/")
+def pathparse(pat:str, start:str):
+    return (start if pat.startswith('$/') else '')+(normpath(join(dirname(path),pat)).replace("payloads/ajax/",start) if not useStdin and not pat.startswith('$/') else pat.removeprefix("$/"))
 def tryimport(mport, nam): 
     global output
     if mport not in imported: 
@@ -113,13 +115,19 @@ def generate(data, name=""):
     if "$all" in checkFalsy: checkFalsy = list(data.keys())
     if "$all" in nullable: nullable = list(data.keys())
     c:dict = {}
-    if copyStruct != "":
-        c = json.load(open(pathparse(data["$copy"],"./payloads/ajax/")))
-        data = data | c 
+    def copyStructFunc():
+        nonlocal copyStruct, data, c
+        c = json.load(open(pathparse(copyStruct,"./payloads/ajax/")))
+        merge(data,c,strategy=Strategy.ADDITIVE) 
         nullable.extend(c.get("$nullable",[]))
         checkFalsy.extend(c.get("$checkFalsy",[]))
+        if data.get("$copy") != None and data["$copy"] != copyStruct:
+            copyStruct = data["$copy"]
+            copyStructFunc()
+    if copyStruct != "":
+        copyStructFunc()
     if doExtends: 
-        extends = cry(data["$copy"])
+        extends = cry(data["$extends"])
         supers = list(c.keys())
         tryimport(pathparse(data['$extends'],'package:sofieru/json/ajax/'),extends)
         #checkFalsy.extend(c.get("$checkFalsy",[]))

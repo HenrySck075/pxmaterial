@@ -1,18 +1,18 @@
 {
     "$skip": true,
     "tagTranslation": {
-        "-": {"$schema": "TagTranslation"}
+        "-": {"$schema": "$/shared/TagTranslation"}
     },
     "illustSeries": [
-        {"$schema": "../series/IllustSeries"}
+        {"$schema": "$/series/IllustSeries"}
     ],
     "thumbnails": {
-        "$schema": "Thumbnails"
+        "$schema": "$/shared/Thumbnails"
     },
     "requests": [
-        {"$schema": "../commission/page/requests/Request"}
+        {"$schema": "$/commission/page/requests/Request"}
     ],
     "users": [
-        {"$schema": "../user/PartialUser"}
+        {"$schema": "$/user/PartialUser"}
     ]
 }

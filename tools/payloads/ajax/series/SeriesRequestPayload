@@ -1,7 +1,6 @@
 {
     "tagTranslation": {
-        "$schema":"TagTranslation",
-        "$useType": "TagTranslations"
+        "-":{"$schema":"../shared/TagTranslation"}
     },
     "thumbnails": {
         "$schema": "../shared/Thumbnails"

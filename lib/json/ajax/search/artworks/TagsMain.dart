@@ -1,6 +1,6 @@
 import 'package:sofieru/json/ajax/shared/ExtraData.dart' show ExtraData;
-import 'package:sofieru/json/ajax/shared/TagTranslation.dart' show TagTranslations;
-import '../../illust/PartialArtwork.dart' show PartialArtwork;
+import 'package:sofieru/json/ajax/shared/TagTranslation.dart' show TagTranslation;
+import 'package:sofieru/json/ajax/illust/PartialArtwork.dart' show PartialArtwork;
 class _BookmarkRanges {
   final int? min;
   final int? max;
@@ -68,7 +68,7 @@ class TagsMain {
   final _IllustManga illustManga;
   final _Popular popular;
   final List<String> relatedTags;
-  final TagTranslations tagTranslation;
+  final Map<String, TagTranslation> tagTranslation;
   final ExtraData extraData;
   TagsMain({
     required this.illustManga,
@@ -82,14 +82,14 @@ class TagsMain {
     illustManga: _IllustManga.fromJson(json['illustManga']),
     popular: _Popular.fromJson(json['popular']),
     relatedTags: (json['relatedTags'] as List<dynamic>).map((e)=>e as String).toList(),
-    tagTranslation: TagTranslations.fromJson(json['tagTranslation']),
+    tagTranslation: (json['tagTranslation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,TagTranslation.fromJson(v))),
     extraData: ExtraData.fromJson(json['extraData']),
   );}
   Map<String, dynamic> toJson() => <String,dynamic>{
     "illustManga": illustManga.toJson(),
     "popular": popular.toJson(),
     "relatedTags": relatedTags,
-    "tagTranslation": tagTranslation.toJson(),
+    "tagTranslation": tagTranslation.map((k,v)=>MapEntry(k,v.toJson())),
     "extraData": extraData.toJson(),
   };
 }

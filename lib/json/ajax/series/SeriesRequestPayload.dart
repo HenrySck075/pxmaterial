@@ -1,8 +1,8 @@
-import '../shared/ExtraData.dart' show ExtraData;
-import '../user/PartialUser.dart' show PartialUser;
-import 'IllustSeries.dart' show IllustSeries;
-import '../shared/Thumbnails.dart' show Thumbnails;
-import 'TagTranslation.dart' show TagTranslations;
+import 'package:sofieru/json/ajax/shared/ExtraData.dart' show ExtraData;
+import 'package:sofieru/json/ajax/user/PartialUser.dart' show PartialUser;
+import 'package:sofieru/json/ajax/series/IllustSeries.dart' show IllustSeries;
+import 'package:sofieru/json/ajax/shared/Thumbnails.dart' show Thumbnails;
+import 'package:sofieru/json/ajax/shared/TagTranslation.dart' show TagTranslation;
 class _Series {
   final String workId;
   final int order;
@@ -64,7 +64,7 @@ class _Page {
 }
 
 class SeriesRequestPayload {
-  final TagTranslations tagTranslation;
+  final Map<String, TagTranslation> tagTranslation;
   final Thumbnails thumbnails;
   final List<IllustSeries> illustSeries;
   final List<dynamic> requests;
@@ -82,7 +82,7 @@ class SeriesRequestPayload {
   });
   factory SeriesRequestPayload.fromJson(Map<String, dynamic> json) {
     return SeriesRequestPayload(
-    tagTranslation: TagTranslations.fromJson(json['tagTranslation']),
+    tagTranslation: (json['tagTranslation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,TagTranslation.fromJson(v))),
     thumbnails: Thumbnails.fromJson(json['thumbnails']),
     illustSeries: (json['illustSeries'] as List<dynamic>).map((e)=>IllustSeries.fromJson(e)).toList(),
     requests: (json['requests'] as List<dynamic>),
@@ -91,7 +91,7 @@ class SeriesRequestPayload {
     extraData: ExtraData.fromJson(json['extraData']),
   );}
   Map<String, dynamic> toJson() => <String,dynamic>{
-    "tagTranslation": tagTranslation.toJson(),
+    "tagTranslation": tagTranslation.map((k,v)=>MapEntry(k,v.toJson())),
     "thumbnails": thumbnails.toJson(),
     "illustSeries": illustSeries.map((e)=>e.toJson()).toList(),
     "requests": requests,

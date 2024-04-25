@@ -393,7 +393,7 @@ class _FanLetter {
 
 class Request {
   final String requestId;
-  final String planId;
+  final String? planId;
   final String? fanUserId;
   final String creatorUserId;
   final String requestStatus;
@@ -419,7 +419,7 @@ class Request {
   final _FanLetter? fanLetter;
   Request({
     required this.requestId,
-    required this.planId,
+    this.planId,
     required this.fanUserId,
     required this.creatorUserId,
     required this.requestStatus,

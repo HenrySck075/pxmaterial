@@ -27,5 +27,4 @@ class TagTranslation {
     "romaji": romaji,
   };
 }
-typedef TagTranslations=Map<String, TagTranslation>;
 

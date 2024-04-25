@@ -59,8 +59,7 @@
         "温泉"
     ],
     "tagTranslation": {
-        "$schema": "$/shared/TagTranslation",
-        "$useType": "TagTranslations"
+        "-":{"$schema": "$/shared/TagTranslation"}
     },
     "extraData": {
         "$schema": "$/shared/ExtraData" 

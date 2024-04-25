@@ -1,8 +1,8 @@
-import '../user/PartialUser.dart' show PartialUser;
-import '../commission/page/requests/Request.dart' show Request;
-import 'Thumbnails.dart' show Thumbnails;
-import '../series/IllustSeries.dart' show IllustSeries;
-import 'TagTranslation.dart' show TagTranslation;
+import 'package:sofieru/json/ajax/user/PartialUser.dart' show PartialUser;
+import 'package:sofieru/json/ajax/commission/page/requests/Request.dart' show Request;
+import 'package:sofieru/json/ajax/shared/Thumbnails.dart' show Thumbnails;
+import 'package:sofieru/json/ajax/series/IllustSeries.dart' show IllustSeries;
+import 'package:sofieru/json/ajax/shared/TagTranslation.dart' show TagTranslation;
 class _Page {
   final List<int> ids;
   final bool isLastPage;

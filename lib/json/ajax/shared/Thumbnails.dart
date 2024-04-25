@@ -1,5 +1,5 @@
-import '../novel/PartialNovel.dart' show PartialNovel;
-import '../illust/PartialArtwork.dart' show PartialArtwork;
+import 'package:sofieru/json/ajax/novel/PartialNovel.dart' show PartialNovel;
+import 'package:sofieru/json/ajax/illust/PartialArtwork.dart' show PartialArtwork;
 class Thumbnails {
   final List<PartialArtwork> illust;
   final List<PartialNovel> novel;
