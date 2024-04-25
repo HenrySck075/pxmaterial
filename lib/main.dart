@@ -17,6 +17,7 @@ import 'package:sofieru/pages/yourip.dart';
 // import 'package:url_launcher/url_launcher.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:uni_links_desktop/uni_links_desktop.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'shared.dart';
 import 'appdata.dart';
 
@@ -390,6 +391,32 @@ class _ShellPageState extends State<ShellPage> {
       const Text("© pixiv",style: TextStyle(color: Colors.grey, fontSize: 8),),
       Text(MadeWithLoveByHenry,softWrap: true,style: const TextStyle(color: Colors.grey, fontSize: 8),),
       const Text("Do not redistribute without crediting authors of this repository and the original app.",style: TextStyle(color: Colors.grey, fontSize: 8),), // - HenrySck075 (Henry Spheria)
+      TextButton(onPressed:()=>showAboutDialog(
+        context: context,
+        applicationName:"pixiv Material Design", 
+        applicationVersion: "0.7.7",
+        applicationLegalese: "SiIvaGunner woke up",
+        children: [
+          const SizedBox(height: 8,),
+          const Center(child:Text("Fully made in",style: TextStyle(fontSize:24),)),
+          ConstrainedBox( 
+            constraints: const BoxConstraints(maxWidth:100),
+            child: Image.asset("assets/FlutterVT_sawaratsuki1004.png")
+          ),
+          StatefulBuilder(builder: (ctx,setState2){
+            var hover = false;
+            return MouseRegion( 
+              onEnter: (a){setState2(){hover=true;}},
+              onExit: (a){setState2(){hover=false;}},
+              child: GestureDetector( 
+                onTap: ()=>launchUrl(Uri.parse("https://twitter.com/sawaratsuki1004")),
+                // its not dead code its just stupid
+                child: Text("Art by our god sawaratsuki :fire:",style: TextStyle(fontSize:14, color: Theme.of(ctx).primaryColor,decoration: hover?TextDecoration.underline:null),),
+              )
+            );}
+          )
+        ]
+      ), child: Text("About this app"))
     ];
     // var appState = context.watch<MyAppState>();
     const theFunny = {
