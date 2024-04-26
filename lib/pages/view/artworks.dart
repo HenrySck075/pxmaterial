@@ -77,14 +77,14 @@ class _ArtworkPageState extends State<ArtworkPage> {
   @override
   Widget build(context) {
     var ed = [
-      pxRequest("https://www.pixiv.net/ajax/illust/$id"),
+      pxRequest("https://www.pixiv.net/ajax/illust/$id",otherHeaders:{"Referer": "https://www.pixiv.net/en/artworks/$id"}),
       pxRequest("https://www.pixiv.net/ajax/illust/$id/pages"),
     ];
     return Scaffold(
       body: futureWidget(placeholder: SingleChildScrollView(child:mainSkel()), future: Future.wait(ed), builder: (context,dd) {
         var rawData = dd.data![0];
         var data = Artwork.fromJson(rawData);
-        AppData.of(context).watchHistoryManager().addHistory(data.toJson());
+        AppData.of(context).watchHistoryManager().addHistory(rawData);
 
         List<dynamic> gang = dd.data![1];
         op = ((shownAll||data.illustType!=0)?gang:[gang[0]]);

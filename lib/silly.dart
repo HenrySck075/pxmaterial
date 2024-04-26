@@ -106,7 +106,7 @@ FutureBuilder<T> futureWidget<T>({required Future<T>? future, required AsyncWidg
 }
 
 
-var _httpClient = RetryClient(http.Client());
+var _httpClient = RetryClient(http.Client(),retries: 7);
 extension ImGenuinelyDyingHelp on HttpFileService {
   Future<FileServiceResponse> get(String url,
       {Map<String, String>? headers}) async {

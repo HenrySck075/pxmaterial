@@ -15,7 +15,7 @@ import 'package:flutter_image/network.dart';
 import 'package:window_size/window_size.dart';
 
 /// automatically set by tools/version.py
-String apiVersion = "471f117fcde85f9ce382c9d945dc8dd854ff4358";
+String apiVersion = "e163b5135f78e1f606a5abb60792560d979c98ab";
 
 Future<FetchInstructions> retry(Uri uri, FetchFailure? fail) async {
   if (fail != null) {
@@ -130,7 +130,9 @@ String userId = "";
 void updateCookie(String die) {
   cooki = die;
   // ik im dumb
-  userId = die.split("user_id=")[1].split("=")[0];
+  try {
+    userId = die.split("user_id=")[1].split("=")[0];
+  } catch (e) {}
 }
 void updateRouter(GoRouter r) {
   router = r;
@@ -215,6 +217,9 @@ Map<String, http.Response> _cachedResponse = {};
 void clearRequestCache(){
   _cachedResponse.clear();
 }
+
+void printWrapped(String text) => RegExp('.{1,800}').allMatches(text).map((m) => m.group(0)).forEach(print);
+
 var client = http.Client();
 Future<void> wait(FutureOr<bool> Function(dynamic) predicate) async => await Future.doWhile(() => Future.delayed(const Duration(milliseconds: 500)).then(predicate));
 /// [pxRequest] without postprocess
@@ -226,15 +231,15 @@ Future<http.Response> pxRequestUnprocessed(String url, {
   // wait for cookies to not empty (it will never)
 
   var headers = {
-    "referer": "https://www.pixiv.net/en/",
-    "x-user-id": userId,
-    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
+    "Referer": "https://www.pixiv.net/en/",
+    "X-User-Id": userId,
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
   };
-  // print("-----");
-  // print(url);
-  // print(method);
-  // print(otherHeaders);
+  print("-----");
+  print(url);
+  print(method);
   headers.addAll(otherHeaders);
+  printWrapped(headers.toString());
   if (_cachedResponse.containsKey(url) && !noCache) {return Future.value(_cachedResponse[url]!);}// we dont really needs to null check but dart sucks so
   
 
@@ -269,7 +274,7 @@ Future<dynamic> pxRequest(String url, {Map<String, String>? otherHeaders, String
   otherHeaders ??= {};
   url = '${url+(url.contains("?")?"&":"?")}lang=en&version=$apiVersion';
   // if (cooki == "") await wait((_) => cooki=="");
-  var d = pxRequestUnprocessed(url,otherHeaders: otherHeaders..addEntries([MapEntry("cookie", cooki.trim())]), method: method, body:body, noCache: noCache, extraData: extraData).then((v){
+  var d = pxRequestUnprocessed(url,otherHeaders: otherHeaders..addEntries([MapEntry("Cookie", cooki.trim())]), method: method, body:body, noCache: noCache, extraData: extraData).then((v){
     return jsonDecode(v.body)["body"];
   });
   var h = currentRouteURI().path;

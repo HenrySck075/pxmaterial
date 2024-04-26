@@ -75,9 +75,11 @@ void main() async {
   var d = jsonDecode(await rootBundle.loadString("assets/helpcenter.json")) as Map<String, dynamic>;
   var btns = d.remove("buttons") as Map<String, dynamic>;
   updateData(d.cast<String, String>(), btns.cast<String, String>());
-  updateCookie(await rootBundle.loadString("assets/cookie"));
+  await initDb(); 
+  updateCookie(AppSettings().cookie);
+  // updateCookie(await rootBundle.loadString("assets/cookie"));
   updateRouter(GoRouter(
-    initialLocation: kDebugMode?"/devtools":initialUri.path,
+    initialLocation: cooki == ""?"/login": kDebugMode?"/devtools":initialUri.path,
     observers: [routeObserver],
     errorBuilder: (n,s)=>ShellPage(
       child:Center(
@@ -97,6 +99,25 @@ void main() async {
           GoRoute(
             path: "/settings",
             builder: (ctx,idk)=>Settings()
+          ),
+          GoRoute(
+            path: "/login",
+            builder: (ctx,idk)=>Center( 
+              child: Column( 
+                children: [
+                  const Text("Please enter your pixiv account's cookie here"),
+                  const Text("(dont worry im not doing malicious i just need it to send request to the api :tm:)",style: TextStyle(fontSize: 12),),
+                  TextField( 
+                    maxLines: 1,
+                    onSubmitted: (s){ 
+                      updateCookie(s);
+                      AppSettings().cookie = s;
+                      navigate("/");
+                    },
+                  )
+                ],
+              ),
+            )
           ),
           GoRoute(
             path: "/devtools",
@@ -494,10 +515,7 @@ class _ShellPageState extends State<ShellPage> {
         ],
       ),
 
-      body: futureWidget(
-        future: body.initDb(),
-        builder: (ctx,hujiowef)=>body
-      ),
+      body: body,
 
       floatingActionButton: medQuery.size.width>=820&&!inView?uploadWorkButton:null,
       bottomNavigationBar: medQuery.size.width<=820&&!inView?NavigationBar(

@@ -14,30 +14,29 @@ T? nullOnThrow<T>(T Function() func, List<dynamic>? args, Map<Symbol, dynamic>? 
     return Function.apply(func, args, kwargs);
   } catch (e) {return null;}
 }
+Future<String> initDb() async {
+  var p = join((await getApplicationDocumentsDirectory()).path,"data.db");
+  
+  _globaldb ??= sql.sqlite3.open(p);
+  _globaldb!.execute('''
+    CREATE TABLE IF NOT EXISTS history (
+      id INTEGER NOT NULL PRIMARY KEY,
+      jsondata TEXT NOT NULL
+    );
+  '''); 
+  return "wonderhoy";
+}
 /// checker since it will be referenced in [AppData] anyways (and also null check on the langserver sucks)
 sql.Database? _globaldb;
 /// hi chat
 class AppData extends InheritedWidget {
   late sql.Database database;
   
-  AppData({required super.child,super.key});
-  Future<String> initDb() async {
-    var p = join((await getApplicationDocumentsDirectory()).path,"data.db");
-    
-    _globaldb ??= sql.sqlite3.open(p);
-    _globaldb!.execute('''
-      CREATE TABLE IF NOT EXISTS history (
-        id INTEGER NOT NULL PRIMARY KEY,
-        jsondata TEXT NOT NULL
-      );
-    '''); 
-    database = _globaldb!;
-    return "wonderhoy";
-  }
+  AppData({required super.child,super.key}) : database = _globaldb!;
   _yourwatchhistory watchHistoryManager() {
     return _yourwatchhistory(_globaldb!);
   }
-  _AppSettings get appSettings => _AppSettings();
+  AppSettings get appSettings => AppSettings();
 
   static AppData? maybeOf(BuildContext ctx)=>ctx.dependOnInheritedWidgetOfExactType<AppData>();
 
@@ -77,10 +76,10 @@ class _yourwatchhistory {
   }
 }
 
-class _AppSettings {
-  _AppSettings(){
+class AppSettings {
+  AppSettings(){
     _globaldb!.execute('''
-    CREATE TABLE IF NOT EXIST AppSettings (
+    CREATE TABLE IF NOT EXISTS AppSettings (
       name TEXT NOT NULL PRIMARY KEY,
       value BLOB
     );
@@ -88,13 +87,16 @@ class _AppSettings {
   }
 
   dynamic _get(String name,[dynamic defaultv]) {
-    return _globaldb!.select("SELECT FROM AppSettings WHERE name = ?", [name]).firstOrNull?["value"]??defaultv;
+    return _globaldb!.select("SELECT * FROM AppSettings WHERE name = ?", [name]).firstOrNull?["value"]??defaultv;
   }
   void _set(String name, dynamic value) {
-    _globaldb!.select("INSERT OR REPLACE INTO AppSettings (name, value) = (?,?)", [name,value]).first["value"];
+    _globaldb!.execute("INSERT OR REPLACE INTO AppSettings (name, value) VALUES (?,?)", [name,value]);
   }
 
 
   bool get noViewConstraints=> _get("no_view_constraints",false);
   set noViewConstraints(bool v)=> _set("no_view_constraints",v);
+
+  String get cookie=> _get("cookie","");
+  set cookie(String v)=> _set("cookie",v);
 }
