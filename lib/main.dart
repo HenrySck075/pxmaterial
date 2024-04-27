@@ -9,6 +9,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:path/path.dart';
 import 'package:sofieru/pages/devtools.dart';
 import 'package:sofieru/pages/helpcenter/hchtml.dart';
 import 'package:sofieru/pages/settings.dart';
@@ -35,22 +36,11 @@ import "pages/helpcenter/helpcenter.dart" as hc;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart'; 
 
-extension m on NavigatorState {
-  void _debugCheckDuplicatedPageKeys() {
-    assert(() {
-      final Set<Key> keyReservation = <Key>{};
-      for (final Page<dynamic> page in widget.pages) {
-        final LocalKey? key = page.key;
-        if (key != null ) {
-          if (!keyReservation.contains(key)) return false;
-          keyReservation.add(key);
-        }
-      }
-      return true;
-    }());
-  }
-}
-
+final Map<String, ThemeMode> themeMode = {
+  "light": ThemeMode.light,
+  "dark": ThemeMode.dark,
+  "system": ThemeMode.system
+};
 
 void dumpErrorToConsole(details)=>FlutterError.dumpErrorToConsole(details,forceReport:true);
 void main() async {
@@ -298,7 +288,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff0495f6),brightness: Brightness.dark,),
       ),
-      themeMode: ThemeMode.system,
+      themeMode: themeMode[AppSettings().themeMode],
       routerConfig: router,
       /*
       builder: (ctx,c)=>ContextMenuOverlay(
@@ -465,7 +455,7 @@ class _ShellPageState extends State<ShellPage> {
       },
       children: navs
     );
-
+    final settings = AppSettings();
     final body = AppData(
       child:Center(
         child: Container(
@@ -473,7 +463,7 @@ class _ShellPageState extends State<ShellPage> {
           
           // basic google layout constraint
           
-          constraints: inView?null:BoxConstraints(maxWidth:min((190*(medQuery.size.width/190).floor().toDouble()+32),1160)),
+          constraints: inView?null:BoxConstraints(maxWidth:min((190*(medQuery.size.width/190).floor().toDouble()+32), settings.noViewConstraints&&currentRouteURI().path=="/settings"?double.infinity:1160)),
           child: widget.child 
         )
       )

@@ -87,7 +87,11 @@ class AppSettings {
   }
 
   dynamic _get(String name,[dynamic defaultv]) {
-    return _globaldb!.select("SELECT * FROM AppSettings WHERE name = ?", [name]).firstOrNull?["value"]??defaultv;
+    var h = _globaldb!.select("SELECT * FROM AppSettings WHERE name = ?", [name]).firstOrNull?["value"];
+    dynamic v;
+    if (h is int && defaultv is bool) {v = h==1;}
+    else {v = h;}
+    return v??defaultv;
   }
   void _set(String name, dynamic value) {
     _globaldb!.execute("INSERT OR REPLACE INTO AppSettings (name, value) VALUES (?,?)", [name,value]);
@@ -99,4 +103,7 @@ class AppSettings {
 
   String get cookie=> _get("cookie","");
   set cookie(String v)=> _set("cookie",v);
+
+  String get themeMode=> _get("theme_mode","system");
+  set themeMode(String v)=> _set("theme_mode",v);
 }

@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sofieru/json/ajax/illust/Artwork.dart' show Artwork;
 import 'package:sofieru/json/ajax/novel/Novel.dart';
+import 'package:sofieru/json/ajax/shared/Work.dart';
 import 'package:sofieru/json/ajax/user/PartialUser.dart';
 import 'package:sofieru/shared.dart';
 import 'package:sofieru/skeltal/view/layout.dart';
@@ -20,7 +21,7 @@ enum WorkType {illust,novel}
 
 class WorkLayout extends StatefulWidget {
   final WorkType wtype;
-  final Map<String, dynamic> data;
+  final Work data;
 
   /// The work view section
   final Widget view;
@@ -70,7 +71,7 @@ class _WorkLayoutState extends State<WorkLayout> {
   @override
   void initState() {
     super.initState();
-    id = widget.data["id"]!;
+    id = widget.data.id;
     type = widget.wtype.name;
     var param = "${type}_ids[]";
     _scsvCtrl.addListener(() {
@@ -108,7 +109,7 @@ class _WorkLayoutState extends State<WorkLayout> {
     return Scaffold(
       body: Builder(builder: (context) {
         /// please for the love of god add union types
-        var data = widget.wtype==WorkType.illust?Artwork.fromJson(widget.data):Novel.fromJson(widget.data);
+        final data = widget.data;
         authorId = data.userId;
         authArtworkIds = [...(data is Artwork?data.userIllusts:(data as Novel).userNovels).keys];
         illustIndex = authArtworkIds.indexOf(id);

@@ -1,13 +1,10 @@
 // would you believe me when i say i just did a ctrl+c ctrl+v the artworks.dart file 
 
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:sofieru/json/ajax/novel/Novel.dart';
 import 'package:sofieru/shared.dart';
 import "layout.dart";
-import 'shared.dart';
 
 
 class NovelPage extends StatefulWidget {
@@ -61,7 +58,7 @@ class _NovelPageState extends State<NovelPage> {
         updateRange(novelIndex-7, novelIndex+7);
         setTitle(data["alt"]+" - pixiv");
         return WorkLayout(
-          data: data,
+          data: Novel.fromJson(data),
           wtype: WorkType.novel,
           view: Text(data["content"],softWrap: true,),
           authorWorksItemBuilder: (e,[k])=>PxNovel(

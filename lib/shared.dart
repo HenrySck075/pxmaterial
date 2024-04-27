@@ -20,10 +20,10 @@ String apiVersion = "e163b5135f78e1f606a5abb60792560d979c98ab";
 Future<FetchInstructions> retry(Uri uri, FetchFailure? fail) async {
   if (fail != null) {
     if ([403,500].contains(fail.httpStatusCode)) {return FetchInstructions.giveUp(uri: uri);}
-    else {return await Future.delayed(Duration(milliseconds:500*fail.attemptCount), ()=>FetchInstructions.attempt(uri: uri, timeout: Duration.zero));}
+    else {return await Future.delayed(Duration(milliseconds:500*fail.attemptCount), ()=>FetchInstructions.attempt(uri: uri, timeout: Duration(seconds:30)));}
   }
   else {
-    return FetchInstructions.giveUp(uri: uri);
+    return FetchInstructions.attempt(uri: uri, timeout: Duration(seconds: 30));
   }
 }
 

@@ -1,6 +1,7 @@
 import 'package:sofieru/json/base.dart' show checkFalsy;
 import 'package:sofieru/json/ajax/illust/PartialArtwork.dart' show PartialArtwork;
 import 'package:sofieru/json/ajax/shared/Work.dart' show Work;
+import 'package:sofieru/shared.dart';
 class _Urls {
   final String mini;
   final String thumb;
@@ -110,6 +111,7 @@ class Artwork extends Work {
   });
   @override
   factory Artwork.fromJson(Map<String, dynamic> json) {
+    printWrapped(json.toString());
     final parent = Work.fromJson(json);
     return Artwork(
     illustId: json['illustId'],

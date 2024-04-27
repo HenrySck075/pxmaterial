@@ -98,7 +98,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
         if (data.illustType!=2) view = IllustMangaView(data, context, gang, pathJoin, seriesType);
         return WorkLayout( 
           wtype: WorkType.illust,
-          data: rawData,
+          data: data,
           // The artwork view
           view: Column(children:view),
           // author works
@@ -126,7 +126,13 @@ class _ArtworkPageState extends State<ArtworkPage> {
               items: [
                 ContextMenuItem(label: "Download", onPressed: ()=>ArtworkImageView.showDownloadDialog(context, i),)
               ],
-              child: artworkImageBuilder(idx,i,w,h,onTap: ()=>navigate("/artwork/view/$id?index=$idx",extra: i))
+              // god tier composition (it has like 5 nested widgets for an image)
+              child: Container( 
+                decoration: BoxDecoration( 
+                  borderRadius: BorderRadius.circular(4)
+                ),
+                child: artworkImageBuilder(idx,i,w,h,onTap: ()=>navigate("/artwork/view/$id?index=$idx",extra: i))
+              )
             );}
           ))
         )
@@ -152,13 +158,21 @@ class _ArtworkPageState extends State<ArtworkPage> {
             child:GestureDetector(onTap:()=>navigate("/artwork/manga/$id?scrollDirection=${data.bookStyle}",extra:op?.cast<Map<String,dynamic>>()),child:Stack(alignment: alignments[scrollDirection],children: enumerate(trySublist(op!,0,5), (idx, i) {
               final (w,h) = calcDim(i["width"],i["height"]);
               double the = 1-(idx)/10;
-              return ListenableBuilder(listenable: offsets[idx],child:artworkImageBuilder(idx,i,w*the,h*the,opacity:1-(0.1*idx*1.5)), builder: (ctx,artworkImageWidget)=>AnimatedSlide(
-                offset: offsets[idx].value,
-                duration: Durations.medium1,
-                curve: Easing.emphasizedDecelerate,
-                child:artworkImageWidget
-              ));
-              
+              return ListenableBuilder(
+                listenable: offsets[idx],
+                child: Container(
+                  decoration: BoxDecoration( 
+                    borderRadius: BorderRadius.circular(4)
+                  ),
+                  child:artworkImageBuilder(idx,i,w*the,h*the,opacity:1-(0.1*idx*1.5)), 
+                ),
+                builder: (ctx,artworkImageWidget)=>AnimatedSlide(
+                  offset: offsets[idx].value,
+                  duration: Durations.medium1,
+                  curve: Easing.emphasizedDecelerate,
+                  child:artworkImageWidget
+                )
+              );
             }).toList().reversed.toList(),))
           );
         })
