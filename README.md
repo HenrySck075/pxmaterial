@@ -79,4 +79,6 @@ Q: hi
 
 # Credits
 - [pixiv](https://pixiv.net/en): original app, although their api is nonsensical
-- [](https://youtube.com/watch/)
+- [sawaratsuki1004](https://twitter.com/sawaratsuki1004): Flutter VTuber logo and our goat
+- [](https://youtube.com/@Endermanch)
+

@@ -414,7 +414,7 @@ class _ShellPageState extends State<ShellPage> {
             constraints: const BoxConstraints(maxWidth:100),
             child: Image.asset("assets/FlutterVT_sawaratsuki1004.png")
           ),
-          StatefulBuilder(builder: (ctx,setState2){
+          Center(child:StatefulBuilder(builder: (ctx,setState2){
             var hover = false;
             return MouseRegion( 
               onEnter: (a){setState2(){hover=true;}},
@@ -422,10 +422,10 @@ class _ShellPageState extends State<ShellPage> {
               child: GestureDetector( 
                 onTap: ()=>launchUrl(Uri.parse("https://twitter.com/sawaratsuki1004")),
                 // its not dead code its just stupid
-                child: Text("Art by our god sawaratsuki :fire:",style: TextStyle(fontSize:14, color: Theme.of(ctx).primaryColor,decoration: hover?TextDecoration.underline:null),),
+                child: Text("Art by our god sawaratsuki :fire:",style: TextStyle(fontSize:14, color: Theme.of(ctx).textTheme.labelLarge?.color,decoration: hover?TextDecoration.underline:null),),
               )
             );}
-          )
+          ))
         ]
       ), child: Text("About this app"))
     ];
