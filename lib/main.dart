@@ -417,8 +417,8 @@ class _ShellPageState extends State<ShellPage> {
           Center(child:StatefulBuilder(builder: (ctx,setState2){
             var hover = false;
             return MouseRegion( 
-              onEnter: (a){setState2(){hover=true;}},
-              onExit: (a){setState2(){hover=false;}},
+              onEnter: (a){setState2((){hover=true;});},
+              onExit: (a){setState2((){hover=false;});},
               child: GestureDetector( 
                 onTap: ()=>launchUrl(Uri.parse("https://twitter.com/sawaratsuki1004")),
                 // its not dead code its just stupid

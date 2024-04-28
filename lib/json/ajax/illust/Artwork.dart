@@ -111,7 +111,6 @@ class Artwork extends Work {
   });
   @override
   factory Artwork.fromJson(Map<String, dynamic> json) {
-    printWrapped(json.toString());
     final parent = Work.fromJson(json);
     return Artwork(
     illustId: json['illustId'],
