@@ -9,7 +9,6 @@
 #include <sqlite3_flutter_libs/sqlite3_flutter_libs_plugin.h>
 #include <uni_links_desktop/uni_links_desktop_plugin.h>
 #include <url_launcher_windows/url_launcher_windows.h>
-#include <window_size/window_size_plugin.h>
 
 void RegisterPlugins(flutter::PluginRegistry* registry) {
   Sqlite3FlutterLibsPluginRegisterWithRegistrar(
@@ -18,6 +17,4 @@ void RegisterPlugins(flutter::PluginRegistry* registry) {
       registry->GetRegistrarForPlugin("UniLinksDesktopPlugin"));
   UrlLauncherWindowsRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("UrlLauncherWindows"));
-  WindowSizePluginRegisterWithRegistrar(
-      registry->GetRegistrarForPlugin("WindowSizePlugin"));
 }

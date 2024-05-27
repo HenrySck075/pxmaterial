@@ -64,7 +64,7 @@ class PartialUser {
     isMypixiv: json['isMypixiv'],
     isBlocking: json['isBlocking'],
     background: json['background'] == null?null:_Background.fromJson(json['background']),
-    acceptRequest: json['acceptRequest'],
+    acceptRequest: json['acceptRequest'] ?? false,
   );}
   Map<String, dynamic> toJson() => <String,dynamic>{
     "comment": comment,

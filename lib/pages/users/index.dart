@@ -64,7 +64,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
         _tabCtrl!.index=selIdx;
         setTitle('${data.name} - pixiv');
         return NestedScrollView( 
-          // Reference: Google Contacts
+          // Reference: Youtube
           headerSliverBuilder: (ctx,v)=>[
             SliverList(
               delegate:SliverChildListDelegate([
@@ -75,13 +75,23 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
                   child:pxImage(data.background!.url,width:MediaQuery.sizeOf(ctx).width*0.9,fit: BoxFit.fitWidth)
                 ),
                 Row(mainAxisSize: MainAxisSize.min,children: [
-                  CircleAvatar(backgroundImage: pxImageFlutter(data.imageBig,width: 50).image),
+                  Container( 
+                    foregroundDecoration: BoxDecoration( 
+                      image: DecorationImage(image:pxImageFlutter(data.imageBig,width: 80).image),
+                      borderRadius: BorderRadius.circular(50),
+                      
+                    ),
+                    width: 80,
+                    height: 80
+                  ),
+                  
                   const SizedBox(width: 4,),
                   Column(mainAxisSize: MainAxisSize.min,crossAxisAlignment:CrossAxisAlignment.start, children: [
                     Text(data.name, style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 36,
                     )),
+                    const SizedBox(height: 8,),
                     Text("${data.following} following"),
                   ])
                 ]),

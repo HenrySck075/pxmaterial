@@ -50,11 +50,6 @@ dependencies:
   number_paginator: ^0.4.0
   shared_preferences: ^2.2.2
     # dynamic_tabbar: ^1.0.6
-  window_size:
-    git:
-      url: https://github.com/google/flutter-desktop-embedding.git
-      path: plugins/window_size
-      ref: 5c51870ced62a00e809ba4b81a846a052d241c9f
   archive: ^3.4.10
   json_annotation: ^4.8.1
   dart_eval: ^0.7.4
@@ -93,7 +88,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/cfg/
-    - assets/cookie
+  #  - assets/cookie
     - assets/helpcenter.json
     - assets/FlutterVT_sawaratsuki1004.png
 

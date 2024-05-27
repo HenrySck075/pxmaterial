@@ -12,14 +12,14 @@ import 'package:url_launcher/url_launcher.dart';
 export 'package:sofieru/silly.dart';
 import 'package:flutter_image/network.dart';
 
-import 'package:window_size/window_size.dart';
+//import 'package:window_size/window_size.dart';
 
 /// automatically set by tools/version.py
 String apiVersion = "e163b5135f78e1f606a5abb60792560d979c98ab";
 
 Future<FetchInstructions> retry(Uri uri, FetchFailure? fail) async {
   if (fail != null) {
-    if ([403,500].contains(fail.httpStatusCode)) {return FetchInstructions.giveUp(uri: uri);}
+    if ([403].contains(fail.httpStatusCode)) {return FetchInstructions.giveUp(uri: uri);}
     else {return await Future.delayed(Duration(milliseconds:500*fail.attemptCount), ()=>FetchInstructions.attempt(uri: uri, timeout: Duration(seconds:30)));}
   }
   else {
@@ -76,7 +76,7 @@ Future<void> setTitle(String title) async {
       await SystemChrome.setApplicationSwitcherDescription(ApplicationSwitcherDescription(label: title));
     }
     else {
-      setWindowTitle(title);
+      //setWindowTitle(title);
     }
     routeObserver.addUrl(currentRouteURI().path, title);
   } catch (e) {}

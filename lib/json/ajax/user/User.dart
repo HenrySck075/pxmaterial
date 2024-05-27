@@ -215,7 +215,7 @@ class User {
     isBlocking: json['isBlocking'],
     background: json['background'] == null?null:_Background.fromJson(json['background']),
     sketchLiveId: json['sketchLiveId'],
-    acceptRequest: json['acceptRequest'],
+    acceptRequest: json['acceptRequest'] ?? false,
     sketchLives: (json['sketchLives'] as List<dynamic>),
     following: json['following'],
     mypixivCount: json['mypixivCount'],
