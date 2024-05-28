@@ -468,6 +468,7 @@ class _ShellPageState extends State<ShellPage> {
         )
       )
     );
+    final breakpoi = Breakpoints(context: context);
     return RefreshIndicator(
     child: Scaffold(
       drawer: drawer,
@@ -507,8 +508,8 @@ class _ShellPageState extends State<ShellPage> {
 
       body: body,
 
-      floatingActionButton: medQuery.size.width>=820&&!inView?uploadWorkButton:null,
-      bottomNavigationBar: medQuery.size.width<=820&&!inView?NavigationBar(
+      floatingActionButton: breakpoi.extended&&!inView?uploadWorkButton:null,
+      bottomNavigationBar: !breakpoi.extended&&!inView?NavigationBar(
         destinations: [
           const NavigationDestination(
             icon: Icon(Icons.home),

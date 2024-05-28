@@ -61,7 +61,7 @@ class _yourwatchhistory {
       int.parse(work["id"]??"0"),
       jsonEncode(work
         ..["url"]=work["urls"]!["thumb"]!
-        ..["tags"]=work["tags"]["tags"].map((e)=>e["tag"]).toList()
+        //..["tags"]=work["tags"]["tags"].map((e)=>e["tag"]).toList()
       )
     ]);
   }

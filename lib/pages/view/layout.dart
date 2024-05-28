@@ -121,125 +121,137 @@ class _WorkLayoutState extends State<WorkLayout> {
           Scrollable.ensureVisible(current.currentContext!);
           }
         });
-        return ListView(
-            //crossAxisAlignment:CrossAxisAlignment.start,
-            //mainAxisSize: MainAxisSize.min,
-            controller: _scsvCtrl,
-            children: [
-              widget.view,
-              
-              // Toolbar
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  IconButton(onPressed: (){
-                    Clipboard.setData(ClipboardData(text: "https://www.pixiv.net/en/artworks/$id")).then((value) => ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Artwork URL copied to clipboard!"))
-                    ));
-                  }, icon: const Icon(Icons.link))
-                ],
-              ),
-              if (data.request!=null) ...[
-                
-                GestureDetector(
-                  onTap: ()=>navigate("/requests/${data.request!.request.requestId}"),
-                  child: ListTile( 
-                    title: Text("Work requested by ${data.request!.fan.userName}"),
-                  )
-                )
+
+
+        final mainView = [
+            widget.view,
+            
+            // Toolbar
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(onPressed: (){
+                  Clipboard.setData(ClipboardData(text: "https://www.pixiv.net/en/artworks/$id")).then((value) => ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Artwork URL copied to clipboard!"))
+                  ));
+                }, icon: const Icon(Icons.link))
               ],
+            ),
+            if (data.request!=null) ...[
               
-              // Artwork info
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  child: Padding( 
-                    padding: const EdgeInsets.all(8),
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text(data.titleCaptionTranslation.workTitle??data.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
-                      const SizedBox(height: 10,),
-                      HtmlWidget(data.titleCaptionTranslation.workCaption??data.description,onTapUrl: HtmlUrlLauncher),
-                      const SizedBox(height: 10,),
-                      Wrap(
-                        spacing: 8,
-                        children: List.from(data.tags.tags.map((t)=>tagChipBuilder(t)),
-                      ))
-                    ])
-                  )
-                ),
+              GestureDetector(
+                onTap: ()=>navigate("/requests/${data.request!.request.requestId}"),
+                child: ListTile( 
+                  title: Text("Work requested by ${data.request!.fan.userName}"),
+                )
+              )
+            ],
+            
+            // Artwork info
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                child: Padding( 
+                  padding: const EdgeInsets.all(8),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text(data.titleCaptionTranslation.workTitle??data.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
+                    const SizedBox(height: 10,),
+                    HtmlWidget(data.titleCaptionTranslation.workCaption??data.description,onTapUrl: HtmlUrlLauncher),
+                    const SizedBox(height: 10,),
+                    Wrap(
+                      spacing: 8,
+                      children: List.from(data.tags.tags.map((t)=>tagChipBuilder(t)),
+                    ))
+                  ])
+                )
               ),
-              
-              // Author view
-              futureWidget(
-                // google said this is bad, but idk
-                future: pxRequest("https://www.pixiv.net/ajax/user/${data.userId}?full=0"), 
-                builder: (ctx, snap) {
-                  var d = PartialUser.fromJson(snap.data!);
-                  return GestureDetector(
-                    onTap: ()=>showDialog(
-                      context: context, 
-                      // ignore: prefer_const_constructors
-                      builder: (c) => AuthorInfo(userId: d.userId)
-                    ),
-                    child: ListTile(
-                      title: Text(d.name),
-                      subtitle: Text("Does${d.acceptRequest?'':'n\'t'} accepting requests"),
-                      leading: CircleAvatar(backgroundImage: pxImageFlutter(d.image).image,) ),
-                    );
-                  },
-                placeholder: skeltal(authorView)
-              ),
-              // author works
-              futureWidget(
-                future: pxRequest("https://www.pixiv.net/ajax/user/$authorId/illusts?ids[]=${authArtworkIds.sublist(range[0],range[1]+1).join('&ids[]=')}"),
-                builder: (context,snap) {
-                  if (authArtworkData.value.isEmpty) authArtworkData.value = [...snap.data!.values];
-                  // Future.delayed(const Duration(milliseconds: 50),()=>_authorArtworksViewCtrl.position.ensureVisible(current.currentContext!.findRenderObject()!));
-                  return ListenableBuilder(
-                    listenable: authArtworkData,
-                    builder: (ctx,w){
-                      return SizedBox(
-                        height: 120,
-                        // so that the elements in the row exists even when not visible (for ensureVisible stuff)
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          controller: _authorArtworksViewCtrl,
-                          padding: const EdgeInsets.only(left:2,right:2),
-                          child: Row(children: [...authArtworkData.value.map((e) => Padding(
-                            padding: const EdgeInsets.only(left:2.0, right:2),
-                            child: widget.authorWorksItemBuilder(e,e["id"]==id?current:null),
-                          ))]),
-                        )
-                      );
-                    }
+            ),
+            
+            // Author view
+            futureWidget(
+              // google said this is bad, but idk
+              future: pxRequest("https://www.pixiv.net/ajax/user/${data.userId}?full=0"), 
+              builder: (ctx, snap) {
+                var d = PartialUser.fromJson(snap.data!);
+                return GestureDetector(
+                  onTap: ()=>showDialog(
+                    context: context, 
+                    // ignore: prefer_const_constructors
+                    builder: (c) => AuthorInfo(userId: d.userId)
+                  ),
+                  child: ListTile(
+                    title: Text(d.name),
+                    subtitle: Text("Does${d.acceptRequest?'':'n\'t'} accepting requests"),
+                    leading: CircleAvatar(backgroundImage: pxImageFlutter(d.image).image,) ),
                   );
                 },
-                placeholder: skeltal(authorWorks)
-              ),
-              // Comments
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(padding:EdgeInsets.only(left:4),child: Text("Comments",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left)),
-                  Comments(id: id)
-                ],
-              ),
-              const SizedBox(height: 35,),
-              
-              const Text("Related artworks",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left),
-              futureWidget(
-                future: pxRequest("https://www.pixiv.net/ajax/$type/$id/recommend/init?limit=18"), 
-                builder:(ctx,snap) {
-                  related.value = snap.data!["${type}s"];
-                  relatedNextIds = snap.data!["nextIds"];
-                  return ListenableBuilder(
-                    listenable: related,
-                    builder: (ctx,w)=>artworkGrid([...related.value.map((e) => widget.relatedWorksItemBuilder(e))])
-                  );
-                } 
-              ),
-              SizedBox(height: 35,)
-            ],
+              placeholder: skeltal(authorView)
+            ),
+            // author works
+            futureWidget(
+              future: pxRequest("https://www.pixiv.net/ajax/user/$authorId/illusts?ids[]=${authArtworkIds.sublist(range[0],range[1]+1).join('&ids[]=')}"),
+              builder: (context,snap) {
+                if (authArtworkData.value.isEmpty) authArtworkData.value = [...snap.data!.values];
+                // Future.delayed(const Duration(milliseconds: 50),()=>_authorArtworksViewCtrl.position.ensureVisible(current.currentContext!.findRenderObject()!));
+                return ListenableBuilder(
+                  listenable: authArtworkData,
+                  builder: (ctx,w){
+                    return SizedBox(
+                      height: 120,
+                      // so that the elements in the row exists even when not visible (for ensureVisible stuff)
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        controller: _authorArtworksViewCtrl,
+                        padding: const EdgeInsets.only(left:2,right:2),
+                        child: Row(children: [...authArtworkData.value.map((e) => Padding(
+                          padding: const EdgeInsets.only(left:2.0, right:2),
+                          child: widget.authorWorksItemBuilder(e,e["id"]==id?current:null),
+                        ))]),
+                      )
+                    );
+                  }
+                );
+              },
+              placeholder: skeltal(authorWorks)
+            ),
+            // Comments
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(padding:EdgeInsets.only(left:4),child: Text("Comments",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left)),
+                Comments(id: id)
+              ],
+            ),
+            const SizedBox(height: 35,),
+        ];
+
+        final relatedWorksView = [
+         
+          const Text("Related artworks",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left),
+          futureWidget(
+            future: pxRequest("https://www.pixiv.net/ajax/$type/$id/recommend/init?limit=18"), 
+            builder:(ctx,snap) {
+              related.value = snap.data!["${type}s"];
+              relatedNextIds = snap.data!["nextIds"];
+              return ListenableBuilder(
+                listenable: related,
+                builder: (ctx,w)=>artworkGrid([...related.value.map((e) => widget.relatedWorksItemBuilder(e))])
+              );
+            } 
+          ),
+          const SizedBox(height: 35,)
+        ];
+
+
+        return SingleChildScrollView(
+          //crossAxisAlignment:CrossAxisAlignment.start,
+          //mainAxisSize: MainAxisSize.min,
+          controller: _scsvCtrl,
+          child:Breakpoints(context: context).extended?Row(children: [
+            Expanded(flex: 2,child:Column(children: mainView,crossAxisAlignment: CrossAxisAlignment.stretch,), ),
+            Expanded(flex: 1,child:Column(children: relatedWorksView),)
+          ],crossAxisAlignment: CrossAxisAlignment.start,):Column(children: [...mainView, ...relatedWorksView],),
+          scrollDirection: Axis.vertical,
         );
       }),
     );

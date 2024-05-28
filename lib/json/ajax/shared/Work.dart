@@ -280,7 +280,7 @@ class Work {
     uploadDate: json['uploadDate'],
     restrict: json['restrict'],
     xRestrict: json['xRestrict'],
-    tags: _Tags.fromJson(json['tags']),
+    tags: json["tags"] is List?_Tags(authorId: "", tags: [], isLocked: false, writable: false):_Tags.fromJson(json['tags']),
     userId: json['userId'],
     userName: json['userName'],
     likeData: json['likeData'],
