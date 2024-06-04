@@ -219,7 +219,9 @@ class _WorkLayoutState extends State<WorkLayout> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Padding(padding:EdgeInsets.only(left:4),child: Text("Comments",style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left)),
-                Comments(id: id)
+                if (data.commentOff==0) Comments(id: id) else Center(child:Text(
+                  data.tags.tags.firstWhereOrNull((i)=>i.tag=="loli") == null?"Comments turned off by author.":"You're not allowed to transform into a lonely wolf."
+                ))
               ],
             ),
             const SizedBox(height: 35,),

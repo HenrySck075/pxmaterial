@@ -11,6 +11,7 @@ import 'package:sofieru/pages/view/artworkview.dart' show ArtworkImageView;
 import 'package:sofieru/pages/view/layout.dart';
 import 'package:sofieru/shared.dart';
 import 'package:archive/archive.dart' as arch;
+import 'package:sofieru/shared/conditional_listenable.dart';
 import 'package:sofieru/skeltal/view/artworks.dart';
 import 'package:sofieru/json/ajax/illust/Artwork.dart';
 
@@ -55,6 +56,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
     super.initState();
     id = widget.id;
   }
+  // TODO: move this thing outside
   Widget artworkImageBuilder(idx,i,w,h,{Function()? onTap,double opacity = 1}){
     var ver = Padding(
       padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
@@ -214,6 +216,85 @@ class _ArtworkPageState extends State<ArtworkPage> {
     ];
   }
 }
+/// literally gif player
+class AnimatedArtworkRenderer extends StatefulWidget {
+  List<Image> frames;
+  List<int> timestamps;
+  /// realer duration (in miliseconds)
+  int _duration;
+  final int _framesLength;
+
+  /// if duration is -1, it will be set to timestamps.last+30
+  AnimatedArtworkRenderer({super.key, required this.frames, required this.timestamps, int? duration}) : _duration = duration??timestamps.last+30, _framesLength = frames.length;
+
+  @override
+  State<AnimatedArtworkRenderer> createState() => _AnimatedArtworkRendererState();
+}
+
+class _AnimatedArtworkRendererState extends State<AnimatedArtworkRenderer> with SingleTickerProviderStateMixin {
+  // ts after current
+  double next = 0;
+  // ts before current
+  double previous = 0;
+  final idx = ValueNotifier(0);
+  late AnimationController _ctrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(vsync: this, duration: Duration(milliseconds: widget._duration));
+    next=widget.timestamps[1]/1000;
+
+    _ctrl.addListener(() {
+      if (_ctrl.value < previous) {
+        idx.value--;
+        previous = widget.timestamps[idx.value]/1000;
+        next = widget.timestamps[idx.value+1]/1000;
+      }
+      else if (_ctrl.value > next) {
+        idx.value = (idx.value==widget._framesLength ? 0 : idx.value+1);
+        previous = widget.timestamps[idx.value-1]/1000;
+        next = widget.timestamps[idx.value]/1000;
+      }
+    });
+    // manually restart animation
+    _ctrl.addStatusListener((stat){
+      if (stat == AnimationStatus.completed) {
+        next=widget.timestamps[1]/1000;
+        previous = 0;
+        _ctrl.forward(from: 0);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _ctrl.forward();
+    bool isUserDragging = false;
+    return Column(children: [
+      ListenableBuilder(listenable: idx, builder: (ctx,v) {
+        return widget.frames[idx.value];
+      }),
+      const SizedBox(height:8),
+      ConditionalListenableBuilder(
+        listenable: _ctrl, builder: (ctx,h)=>Slider(
+          value: _ctrl.value, 
+          onChanged: (n){_ctrl.value=n;}, 
+          onChangeEnd: (n){_ctrl.forward(from: n);isUserDragging=false;},
+          onChangeStart: (n){_ctrl.stop();isUserDragging=true;},
+          max: _ctrl.upperBound,
+        ),
+        condition: ()=>!isUserDragging,
+      )
+    ]);
+  }
+}
 
 class AnimatedArtworkView extends StatelessWidget {
   const AnimatedArtworkView({
@@ -226,6 +307,7 @@ class AnimatedArtworkView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children:[
+    // the thumbnail goes here
     Center(
       child: futureWidget(
         future: pxRequest("https://www.pixiv.net/ajax/illust/$id/ugoira_meta"), 
@@ -242,24 +324,19 @@ class AnimatedArtworkView extends StatelessWidget {
               final curImg = ValueNotifier<Widget>(const SizedBox(width:1,height:1,));
               final total = frames.map((r)=>r["delay"] as int).toList().fold(0,(p,c)=>p+c);
               List<Image> widgetFrames = [];
+              List<int> frameTimestamps = [];
+              int ts = 0;
               for (int i = 0; i < frames.length; i++) {
                 var element = frames[i];
                 widgetFrames.add(Image.memory(archive.findFile(element["file"])!.content));              
+                frameTimestamps.add(ts);
+                ts+=element["delay"]! as int;
               }
-              // schedule frame change
-              Timer.periodic(Duration(milliseconds:total), (timer) { 
-                int ts = 0;
-                for (int i = 0; i < frames.length; i++) {
-                  var element = frames[i];
-                  ts+=element["delay"]! as int;
-                  Timer(Duration(milliseconds: ts),()=>curImg.value=widgetFrames[i]);
-                }
-              });
               // 1 more future widget to preload the images (it doesnt)
               return futureWidget(
                 future: Future.wait(widgetFrames.map((e)=>precacheImage(e.image, ctx))), 
                 placeholder: const Center(child: Text("Loading frames...")),
-                builder: (ctx,s)=>ListenableBuilder(listenable: curImg, builder: (ctx,w)=>curImg.value,)
+                builder: (ctx,s)=>AnimatedArtworkRenderer(frames:widgetFrames, timestamps: frameTimestamps,duration: total,)
               );
             } 
           );

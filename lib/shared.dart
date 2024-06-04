@@ -1,4 +1,5 @@
 /// Collection of classes and utilities that will be used across the codebases (unordered) (actually its sort by newest and relevancy)
+/// TODO: i regret squeezing everything into 1 file. tl;dr: chunk this
 // ignore_for_file: no_logic_in_create_state
 import 'dart:async';
 import 'dart:io';
@@ -190,7 +191,7 @@ void navigate(String location, {String method = "push", Object? extra}) {
 }
 typedef JSON = Map<String, dynamic>;
 
-//,/ high chance that pixiv will liter these emojis everywhere (they're inconsistent)
+/// high chance that pixiv will litter these emojis everywhere (they're inconsistent)
 Map<String, int> emojis = {'normal': 101, 'surprise': 102, 'serious': 103, 'heaven': 104, 'happy': 105, 'excited': 106, 'sing': 107, 'cry': 108, 'normal2': 201, 'shame2': 202, 'love2': 203, 'interesting2': 204, 'blush2': 205, 'fire2': 206, 'angry2': 207, 'shine2': 208, 'panic2': 209, 'normal3': 301, 'satisfaction3': 302, 'surprise3': 303, 'smile3': 304, 'shock3': 305, 'gaze3': 306, 'wink3': 307, 'happy3': 308, 'excited3': 309, 'love3': 310, 'normal4': 401, 'surprise4': 402, 'serious4': 403, 'love4': 404, 'shine4': 405, 'sweat4': 406, 'shame4': 407, 'sleep4': 408, 'heart': 501, 'teardrop': 502, 'star': 503};
 String p(String the) {
   emojis.entries.forEach((e) {
@@ -222,6 +223,7 @@ void printWrapped(String text) => RegExp('.{1,800}').allMatches(text).map((m) =>
 
 var client = http.Client();
 Future<void> wait(FutureOr<bool> Function(dynamic) predicate) async => await Future.doWhile(() => Future.delayed(const Duration(milliseconds: 500)).then(predicate));
+
 /// [pxRequest] without postprocess
 Future<http.Response> pxRequestUnprocessed(String url, {
   Map<String, String>? otherHeaders, String method="GET", Object? body, bool noCache = false, Map<String, dynamic> extraData = const {},
@@ -235,11 +237,13 @@ Future<http.Response> pxRequestUnprocessed(String url, {
     "X-User-Id": userId,
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
   };
+  /*
   print("-----");
   print(url);
   print(method);
   headers.addAll(otherHeaders);
   printWrapped(headers.toString());
+  */
   if (_cachedResponse.containsKey(url) && !noCache) {return Future.value(_cachedResponse[url]!);}// we dont really needs to null check but dart sucks so
   
 
