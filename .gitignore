@@ -49,3 +49,10 @@ app.*.map.json
 
 # Google Sans
 /assets/fonts/ProductSans*.ttf
+
+# gifski prebuilt libraries 
+# TODO: once you made a github action, remember to build gifski first
+# The outer folder is the custom library built from gifski.cpp in the same folder 
+# The inner folder is the gifski library
+/gifski/gifski
+/gifski/libgifski*

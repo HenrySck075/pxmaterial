@@ -71,7 +71,7 @@ class _Meta {
     title: json['title'],
     description: json['description'],
     canonical: json['canonical'],
-    alternateLanguages: json['alternateLanguages'] == null?null:_AlternateLanguages.fromJson(json['alternateLanguages']),
+    alternateLanguages: json['alternateLanguages'] is List?null:_AlternateLanguages.fromJson(json['alternateLanguages']),
     descriptionHeader: json['descriptionHeader'],
     ogp: json['ogp'] == null?null:_EmbedMeta.fromJson(json['ogp']),
     twitter: json['twitter'] == null?null:_EmbedMeta.fromJson(json['twitter']),

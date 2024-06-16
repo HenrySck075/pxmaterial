@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:sofieru/json/ajax/novel/Novel.dart';
 import 'package:sofieru/shared.dart';
+import 'package:sofieru/shared/http.dart';
 import "layout.dart";
 
 

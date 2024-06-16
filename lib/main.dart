@@ -9,7 +9,6 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:path/path.dart';
 import 'package:sofieru/pages/devtools.dart';
 import 'package:sofieru/pages/helpcenter/hchtml.dart';
 import 'package:sofieru/pages/settings.dart';
@@ -20,6 +19,8 @@ import 'package:uni_links/uni_links.dart';
 import 'package:uni_links_desktop/uni_links_desktop.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'shared.dart';
+import 'shared/http.dart';
+import 'shared/route.dart';
 import 'appdata.dart';
 
 // Routes
@@ -364,6 +365,7 @@ class _ShellPageState extends State<ShellPage> {
   @override
   void initState() {
     super.initState();
+    pxRequest("https://www.pixiv.net/ajax/user/extra?lang=en&version=cd92ea4e80362d368931ee48c5c33d97577fec4c"); // this has the Set-Cookie header so um cool ig
   }
   @override
   Widget build(BuildContext context) {

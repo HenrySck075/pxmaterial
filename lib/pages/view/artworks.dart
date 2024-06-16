@@ -10,8 +10,8 @@ import 'package:sofieru/context_menu.dart';
 import 'package:sofieru/pages/view/artworkview.dart' show ArtworkImageView;
 import 'package:sofieru/pages/view/layout.dart';
 import 'package:sofieru/shared.dart';
-import 'package:archive/archive.dart' as arch;
-import 'package:sofieru/shared/conditional_listenable.dart';
+import 'package:sofieru/shared/http.dart';
+import 'animated.dart' show AnimatedArtworkView;
 import 'package:sofieru/skeltal/view/artworks.dart';
 import 'package:sofieru/json/ajax/illust/Artwork.dart';
 
@@ -58,15 +58,24 @@ class _ArtworkPageState extends State<ArtworkPage> {
   }
   // TODO: move this thing outside
   Widget artworkImageBuilder(idx,i,w,h,{Function()? onTap,double opacity = 1}){
+    
     var ver = Padding(
       padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-      child:FractionallySizedBox(
-        widthFactor: 0.4,
-        child:ConstrainedBox(
-          constraints: const BoxConstraints(minWidth: 350,),
-          child: Hero(tag: "${id}_p$idx", child: pxImageFlutter(i["urls"]["regular"],placeholder:Skeletonizer(child:Skeleton.leaf(
-            child: Material(child: SizedBox(width:w,height:h),) 
-          )),width: w, height: h, opacity: AlwaysStoppedAnimation(opacity)))
+      child:ConstrainedBox(
+        constraints: const BoxConstraints(minWidth: 350,),
+        child: Hero(
+          tag: "${id}_p$idx", 
+          child: pxImageFlutter(
+            i["urls"]["regular"],
+            placeholder:Skeletonizer(
+              child:Skeleton.leaf(
+                child: Material(child: SizedBox(width:w,height:h),) 
+              )
+            ),
+            width: w, 
+            height: h, 
+            opacity: AlwaysStoppedAnimation(opacity)
+          )
         )
       )
     );
@@ -95,16 +104,17 @@ class _ArtworkPageState extends State<ArtworkPage> {
           "manga": "artworks",
           "novel": "novel"
         };
-        String pathJoin(List<String> segments) => "/"+segments.join("/");
+        String pathJoin(List<String> segments) => (segments..insert(0, "")).join("/");
         late final List<Widget> view;
-        if (data.illustType!=2) view = IllustMangaView(data, context, gang, pathJoin, seriesType);
+        if (data.illustType!=2) {view = IllustMangaView(data, context, gang, pathJoin, seriesType);}
+        else {view=[AnimatedArtworkView(id: data.id,w: data.width, h: data.height)];}
         return WorkLayout( 
           wtype: WorkType.illust,
           data: data,
           // The artwork view
           view: Column(children:view),
           // author works
-          authorWorksItemBuilder: (e,[k])=> PxSimpleArtwork.fromJson(
+          authorWorksItemBuilder: (e,k)=> PxSimpleArtwork.fromJson(
             key: k,
             payload: e,
             isCurrent: e["id"]==id,
@@ -184,7 +194,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
         op=(shownAll?gang:[gang[0]]);
         shownAll=!shownAll;
       }))),
-      if (data.bookStyle == "0") SizedBox(height:30),
+      if (data.bookStyle == "0") const SizedBox(height:30),
       // series navigation, if any
       if (data.seriesNavData!=null) Row(
         mainAxisSize: MainAxisSize.min,
@@ -210,142 +220,9 @@ class _ArtworkPageState extends State<ArtworkPage> {
                 seriesType[data.seriesNavData!.seriesType]!,
               data.seriesNavData!.prev!.id
             ])), 
-            child: Text("#${data.seriesNavData!.order-1} "+(data.seriesNavData!.prev!.title))),
+            child: Text("#${data.seriesNavData!.order-1} ${data.seriesNavData!.prev!.title}")),
         ]
       )
     ];
   }
 }
-/// literally gif player
-class AnimatedArtworkRenderer extends StatefulWidget {
-  List<Image> frames;
-  List<int> timestamps;
-  /// realer duration (in miliseconds)
-  int _duration;
-  final int _framesLength;
-
-  /// if duration is -1, it will be set to timestamps.last+30
-  AnimatedArtworkRenderer({super.key, required this.frames, required this.timestamps, int? duration}) : _duration = duration??timestamps.last+30, _framesLength = frames.length;
-
-  @override
-  State<AnimatedArtworkRenderer> createState() => _AnimatedArtworkRendererState();
-}
-
-class _AnimatedArtworkRendererState extends State<AnimatedArtworkRenderer> with SingleTickerProviderStateMixin {
-  // ts after current
-  double next = 0;
-  // ts before current
-  double previous = 0;
-  final idx = ValueNotifier(0);
-  late AnimationController _ctrl;
-
-  @override
-  void initState() {
-    super.initState();
-    _ctrl = AnimationController(vsync: this, duration: Duration(milliseconds: widget._duration));
-    next=widget.timestamps[1]/1000;
-
-    _ctrl.addListener(() {
-      if (_ctrl.value < previous) {
-        idx.value--;
-        previous = widget.timestamps[idx.value]/1000;
-        next = widget.timestamps[idx.value+1]/1000;
-      }
-      else if (_ctrl.value > next) {
-        idx.value = (idx.value==widget._framesLength ? 0 : idx.value+1);
-        previous = widget.timestamps[idx.value-1]/1000;
-        next = widget.timestamps[idx.value]/1000;
-      }
-    });
-    // manually restart animation
-    _ctrl.addStatusListener((stat){
-      if (stat == AnimationStatus.completed) {
-        next=widget.timestamps[1]/1000;
-        previous = 0;
-        _ctrl.forward(from: 0);
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _ctrl.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    _ctrl.forward();
-    bool isUserDragging = false;
-    return Column(children: [
-      ListenableBuilder(listenable: idx, builder: (ctx,v) {
-        return widget.frames[idx.value];
-      }),
-      const SizedBox(height:8),
-      ConditionalListenableBuilder(
-        listenable: _ctrl, builder: (ctx,h)=>Slider(
-          value: _ctrl.value, 
-          onChanged: (n){_ctrl.value=n;}, 
-          onChangeEnd: (n){_ctrl.forward(from: n);isUserDragging=false;},
-          onChangeStart: (n){_ctrl.stop();isUserDragging=true;},
-          max: _ctrl.upperBound,
-        ),
-        condition: ()=>!isUserDragging,
-      )
-    ]);
-  }
-}
-
-class AnimatedArtworkView extends StatelessWidget {
-  const AnimatedArtworkView({
-    super.key,
-    required this.id,
-  });
-
-  final String id;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(children:[
-    // the thumbnail goes here
-    Center(
-      child: futureWidget(
-        future: pxRequest("https://www.pixiv.net/ajax/illust/$id/ugoira_meta"), 
-        placeholder: const Center(child: Text("Fetching data...")),
-        builder: (ctx,snap){
-          var data = snap.data! as Map<String, dynamic>;
-          final List<dynamic> frames = data["frames"];
-          return futureWidget(
-            future: pxRequestUnprocessed(data["src"],otherHeaders: {"Upgrade-Insecure-Requests":"1"}), 
-            placeholder: const Center(child: Text("Downloading...")),
-            builder: (ctx,snap) {
-              var zipContent = snap.data!.bodyBytes;
-              final archive = arch.ZipDecoder().decodeBytes(zipContent);
-              final curImg = ValueNotifier<Widget>(const SizedBox(width:1,height:1,));
-              final total = frames.map((r)=>r["delay"] as int).toList().fold(0,(p,c)=>p+c);
-              List<Image> widgetFrames = [];
-              List<int> frameTimestamps = [];
-              int ts = 0;
-              for (int i = 0; i < frames.length; i++) {
-                var element = frames[i];
-                widgetFrames.add(Image.memory(archive.findFile(element["file"])!.content));              
-                frameTimestamps.add(ts);
-                ts+=element["delay"]! as int;
-              }
-              // 1 more future widget to preload the images (it doesnt)
-              return futureWidget(
-                future: Future.wait(widgetFrames.map((e)=>precacheImage(e.image, ctx))), 
-                placeholder: const Center(child: Text("Loading frames...")),
-                builder: (ctx,s)=>AnimatedArtworkRenderer(frames:widgetFrames, timestamps: frameTimestamps,duration: total,)
-              );
-            } 
-          );
-        })
-      ),
-    ]);
-  }
-}
-/// cant compile gifski rn
-void ugoiraSave(List<Image> frames, List<int> delay) {
-}
-

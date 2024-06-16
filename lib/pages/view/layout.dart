@@ -26,7 +26,7 @@ class WorkLayout extends StatefulWidget {
   /// The work view section
   final Widget view;
   /// Author works item builder
-  final Widget Function(Map<String,dynamic> data, [Key? key]) authorWorksItemBuilder;
+  final Widget Function(Map<String,dynamic> data, Key? key) authorWorksItemBuilder;
   final Widget Function(Map<String,dynamic> data) relatedWorksItemBuilder;
 
 
@@ -199,14 +199,15 @@ class _WorkLayoutState extends State<WorkLayout> {
                     return SizedBox(
                       height: 120,
                       // so that the elements in the row exists even when not visible (for ensureVisible stuff)
-                      child: SingleChildScrollView(
+                      child: ListView(
+                        cacheExtent: 14, // the grand 7
                         scrollDirection: Axis.horizontal,
                         controller: _authorArtworksViewCtrl,
                         padding: const EdgeInsets.only(left:2,right:2),
-                        child: Row(children: [...authArtworkData.value.map((e) => Padding(
+                        children: [...authArtworkData.value.map((e) => Padding(
                           padding: const EdgeInsets.only(left:2.0, right:2),
                           child: widget.authorWorksItemBuilder(e,e["id"]==id?current:null),
-                        ))]),
+                        ))],
                       )
                     );
                   }

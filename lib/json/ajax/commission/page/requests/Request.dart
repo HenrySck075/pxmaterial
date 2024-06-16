@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:sofieru/json/base.dart' show checkFalsy;
+import 'package:sofieru/shared.dart';
 class _RequestTranslationProposal {
   final String requestProposal;
   final String requestProposalHtml;
@@ -445,6 +448,7 @@ class Request {
     this.fanLetter,
   });
   factory Request.fromJson(Map<String, dynamic> json) {
+    printWrapped(JsonEncoder.withIndent("  ").convert(json));
     return Request(
     requestId: json['requestId'],
     planId: json['planId'],

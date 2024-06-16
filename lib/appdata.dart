@@ -98,11 +98,11 @@ class AppSettings {
   }
 
 
-  bool get noViewConstraints=> _get("no_view_constraints",false);
-  set noViewConstraints(bool v)=> _set("no_view_constraints",v);
-
   String get cookie=> _get("cookie","");
   set cookie(String v)=> _set("cookie",v);
+
+  bool get noViewConstraints=> _get("no_view_constraints",false);
+  set noViewConstraints(bool v)=> _set("no_view_constraints",v);
 
   String get themeMode=> _get("theme_mode","system");
   set themeMode(String v)=> _set("theme_mode",v);

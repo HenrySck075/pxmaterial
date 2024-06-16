@@ -80,11 +80,18 @@ class _ContextMenuWrapperState extends State<ContextMenuWrapper> with SingleTick
     }
   }
 
+  Offset longPressDownPosition = Offset.zero;
+  PointerDeviceKind? mouseKind;
+
   @override
   Widget build(ctx) {
     return GestureDetector(
       onLongPressDown: (d){
-        if (d.kind == PointerDeviceKind.touch) _openContext(d.localPosition);
+        mouseKind = d.kind;
+        longPressDownPosition = d.localPosition;
+      },
+      onLongPressUp: (){
+        if (mouseKind==PointerDeviceKind.touch) _openContext(longPressDownPosition);
       },
       onSecondaryTapUp: (d)=>_openContext(d.localPosition),
       child: TapRegion(

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:sofieru/shared.dart';
+import 'package:sofieru/shared/http.dart';
 
 class IllustPage extends StatefulWidget {
   final String tag;

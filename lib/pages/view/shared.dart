@@ -6,6 +6,7 @@ import 'package:sofieru/shared.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:sofieru/skeltal/skeltal.dart';
 import 'package:sofieru/skeltal/view/shared.dart' as skel;
+import 'package:sofieru/shared/http.dart';
 
 class Comments extends StatefulWidget {
   final String id;
