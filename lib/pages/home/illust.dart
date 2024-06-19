@@ -7,6 +7,7 @@ import 'package:sofieru/json/ajax/illust/PartialArtwork.dart';
 import 'package:sofieru/json/ajax/user/PartialUser.dart';
 import 'shared.dart';
 import 'package:sofieru/shared.dart';
+import 'package:sofieru/shared/http.dart';
 import 'package:sofieru/json/ajax/top/illust/IllustTop.dart' show IllustTop;
 import "package:sofieru/pages/requests/widgeto.dart" show RequestedIllust;
 
@@ -30,7 +31,7 @@ class IllustsPage extends StatelessWidget {
         final getData = Memoized1<PartialArtwork?, String>(
           (String id) {
             try {
-              return mainresp.thumbnails.illust!.firstWhere(
+              return mainresp.thumbnails.illust.firstWhere(
                 (e) => e.id==id 
               );
             } on StateError {return null;}

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:sofieru/shared.dart';
+import 'package:sofieru/shared/http.dart';
+import 'package:sofieru/shared/route.dart';
 import 'package:url_launcher/url_launcher.dart';
 // import 'package:sticky_headers/sticky_headers.dart';
 import 'top.dart';

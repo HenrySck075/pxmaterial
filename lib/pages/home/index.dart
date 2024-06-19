@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sofieru/pages/home/illust.dart';
 import 'package:sofieru/pages/home/novel.dart';
 import 'package:sofieru/shared.dart';
+import 'package:sofieru/shared/route.dart';
 export 'illust.dart' show IllustsPage;
 export 'novel.dart' show NovelsPage;
 class ShellPage extends StatefulWidget {
@@ -28,7 +29,7 @@ class _ShellPageState extends State<ShellPage> with SingleTickerProviderStateMix
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
-        bottom:PreferredSize(preferredSize:Size.fromHeight(80),child:WidthDependentTabBar(
+        bottom:PreferredSize(preferredSize:const Size.fromHeight(80),child:WidthDependentTabBar(
           controller: _ctrl,
           tabs: const [
             Tab(

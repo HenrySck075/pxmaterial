@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import "package:flutter/material.dart";
 import 'package:path_provider/path_provider.dart';
 import 'package:sofieru/pages/view/gifskilib.dart';
@@ -29,16 +31,17 @@ class Renderer extends CustomPainter {
 /// literally gif player
 class AnimatedArtworkPlayer extends StatefulWidget {
   List<Image> frames;
-  List<int> timestamps;
+  List<int> delays;
 
   int w;
   int h;
+  final String id;
   /// realer duration (in miliseconds)
   final int _duration;
   final int _framesLength;
 
-  /// if duration is -1, it will be set to timestamps.last+30
-  AnimatedArtworkPlayer({super.key, required this.frames, required this.timestamps, int? duration, required this.w, required this.h}) : _duration = duration??timestamps.last+30, _framesLength = frames.length;
+  /// if duration is -1, it will be set to delays.last+30
+  AnimatedArtworkPlayer({super.key, required this.frames, required this.delays, int? duration, required this.w, required this.h, required this.id}) : _duration = duration??delays.last+30, _framesLength = frames.length;
 
   @override
   State<AnimatedArtworkPlayer> createState() => _AnimatedArtworkPlayerState();
@@ -55,27 +58,27 @@ class _AnimatedArtworkPlayerState extends State<AnimatedArtworkPlayer> with Sing
   @override
   void initState() {
     super.initState();
-    print("Timestamp data: ${widget.timestamps}");
+    print("Timestamp data: ${widget.delays}");
     _ctrl = AnimationController(vsync: this, duration: Duration(milliseconds: widget._duration), upperBound: widget._duration/1000);
-    next=widget.timestamps[1]/1000;
+    next=widget.delays[1]/1000;
 
     _ctrl.addListener(() {
       if (_ctrl.value < previous) {
         idx.value--;
         next = previous;
-        previous = widget.timestamps[idx.value]/1000;
+        previous = widget.delays[idx.value]/1000;
       }
       else if (_ctrl.value > next) {
         idx.value = (idx.value+1==widget._framesLength ? 0 : idx.value+1);
         previous = next;
-        next = widget.timestamps[idx.value]/1000;
+        next = widget.delays[idx.value]/1000;
       }
       print('AnimatedArtworkPlayer: next: $next | previous: $previous');
     });
     // manually restart animation
     _ctrl.addStatusListener((stat){
       if (stat == AnimationStatus.completed) {
-        next=widget.timestamps[1]/1000;
+        next=widget.delays[1]/1000;
         previous = 0;
         _ctrl.forward(from: 0);
       }
@@ -92,13 +95,44 @@ class _AnimatedArtworkPlayerState extends State<AnimatedArtworkPlayer> with Sing
   Widget build(BuildContext context) {
     _ctrl.forward();
     return Column(children: [
-      ListenableBuilder(listenable: idx, builder: (ctx,v) {
-        return SizedBox(
-          width: widget.w.toDouble(),
-          height: widget.h.toDouble(),
-          child:widget.frames[idx.value] 
-        );
-      }),
+      FilledButton(
+        onPressed: ()=>showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (ctx){
+            var meow = StreamController<String>();
+            ugoiraSave(meow, widget.id, widget.frames, widget.delays)
+            ..catchError((e){
+              Navigator.pop(ctx);
+              showDialog(
+                context: context, 
+                builder: (c)=>Dialog(
+                  child: ListTile( 
+                    title: const Text("Error rendering artwork"),
+                    subtitle: Text("$e"),
+                  ),
+                )
+              );
+            }) // this fucker is not always a string 
+            ..then((value){
+              Navigator.pop(ctx);
+              ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(content: Text("Rendering done. Yeah!")));
+            });
+            return Dialog( 
+              
+              child: ListTile( 
+                leading: const CircularProgressIndicator(),
+                title: const Text("Rendering, please chill for a lil bit"),
+                subtitle: StreamBuilder(
+                  stream: meow.stream, builder: (c,s)=>Text(s.data??"uwu")
+                ),
+              ),
+            );
+          }
+        ),
+        child: const Text("Download"),
+      ),
+      ListenableBuilder(listenable: idx, builder: (ctx,v)=>widget.frames[idx.value]),
       const SizedBox(height:8),
       ListenableBuilder(
         listenable: _ctrl, builder: (ctx,h)=>Slider(
@@ -108,7 +142,6 @@ class _AnimatedArtworkPlayerState extends State<AnimatedArtworkPlayer> with Sing
           onChangeStart: (n){_ctrl.stop();},
           max: _ctrl.upperBound,
         ),
-        //condition: ()=>!isUserDragging,
       )
     ]);
   }
@@ -133,9 +166,14 @@ class AnimatedArtworkView extends StatelessWidget {
     // the thumbnail goes here
     Center(
       child: futureWidget(
-        future: pxRequest("https://www.pixiv.net/ajax/illust/$id/ugoira_meta"), 
+        future: pxRequest("https://www.pixiv.net/touch/ajax/illust/details?illust_id=$id&ref=").then((value) => value["illust_details"]["ugoira_meta"]), 
         placeholder: const Center(child: Text("Fetching data...")),
         builder: (ctx,snap){
+          try {
+            snap.data! as Map<String, dynamic>;
+          } catch (s){
+            return const Text("Failed to get animated artwork data");
+          }
           var data = snap.data! as Map<String, dynamic>;
           final List<dynamic> frames = data["frames"];
           return futureWidget(
@@ -158,7 +196,7 @@ class AnimatedArtworkView extends StatelessWidget {
               return futureWidget(
                 future: Future.wait(widgetFrames.map((e)=>precacheImage(e.image, ctx))), 
                 placeholder: const Center(child: Text("Loading frames...")),
-                builder: (ctx,s)=>AnimatedArtworkPlayer(frames:widgetFrames, timestamps: frameTimestamps,duration: total,w:w,h:h)
+                builder: (ctx,s)=>AnimatedArtworkPlayer(id:id,frames:widgetFrames, delays: frameTimestamps,duration: total,w:w,h:h)
               );
             } 
           );
@@ -168,7 +206,7 @@ class AnimatedArtworkView extends StatelessWidget {
   }
 }
 
-void ugoiraSave(String id, List<Image> frames, List<int> delays, [bool lowqual = false]) {
+Future ugoiraSave(StreamController<String> statusReporter, String id, List<Image> frames, List<int> delays, [bool lowqual = false]) {
   var f = frames[0];
 
   var tss = [];
@@ -179,17 +217,30 @@ void ugoiraSave(String id, List<Image> frames, List<int> delays, [bool lowqual =
     tsss+=delays[i];
   }
 
-  getApplicationDocumentsDirectory().then((dwnPath){
-    var gifski = GifSki()..create((f.width??1).toInt(), (f.height??1).toInt(), lowqual?50:100, lowqual, "${dwnPath.path}/$id.gif");
+  return getApplicationDocumentsDirectory().then((dwnPath){
+    var gifski = GifSki()..create((f.width??1).toInt(), (f.height??1).toInt(), lowqual?50:100, lowqual, "$id.gif");
+    /// list of frame adding call
+    List<Future> schd = [];
     // they're assumed to match the length
     for (int i = 0; i < l; i++) {
+      // future
+      var completer = Completer();
+      schd.add(completer.future);
+      // get the image  
       frames[i].image.resolve(ImageConfiguration.empty).addListener(ImageStreamListener((image, synchronousCall) {
         // if this fails then that's a skill issue
-        image.image.toByteData().then((value) => gifski.addFrameRGB(i, value!.buffer.asUint8List(), tss[i]));
+        image.image.toByteData().then((value) => gifski.addFrameRGBA(i, value!.buffer.asUint8List(), tss[i])).then((value){
+          completer.complete(0);
+          statusReporter.add("Frame $i completed");
+        });
       }));
-
     }
-    gifski.close();
+    // wait for all of them to finish and we can close gifski
+    return Future.wait(schd).then((j){
+      statusReporter.add("Finishing");
+      gifski.close();
+    });
+    
   });
 }
 

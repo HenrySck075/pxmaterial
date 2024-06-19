@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sofieru/shared.dart';
+import 'package:sofieru/shared/http.dart';
 import 'package:collection/collection.dart';
 
 class ArtworkImageView extends StatelessWidget {

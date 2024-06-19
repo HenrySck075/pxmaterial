@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import "route.dart";
 import 'package:sofieru/appdata.dart';
 /// automatically set by tools/version.py
-String apiVersion = "568a9ad6a07e7d4df2dbbf6ab66e01f926f7b0eb";
+String apiVersion = "01de101200242486b5d1bfd48ae8a7e1b8743475";
 
 Map<String, http.Response> _cachedResponse = {};
 void clearRequestCache(){
@@ -38,14 +38,14 @@ Future<http.Response> pxRequestUnprocessed(String url, {
     "X-User-Id": userId,
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
   };
-  /*
   print("-----");
   print(url);
   print(method);
+  /*
   headers.addAll(otherHeaders);
   printWrapped(headers.toString());
-  print("-----");
   */
+  print("-----");
   if (_cachedResponse.containsKey(url) && !noCache) {return Future.value(_cachedResponse[url]!);}// we dont really needs to null check but dart sucks so
   
 
@@ -91,6 +91,7 @@ Future<dynamic> pxRequest(String url, {Map<String, String>? otherHeaders, String
     var decoded = jsonDecode(v.body);
     if (decoded["error"]) {
       print(decoded["message"]);
+      print(url);
       /*if (decoded["message"]=="Invalid request.") {
         cooki = "";
         userId = "";

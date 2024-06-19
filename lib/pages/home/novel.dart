@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'shared.dart';
 import 'package:sofieru/shared.dart';
+import 'package:sofieru/shared/http.dart';
 class NovelsPage extends StatelessWidget {
   const NovelsPage({super.key});
 

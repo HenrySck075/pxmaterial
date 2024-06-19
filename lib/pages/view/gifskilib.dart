@@ -21,6 +21,7 @@ final class GifskiSettings extends ffi.Struct {
 
 // i only have what i need
 class GifSki {
+  GifSki(){load();}
   void load() {
     if (Platform.isIOS || Platform.isFuchsia) {
       // unfortunate.
@@ -50,15 +51,15 @@ class GifSki {
   create(int width, int height, int quality, bool fast, String outputPath, {int repeat=0}) {
     _lib.lookupFunction<
       ffi.Void Function(ffi.Uint32, ffi.Uint32, ffi.Uint8, ffi.Bool, ffi.Int16), void Function(int, int, int, bool, int)
-    >("gifski_new").call(width, height, quality, fast, repeat);
-    _lib.lookupFunction<void Function(ffi.Pointer<ffip.Utf8>), void Function(ffi.Pointer<ffip.Utf8>)>("set_file_output").call(outputPath.toNativeUtf8());
+    >("gifski2_new").call(width, height, quality, fast, repeat);
+    _lib.lookupFunction<ffi.Void Function(ffi.Pointer<ffip.Utf8>), void Function(ffi.Pointer<ffip.Utf8>)>("set_file_output").call(outputPath.toNativeUtf8());
   }
-  /// do this
+  /// Start rendering and close the instance.
   close() {
-    _lib.lookupFunction<ffi.Void Function(), void Function()>("gifski_finish").call();
+    _lib.lookupFunction<ffi.Void Function(), void Function()>("finish").call();
   }
 
-  addFrameRGB(int frameNum, Uint8List pixels, double timestamp) {
-    _lib.lookupFunction<ffi.Int Function(ffi.Uint32, ffi.Pointer<ffip.Utf8>, ffi.Double), int Function(int, ffi.Pointer<ffip.Utf8>, double)>("add_frame_rgb")(frameNum, String.fromCharCodes(pixels).toNativeUtf8(), timestamp);
+  addFrameRGBA(int frameNum, Uint8List pixels, double timestamp) {
+    _lib.lookupFunction<ffi.Int Function(ffi.Uint32, ffi.Pointer<ffip.Utf8>, ffi.Double), int Function(int, ffi.Pointer<ffip.Utf8>, double)>("add_frame_rgba")(frameNum, String.fromCharCodes(pixels).toNativeUtf8(), timestamp);
   }
 }

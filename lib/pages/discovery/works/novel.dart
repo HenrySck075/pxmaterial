@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sofieru/shared.dart';
+import 'package:sofieru/shared/http.dart';
 
 class Novel extends StatefulWidget {
+  const Novel({super.key});
   @override
   State<Novel> createState()=>_NovelState();
 }

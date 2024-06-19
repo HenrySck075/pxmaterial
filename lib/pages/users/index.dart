@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:sofieru/json/ajax/user/User.dart';
 import 'package:sofieru/pages/users/illusts.dart';
 import 'package:sofieru/shared.dart';
+import 'package:sofieru/shared/http.dart';
+import 'package:sofieru/shared/route.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 
 import 'home.dart';

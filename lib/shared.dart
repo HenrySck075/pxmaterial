@@ -6,10 +6,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 export 'package:sofieru/silly.dart';
 import 'package:flutter_image/network.dart';
+import 'package:sofieru/shared/route.dart';
 
 //import 'package:window_size/window_size.dart';
 
@@ -17,16 +17,16 @@ import 'package:flutter_image/network.dart';
 Future<FetchInstructions> retry(Uri uri, FetchFailure? fail) async {
   if (fail != null) {
     if ([403].contains(fail.httpStatusCode)) {return FetchInstructions.giveUp(uri: uri);}
-    else {return await Future.delayed(Duration(milliseconds:500*fail.attemptCount), ()=>FetchInstructions.attempt(uri: uri, timeout: Duration(seconds:30)));}
+    else {return await Future.delayed(Duration(milliseconds:500*fail.attemptCount), ()=>FetchInstructions.attempt(uri: uri, timeout: const Duration(seconds:30)));}
   }
   else {
-    return FetchInstructions.attempt(uri: uri, timeout: Duration(seconds: 30));
+    return FetchInstructions.attempt(uri: uri, timeout: const Duration(seconds: 30));
   }
 }
 
 class Breakpoints {
   BuildContext context;
-  MediaQueryData _q;
+  final MediaQueryData _q;
   Breakpoints({required this.context}):_q=MediaQuery.of(context);
 
   bool get compact=>_q.size.width<60;
@@ -102,7 +102,7 @@ var routeObserver = kita();
 
 List<T> concat2d<T>(Iterable<Iterable<T>> inp) {
   List<T> tri = [];
-  inp.forEach((element) {tri.addAll(element); });
+  for (var element in inp) {tri.addAll(element); }
   return tri;
 }
 List<List<T>> split2d<T>(Iterable<T> inp, {int splitEvery=2}) {
@@ -150,7 +150,7 @@ class Config extends ChangeNotifier {
 }
 */
 void navigate(String location, {String method = "push", Object? extra}) {
-  late var r;
+  late Function r;
   switch (method) {
     case "push":
       r = router.push;
@@ -171,9 +171,9 @@ typedef JSON = Map<String, dynamic>;
 /// high chance that pixiv will litter these emojis everywhere (they're inconsistent)
 Map<String, int> emojis = {'normal': 101, 'surprise': 102, 'serious': 103, 'heaven': 104, 'happy': 105, 'excited': 106, 'sing': 107, 'cry': 108, 'normal2': 201, 'shame2': 202, 'love2': 203, 'interesting2': 204, 'blush2': 205, 'fire2': 206, 'angry2': 207, 'shine2': 208, 'panic2': 209, 'normal3': 301, 'satisfaction3': 302, 'surprise3': 303, 'smile3': 304, 'shock3': 305, 'gaze3': 306, 'wink3': 307, 'happy3': 308, 'excited3': 309, 'love3': 310, 'normal4': 401, 'surprise4': 402, 'serious4': 403, 'love4': 404, 'shine4': 405, 'sweat4': 406, 'shame4': 407, 'sleep4': 408, 'heart': 501, 'teardrop': 502, 'star': 503};
 String p(String the) {
-  emojis.entries.forEach((e) {
+  for (var e in emojis.entries) {
     the = the.replaceAll("(${e.key})", '<img src="https://s.pximg.net/common/images/emoji/${e.value}.png" width="24" height="24">');
-  });
+  }
   return the;
 }
 Iterable<T> map<T,E extends Iterable>(E realestate, T Function(E e) toElement) sync* {

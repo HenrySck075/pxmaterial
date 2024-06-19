@@ -1,7 +1,8 @@
 #include "gifski.h"
 #include <cstdint>
+#include <iostream>
 
-
+extern "C" {
 // This thing exists globally until a finish call
 gifski* g;
 // shut
@@ -28,11 +29,9 @@ void set_file_output(const char* path) {
 
 GifskiError add_frame_rgba(
                                   uint32_t frame_number,
-                                  uint32_t width,
-                                  uint32_t height,
                                   const unsigned char *pixels,
                                   double presentation_timestamp) {
-  return gifski_add_frame_rgba(g, frame_number, width, height, pixels, presentation_timestamp);
+  return gifski_add_frame_rgba(g, frame_number, s.width, s.height, pixels, presentation_timestamp);
 }
 
 GifskiError add_frame_rgb(
@@ -42,3 +41,4 @@ GifskiError add_frame_rgb(
   return gifski_add_frame_rgb(g, frame_number, s.width, s.width*3, s.height, pixels, presentation_timestamp);
 }
 
+}

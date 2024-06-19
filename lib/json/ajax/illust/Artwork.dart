@@ -3,11 +3,11 @@ import 'package:sofieru/json/ajax/illust/PartialArtwork.dart' show PartialArtwor
 import 'package:sofieru/json/ajax/shared/Work.dart' show Work;
 import 'package:sofieru/shared.dart';
 class _Urls {
-  final String mini;
-  final String thumb;
-  final String small;
-  final String regular;
-  final String original;
+  final String? mini;
+  final String? thumb;
+  final String? small;
+  final String? regular;
+  final String? original;
   _Urls({
     required this.mini,
     required this.thumb,

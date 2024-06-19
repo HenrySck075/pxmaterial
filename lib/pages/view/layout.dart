@@ -1,18 +1,17 @@
 // should we use refactor
 
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sofieru/json/ajax/illust/Artwork.dart' show Artwork;
 import 'package:sofieru/json/ajax/novel/Novel.dart';
 import 'package:sofieru/json/ajax/shared/Work.dart';
 import 'package:sofieru/json/ajax/user/PartialUser.dart';
 import 'package:sofieru/shared.dart';
+import 'package:sofieru/shared/http.dart';
 import 'package:sofieru/skeltal/view/layout.dart';
 import 'shared.dart';
 import "package:sofieru/skeltal/skeltal.dart";

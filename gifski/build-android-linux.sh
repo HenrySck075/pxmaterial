@@ -1,1 +1,1 @@
-gcc gifski.cpp -Igifski/libgifski-android.so -shared -o libgifski-android.so -fPIC
+gcc gifski.cpp -L /termux/proj/sofieru/gifski/gifski -l:libgifski-android.so --shared -o libgifski.so -fPIC

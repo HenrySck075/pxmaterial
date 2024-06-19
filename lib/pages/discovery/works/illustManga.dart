@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sofieru/json/ajax/illust/PartialArtwork.dart';
 import 'package:sofieru/shared.dart';
+import 'package:sofieru/shared/http.dart';
 
 class IllustManga extends StatefulWidget {
+  const IllustManga({super.key});
   @override
   State<IllustManga> createState()=>_IllustMangaState();
 }

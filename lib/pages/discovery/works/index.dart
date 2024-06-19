@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:sofieru/pages/discovery/works/illustManga.dart';
 import 'package:sofieru/shared.dart';
-import 'package:sofieru/silly.dart';
+import 'package:sofieru/shared/route.dart';
 class Works extends StatefulWidget {
+  const Works({super.key});
+
   @override
   State<Works> createState() => _WorksState();
 }
@@ -22,7 +24,7 @@ class _WorksState extends State<Works>{
         ],
         onSelect: (v)=>navigate(ture[v])
       ),
-      [IllustManga(),Placeholder()][idx]
+      [const IllustManga(),const Placeholder()][idx]
     ]));
   }
 }
