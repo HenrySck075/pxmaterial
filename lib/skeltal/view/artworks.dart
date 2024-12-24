@@ -25,7 +25,7 @@ Column mainSkel({
             const SizedBox(height: 10,),
             Wrap(
               spacing: 8,
-              children: tags!=null?List.from(tags.map((t)=>tagChipBuilder(TagInfo(tag: t, locked: true, deletable: true))),):[]
+              children: tags!=null?List.from(tags.map((t)=>tagChipBuilder({"tag": t, "locked": true, "deletable": true} as TagInfo)),):[]
             )
           ])
         )

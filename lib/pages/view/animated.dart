@@ -3,7 +3,6 @@ import 'dart:async';
 
 import "package:flutter/material.dart";
 import 'package:path_provider/path_provider.dart';
-import 'package:sofieru/pages/view/gifskilib.dart';
 
 import "package:sofieru/shared.dart";
 import 'package:sofieru/shared/http.dart';
@@ -207,6 +206,9 @@ class AnimatedArtworkView extends StatelessWidget {
 }
 
 Future ugoiraSave(StreamController<String> statusReporter, String id, List<Image> frames, List<int> delays, [bool lowqual = false]) {
+  statusReporter.add("Not supported.");
+  return Future.value(false);
+  /*
   var f = frames[0];
 
   var tss = [];
@@ -242,5 +244,6 @@ Future ugoiraSave(StreamController<String> statusReporter, String id, List<Image
     });
     
   });
+  */
 }
 

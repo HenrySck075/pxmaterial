@@ -73,7 +73,7 @@ class _yourwatchhistory {
   Iterable<PartialArtwork> getHistory() sync* {
     var result = _datadb.select("SELECT * FROM history");
     for (final row in result) {
-      yield PartialArtwork.fromJson(jsonDecode(row["jsondata"]));
+      yield jsonDecode(row["jsondata"]);
     }
   }
 }

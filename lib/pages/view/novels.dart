@@ -3,6 +3,7 @@
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:sofieru/json/ajax/novel/Novel.dart';
+import 'package:sofieru/json/ajax/shared/Work.dart';
 import 'package:sofieru/shared.dart';
 import 'package:sofieru/shared/http.dart';
 import "layout.dart";
@@ -59,7 +60,7 @@ class _NovelPageState extends State<NovelPage> {
         updateRange(novelIndex-7, novelIndex+7);
         setTitle(data["alt"]+" - pixiv");
         return WorkLayout(
-          data: Novel.fromJson(data),
+          data: data as Work,
           wtype: WorkType.novel,
           view: Text(data["content"],softWrap: true,),
           authorWorksItemBuilder: (e,[k])=>PxNovel(

@@ -15,8 +15,7 @@ import 'package:sofieru/pages/settings.dart';
 import 'package:sofieru/pages/view/artworkview.dart';
 import 'package:sofieru/pages/yourip.dart';
 // import 'package:url_launcher/url_launcher.dart';
-import 'package:uni_links/uni_links.dart';
-import 'package:uni_links_desktop/uni_links_desktop.dart';
+import 'package:app_links/app_links.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'shared.dart';
 import 'shared/http.dart';
@@ -46,20 +45,8 @@ final Map<String, ThemeMode> themeMode = {
 void dumpErrorToConsole(details)=>FlutterError.dumpErrorToConsole(details,forceReport:true);
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (Platform.isWindows) {
-    registerProtocol('pxmat');
-  }
-  Uri initialUri;
-  try {
-    initialUri = await getInitialUri()??Uri(path: "/");
-    // Use the uri and warn the user, if it is not correct,
-    // but keep in mind it could be `null`.
-  } on FormatException {
-    // Handle exception by warning the user their action did not succeed
-    initialUri = Uri(path: "/");
-  } on MissingPluginException {
-    initialUri = Uri(path: "/");
-  }
+  final appLinks = AppLinks();
+  Uri initialUri = Uri(path: "/");
   final pa = GlobalKey<NavigatorState>();
   final shellKeys = List.generate(4,(fhujioae)=>GlobalKey<NavigatorState>());
   FlutterError.onError = dumpErrorToConsole;

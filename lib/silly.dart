@@ -207,8 +207,8 @@ class _PxNovelState extends State<PxNovel> {
 }
 class PxArtwork extends StatefulWidget {
   final PartialArtwork data;
-  int rank;
-  PxArtwork.fromJson({Key? key, required Map<String, dynamic> payload, int rank=0}) : this(key:key,data:PartialArtwork.fromJson(payload));
+  final int rank;
+  PxArtwork.fromJson({Key? key, required Map<String, dynamic> payload, int rank=0}) : this(key:key,data:payload as PartialArtwork);
   PxArtwork({super.key,required this.data, this.rank=0});
 
   @override
@@ -246,102 +246,94 @@ class _PxArtworkState extends State<PxArtwork> {
             const SnackBar(content: Text("Path copied to clipboard!"))
           ))),
         ],
-        child: Card(
-          clipBehavior: Clip.hardEdge,
-          child:Padding(
-            padding: const EdgeInsets.only(bottom: 40),
-            child: Column( 
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Stack(
-                  children: [
-                    GestureDetector(
-                      onTap: (){navigate("/artworks/$id");},
-                      child:pxImage(data.url),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: IconButton(
-                        onPressed:(){
-                          pxRequest("https://www.pixiv.net/ajax/illusts/bookmarks/add",body: {"illust_id":id, "comment":"", "restrict": 0, "tags": []},method: "post");
-                          setState(() {
-                            bookmarked = !bookmarked;
-                            print("imagine bookmarked");
-                          });
-                        },
-                        icon:Icon(Icons.favorite_outlined,color: bookmarked?Colors.red:Colors.white),
-                      ),
-                    ),
-                    if (data.illustType==2) const Positioned.fill(child: Align(alignment: Alignment.center,child: Icon(Icons.play_circle_outlined,size: 48,),)),
-                    if (widget.rank != 0) Positioned(
-                      top:4, left:4,
-                      child:SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: Container(
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color:widget.rank==1?Colors.yellow.shade700:widget.rank==2?Colors.grey[300]:widget.rank==3?Colors.brown:Colors.grey.withOpacity(0.5)),
-                          child:Center(child: Text(widget.rank.toString())), 
-                        ),
-                      )
-                    ),
-                    if (data.xRestrict == 1) Positioned(
-                      top:4, left:4,
-                      child:SizedBox(
-                        width: 36,
-                        height: 24,
-                        child: Container(
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color:const Color(0xFFFF4060)),
-                          child:const Center(child: Text("R-18",style: TextStyle(color: Colors.white))), 
-                        ),
-                      )
-                    ),
-                    if (data.pageCount!=1) Positioned(
-                      top:4,right:4,
-                      child: SizedBox(
-                        width:24,
-                        height:24,
-                        child: Container(
-                          decoration: BoxDecoration(color: Colors.grey.withOpacity(0.5),borderRadius: BorderRadius.circular(4)),
-                          child: Center(child: Text(data.pageCount.toString(),style: const TextStyle(color:Colors.white)))
-                        ),
-                      )
-                    )
-                  ],
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 40),
+          child: Stack(
+            children: [
+              GestureDetector(
+                onTap: (){navigate("/artworks/$id");},
+                child:pxImage(data.url),
+              ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: IconButton(
+                  onPressed:(){
+                    pxRequest("https://www.pixiv.net/ajax/illusts/bookmarks/add",body: {"illust_id":id, "comment":"", "restrict": 0, "tags": []},method: "post");
+                    setState(() {
+                      bookmarked = !bookmarked;
+                      print("imagine bookmarked");
+                    });
+                  },
+                  icon:Icon(Icons.favorite_outlined,color: bookmarked?Colors.red:Colors.white),
                 ),
-                const Spacer(),
-                // weak ahh check ik
-                Flexible(
-                  flex: 4,
-                  child: ListTile(
-                    title: Text(
-                      data.titleCaptionTranslation.workTitle??data.title,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    subtitle: GestureDetector(
-                      onTap: (){
-                        showDialog(context: context, builder: (b)=>AuthorInfo(userId: data.userId,));
-                      },
-                      child: Row(
-                        children: [if (!currentRouteURI().path.startsWith("/users")) ...[
-                          /// TODO: get the default pfp
-                          if (data.profileImageUrl!=null) CircleAvatar(backgroundImage: pxImageFlutter(data.profileImageUrl!).image),
-                          const SizedBox.square(dimension:10),
-                          Flexible(
-                            flex:4,
-                            child: Text(
-                              data.userName,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          )
-                        ] else const SizedBox(height: 40,)],
-                      ),
+              ),
+              if (data.illustType==2) const Positioned.fill(child: Align(alignment: Alignment.center,child: Icon(Icons.play_circle_outlined,size: 48,),)),
+              if (widget.rank != 0) Positioned(
+                top:4, left:4,
+                child:SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: Container(
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color:widget.rank==1?Colors.yellow.shade700:widget.rank==2?Colors.grey[300]:widget.rank==3?Colors.brown:Colors.grey.withOpacity(0.5)),
+                    child:Center(child: Text(widget.rank.toString())), 
+                  ),
+                )
+              ),
+              if (data.xRestrict == 1) Positioned(
+                top:4, left:4,
+                child:SizedBox(
+                  width: 36,
+                  height: 24,
+                  child: Container(
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color:const Color(0xFFFF4060)),
+                    child:const Center(child: Text("R-18",style: TextStyle(color: Colors.white))), 
+                  ),
+                )
+              ),
+              if (data.pageCount!=1) Positioned(
+                top:4,right:4,
+                child: SizedBox(
+                  width:24,
+                  height:24,
+                  child: Container(
+                    decoration: BoxDecoration(color: Colors.grey.withOpacity(0.5),borderRadius: BorderRadius.circular(4)),
+                    child: Center(child: Text(data.pageCount.toString(),style: const TextStyle(color:Colors.white)))
+                  ),
+                )
+              )
+              /*
+              Flexible(
+                flex: 4,
+                child: ListTile(
+                  title: Text(
+                    data.titleCaptionTranslation.workTitle??data.title,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  subtitle: GestureDetector(
+                    onTap: (){
+                      showDialog(context: context, builder: (b)=>AuthorInfo(userId: data.userId,));
+                    },
+                    child: Row(
+                      children: [if (!currentRouteURI().path.startsWith("/users")) ...[
+                        /// TODO: get the default pfp
+                        if (data.profileImageUrl!=null) CircleAvatar(backgroundImage: pxImageFlutter(data.profileImageUrl!).image),
+                        const SizedBox.square(dimension:10),
+                        Flexible(
+                          flex:4,
+                          child: Text(
+                            data.userName,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        )
+                      ] else const SizedBox(height: 40,)],
                     ),
                   ),
                 ),
-              ]
-            ),
-          )
+              ),
+              */
+            ],
+          ),
         )
       ),
     );
@@ -350,7 +342,8 @@ class _PxArtworkState extends State<PxArtwork> {
 class PxBooth extends StatefulWidget {
   final Booth data;
   final PartialUser Function(String id) getUser;
-  PxBooth.fromJson({Key? key, required Map<String, dynamic> payload, required PartialUser Function(String id) getUser}) : this(key:key,data:Booth.fromJson(payload),getUser:getUser);
+  PxBooth.fromJson({Key? key, required Map<String, dynamic> payload, required PartialUser Function(String id) getUser}) 
+  : this(key:key,data:payload as Booth,getUser:getUser);
   PxBooth({super.key,required this.data, required this.getUser});
 
   @override
@@ -485,7 +478,7 @@ class AuthorInfo extends StatelessWidget {
         child: futureWidget(
           future:Future.wait([pxRequest("https://www.pixiv.net/ajax/user/$userId?full=1&lang=en"),pxRequest("https://www.pixiv.net/ajax/user/$userId/works/latest?lang=en")]), 
           builder:(context, snap) {
-            var dd = User.fromJson(snap.data![0]);
+            var dd = snap.data![0];
             JSON art = snap.data![1];
             return Center(child:Column(
               children: [
@@ -531,7 +524,7 @@ class PxSimpleArtwork extends StatefulWidget {
   final bool isCurrent;
   final bool authorInfo;
   const PxSimpleArtwork({super.key, required this.data, this.isCurrent = false, this.authorInfo = false});
-  PxSimpleArtwork.fromJson({Key? key, required Map<String,dynamic> payload, bool isCurrent = false, bool authorInfo = false}) : this(data: PartialArtwork.fromJson(payload), isCurrent: isCurrent,authorInfo:authorInfo);
+  PxSimpleArtwork.fromJson({Key? key, required Map<String,dynamic> payload, bool isCurrent = false, bool authorInfo = false}) : this(data: payload as PartialArtwork, isCurrent: isCurrent,authorInfo:authorInfo);
 
   @override
   State<PxSimpleArtwork> createState() => _PxSimpleArtworkState();

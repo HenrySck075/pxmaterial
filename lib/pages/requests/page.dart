@@ -30,8 +30,8 @@ class RequestsPage extends StatelessWidget {
           pxRequest("https://www.pixiv.net/ajax/commission/page/requests/$id/thread"), // they're just like me frfr
         ]),
         builder: (ctx,snap) {
-          var data = RequestPage.fromJson(snap.data![0]);
-          var thread = RequestThread.fromJson(snap.data![1]["page"]["requestThread"]);
+          var data = snap.data![0];
+          var thread = snap.data![1]["page"]["requestThread"];
           var thisReq = data.requests.singleWhere((element) => element.requestId==id);
           const a = TextStyle(color: Colors.grey, fontSize:12);
           var deadline = DateTime.parse(thisReq.requestPostDeadlineDatetime);
@@ -111,15 +111,15 @@ class RequestsPage extends StatelessWidget {
                             Wrap(
                               spacing: 8,
                               children: thisReq.requestTags.map(
-                                (t)=>tagChipBuilder(TagInfo(
-                                  tag: t, 
-                                  translation: data.tagTranslation[t]?.toJson().cast<String, String>(), 
+                                (t)=>tagChipBuilder({
+                                  "tag": t, 
+                                  "translation": data.tagTranslation[t]?.toJson().cast<String, String>(), 
                                   // fake data, unused in TagInfo widget
-                                  userName: "naomi/dearsqn", 
-                                  userId: "727", 
-                                  deletable: false, 
-                                  locked: true
-                                ))
+                                  "userName": "naomi/dearsqn", 
+                                  "userId": "727", 
+                                  "deletable": false, 
+                                  "locked": true
+                                } as TagInfo)
                               ).toList()
                             ),
                           ],

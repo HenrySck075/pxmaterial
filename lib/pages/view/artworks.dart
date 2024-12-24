@@ -94,7 +94,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
     return Scaffold(
       body: futureWidget(placeholder: SingleChildScrollView(child:mainSkel()), future: Future.wait(ed), builder: (context,dd) {
         var rawData = dd.data![0];
-        var data = Artwork.fromJson(rawData);
+        var data = rawData;
         AppData.of(context).watchHistoryManager().addHistory(rawData);
 
         List<dynamic> gang = dd.data![1];

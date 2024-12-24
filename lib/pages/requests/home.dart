@@ -10,8 +10,8 @@ class HomePage extends StatelessWidget {
       pxRequest("https://www.pixiv.net/ajax/commission/page/request")
     ]),
     builder: (ctx,snap) { 
-      final d = RecommendedTags.fromJson(snap.data![0]);
-      final hd = Requests.fromJson(snap.data![1]);
+      final d = snap.data![0];
+      final hd = snap.data![1];
       final getUser = Memoized1<PartialUser,String>((String nuh)=>hd.users.firstWhere((element) => element.userId == nuh));
       return SingleChildScrollView( 
         child: Column( 
@@ -22,13 +22,13 @@ class HomePage extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 children: d.recommendedTags.map((e) => Hero(
                   tag:e,
-                  child: tagChipBuilder(TagInfo(
-                    tag: e, 
-                    translation: d.tagTranslation[e]?.toJson().cast<String, String>(),
-                    locked: false, 
-                    deletable: false, 
-                    userName: "shut"
-                  ),url:"/request/creators/works/illust?tags[]=$e")
+                  child: tagChipBuilder({
+                    "tag": e, 
+                    "translation": d.tagTranslation[e]?.toJson().cast<String, String>(),
+                    "locked": false, 
+                    "deletable": false, 
+                    "userName": "shut"
+                  } as TagInfo,url:"/request/creators/works/illust?tags[]=$e")
                 )).toList()
               )
             ),

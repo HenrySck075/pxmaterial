@@ -171,7 +171,7 @@ class _WorkLayoutState extends State<WorkLayout> {
               // google said this is bad, but idk
               future: pxRequest("https://www.pixiv.net/ajax/user/${data.userId}?full=0"), 
               builder: (ctx, snap) {
-                var d = PartialUser.fromJson(snap.data!);
+                var d = snap.data!;
                 return GestureDetector(
                   onTap: ()=>showDialog(
                     context: context, 

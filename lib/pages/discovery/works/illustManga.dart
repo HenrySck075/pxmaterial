@@ -34,7 +34,7 @@ class _IllustMangaState extends State<IllustManga> {
       builder:(i,dk)=>SingleChildScrollView( 
         controller: _scsvCtrl,
         child: artworkGrid(
-          yipee.value.map((e) => PxArtwork(data: PartialArtwork.fromJson(e))).toList()
+          yipee.value.map((e) => PxArtwork(data: e)).toList()
         ),
       )
     );

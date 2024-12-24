@@ -38,7 +38,7 @@ class _IllustPageState extends State<IllustPage> {
             return artworkGrid(
               returnSelf<List<MapEntry<dynamic, dynamic>>>(data["works"].entries.toList() // illust entries
               ..sort((e1,e2)=>DateTime.parse(e1.value["createDate"]).millisecondsSinceEpoch.compareTo(DateTime.parse(e2.value["createDate"]).millisecondsSinceEpoch)) // sort
-              ).map((e) => PxArtwork(data: PartialArtwork.fromJson(e.value))).toList()
+              ).map((e) => PxArtwork(data: e.value)).toList()
             );
           }
         ) else const Text("nothing lel"),

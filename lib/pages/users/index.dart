@@ -45,7 +45,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
     return futureWidget(
       future: Future.wait([pxRequest("https://www.pixiv.net/ajax/user/$id?full=1"),pxRequest("https://www.pixiv.net/ajax/user/$id/profile/all")]), 
       builder: (ctx,snap){
-        var data = User.fromJson(snap.data![0]);
+        var data = snap.data![0];
         var allWorks = snap.data![1];
 
         bool displayIllustTab = allWorks["illusts"] is! List;
