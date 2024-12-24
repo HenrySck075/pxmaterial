@@ -1,18 +1,11 @@
-class Tag {
-  final String tag;
-  final List<int> ids;
-  Tag({
-    required this.tag,
-    required this.ids,
-  });
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-    tag: json['tag'],
-    ids: (json['ids'] as List<dynamic>).map((e)=>e as int).toList(),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "tag": tag,
-    "ids": ids,
-  };
+extension type Tag(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get tag => json['tag'] as String;
+    List<int> get ids => json['ids'] as List<int>;
+
+// ----------- SETTERS ----------- 
+    set tag(String value) => json["tag"] = value;
+    set ids(List<int> value) => json["ids"] = value;
+
 }
 

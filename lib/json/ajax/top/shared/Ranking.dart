@@ -1,36 +1,22 @@
-class _Items {
-  final String rank;
-  final String id;
-  _Items({
-    required this.rank,
-    required this.id,
-  });
-  factory _Items.fromJson(Map<String, dynamic> json) {
-    return _Items(
-    rank: json['rank'],
-    id: json['id'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "rank": rank,
-    "id": id,
-  };
+extension type _Items(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get rank => json['rank'] as String;
+    String get id => json['id'] as String;
+
+// ----------- SETTERS ----------- 
+    set rank(String value) => json["rank"] = value;
+    set id(String value) => json["id"] = value;
+
 }
 
-class Ranking {
-  final List<_Items> items;
-  final String date;
-  Ranking({
-    required this.items,
-    required this.date,
-  });
-  factory Ranking.fromJson(Map<String, dynamic> json) {
-    return Ranking(
-    items: (json['items'] as List<dynamic>).map((e)=>_Items.fromJson(e)).toList(),
-    date: json['date'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "items": items.map((e)=>e.toJson()).toList(),
-    "date": date,
-  };
+extension type Ranking(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    List<_Items> get items => json['items'] as List<_Items>;
+    String get date => json['date'] as String;
+
+// ----------- SETTERS ----------- 
+    set items(List<_Items> value) => json["items"] = value;
+    set date(String value) => json["date"] = value;
+
 }
 

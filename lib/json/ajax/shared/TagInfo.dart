@@ -1,38 +1,21 @@
-class TagInfo {
-  final String tag;
-  final bool locked;
-  final bool deletable;
-  final String? userId;
-  final String? romaji;
-  final Map<String, String>? translation;
-  final String? userName;
-  TagInfo({
-    required this.tag,
-    required this.locked,
-    required this.deletable,
-    this.userId,
-    this.romaji,
-    this.translation,
-    this.userName,
-  });
-  factory TagInfo.fromJson(Map<String, dynamic> json) {
-    return TagInfo(
-    tag: json['tag'],
-    locked: json['locked'],
-    deletable: json['deletable'],
-    userId: json['userId'],
-    romaji: json['romaji'],
-    translation: json['translation'] == null?null:(json['translation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,v as String)),
-    userName: json['userName'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "tag": tag,
-    "locked": locked,
-    "deletable": deletable,
-    "userId": userId,
-    "romaji": romaji,
-    "translation": translation?.map((k,v)=>MapEntry(k,v as String)),
-    "userName": userName,
-  };
+extension type TagInfo(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get tag => json['tag'] as String;
+    bool get locked => json['locked'] as bool;
+    bool get deletable => json['deletable'] as bool;
+    String? get userId => json['userId'];
+    String? get romaji => json['romaji'];
+    Map<String, String>? get translation => json['translation'];
+    String? get userName => json['userName'];
+
+// ----------- SETTERS ----------- 
+    set tag(String value) => json["tag"] = value;
+    set locked(bool value) => json["locked"] = value;
+    set deletable(bool value) => json["deletable"] = value;
+    set userId(String? value) => json["userId"] = value;
+    set romaji(String? value) => json["romaji"] = value;
+    set translation(Map<String, String>? value) => json["translation"] = value;
+    set userName(String? value) => json["userName"] = value;
+
 }
 

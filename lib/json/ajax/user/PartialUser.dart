@@ -1,84 +1,46 @@
-class _Background {
-  final String? repeat;
-  final String? color;
-  final String url;
-  final bool isPrivate;
-  _Background({
-    this.repeat,
-    this.color,
-    required this.url,
-    required this.isPrivate,
-  });
-  factory _Background.fromJson(Map<String, dynamic> json) {
-    return _Background(
-    repeat: json['repeat'],
-    color: json['color'],
-    url: json['url'],
-    isPrivate: json['isPrivate'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "repeat": repeat,
-    "color": color,
-    "url": url,
-    "isPrivate": isPrivate,
-  };
+extension type _Background(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String? get repeat => json['repeat'];
+    String? get color => json['color'];
+    String get url => json['url'] as String;
+    bool get isPrivate => json['isPrivate'] as bool;
+
+// ----------- SETTERS ----------- 
+    set repeat(String? value) => json["repeat"] = value;
+    set color(String? value) => json["color"] = value;
+    set url(String value) => json["url"] = value;
+    set isPrivate(bool value) => json["isPrivate"] = value;
+
 }
 
-class PartialUser {
-  final String? comment;
-  final bool? followedBack;
-  final String userId;
-  final String name;
-  final String image;
-  final String imageBig;
-  final bool premium;
-  final bool isFollowed;
-  final bool isMypixiv;
-  final bool isBlocking;
-  final _Background? background;
-  final bool acceptRequest;
-  PartialUser({
-    this.comment,
-    this.followedBack,
-    required this.userId,
-    required this.name,
-    this.image = 'https://i.pximg.net/user-profile/img/2024/01/06/23/08/52/25361717_78a1808990ec4effc6d8417a09b67725_50.jpg',
-    this.imageBig = 'https://i.pximg.net/user-profile/img/2024/01/06/23/08/52/25361717_78a1808990ec4effc6d8417a09b67725_50.jpg',
-    required this.premium,
-    required this.isFollowed,
-    required this.isMypixiv,
-    required this.isBlocking,
-    this.background,
-    required this.acceptRequest,
-  });
-  factory PartialUser.fromJson(Map<String, dynamic> json) {
-    return PartialUser(
-    comment: json['comment'],
-    followedBack: json['followedBack'],
-    userId: json['userId'],
-    name: json['name'],
-    image: json['image'],
-    imageBig: json['imageBig'],
-    premium: json['premium'],
-    isFollowed: json['isFollowed'],
-    isMypixiv: json['isMypixiv'],
-    isBlocking: json['isBlocking'],
-    background: json['background'] == null?null:_Background.fromJson(json['background']),
-    acceptRequest: json['acceptRequest'] ?? false,
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "comment": comment,
-    "followedBack": followedBack,
-    "userId": userId,
-    "name": name,
-    "image": image,
-    "imageBig": imageBig,
-    "premium": premium,
-    "isFollowed": isFollowed,
-    "isMypixiv": isMypixiv,
-    "isBlocking": isBlocking,
-    "background": background?.toJson(),
-    "acceptRequest": acceptRequest,
-  };
+extension type PartialUser(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String? get comment => json['comment'];
+    bool? get followedBack => json['followedBack'];
+    String get userId => json['userId'] as String;
+    String get name => json['name'] as String;
+    String get image => json['image'] as String;
+    String get imageBig => json['imageBig'] as String;
+    bool get premium => json['premium'] as bool;
+    bool get isFollowed => json['isFollowed'] as bool;
+    bool get isMypixiv => json['isMypixiv'] as bool;
+    bool get isBlocking => json['isBlocking'] as bool;
+    _Background? get background => json['background'];
+    bool get acceptRequest => json['acceptRequest'] as bool;
+
+// ----------- SETTERS ----------- 
+    set comment(String? value) => json["comment"] = value;
+    set followedBack(bool? value) => json["followedBack"] = value;
+    set userId(String value) => json["userId"] = value;
+    set name(String value) => json["name"] = value;
+    set image(String value) => json["image"] = value;
+    set imageBig(String value) => json["imageBig"] = value;
+    set premium(bool value) => json["premium"] = value;
+    set isFollowed(bool value) => json["isFollowed"] = value;
+    set isMypixiv(bool value) => json["isMypixiv"] = value;
+    set isBlocking(bool value) => json["isBlocking"] = value;
+    set background(_Background? value) => json["background"] = value;
+    set acceptRequest(bool value) => json["acceptRequest"] = value;
+
 }
 

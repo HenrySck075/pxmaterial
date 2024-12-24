@@ -1,32 +1,19 @@
 import 'package:sofieru/json/ajax/novel/PartialNovel.dart' show PartialNovel;
 import 'package:sofieru/json/ajax/illust/PartialArtwork.dart' show PartialArtwork;
-class Thumbnails {
-  final List<PartialArtwork> illust;
-  final List<PartialNovel> novel;
-  final List<dynamic> novelSeries;
-  final List<dynamic> novelDraft;
-  final List<dynamic> collection;
-  Thumbnails({
-    required this.illust,
-    required this.novel,
-    required this.novelSeries,
-    required this.novelDraft,
-    required this.collection,
-  });
-  factory Thumbnails.fromJson(Map<String, dynamic> json) {
-    return Thumbnails(
-    illust: (json['illust'] as List<dynamic>).map((e)=>PartialArtwork.fromJson(e)).toList(),
-    novel: (json['novel'] as List<dynamic>).map((e)=>PartialNovel.fromJson(e)).toList(),
-    novelSeries: (json['novelSeries'] as List<dynamic>),
-    novelDraft: (json['novelDraft'] as List<dynamic>),
-    collection: (json['collection'] as List<dynamic>),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "illust": illust.map((e)=>e.toJson()).toList(),
-    "novel": novel.map((e)=>e.toJson()).toList(),
-    "novelSeries": novelSeries,
-    "novelDraft": novelDraft,
-    "collection": collection,
-  };
+extension type Thumbnails(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    List<PartialArtwork> get illust => json['illust'] as List<PartialArtwork>;
+    List<PartialNovel> get novel => json['novel'] as List<PartialNovel>;
+    List<dynamic> get novelSeries => json['novelSeries'] as List<dynamic>;
+    List<dynamic> get novelDraft => json['novelDraft'] as List<dynamic>;
+    List<dynamic> get collection => json['collection'] as List<dynamic>;
+
+// ----------- SETTERS ----------- 
+    set illust(List<PartialArtwork> value) => json["illust"] = value;
+    set novel(List<PartialNovel> value) => json["novel"] = value;
+    set novelSeries(List<dynamic> value) => json["novelSeries"] = value;
+    set novelDraft(List<dynamic> value) => json["novelDraft"] = value;
+    set collection(List<dynamic> value) => json["collection"] = value;
+
 }
 

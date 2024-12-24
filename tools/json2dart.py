@@ -1,4 +1,4 @@
-"You should add typed maps NOW!!"
+"they did"
 
 from os.path import join, normpath, dirname
 import sys,os,subprocess
@@ -34,9 +34,9 @@ if not useStdin:
 
 imported = []
 output = """"""
-cry = lambda x: x.split("/")[-1]
+pathFilename = lambda x: x.split("/")[-1]
 
-bed = re.compile("class ([a-zA-Z|_]*) {(.*)}",re.S|re.M)
+bed = re.compile("extension ([a-zA-Z|_]*) on Map<String, Object?> {(.*)}",re.S|re.M)
 
 def _purgeUnusedClasses(file: str):
     ret = file
@@ -57,7 +57,7 @@ def purgeUnusedClasses(f):
     return f
 
 def pathparse(pat:str, start:str):
-    return (start if pat.startswith('$/') else '')+(normpath(join(dirname(path),pat)).replace("payloads/ajax/",start) if not useStdin and not pat.startswith('$/') else pat.removeprefix("$/"))
+    return (start if pat.startswith('$/') else '')+(normpath(join(dirname(path),pat)).replace("\\","/").replace("payloads/ajax/",start) if not useStdin and not pat.startswith('$/') else pat.removeprefix("$/"))
 def tryimport(mport, nam): 
     global output
     if mport not in imported: 
@@ -71,12 +71,12 @@ def boy(k,v,ld=False):
     if t == dict and not ld: #and not isInvalidPropName(k): 
         if "$schema" not in v: return generate(v,nam)
         else: 
-            nam = v.get("$useType") or cry(v['$schema'])
+            nam = v.get("$useType") or pathFilename(v['$schema'])
             tryimport(pathparse(v['$schema'],'package:sofieru/json/ajax/'),nam)
             return nam
     if type(v) == list: 
         if len(v) != 0 and type(v[0]) == dict and "$schema" in v[0]:
-            nam = v[0].get("$useType") or cry(v[0]['$schema'])
+            nam = v[0].get("$useType") or pathFilename(v[0]['$schema'])
             tryimport(pathparse(v[0]['$schema'],'package:sofieru/json/ajax/'),nam)
             return f"List<{nam}>"
         try: 
@@ -84,7 +84,7 @@ def boy(k,v,ld=False):
         except IndexError: return "List<dynamic>"
     else: return classes[str(t).split("'")[1]]
 
-
+import shutil
 
 private = False
 def generate(data, name=""):
@@ -93,11 +93,14 @@ def generate(data, name=""):
     if private: name = "_"+name
     if "$name" in data: name = data["$name"]
     if "$type" in data: return data["$type"]
+    
     doExtends = "$extends" in data
     copyStruct = data.get("$copy", data.get("$extends",""))
     supers=[]
     extends = ""
-    out = f"class {name} "
+ 
+
+    out = f"extension type {name}(Map<String, dynamic> json) "
 
     checkFalsy = data.get("$checkFalsy",[])
     nullable = data.get("$nullable",[])
@@ -127,38 +130,21 @@ def generate(data, name=""):
     if copyStruct != "":
         copyStructFunc()
     if doExtends: 
-        extends = cry(data["$extends"])
+        extends = pathFilename(data["$extends"])
         supers = list(c.keys())
         tryimport(pathparse(data['$extends'],'package:sofieru/json/ajax/'),extends)
         #checkFalsy.extend(c.get("$checkFalsy",[]))
-        f = cry(data['$extends'])
-        subprocess.run(os.environ.get("interpreter",sys.executable)+f" json2dart.py {f} -",shell=True,input=json.dumps(c).encode())
-        pat = os.path.dirname(pathparse(data['$extends'],"json/ajax/"))
+        f = pathFilename(data['$extends'])
+        #subprocess.run(os.environ.get("interpreter",sys.executable)+f" json2dart.py {f} -",shell=True,input=json.dumps(c).encode())
+        #pat = os.path.dirname(pathparse(data['$extends'],"json/ajax/"))
 
-        the = lambda: os.system(f"mv {f}.dart {os.path.join(pat,f)}.dart")
-        ret = the() 
-        if ret == 256: # assuming were cooking in linux
-            os.system("mkdir -p "+pat)
-            the()
-        
-
-    if doExtends: out+=f"extends {extends} "
-    out += "{\n"
-    const = f"  {name}("+"{\n"
+    if doExtends: out+=f"implements {extends} "
+    out+="{\n"
     # This code is essentially not recommended, but since pixiv apis is built for javascript, i have no other choice
     # the way they check for whether the response contains data is via an empty string (i suppose, but i dont think they did it)
-    fromJson=""
-    if doExtends: fromJson+="  @override\n"
-    fromJson += f"  factory {name}.fromJson(Map<String, dynamic> json) "+"{\n"
-    if doExtends: fromJson+=f"    final parent = {extends}.fromJson(json);"+"\n"
-    fromJson+=f"    return {name}("+"\n"
-    toJson=""
-    if doExtends: toJson="  @override\n"
-    toJson += "  Map<String, dynamic> toJson() => "
-    if doExtends: toJson+="super.toJson()..addAll("
-    toJson+="<String,dynamic>{\n"
-    # toJson = "" # we dont need toJson
-    typedefs = data.get("$typedef",{})
+    getters="// ----------- GETTERS ----------- \n"
+    
+    setters="// ----------- SETTERS ----------- \n"
     private = True
 
     for k,v in data.items():
@@ -171,66 +157,35 @@ def generate(data, name=""):
         # fnnuy = {"$schema":"$/shared/Placeholder"}
         fnnuy = dynamic()
         # if k=="planTranslationTitle":breakpoint()
-        const+=f"    {'' if k in defaults else 'required ' if required else ''}"
-        toJson+=f'    "{k}": {k}'
-        if k in supers: 
-            fromJson+=f"    {k}: parent.{k}"
-            const+=f"super.{k}"
+        vt=boy(k,v if not (k in checkFalsy and len(v)!=0 and vto == list and v[0]==dict) else fnnuy if type(v)!=list else [fnnuy])
+        if vt=="Null": 
+            vt="dynamic"
+            required = False
+    
+        if vt.startswith("Map<") and "-" in v.get("$nullable",[]): # pyright: ignore 
+            vt=vt[:-1]+"?>"
+        if k in desc:
+            out+="  /// "+"\n  /// ".join(desc[k].splitlines())+"\n"
+        if k in checkFalsy or k in nullable:
+            vt+="?"
+        setters+=f'    set {k}({vt} value) => json["{k}"] = value'
+        #out+=f"  final {vt}{'' if required else '?'} {k};"+"\n"
+
+        getter=f"    {vt} get {k} => json['{k}']"
+        if k in checkFalsy: 
+            getter=getter[:-8-len(k)]+f"checkFalsy(json['{k}'])?null:json['{k}']"
+        if k in nullable: 
+            getter+=f" == null?null:json['{k}']"
         else:
-            vt=boy(k,v if not (k in checkFalsy and len(v)!=0 and vto == list and v[0]==dict) else fnnuy if type(v)!=list else [fnnuy])
-            if vt=="Null": 
-                vt="String"
-                required = False
-            if vt.startswith("Map<") and "-" in v.get("$nullable",[]): # pyright: ignore 
-                vt=vt[:-1]+"?>"
-            if k in desc:
-                out+="  /// "+"\n  /// ".join(desc[k].splitlines())+"\n"
-            out+=f"  final {vt}{'' if required else '?'} {k};"+"\n"
-            const+=f"this.{k}"
+            getter+=f" as {vt}"
+        #if (vto is dict or vto is list) and k in g: 
+        if k not in checkFalsy and (vto not in [list,dict]): 'getters+=f" as {vt}"'
+        
+        getters+=getter.replace(f"json['{k}'] == null?null:json['{k}']", f"json['{k}']")+";\n"
+        setters+=";\n"
 
-
-            fromJson+=f"    {k}: json['{k}']"
-            if k in checkFalsy: fromJson=fromJson[:-8-len(k)]+f"checkFalsy(json['{k}'])?null:json['{k}']"
-            if k in nullable: fromJson+=f" == null?null:json['{k}']"
-            if vt.startswith("Map<"):
-                # vt2 = vt.removeprefix('Map<String, ').removesuffix('>')
-                fromJson=fromJson[:-8-len(k)]+f"(json['{k}'] as Map<String,dynamic>)"
-            if (vto is dict or vto is list) and k in g: toJson+="?"
-            if k not in checkFalsy and (vto not in [list,dict]): 'fromJson+=f" as {vt}"'
-            elif vto==list: 
-                j = vt.removesuffix(">").removeprefix("List<") # we might not having to
-                fromJson=fromJson[:-8-len(k)]+f"(json['{k}'] as List<dynamic>)"
-                if j != "dynamic": 
-                    fromJson+=f".map((e)=>"+(f"{j}.fromJson(e)" if j not in classes.values() else f"e as {j}")+").toList()"
-                    toJson+=".map((e)=>e.toJson()).toList()" if j not in classes.values() else "" 
-            else: 
-                if vt.startswith("Map<"):
-                    vt2 = vt.removeprefix('Map<String, ').removesuffix('>').removesuffix("?")
-                    n = "-" in v.get("$nullable",[]) # pyright: ignore 
-                    # dart really just do a 🤫🧏 on type conversion lmao
-                    fromJson+=".map((k,v)=>MapEntry(k,"+("v==null?null:" if n else "")+(f"{vt2}.fromJson(v)" if vt2 not in classes.values() else f"v as {vt2}"+("?" if n else ""))+"))"
-                    toJson+=".map((k,v)=>MapEntry(k,"+("v==null?null:" if n else "")+("v.toJson()" if vt2 not in classes.values() else f"v as {vt2}"+("?" if n else ""))+"))"
-                else:
-                    fromJson=fromJson[:-8-len(k)]
-                    if vt not in ["String", "int","bool","double"]:
-                        fromJson+=f"{vt}.fromJson(json['{k}'])"
-                        toJson+=".toJson()"
-                    else: fromJson+=f"json['{k}'] as {vt}"
-            if vto==list:
-                j = vt.removesuffix(">").removeprefix("List<") # we might not having to
-
-        if k in defaults: 
-            const+= " = "+repr(defaults[k])
-        const+=",\n"
-        fromJson+=",\n"
-        fromJson = fromJson.replace(f"json['{k}'] == null?null:json['{k}']", f"json['{k}']")
-        toJson+=",\n"
-
-    fromJson+="  );}"
-    toJson+="  }"+(")" if doExtends else "")+";"
-    const+="  });\n"
-    out+=const+fromJson+"\n"
-    out+=toJson
+    out+=getters+"\n"
+    out+=setters
     out+="\n}\n"
 
     if len(checkFalsy) != 0 and b not in output:

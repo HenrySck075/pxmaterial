@@ -4,373 +4,214 @@ import 'package:sofieru/json/ajax/shared/Thumbnails.dart' show Thumbnails;
 import 'package:sofieru/json/ajax/series/IllustSeries.dart' show IllustSeries;
 import 'package:sofieru/json/ajax/shared/TagTranslation.dart' show TagTranslation;
 import 'package:sofieru/json/ajax/shared/Booth.dart' show Booth;
-class _Tags {
-  final String tag;
-  final List<int> ids;
-  _Tags({
-    required this.tag,
-    required this.ids,
-  });
-  factory _Tags.fromJson(Map<String, dynamic> json) {
-    return _Tags(
-    tag: json['tag'],
-    ids: (json['ids'] as List<dynamic>).map((e)=>e as int).toList(),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "tag": tag,
-    "ids": ids,
-  };
+extension type _Tags(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get tag => json['tag'] as String;
+    List<int> get ids => json['ids'] as List<int>;
+
+// ----------- SETTERS ----------- 
+    set tag(String value) => json["tag"] = value;
+    set ids(List<int> value) => json["ids"] = value;
+
 }
 
-class _Recommend {
-  final List<String> ids;
-  _Recommend({
-    required this.ids,
-  });
-  factory _Recommend.fromJson(Map<String, dynamic> json) {
-    return _Recommend(
-    ids: (json['ids'] as List<dynamic>).map((e)=>e as String).toList(),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "ids": ids,
-  };
+extension type _Recommend(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    List<String> get ids => json['ids'] as List<String>;
+
+// ----------- SETTERS ----------- 
+    set ids(List<String> value) => json["ids"] = value;
+
 }
 
-class _RecommendByTag {
-  final String tag;
-  final List<String> ids;
-  _RecommendByTag({
-    required this.tag,
-    required this.ids,
-  });
-  factory _RecommendByTag.fromJson(Map<String, dynamic> json) {
-    return _RecommendByTag(
-    tag: json['tag'],
-    ids: (json['ids'] as List<dynamic>).map((e)=>e as String).toList(),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "tag": tag,
-    "ids": ids,
-  };
+extension type _RecommendByTag(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get tag => json['tag'] as String;
+    List<String> get ids => json['ids'] as List<String>;
+
+// ----------- SETTERS ----------- 
+    set tag(String value) => json["tag"] = value;
+    set ids(List<String> value) => json["ids"] = value;
+
 }
 
-class _Items {
-  final String rank;
-  final String id;
-  _Items({
-    required this.rank,
-    required this.id,
-  });
-  factory _Items.fromJson(Map<String, dynamic> json) {
-    return _Items(
-    rank: json['rank'],
-    id: json['id'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "rank": rank,
-    "id": id,
-  };
+extension type _Items(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get rank => json['rank'] as String;
+    String get id => json['id'] as String;
+
+// ----------- SETTERS ----------- 
+    set rank(String value) => json["rank"] = value;
+    set id(String value) => json["id"] = value;
+
 }
 
-class _Ranking {
-  final List<_Items> items;
-  final String date;
-  _Ranking({
-    required this.items,
-    required this.date,
-  });
-  factory _Ranking.fromJson(Map<String, dynamic> json) {
-    return _Ranking(
-    items: (json['items'] as List<dynamic>).map((e)=>_Items.fromJson(e)).toList(),
-    date: json['date'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "items": items.map((e)=>e.toJson()).toList(),
-    "date": date,
-  };
+extension type _Ranking(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    List<_Items> get items => json['items'] as List<_Items>;
+    String get date => json['date'] as String;
+
+// ----------- SETTERS ----------- 
+    set items(List<_Items> value) => json["items"] = value;
+    set date(String value) => json["date"] = value;
+
 }
 
-class _Pixivision {
-  final String id;
-  final String title;
-  final String thumbnailUrl;
-  final String url;
-  _Pixivision({
-    required this.id,
-    required this.title,
-    required this.thumbnailUrl,
-    required this.url,
-  });
-  factory _Pixivision.fromJson(Map<String, dynamic> json) {
-    return _Pixivision(
-    id: json['id'],
-    title: json['title'],
-    thumbnailUrl: json['thumbnailUrl'],
-    url: json['url'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "id": id,
-    "title": title,
-    "thumbnailUrl": thumbnailUrl,
-    "url": url,
-  };
+extension type _Pixivision(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get id => json['id'] as String;
+    String get title => json['title'] as String;
+    String get thumbnailUrl => json['thumbnailUrl'] as String;
+    String get url => json['url'] as String;
+
+// ----------- SETTERS ----------- 
+    set id(String value) => json["id"] = value;
+    set title(String value) => json["title"] = value;
+    set thumbnailUrl(String value) => json["thumbnailUrl"] = value;
+    set url(String value) => json["url"] = value;
+
 }
 
-class _RecommendUser {
-  final int id;
-  final List<String> illustIds;
-  final List<String> novelIds;
-  _RecommendUser({
-    required this.id,
-    required this.illustIds,
-    required this.novelIds,
-  });
-  factory _RecommendUser.fromJson(Map<String, dynamic> json) {
-    return _RecommendUser(
-    id: json['id'],
-    illustIds: (json['illustIds'] as List<dynamic>).map((e)=>e as String).toList(),
-    novelIds: (json['novelIds'] as List<dynamic>).map((e)=>e as String).toList(),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "id": id,
-    "illustIds": illustIds,
-    "novelIds": novelIds,
-  };
+extension type _RecommendUser(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    int get id => json['id'] as int;
+    List<String> get illustIds => json['illustIds'] as List<String>;
+    List<String> get novelIds => json['novelIds'] as List<String>;
+
+// ----------- SETTERS ----------- 
+    set id(int value) => json["id"] = value;
+    set illustIds(List<String> value) => json["illustIds"] = value;
+    set novelIds(List<String> value) => json["novelIds"] = value;
+
 }
 
-class _ContestOngoing {
-  final String slug;
-  final String type;
-  final String name;
-  final String url;
-  final String iconUrl;
-  final List<int> workIds;
-  final bool isNew;
-  _ContestOngoing({
-    required this.slug,
-    required this.type,
-    required this.name,
-    required this.url,
-    required this.iconUrl,
-    required this.workIds,
-    required this.isNew,
-  });
-  factory _ContestOngoing.fromJson(Map<String, dynamic> json) {
-    return _ContestOngoing(
-    slug: json['slug'],
-    type: json['type'],
-    name: json['name'],
-    url: json['url'],
-    iconUrl: json['iconUrl'],
-    workIds: (json['workIds'] as List<dynamic>).map((e)=>e as int).toList(),
-    isNew: json['isNew'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "slug": slug,
-    "type": type,
-    "name": name,
-    "url": url,
-    "iconUrl": iconUrl,
-    "workIds": workIds,
-    "isNew": isNew,
-  };
+extension type _ContestOngoing(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get slug => json['slug'] as String;
+    String get type => json['type'] as String;
+    String get name => json['name'] as String;
+    String get url => json['url'] as String;
+    String get iconUrl => json['iconUrl'] as String;
+    List<int> get workIds => json['workIds'] as List<int>;
+    bool get isNew => json['isNew'] as bool;
+
+// ----------- SETTERS ----------- 
+    set slug(String value) => json["slug"] = value;
+    set type(String value) => json["type"] = value;
+    set name(String value) => json["name"] = value;
+    set url(String value) => json["url"] = value;
+    set iconUrl(String value) => json["iconUrl"] = value;
+    set workIds(List<int> value) => json["workIds"] = value;
+    set isNew(bool value) => json["isNew"] = value;
+
 }
 
-class _ContestResult {
-  final String slug;
-  final String type;
-  final String name;
-  final String url;
-  final String iconUrl;
-  final List<int> winnerWorkIds;
-  _ContestResult({
-    required this.slug,
-    required this.type,
-    required this.name,
-    required this.url,
-    required this.iconUrl,
-    required this.winnerWorkIds,
-  });
-  factory _ContestResult.fromJson(Map<String, dynamic> json) {
-    return _ContestResult(
-    slug: json['slug'],
-    type: json['type'],
-    name: json['name'],
-    url: json['url'],
-    iconUrl: json['iconUrl'],
-    winnerWorkIds: (json['winnerWorkIds'] as List<dynamic>).map((e)=>e as int).toList(),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "slug": slug,
-    "type": type,
-    "name": name,
-    "url": url,
-    "iconUrl": iconUrl,
-    "winnerWorkIds": winnerWorkIds,
-  };
+extension type _ContestResult(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get slug => json['slug'] as String;
+    String get type => json['type'] as String;
+    String get name => json['name'] as String;
+    String get url => json['url'] as String;
+    String get iconUrl => json['iconUrl'] as String;
+    List<int> get winnerWorkIds => json['winnerWorkIds'] as List<int>;
+
+// ----------- SETTERS ----------- 
+    set slug(String value) => json["slug"] = value;
+    set type(String value) => json["type"] = value;
+    set name(String value) => json["name"] = value;
+    set url(String value) => json["url"] = value;
+    set iconUrl(String value) => json["iconUrl"] = value;
+    set winnerWorkIds(List<int> value) => json["winnerWorkIds"] = value;
+
 }
 
-class _EditorRecommend {
-  final String illustId;
-  final String comment;
-  _EditorRecommend({
-    required this.illustId,
-    required this.comment,
-  });
-  factory _EditorRecommend.fromJson(Map<String, dynamic> json) {
-    return _EditorRecommend(
-    illustId: json['illustId'],
-    comment: json['comment'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "illustId": illustId,
-    "comment": comment,
-  };
+extension type _EditorRecommend(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get illustId => json['illustId'] as String;
+    String get comment => json['comment'] as String;
+
+// ----------- SETTERS ----------- 
+    set illustId(String value) => json["illustId"] = value;
+    set comment(String value) => json["comment"] = value;
+
 }
 
-class _TrendingTags {
-  final String tag;
-  final int trendingRate;
-  final List<int> ids;
-  _TrendingTags({
-    required this.tag,
-    required this.trendingRate,
-    required this.ids,
-  });
-  factory _TrendingTags.fromJson(Map<String, dynamic> json) {
-    return _TrendingTags(
-    tag: json['tag'],
-    trendingRate: json['trendingRate'],
-    ids: (json['ids'] as List<dynamic>).map((e)=>e as int).toList(),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "tag": tag,
-    "trendingRate": trendingRate,
-    "ids": ids,
-  };
+extension type _TrendingTags(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get tag => json['tag'] as String;
+    int get trendingRate => json['trendingRate'] as int;
+    List<int> get ids => json['ids'] as List<int>;
+
+// ----------- SETTERS ----------- 
+    set tag(String value) => json["tag"] = value;
+    set trendingRate(int value) => json["trendingRate"] = value;
+    set ids(List<int> value) => json["ids"] = value;
+
 }
 
-class _Page {
-  final List<_Tags> tags;
-  final List<int> follow;
-  final List<dynamic> mypixiv;
-  final _Recommend recommend;
-  final List<_RecommendByTag> recommendByTag;
-  final _Ranking ranking;
-  final List<_Pixivision> pixivision;
-  final List<_RecommendUser> recommendUser;
-  final List<_ContestOngoing> contestOngoing;
-  final List<_ContestResult> contestResult;
-  final List<_EditorRecommend> editorRecommend;
-  final List<String> boothFollowItemIds;
-  final List<dynamic> sketchLiveFollowIds;
-  final List<dynamic> sketchLivePopularIds;
-  final List<dynamic> myFavoriteTags;
-  final List<String> newPost;
-  final List<_TrendingTags> trendingTags;
-  final List<String> completeRequestIds;
-  final List<String> userEventIds;
-  _Page({
-    required this.tags,
-    required this.follow,
-    required this.mypixiv,
-    required this.recommend,
-    required this.recommendByTag,
-    required this.ranking,
-    required this.pixivision,
-    required this.recommendUser,
-    required this.contestOngoing,
-    required this.contestResult,
-    required this.editorRecommend,
-    required this.boothFollowItemIds,
-    required this.sketchLiveFollowIds,
-    required this.sketchLivePopularIds,
-    required this.myFavoriteTags,
-    required this.newPost,
-    required this.trendingTags,
-    required this.completeRequestIds,
-    required this.userEventIds,
-  });
-  factory _Page.fromJson(Map<String, dynamic> json) {
-    return _Page(
-    tags: (json['tags'] as List<dynamic>).map((e)=>_Tags.fromJson(e)).toList(),
-    follow: (json['follow'] as List<dynamic>).map((e)=>e as int).toList(),
-    mypixiv: (json['mypixiv'] as List<dynamic>),
-    recommend: _Recommend.fromJson(json['recommend']),
-    recommendByTag: (json['recommendByTag'] as List<dynamic>).map((e)=>_RecommendByTag.fromJson(e)).toList(),
-    ranking: _Ranking.fromJson(json['ranking']),
-    pixivision: (json['pixivision'] as List<dynamic>).map((e)=>_Pixivision.fromJson(e)).toList(),
-    recommendUser: (json['recommendUser'] as List<dynamic>).map((e)=>_RecommendUser.fromJson(e)).toList(),
-    contestOngoing: (json['contestOngoing'] as List<dynamic>).map((e)=>_ContestOngoing.fromJson(e)).toList(),
-    contestResult: (json['contestResult'] as List<dynamic>).map((e)=>_ContestResult.fromJson(e)).toList(),
-    editorRecommend: (json['editorRecommend'] as List<dynamic>).map((e)=>_EditorRecommend.fromJson(e)).toList(),
-    boothFollowItemIds: (json['boothFollowItemIds'] as List<dynamic>).map((e)=>e as String).toList(),
-    sketchLiveFollowIds: (json['sketchLiveFollowIds'] as List<dynamic>),
-    sketchLivePopularIds: (json['sketchLivePopularIds'] as List<dynamic>),
-    myFavoriteTags: (json['myFavoriteTags'] as List<dynamic>),
-    newPost: (json['newPost'] as List<dynamic>).map((e)=>e as String).toList(),
-    trendingTags: (json['trendingTags'] as List<dynamic>).map((e)=>_TrendingTags.fromJson(e)).toList(),
-    completeRequestIds: (json['completeRequestIds'] as List<dynamic>).map((e)=>e as String).toList(),
-    userEventIds: (json['userEventIds'] as List<dynamic>).map((e)=>e as String).toList(),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "tags": tags.map((e)=>e.toJson()).toList(),
-    "follow": follow,
-    "mypixiv": mypixiv,
-    "recommend": recommend.toJson(),
-    "recommendByTag": recommendByTag.map((e)=>e.toJson()).toList(),
-    "ranking": ranking.toJson(),
-    "pixivision": pixivision.map((e)=>e.toJson()).toList(),
-    "recommendUser": recommendUser.map((e)=>e.toJson()).toList(),
-    "contestOngoing": contestOngoing.map((e)=>e.toJson()).toList(),
-    "contestResult": contestResult.map((e)=>e.toJson()).toList(),
-    "editorRecommend": editorRecommend.map((e)=>e.toJson()).toList(),
-    "boothFollowItemIds": boothFollowItemIds,
-    "sketchLiveFollowIds": sketchLiveFollowIds,
-    "sketchLivePopularIds": sketchLivePopularIds,
-    "myFavoriteTags": myFavoriteTags,
-    "newPost": newPost,
-    "trendingTags": trendingTags.map((e)=>e.toJson()).toList(),
-    "completeRequestIds": completeRequestIds,
-    "userEventIds": userEventIds,
-  };
+extension type _Page(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    List<_Tags> get tags => json['tags'] as List<_Tags>;
+    List<int> get follow => json['follow'] as List<int>;
+    List<dynamic> get mypixiv => json['mypixiv'] as List<dynamic>;
+    _Recommend get recommend => json['recommend'] as _Recommend;
+    List<_RecommendByTag> get recommendByTag => json['recommendByTag'] as List<_RecommendByTag>;
+    _Ranking get ranking => json['ranking'] as _Ranking;
+    List<_Pixivision> get pixivision => json['pixivision'] as List<_Pixivision>;
+    List<_RecommendUser> get recommendUser => json['recommendUser'] as List<_RecommendUser>;
+    List<_ContestOngoing> get contestOngoing => json['contestOngoing'] as List<_ContestOngoing>;
+    List<_ContestResult> get contestResult => json['contestResult'] as List<_ContestResult>;
+    List<_EditorRecommend> get editorRecommend => json['editorRecommend'] as List<_EditorRecommend>;
+    List<String> get boothFollowItemIds => json['boothFollowItemIds'] as List<String>;
+    List<dynamic> get sketchLiveFollowIds => json['sketchLiveFollowIds'] as List<dynamic>;
+    List<dynamic> get sketchLivePopularIds => json['sketchLivePopularIds'] as List<dynamic>;
+    List<dynamic> get myFavoriteTags => json['myFavoriteTags'] as List<dynamic>;
+    List<String> get newPost => json['newPost'] as List<String>;
+    List<_TrendingTags> get trendingTags => json['trendingTags'] as List<_TrendingTags>;
+    List<String> get completeRequestIds => json['completeRequestIds'] as List<String>;
+    List<String> get userEventIds => json['userEventIds'] as List<String>;
+
+// ----------- SETTERS ----------- 
+    set tags(List<_Tags> value) => json["tags"] = value;
+    set follow(List<int> value) => json["follow"] = value;
+    set mypixiv(List<dynamic> value) => json["mypixiv"] = value;
+    set recommend(_Recommend value) => json["recommend"] = value;
+    set recommendByTag(List<_RecommendByTag> value) => json["recommendByTag"] = value;
+    set ranking(_Ranking value) => json["ranking"] = value;
+    set pixivision(List<_Pixivision> value) => json["pixivision"] = value;
+    set recommendUser(List<_RecommendUser> value) => json["recommendUser"] = value;
+    set contestOngoing(List<_ContestOngoing> value) => json["contestOngoing"] = value;
+    set contestResult(List<_ContestResult> value) => json["contestResult"] = value;
+    set editorRecommend(List<_EditorRecommend> value) => json["editorRecommend"] = value;
+    set boothFollowItemIds(List<String> value) => json["boothFollowItemIds"] = value;
+    set sketchLiveFollowIds(List<dynamic> value) => json["sketchLiveFollowIds"] = value;
+    set sketchLivePopularIds(List<dynamic> value) => json["sketchLivePopularIds"] = value;
+    set myFavoriteTags(List<dynamic> value) => json["myFavoriteTags"] = value;
+    set newPost(List<String> value) => json["newPost"] = value;
+    set trendingTags(List<_TrendingTags> value) => json["trendingTags"] = value;
+    set completeRequestIds(List<String> value) => json["completeRequestIds"] = value;
+    set userEventIds(List<String> value) => json["userEventIds"] = value;
+
 }
 
-class IllustTop {
-  final List<Booth> boothItems;
-  final _Page page;
-  final Map<String, TagTranslation> tagTranslation;
-  final List<IllustSeries> illustSeries;
-  final Thumbnails thumbnails;
-  final List<Request> requests;
-  final List<PartialUser> users;
-  IllustTop({
-    required this.boothItems,
-    required this.page,
-    required this.tagTranslation,
-    required this.illustSeries,
-    required this.thumbnails,
-    required this.requests,
-    required this.users,
-  });
-  factory IllustTop.fromJson(Map<String, dynamic> json) {
-    return IllustTop(
-    boothItems: (json['boothItems'] as List<dynamic>).map((e)=>Booth.fromJson(e)).toList(),
-    page: _Page.fromJson(json['page']),
-    tagTranslation: (json['tagTranslation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,TagTranslation.fromJson(v))),
-    illustSeries: (json['illustSeries'] as List<dynamic>).map((e)=>IllustSeries.fromJson(e)).toList(),
-    thumbnails: Thumbnails.fromJson(json['thumbnails']),
-    requests: (json['requests'] as List<dynamic>).map((e)=>Request.fromJson(e)).toList(),
-    users: (json['users'] as List<dynamic>).map((e)=>PartialUser.fromJson(e)).toList(),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "boothItems": boothItems.map((e)=>e.toJson()).toList(),
-    "page": page.toJson(),
-    "tagTranslation": tagTranslation.map((k,v)=>MapEntry(k,v.toJson())),
-    "illustSeries": illustSeries.map((e)=>e.toJson()).toList(),
-    "thumbnails": thumbnails.toJson(),
-    "requests": requests.map((e)=>e.toJson()).toList(),
-    "users": users.map((e)=>e.toJson()).toList(),
-  };
+extension type IllustTop(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    List<Booth> get boothItems => json['boothItems'] as List<Booth>;
+    _Page get page => json['page'] as _Page;
+    Map<String, TagTranslation> get tagTranslation => json['tagTranslation'] as Map<String, TagTranslation>;
+    List<IllustSeries> get illustSeries => json['illustSeries'] as List<IllustSeries>;
+    Thumbnails get thumbnails => json['thumbnails'] as Thumbnails;
+    List<Request> get requests => json['requests'] as List<Request>;
+    List<PartialUser> get users => json['users'] as List<PartialUser>;
+
+// ----------- SETTERS ----------- 
+    set boothItems(List<Booth> value) => json["boothItems"] = value;
+    set page(_Page value) => json["page"] = value;
+    set tagTranslation(Map<String, TagTranslation> value) => json["tagTranslation"] = value;
+    set illustSeries(List<IllustSeries> value) => json["illustSeries"] = value;
+    set thumbnails(Thumbnails value) => json["thumbnails"] = value;
+    set requests(List<Request> value) => json["requests"] = value;
+    set users(List<PartialUser> value) => json["users"] = value;
+
 }
 

@@ -19,12 +19,11 @@
         "isLocked": false,
         "tags": [
             {
-                "$schema": "$/shared/TagInfo",
+                "$schema": "$/shared/TagInfo"
             }
         ],
         "writable": true
     },
-    "tags": ["fricj"],
     "userId": "1507561",
     "userName": "\u30bd\u30e9\u30ea\u30b9(Solarisu)",
     "likeData": false,

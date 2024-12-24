@@ -1,71 +1,44 @@
-class _ThreadEntryBody {
+extension type _ThreadEntryBody(Map<String, dynamic> json) {
   /// Requester's user ID, null if `threadEntryType` is not `sendRequest` or `requestAnonymousFlg` is true or smth idk
-  final String? fanUserId;
   /// Whether or not the requester is anonymous, null if `threadEntryType` is not `sendRequest`
-  final bool? requestAnonymousFlg;
   /// Creator's user ID, null if `threadEntryType` is not `acceptRequest`
-  final String? creatorUserId;
-  _ThreadEntryBody({
-    this.fanUserId,
-    this.requestAnonymousFlg,
-    this.creatorUserId,
-  });
-  factory _ThreadEntryBody.fromJson(Map<String, dynamic> json) {
-    return _ThreadEntryBody(
-    fanUserId: json['fanUserId'],
-    requestAnonymousFlg: json['requestAnonymousFlg'],
-    creatorUserId: json['creatorUserId'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "fanUserId": fanUserId,
-    "requestAnonymousFlg": requestAnonymousFlg,
-    "creatorUserId": creatorUserId,
-  };
+// ----------- GETTERS ----------- 
+    String? get fanUserId => json['fanUserId'];
+    bool? get requestAnonymousFlg => json['requestAnonymousFlg'];
+    String? get creatorUserId => json['creatorUserId'];
+
+// ----------- SETTERS ----------- 
+    set fanUserId(String? value) => json["fanUserId"] = value;
+    set requestAnonymousFlg(bool? value) => json["requestAnonymousFlg"] = value;
+    set creatorUserId(String? value) => json["creatorUserId"] = value;
+
 }
 
-class _ThreadEntries {
-  final String threadEntryId;
+extension type _ThreadEntries(Map<String, dynamic> json) {
   /// Values: `sendRequest`, `acceptRequest`, 
-  final String threadEntryType;
   /// body
-  final _ThreadEntryBody threadEntryBody;
-  _ThreadEntries({
-    required this.threadEntryId,
-    required this.threadEntryType,
-    required this.threadEntryBody,
-  });
-  factory _ThreadEntries.fromJson(Map<String, dynamic> json) {
-    return _ThreadEntries(
-    threadEntryId: json['threadEntryId'],
-    threadEntryType: json['threadEntryType'],
-    threadEntryBody: _ThreadEntryBody.fromJson(json['threadEntryBody']),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "threadEntryId": threadEntryId,
-    "threadEntryType": threadEntryType,
-    "threadEntryBody": threadEntryBody.toJson(),
-  };
+// ----------- GETTERS ----------- 
+    String get threadEntryId => json['threadEntryId'] as String;
+    String get threadEntryType => json['threadEntryType'] as String;
+    _ThreadEntryBody get threadEntryBody => json['threadEntryBody'] as _ThreadEntryBody;
+
+// ----------- SETTERS ----------- 
+    set threadEntryId(String value) => json["threadEntryId"] = value;
+    set threadEntryType(String value) => json["threadEntryType"] = value;
+    set threadEntryBody(_ThreadEntryBody value) => json["threadEntryBody"] = value;
+
 }
 
-class RequestThread {
-  final String threadId;
-  final String requestId;
-  final List<_ThreadEntries> threadEntries;
-  RequestThread({
-    required this.threadId,
-    required this.requestId,
-    required this.threadEntries,
-  });
-  factory RequestThread.fromJson(Map<String, dynamic> json) {
-    return RequestThread(
-    threadId: json['threadId'],
-    requestId: json['requestId'],
-    threadEntries: (json['threadEntries'] as List<dynamic>).map((e)=>_ThreadEntries.fromJson(e)).toList(),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "threadId": threadId,
-    "requestId": requestId,
-    "threadEntries": threadEntries.map((e)=>e.toJson()).toList(),
-  };
+extension type RequestThread(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get threadId => json['threadId'] as String;
+    String get requestId => json['requestId'] as String;
+    List<_ThreadEntries> get threadEntries => json['threadEntries'] as List<_ThreadEntries>;
+
+// ----------- SETTERS ----------- 
+    set threadId(String value) => json["threadId"] = value;
+    set requestId(String value) => json["requestId"] = value;
+    set threadEntries(List<_ThreadEntries> value) => json["threadEntries"] = value;
+
 }
 

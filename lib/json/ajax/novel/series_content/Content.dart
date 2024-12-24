@@ -1,195 +1,108 @@
 import 'package:sofieru/json/ajax/novel/PartialNovel.dart' show PartialNovel;
-class _Thumbnails {
-  final List<dynamic> illust;
-  final List<PartialNovel> novel;
-  final List<dynamic> novelSeries;
-  final List<dynamic> novelDraft;
-  final List<dynamic> collection;
-  _Thumbnails({
-    required this.illust,
-    required this.novel,
-    required this.novelSeries,
-    required this.novelDraft,
-    required this.collection,
-  });
-  factory _Thumbnails.fromJson(Map<String, dynamic> json) {
-    return _Thumbnails(
-    illust: (json['illust'] as List<dynamic>),
-    novel: (json['novel'] as List<dynamic>).map((e)=>PartialNovel.fromJson(e)).toList(),
-    novelSeries: (json['novelSeries'] as List<dynamic>),
-    novelDraft: (json['novelDraft'] as List<dynamic>),
-    collection: (json['collection'] as List<dynamic>),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "illust": illust,
-    "novel": novel.map((e)=>e.toJson()).toList(),
-    "novelSeries": novelSeries,
-    "novelDraft": novelDraft,
-    "collection": collection,
-  };
+extension type _Thumbnails(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    List<dynamic> get illust => json['illust'] as List<dynamic>;
+    List<PartialNovel> get novel => json['novel'] as List<PartialNovel>;
+    List<dynamic> get novelSeries => json['novelSeries'] as List<dynamic>;
+    List<dynamic> get novelDraft => json['novelDraft'] as List<dynamic>;
+    List<dynamic> get collection => json['collection'] as List<dynamic>;
+
+// ----------- SETTERS ----------- 
+    set illust(List<dynamic> value) => json["illust"] = value;
+    set novel(List<PartialNovel> value) => json["novel"] = value;
+    set novelSeries(List<dynamic> value) => json["novelSeries"] = value;
+    set novelDraft(List<dynamic> value) => json["novelDraft"] = value;
+    set collection(List<dynamic> value) => json["collection"] = value;
+
 }
 
-class _Series {
-  final int id;
-  final int viewableType;
-  final int contentOrder;
-  _Series({
-    required this.id,
-    required this.viewableType,
-    required this.contentOrder,
-  });
-  factory _Series.fromJson(Map<String, dynamic> json) {
-    return _Series(
-    id: json['id'],
-    viewableType: json['viewableType'],
-    contentOrder: json['contentOrder'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "id": id,
-    "viewableType": viewableType,
-    "contentOrder": contentOrder,
-  };
+extension type _Series(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    int get id => json['id'] as int;
+    int get viewableType => json['viewableType'] as int;
+    int get contentOrder => json['contentOrder'] as int;
+
+// ----------- SETTERS ----------- 
+    set id(int value) => json["id"] = value;
+    set viewableType(int value) => json["viewableType"] = value;
+    set contentOrder(int value) => json["contentOrder"] = value;
+
 }
 
-class _SeriesContents {
-  final String id;
-  final String userId;
-  final _Series series;
-  final String title;
-  final String commentHtml;
-  final List<String> tags;
-  final int restrict;
-  final int xRestrict;
-  final bool isOriginal;
-  final int textLength;
-  final int characterCount;
-  final int wordCount;
-  final bool useWordCount;
-  final int readingTime;
-  final int bookmarkCount;
-  final String url;
-  final int uploadTimestamp;
-  final int reuploadTimestamp;
-  final bool isBookmarkable;
-  final String? bookmarkData;
-  final int aiType;
-  _SeriesContents({
-    required this.id,
-    required this.userId,
-    required this.series,
-    required this.title,
-    required this.commentHtml,
-    required this.tags,
-    required this.restrict,
-    required this.xRestrict,
-    required this.isOriginal,
-    required this.textLength,
-    required this.characterCount,
-    required this.wordCount,
-    required this.useWordCount,
-    required this.readingTime,
-    required this.bookmarkCount,
-    required this.url,
-    required this.uploadTimestamp,
-    required this.reuploadTimestamp,
-    required this.isBookmarkable,
-    required this.bookmarkData,
-    required this.aiType,
-  });
-  factory _SeriesContents.fromJson(Map<String, dynamic> json) {
-    return _SeriesContents(
-    id: json['id'],
-    userId: json['userId'],
-    series: _Series.fromJson(json['series']),
-    title: json['title'],
-    commentHtml: json['commentHtml'],
-    tags: (json['tags'] as List<dynamic>).map((e)=>e as String).toList(),
-    restrict: json['restrict'],
-    xRestrict: json['xRestrict'],
-    isOriginal: json['isOriginal'],
-    textLength: json['textLength'],
-    characterCount: json['characterCount'],
-    wordCount: json['wordCount'],
-    useWordCount: json['useWordCount'],
-    readingTime: json['readingTime'],
-    bookmarkCount: json['bookmarkCount'],
-    url: json['url'],
-    uploadTimestamp: json['uploadTimestamp'],
-    reuploadTimestamp: json['reuploadTimestamp'],
-    isBookmarkable: json['isBookmarkable'],
-    bookmarkData: json['bookmarkData'],
-    aiType: json['aiType'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "id": id,
-    "userId": userId,
-    "series": series.toJson(),
-    "title": title,
-    "commentHtml": commentHtml,
-    "tags": tags,
-    "restrict": restrict,
-    "xRestrict": xRestrict,
-    "isOriginal": isOriginal,
-    "textLength": textLength,
-    "characterCount": characterCount,
-    "wordCount": wordCount,
-    "useWordCount": useWordCount,
-    "readingTime": readingTime,
-    "bookmarkCount": bookmarkCount,
-    "url": url,
-    "uploadTimestamp": uploadTimestamp,
-    "reuploadTimestamp": reuploadTimestamp,
-    "isBookmarkable": isBookmarkable,
-    "bookmarkData": bookmarkData,
-    "aiType": aiType,
-  };
+extension type _SeriesContents(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get id => json['id'] as String;
+    String get userId => json['userId'] as String;
+    _Series get series => json['series'] as _Series;
+    String get title => json['title'] as String;
+    String get commentHtml => json['commentHtml'] as String;
+    List<String> get tags => json['tags'] as List<String>;
+    int get restrict => json['restrict'] as int;
+    int get xRestrict => json['xRestrict'] as int;
+    bool get isOriginal => json['isOriginal'] as bool;
+    int get textLength => json['textLength'] as int;
+    int get characterCount => json['characterCount'] as int;
+    int get wordCount => json['wordCount'] as int;
+    bool get useWordCount => json['useWordCount'] as bool;
+    int get readingTime => json['readingTime'] as int;
+    int get bookmarkCount => json['bookmarkCount'] as int;
+    String get url => json['url'] as String;
+    int get uploadTimestamp => json['uploadTimestamp'] as int;
+    int get reuploadTimestamp => json['reuploadTimestamp'] as int;
+    bool get isBookmarkable => json['isBookmarkable'] as bool;
+    dynamic get bookmarkData => json['bookmarkData'] as dynamic;
+    int get aiType => json['aiType'] as int;
+
+// ----------- SETTERS ----------- 
+    set id(String value) => json["id"] = value;
+    set userId(String value) => json["userId"] = value;
+    set series(_Series value) => json["series"] = value;
+    set title(String value) => json["title"] = value;
+    set commentHtml(String value) => json["commentHtml"] = value;
+    set tags(List<String> value) => json["tags"] = value;
+    set restrict(int value) => json["restrict"] = value;
+    set xRestrict(int value) => json["xRestrict"] = value;
+    set isOriginal(bool value) => json["isOriginal"] = value;
+    set textLength(int value) => json["textLength"] = value;
+    set characterCount(int value) => json["characterCount"] = value;
+    set wordCount(int value) => json["wordCount"] = value;
+    set useWordCount(bool value) => json["useWordCount"] = value;
+    set readingTime(int value) => json["readingTime"] = value;
+    set bookmarkCount(int value) => json["bookmarkCount"] = value;
+    set url(String value) => json["url"] = value;
+    set uploadTimestamp(int value) => json["uploadTimestamp"] = value;
+    set reuploadTimestamp(int value) => json["reuploadTimestamp"] = value;
+    set isBookmarkable(bool value) => json["isBookmarkable"] = value;
+    set bookmarkData(dynamic value) => json["bookmarkData"] = value;
+    set aiType(int value) => json["aiType"] = value;
+
 }
 
-class _Page {
-  final List<_SeriesContents> seriesContents;
-  _Page({
-    required this.seriesContents,
-  });
-  factory _Page.fromJson(Map<String, dynamic> json) {
-    return _Page(
-    seriesContents: (json['seriesContents'] as List<dynamic>).map((e)=>_SeriesContents.fromJson(e)).toList(),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "seriesContents": seriesContents.map((e)=>e.toJson()).toList(),
-  };
+extension type _Page(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    List<_SeriesContents> get seriesContents => json['seriesContents'] as List<_SeriesContents>;
+
+// ----------- SETTERS ----------- 
+    set seriesContents(List<_SeriesContents> value) => json["seriesContents"] = value;
+
 }
 
-class Content {
-  final List<dynamic> tagTranslation;
-  final _Thumbnails thumbnails;
-  final List<dynamic> illustSeries;
-  final List<dynamic> requests;
-  final List<dynamic> users;
-  final _Page page;
-  Content({
-    required this.tagTranslation,
-    required this.thumbnails,
-    required this.illustSeries,
-    required this.requests,
-    required this.users,
-    required this.page,
-  });
-  factory Content.fromJson(Map<String, dynamic> json) {
-    return Content(
-    tagTranslation: (json['tagTranslation'] as List<dynamic>),
-    thumbnails: _Thumbnails.fromJson(json['thumbnails']),
-    illustSeries: (json['illustSeries'] as List<dynamic>),
-    requests: (json['requests'] as List<dynamic>),
-    users: (json['users'] as List<dynamic>),
-    page: _Page.fromJson(json['page']),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "tagTranslation": tagTranslation,
-    "thumbnails": thumbnails.toJson(),
-    "illustSeries": illustSeries,
-    "requests": requests,
-    "users": users,
-    "page": page.toJson(),
-  };
+extension type Content(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    List<dynamic> get tagTranslation => json['tagTranslation'] as List<dynamic>;
+    _Thumbnails get thumbnails => json['thumbnails'] as _Thumbnails;
+    List<dynamic> get illustSeries => json['illustSeries'] as List<dynamic>;
+    List<dynamic> get requests => json['requests'] as List<dynamic>;
+    List<dynamic> get users => json['users'] as List<dynamic>;
+    _Page get page => json['page'] as _Page;
+
+// ----------- SETTERS ----------- 
+    set tagTranslation(List<dynamic> value) => json["tagTranslation"] = value;
+    set thumbnails(_Thumbnails value) => json["thumbnails"] = value;
+    set illustSeries(List<dynamic> value) => json["illustSeries"] = value;
+    set requests(List<dynamic> value) => json["requests"] = value;
+    set users(List<dynamic> value) => json["users"] = value;
+    set page(_Page value) => json["page"] = value;
+
 }
 

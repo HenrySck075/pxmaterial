@@ -1,4 +1,5 @@
 import os 
+import shutil
 import sys 
 
 inter = os.environ.get("interpreter",sys.executable) # default to what works on my machine :>
@@ -7,17 +8,15 @@ for r, s, fs in os.walk("payloads"):
         if f=="README.md": continue
         if f.startswith("_"): continue
         def fuck():
-            the = lambda: os.system(f"mv {f}.dart {os.path.join(pat,f)}.dart")
-            ret = the() 
-            if ret == 1: return
-            if ret == 256: # assuming were cooking in linux
-                os.system("mkdir -p "+pat)
-                the()
+            if not os.path.exists(pat):
+                os.mkdir(pat)
+            shutil.move(f"{f}.dart",f"{os.path.join(pat,f)}.dart")
+            
         if f.endswith(".dart"): 
             fuck()
             continue
         if os.system(f"{inter} json2dart.py {f} {os.path.join(r,f)}")!=0:
             raise SystemError(f"you stupid (Error on {f})")
-        pat = r.replace('payloads','json')
+        pat = r.replace('payloads','../lib/json')
         if not os.path.exists(f+".dart"): continue
         fuck()

@@ -1,286 +1,157 @@
-class _FirstEpisode {
-  final String url;
-  _FirstEpisode({
-    required this.url,
-  });
-  factory _FirstEpisode.fromJson(Map<String, dynamic> json) {
-    return _FirstEpisode(
-    url: json['url'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "url": url,
-  };
+extension type _FirstEpisode(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get url => json['url'] as String;
+
+// ----------- SETTERS ----------- 
+    set url(String value) => json["url"] = value;
+
 }
 
-class _Cover {
-  final Map<String, String> urls;
-  _Cover({
-    required this.urls,
-  });
-  factory _Cover.fromJson(Map<String, dynamic> json) {
-    return _Cover(
-    urls: (json['urls'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,v as String)),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "urls": urls.map((k,v)=>MapEntry(k,v as String)),
-  };
+extension type _Cover(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    Map<String, String> get urls => json['urls'] as Map<String, String>;
+
+// ----------- SETTERS ----------- 
+    set urls(Map<String, String> value) => json["urls"] = value;
+
 }
 
-class SEOEmbedMeta {
-  final String type;
-  final String title;
-  final String description;
-  final String image;
-  SEOEmbedMeta({
-    required this.type,
-    required this.title,
-    required this.description,
-    required this.image,
-  });
-  factory SEOEmbedMeta.fromJson(Map<String, dynamic> json) {
-    return SEOEmbedMeta(
-    type: json['type'],
-    title: json['title'],
-    description: json['description'],
-    image: json['image'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "type": type,
-    "title": title,
-    "description": description,
-    "image": image,
-  };
+extension type SEOEmbedMeta(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get type => json['type'] as String;
+    String get title => json['title'] as String;
+    String get description => json['description'] as String;
+    String get image => json['image'] as String;
+
+// ----------- SETTERS ----------- 
+    set type(String value) => json["type"] = value;
+    set title(String value) => json["title"] = value;
+    set description(String value) => json["description"] = value;
+    set image(String value) => json["image"] = value;
+
 }
 
-class TwitterEmbedMeta {
-  final String card;
-  final String site;
-  final String title;
-  final String description;
-  final String image;
-  TwitterEmbedMeta({
-    required this.card,
-    required this.site,
-    required this.title,
-    required this.description,
-    required this.image,
-  });
-  factory TwitterEmbedMeta.fromJson(Map<String, dynamic> json) {
-    return TwitterEmbedMeta(
-    card: json['card'],
-    site: json['site'],
-    title: json['title'],
-    description: json['description'],
-    image: json['image'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "card": card,
-    "site": site,
-    "title": title,
-    "description": description,
-    "image": image,
-  };
+extension type TwitterEmbedMeta(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get card => json['card'] as String;
+    String get site => json['site'] as String;
+    String get title => json['title'] as String;
+    String get description => json['description'] as String;
+    String get image => json['image'] as String;
+
+// ----------- SETTERS ----------- 
+    set card(String value) => json["card"] = value;
+    set site(String value) => json["site"] = value;
+    set title(String value) => json["title"] = value;
+    set description(String value) => json["description"] = value;
+    set image(String value) => json["image"] = value;
+
 }
 
-class _Meta {
-  final String title;
-  final String description;
-  final String canonical;
-  final SEOEmbedMeta ogp;
-  final TwitterEmbedMeta twitter;
-  _Meta({
-    required this.title,
-    required this.description,
-    required this.canonical,
-    required this.ogp,
-    required this.twitter,
-  });
-  factory _Meta.fromJson(Map<String, dynamic> json) {
-    return _Meta(
-    title: json['title'],
-    description: json['description'],
-    canonical: json['canonical'],
-    ogp: SEOEmbedMeta.fromJson(json['ogp']),
-    twitter: TwitterEmbedMeta.fromJson(json['twitter']),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "title": title,
-    "description": description,
-    "canonical": canonical,
-    "ogp": ogp.toJson(),
-    "twitter": twitter.toJson(),
-  };
+extension type _Meta(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get title => json['title'] as String;
+    String get description => json['description'] as String;
+    String get canonical => json['canonical'] as String;
+    SEOEmbedMeta get ogp => json['ogp'] as SEOEmbedMeta;
+    TwitterEmbedMeta get twitter => json['twitter'] as TwitterEmbedMeta;
+
+// ----------- SETTERS ----------- 
+    set title(String value) => json["title"] = value;
+    set description(String value) => json["description"] = value;
+    set canonical(String value) => json["canonical"] = value;
+    set ogp(SEOEmbedMeta value) => json["ogp"] = value;
+    set twitter(TwitterEmbedMeta value) => json["twitter"] = value;
+
 }
 
-class _ExtraData {
-  final _Meta meta;
-  _ExtraData({
-    required this.meta,
-  });
-  factory _ExtraData.fromJson(Map<String, dynamic> json) {
-    return _ExtraData(
-    meta: _Meta.fromJson(json['meta']),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "meta": meta.toJson(),
-  };
+extension type _ExtraData(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    _Meta get meta => json['meta'] as _Meta;
+
+// ----------- SETTERS ----------- 
+    set meta(_Meta value) => json["meta"] = value;
+
 }
 
-class Series {
-  final String id;
-  final String userId;
-  final String userName;
-  final String profileImageUrl;
-  final int xRestrict;
-  final bool isOriginal;
-  final bool isConcluded;
-  final String genreId;
-  final String title;
-  final String caption;
-  final String language;
-  final List<dynamic> tags;
-  final int publishedContentCount;
-  final int publishedTotalCharacterCount;
-  final int publishedTotalWordCount;
-  final int publishedReadingTime;
-  final bool useWordCount;
-  final int lastPublishedContentTimestamp;
-  final int createdTimestamp;
-  final int updatedTimestamp;
-  final String createDate;
-  final String updateDate;
-  final String firstNovelId;
-  final String latestNovelId;
-  final int displaySeriesContentCount;
-  final String shareText;
-  final int total;
-  final _FirstEpisode firstEpisode;
-  final String? watchCount;
-  final String? maxXRestrict;
-  final _Cover cover;
-  final String? coverSettingData;
-  final bool isWatched;
-  final bool isNotifying;
-  final int aiType;
-  final bool hasGlossary;
-  final _ExtraData extraData;
-  Series({
-    required this.id,
-    required this.userId,
-    required this.userName,
-    required this.profileImageUrl,
-    required this.xRestrict,
-    required this.isOriginal,
-    required this.isConcluded,
-    required this.genreId,
-    required this.title,
-    required this.caption,
-    required this.language,
-    required this.tags,
-    required this.publishedContentCount,
-    required this.publishedTotalCharacterCount,
-    required this.publishedTotalWordCount,
-    required this.publishedReadingTime,
-    required this.useWordCount,
-    required this.lastPublishedContentTimestamp,
-    required this.createdTimestamp,
-    required this.updatedTimestamp,
-    required this.createDate,
-    required this.updateDate,
-    required this.firstNovelId,
-    required this.latestNovelId,
-    required this.displaySeriesContentCount,
-    required this.shareText,
-    required this.total,
-    required this.firstEpisode,
-    required this.watchCount,
-    required this.maxXRestrict,
-    required this.cover,
-    required this.coverSettingData,
-    required this.isWatched,
-    required this.isNotifying,
-    required this.aiType,
-    required this.hasGlossary,
-    required this.extraData,
-  });
-  factory Series.fromJson(Map<String, dynamic> json) {
-    return Series(
-    id: json['id'],
-    userId: json['userId'],
-    userName: json['userName'],
-    profileImageUrl: json['profileImageUrl'],
-    xRestrict: json['xRestrict'],
-    isOriginal: json['isOriginal'],
-    isConcluded: json['isConcluded'],
-    genreId: json['genreId'],
-    title: json['title'],
-    caption: json['caption'],
-    language: json['language'],
-    tags: (json['tags'] as List<dynamic>),
-    publishedContentCount: json['publishedContentCount'],
-    publishedTotalCharacterCount: json['publishedTotalCharacterCount'],
-    publishedTotalWordCount: json['publishedTotalWordCount'],
-    publishedReadingTime: json['publishedReadingTime'],
-    useWordCount: json['useWordCount'],
-    lastPublishedContentTimestamp: json['lastPublishedContentTimestamp'],
-    createdTimestamp: json['createdTimestamp'],
-    updatedTimestamp: json['updatedTimestamp'],
-    createDate: json['createDate'],
-    updateDate: json['updateDate'],
-    firstNovelId: json['firstNovelId'],
-    latestNovelId: json['latestNovelId'],
-    displaySeriesContentCount: json['displaySeriesContentCount'],
-    shareText: json['shareText'],
-    total: json['total'],
-    firstEpisode: _FirstEpisode.fromJson(json['firstEpisode']),
-    watchCount: json['watchCount'],
-    maxXRestrict: json['maxXRestrict'],
-    cover: _Cover.fromJson(json['cover']),
-    coverSettingData: json['coverSettingData'],
-    isWatched: json['isWatched'],
-    isNotifying: json['isNotifying'],
-    aiType: json['aiType'],
-    hasGlossary: json['hasGlossary'],
-    extraData: _ExtraData.fromJson(json['extraData']),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "id": id,
-    "userId": userId,
-    "userName": userName,
-    "profileImageUrl": profileImageUrl,
-    "xRestrict": xRestrict,
-    "isOriginal": isOriginal,
-    "isConcluded": isConcluded,
-    "genreId": genreId,
-    "title": title,
-    "caption": caption,
-    "language": language,
-    "tags": tags,
-    "publishedContentCount": publishedContentCount,
-    "publishedTotalCharacterCount": publishedTotalCharacterCount,
-    "publishedTotalWordCount": publishedTotalWordCount,
-    "publishedReadingTime": publishedReadingTime,
-    "useWordCount": useWordCount,
-    "lastPublishedContentTimestamp": lastPublishedContentTimestamp,
-    "createdTimestamp": createdTimestamp,
-    "updatedTimestamp": updatedTimestamp,
-    "createDate": createDate,
-    "updateDate": updateDate,
-    "firstNovelId": firstNovelId,
-    "latestNovelId": latestNovelId,
-    "displaySeriesContentCount": displaySeriesContentCount,
-    "shareText": shareText,
-    "total": total,
-    "firstEpisode": firstEpisode.toJson(),
-    "watchCount": watchCount,
-    "maxXRestrict": maxXRestrict,
-    "cover": cover.toJson(),
-    "coverSettingData": coverSettingData,
-    "isWatched": isWatched,
-    "isNotifying": isNotifying,
-    "aiType": aiType,
-    "hasGlossary": hasGlossary,
-    "extraData": extraData.toJson(),
-  };
+extension type Series(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get id => json['id'] as String;
+    String get userId => json['userId'] as String;
+    String get userName => json['userName'] as String;
+    String get profileImageUrl => json['profileImageUrl'] as String;
+    int get xRestrict => json['xRestrict'] as int;
+    bool get isOriginal => json['isOriginal'] as bool;
+    bool get isConcluded => json['isConcluded'] as bool;
+    String get genreId => json['genreId'] as String;
+    String get title => json['title'] as String;
+    String get caption => json['caption'] as String;
+    String get language => json['language'] as String;
+    List<dynamic> get tags => json['tags'] as List<dynamic>;
+    int get publishedContentCount => json['publishedContentCount'] as int;
+    int get publishedTotalCharacterCount => json['publishedTotalCharacterCount'] as int;
+    int get publishedTotalWordCount => json['publishedTotalWordCount'] as int;
+    int get publishedReadingTime => json['publishedReadingTime'] as int;
+    bool get useWordCount => json['useWordCount'] as bool;
+    int get lastPublishedContentTimestamp => json['lastPublishedContentTimestamp'] as int;
+    int get createdTimestamp => json['createdTimestamp'] as int;
+    int get updatedTimestamp => json['updatedTimestamp'] as int;
+    String get createDate => json['createDate'] as String;
+    String get updateDate => json['updateDate'] as String;
+    String get firstNovelId => json['firstNovelId'] as String;
+    String get latestNovelId => json['latestNovelId'] as String;
+    int get displaySeriesContentCount => json['displaySeriesContentCount'] as int;
+    String get shareText => json['shareText'] as String;
+    int get total => json['total'] as int;
+    _FirstEpisode get firstEpisode => json['firstEpisode'] as _FirstEpisode;
+    dynamic get watchCount => json['watchCount'] as dynamic;
+    dynamic get maxXRestrict => json['maxXRestrict'] as dynamic;
+    _Cover get cover => json['cover'] as _Cover;
+    dynamic get coverSettingData => json['coverSettingData'] as dynamic;
+    bool get isWatched => json['isWatched'] as bool;
+    bool get isNotifying => json['isNotifying'] as bool;
+    int get aiType => json['aiType'] as int;
+    bool get hasGlossary => json['hasGlossary'] as bool;
+    _ExtraData get extraData => json['extraData'] as _ExtraData;
+
+// ----------- SETTERS ----------- 
+    set id(String value) => json["id"] = value;
+    set userId(String value) => json["userId"] = value;
+    set userName(String value) => json["userName"] = value;
+    set profileImageUrl(String value) => json["profileImageUrl"] = value;
+    set xRestrict(int value) => json["xRestrict"] = value;
+    set isOriginal(bool value) => json["isOriginal"] = value;
+    set isConcluded(bool value) => json["isConcluded"] = value;
+    set genreId(String value) => json["genreId"] = value;
+    set title(String value) => json["title"] = value;
+    set caption(String value) => json["caption"] = value;
+    set language(String value) => json["language"] = value;
+    set tags(List<dynamic> value) => json["tags"] = value;
+    set publishedContentCount(int value) => json["publishedContentCount"] = value;
+    set publishedTotalCharacterCount(int value) => json["publishedTotalCharacterCount"] = value;
+    set publishedTotalWordCount(int value) => json["publishedTotalWordCount"] = value;
+    set publishedReadingTime(int value) => json["publishedReadingTime"] = value;
+    set useWordCount(bool value) => json["useWordCount"] = value;
+    set lastPublishedContentTimestamp(int value) => json["lastPublishedContentTimestamp"] = value;
+    set createdTimestamp(int value) => json["createdTimestamp"] = value;
+    set updatedTimestamp(int value) => json["updatedTimestamp"] = value;
+    set createDate(String value) => json["createDate"] = value;
+    set updateDate(String value) => json["updateDate"] = value;
+    set firstNovelId(String value) => json["firstNovelId"] = value;
+    set latestNovelId(String value) => json["latestNovelId"] = value;
+    set displaySeriesContentCount(int value) => json["displaySeriesContentCount"] = value;
+    set shareText(String value) => json["shareText"] = value;
+    set total(int value) => json["total"] = value;
+    set firstEpisode(_FirstEpisode value) => json["firstEpisode"] = value;
+    set watchCount(dynamic value) => json["watchCount"] = value;
+    set maxXRestrict(dynamic value) => json["maxXRestrict"] = value;
+    set cover(_Cover value) => json["cover"] = value;
+    set coverSettingData(dynamic value) => json["coverSettingData"] = value;
+    set isWatched(bool value) => json["isWatched"] = value;
+    set isNotifying(bool value) => json["isNotifying"] = value;
+    set aiType(int value) => json["aiType"] = value;
+    set hasGlossary(bool value) => json["hasGlossary"] = value;
+    set extraData(_ExtraData value) => json["extraData"] = value;
+
 }
 

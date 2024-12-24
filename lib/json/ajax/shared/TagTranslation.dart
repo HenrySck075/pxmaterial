@@ -1,30 +1,17 @@
-class TagTranslation {
-  final String? en;
-  final String? ko;
-  final String? zh;
-  final String? zh_tw;
-  final String? romaji;
-  TagTranslation({
-    this.en,
-    this.ko,
-    this.zh,
-    this.zh_tw,
-    this.romaji,
-  });
-  factory TagTranslation.fromJson(Map<String, dynamic> json) {
-    return TagTranslation(
-    en: json['en'],
-    ko: json['ko'],
-    zh: json['zh'],
-    zh_tw: json['zh_tw'],
-    romaji: json['romaji'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "en": en,
-    "ko": ko,
-    "zh": zh,
-    "zh_tw": zh_tw,
-    "romaji": romaji,
-  };
+extension type TagTranslation(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String? get en => json['en'];
+    String? get ko => json['ko'];
+    String? get zh => json['zh'];
+    String? get zh_tw => json['zh_tw'];
+    String? get romaji => json['romaji'];
+
+// ----------- SETTERS ----------- 
+    set en(String? value) => json["en"] = value;
+    set ko(String? value) => json["ko"] = value;
+    set zh(String? value) => json["zh"] = value;
+    set zh_tw(String? value) => json["zh_tw"] = value;
+    set romaji(String? value) => json["romaji"] = value;
+
 }
 

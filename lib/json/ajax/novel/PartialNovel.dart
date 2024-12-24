@@ -1,132 +1,70 @@
-class _TitleCaptionTranslation {
-  final String? workTitle;
-  final String? workCaption;
-  _TitleCaptionTranslation({
-    required this.workTitle,
-    required this.workCaption,
-  });
-  factory _TitleCaptionTranslation.fromJson(Map<String, dynamic> json) {
-    return _TitleCaptionTranslation(
-    workTitle: json['workTitle'],
-    workCaption: json['workCaption'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "workTitle": workTitle,
-    "workCaption": workCaption,
-  };
+extension type _TitleCaptionTranslation(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    dynamic get workTitle => json['workTitle'] as dynamic;
+    dynamic get workCaption => json['workCaption'] as dynamic;
+
+// ----------- SETTERS ----------- 
+    set workTitle(dynamic value) => json["workTitle"] = value;
+    set workCaption(dynamic value) => json["workCaption"] = value;
+
 }
 
-class PartialNovel {
-  final String id;
-  final String title;
-  final int xRestrict;
-  final int restrict;
-  final String url;
-  final List<String> tags;
-  final String userId;
-  final String userName;
-  final String profileImageUrl;
-  final int textCount;
-  final int wordCount;
-  final int readingTime;
-  final bool useWordCount;
-  final String description;
-  final bool isBookmarkable;
-  final String? bookmarkData;
-  final int bookmarkCount;
-  final bool isOriginal;
-  final String? marker;
-  final _TitleCaptionTranslation titleCaptionTranslation;
-  final String createDate;
-  final String updateDate;
-  final bool isMasked;
-  final bool isUnlisted;
-  final int aiType;
-  final String genre;
-  PartialNovel({
-    required this.id,
-    required this.title,
-    required this.xRestrict,
-    required this.restrict,
-    required this.url,
-    required this.tags,
-    required this.userId,
-    required this.userName,
-    required this.profileImageUrl,
-    required this.textCount,
-    required this.wordCount,
-    required this.readingTime,
-    required this.useWordCount,
-    required this.description,
-    required this.isBookmarkable,
-    required this.bookmarkData,
-    required this.bookmarkCount,
-    required this.isOriginal,
-    required this.marker,
-    required this.titleCaptionTranslation,
-    required this.createDate,
-    required this.updateDate,
-    required this.isMasked,
-    required this.isUnlisted,
-    required this.aiType,
-    required this.genre,
-  });
-  factory PartialNovel.fromJson(Map<String, dynamic> json) {
-    return PartialNovel(
-    id: json['id'],
-    title: json['title'],
-    xRestrict: json['xRestrict'],
-    restrict: json['restrict'],
-    url: json['url'],
-    tags: (json['tags'] as List<dynamic>).map((e)=>e as String).toList(),
-    userId: json['userId'],
-    userName: json['userName'],
-    profileImageUrl: json['profileImageUrl'],
-    textCount: json['textCount'],
-    wordCount: json['wordCount'],
-    readingTime: json['readingTime'],
-    useWordCount: json['useWordCount'],
-    description: json['description'],
-    isBookmarkable: json['isBookmarkable'],
-    bookmarkData: json['bookmarkData'],
-    bookmarkCount: json['bookmarkCount'],
-    isOriginal: json['isOriginal'],
-    marker: json['marker'],
-    titleCaptionTranslation: _TitleCaptionTranslation.fromJson(json['titleCaptionTranslation']),
-    createDate: json['createDate'],
-    updateDate: json['updateDate'],
-    isMasked: json['isMasked'],
-    isUnlisted: json['isUnlisted'],
-    aiType: json['aiType'],
-    genre: json['genre'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "id": id,
-    "title": title,
-    "xRestrict": xRestrict,
-    "restrict": restrict,
-    "url": url,
-    "tags": tags,
-    "userId": userId,
-    "userName": userName,
-    "profileImageUrl": profileImageUrl,
-    "textCount": textCount,
-    "wordCount": wordCount,
-    "readingTime": readingTime,
-    "useWordCount": useWordCount,
-    "description": description,
-    "isBookmarkable": isBookmarkable,
-    "bookmarkData": bookmarkData,
-    "bookmarkCount": bookmarkCount,
-    "isOriginal": isOriginal,
-    "marker": marker,
-    "titleCaptionTranslation": titleCaptionTranslation.toJson(),
-    "createDate": createDate,
-    "updateDate": updateDate,
-    "isMasked": isMasked,
-    "isUnlisted": isUnlisted,
-    "aiType": aiType,
-    "genre": genre,
-  };
+extension type PartialNovel(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get id => json['id'] as String;
+    String get title => json['title'] as String;
+    int get xRestrict => json['xRestrict'] as int;
+    int get restrict => json['restrict'] as int;
+    String get url => json['url'] as String;
+    List<String> get tags => json['tags'] as List<String>;
+    String get userId => json['userId'] as String;
+    String get userName => json['userName'] as String;
+    String get profileImageUrl => json['profileImageUrl'] as String;
+    int get textCount => json['textCount'] as int;
+    int get wordCount => json['wordCount'] as int;
+    int get readingTime => json['readingTime'] as int;
+    bool get useWordCount => json['useWordCount'] as bool;
+    String get description => json['description'] as String;
+    bool get isBookmarkable => json['isBookmarkable'] as bool;
+    dynamic get bookmarkData => json['bookmarkData'] as dynamic;
+    int get bookmarkCount => json['bookmarkCount'] as int;
+    bool get isOriginal => json['isOriginal'] as bool;
+    dynamic get marker => json['marker'] as dynamic;
+    _TitleCaptionTranslation get titleCaptionTranslation => json['titleCaptionTranslation'] as _TitleCaptionTranslation;
+    String get createDate => json['createDate'] as String;
+    String get updateDate => json['updateDate'] as String;
+    bool get isMasked => json['isMasked'] as bool;
+    bool get isUnlisted => json['isUnlisted'] as bool;
+    int get aiType => json['aiType'] as int;
+    String get genre => json['genre'] as String;
+
+// ----------- SETTERS ----------- 
+    set id(String value) => json["id"] = value;
+    set title(String value) => json["title"] = value;
+    set xRestrict(int value) => json["xRestrict"] = value;
+    set restrict(int value) => json["restrict"] = value;
+    set url(String value) => json["url"] = value;
+    set tags(List<String> value) => json["tags"] = value;
+    set userId(String value) => json["userId"] = value;
+    set userName(String value) => json["userName"] = value;
+    set profileImageUrl(String value) => json["profileImageUrl"] = value;
+    set textCount(int value) => json["textCount"] = value;
+    set wordCount(int value) => json["wordCount"] = value;
+    set readingTime(int value) => json["readingTime"] = value;
+    set useWordCount(bool value) => json["useWordCount"] = value;
+    set description(String value) => json["description"] = value;
+    set isBookmarkable(bool value) => json["isBookmarkable"] = value;
+    set bookmarkData(dynamic value) => json["bookmarkData"] = value;
+    set bookmarkCount(int value) => json["bookmarkCount"] = value;
+    set isOriginal(bool value) => json["isOriginal"] = value;
+    set marker(dynamic value) => json["marker"] = value;
+    set titleCaptionTranslation(_TitleCaptionTranslation value) => json["titleCaptionTranslation"] = value;
+    set createDate(String value) => json["createDate"] = value;
+    set updateDate(String value) => json["updateDate"] = value;
+    set isMasked(bool value) => json["isMasked"] = value;
+    set isUnlisted(bool value) => json["isUnlisted"] = value;
+    set aiType(int value) => json["aiType"] = value;
+    set genre(String value) => json["genre"] = value;
+
 }
 

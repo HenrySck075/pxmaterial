@@ -3,59 +3,35 @@ import 'package:sofieru/json/ajax/commission/page/requests/Request.dart' show Re
 import 'package:sofieru/json/ajax/shared/Thumbnails.dart' show Thumbnails;
 import 'package:sofieru/json/ajax/series/IllustSeries.dart' show IllustSeries;
 import 'package:sofieru/json/ajax/shared/TagTranslation.dart' show TagTranslation;
-class _Page {
-  final List<int> ids;
-  final bool isLastPage;
-  final List<dynamic> tags;
-  _Page({
-    required this.ids,
-    required this.isLastPage,
-    required this.tags,
-  });
-  factory _Page.fromJson(Map<String, dynamic> json) {
-    return _Page(
-    ids: (json['ids'] as List<dynamic>).map((e)=>e as int).toList(),
-    isLastPage: json['isLastPage'],
-    tags: (json['tags'] as List<dynamic>),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "ids": ids,
-    "isLastPage": isLastPage,
-    "tags": tags,
-  };
+extension type _Page(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    List<int> get ids => json['ids'] as List<int>;
+    bool get isLastPage => json['isLastPage'] as bool;
+    List<dynamic> get tags => json['tags'] as List<dynamic>;
+
+// ----------- SETTERS ----------- 
+    set ids(List<int> value) => json["ids"] = value;
+    set isLastPage(bool value) => json["isLastPage"] = value;
+    set tags(List<dynamic> value) => json["tags"] = value;
+
 }
 
-class IMFromFollowing {
-  final _Page page;
-  final Map<String, TagTranslation> tagTranslation;
-  final List<IllustSeries> illustSeries;
-  final Thumbnails thumbnails;
-  final List<Request> requests;
-  final List<PartialUser> users;
-  IMFromFollowing({
-    required this.page,
-    required this.tagTranslation,
-    required this.illustSeries,
-    required this.thumbnails,
-    required this.requests,
-    required this.users,
-  });
-  factory IMFromFollowing.fromJson(Map<String, dynamic> json) {
-    return IMFromFollowing(
-    page: _Page.fromJson(json['page']),
-    tagTranslation: (json['tagTranslation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,TagTranslation.fromJson(v))),
-    illustSeries: (json['illustSeries'] as List<dynamic>).map((e)=>IllustSeries.fromJson(e)).toList(),
-    thumbnails: Thumbnails.fromJson(json['thumbnails']),
-    requests: (json['requests'] as List<dynamic>).map((e)=>Request.fromJson(e)).toList(),
-    users: (json['users'] as List<dynamic>).map((e)=>PartialUser.fromJson(e)).toList(),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "page": page.toJson(),
-    "tagTranslation": tagTranslation.map((k,v)=>MapEntry(k,v.toJson())),
-    "illustSeries": illustSeries.map((e)=>e.toJson()).toList(),
-    "thumbnails": thumbnails.toJson(),
-    "requests": requests.map((e)=>e.toJson()).toList(),
-    "users": users.map((e)=>e.toJson()).toList(),
-  };
+extension type IMFromFollowing(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    _Page get page => json['page'] as _Page;
+    Map<String, TagTranslation> get tagTranslation => json['tagTranslation'] as Map<String, TagTranslation>;
+    List<IllustSeries> get illustSeries => json['illustSeries'] as List<IllustSeries>;
+    Thumbnails get thumbnails => json['thumbnails'] as Thumbnails;
+    List<Request> get requests => json['requests'] as List<Request>;
+    List<PartialUser> get users => json['users'] as List<PartialUser>;
+
+// ----------- SETTERS ----------- 
+    set page(_Page value) => json["page"] = value;
+    set tagTranslation(Map<String, TagTranslation> value) => json["tagTranslation"] = value;
+    set illustSeries(List<IllustSeries> value) => json["illustSeries"] = value;
+    set thumbnails(Thumbnails value) => json["thumbnails"] = value;
+    set requests(List<Request> value) => json["requests"] = value;
+    set users(List<PartialUser> value) => json["users"] = value;
+
 }
 

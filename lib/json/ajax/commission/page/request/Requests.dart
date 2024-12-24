@@ -3,79 +3,45 @@ import 'package:sofieru/json/ajax/commission/page/requests/Request.dart' show Re
 import 'package:sofieru/json/ajax/shared/Thumbnails.dart' show Thumbnails;
 import 'package:sofieru/json/ajax/shared/TagTranslation.dart' show TagTranslation;
 import 'package:sofieru/json/ajax/shared/UserEmbed.dart' show UserEmbed;
-class _Page {
-  final List<String> completeRequestIdsIllust;
-  final List<String> completeRequestIdsManga;
-  final List<String> completeRequestIdsNovels;
-  final List<String> inProgressRequestIds;
-  final List<String> newerCreatorUserIds;
-  final List<dynamic> followCreatorUserIds;
-  final List<String> recommendIllustIdsByCreatorAcceptingRequest;
-  final List<UserEmbed> userList;
-  _Page({
-    required this.completeRequestIdsIllust,
-    required this.completeRequestIdsManga,
-    required this.completeRequestIdsNovels,
-    required this.inProgressRequestIds,
-    required this.newerCreatorUserIds,
-    required this.followCreatorUserIds,
-    required this.recommendIllustIdsByCreatorAcceptingRequest,
-    required this.userList,
-  });
-  factory _Page.fromJson(Map<String, dynamic> json) {
-    return _Page(
-    completeRequestIdsIllust: (json['completeRequestIdsIllust'] as List<dynamic>).map((e)=>e as String).toList(),
-    completeRequestIdsManga: (json['completeRequestIdsManga'] as List<dynamic>).map((e)=>e as String).toList(),
-    completeRequestIdsNovels: (json['completeRequestIdsNovels'] as List<dynamic>).map((e)=>e as String).toList(),
-    inProgressRequestIds: (json['inProgressRequestIds'] as List<dynamic>).map((e)=>e as String).toList(),
-    newerCreatorUserIds: (json['newerCreatorUserIds'] as List<dynamic>).map((e)=>e as String).toList(),
-    followCreatorUserIds: (json['followCreatorUserIds'] as List<dynamic>),
-    recommendIllustIdsByCreatorAcceptingRequest: (json['recommendIllustIdsByCreatorAcceptingRequest'] as List<dynamic>).map((e)=>e as String).toList(),
-    userList: (json['userList'] as List<dynamic>).map((e)=>UserEmbed.fromJson(e)).toList(),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "completeRequestIdsIllust": completeRequestIdsIllust,
-    "completeRequestIdsManga": completeRequestIdsManga,
-    "completeRequestIdsNovels": completeRequestIdsNovels,
-    "inProgressRequestIds": inProgressRequestIds,
-    "newerCreatorUserIds": newerCreatorUserIds,
-    "followCreatorUserIds": followCreatorUserIds,
-    "recommendIllustIdsByCreatorAcceptingRequest": recommendIllustIdsByCreatorAcceptingRequest,
-    "userList": userList.map((e)=>e.toJson()).toList(),
-  };
+extension type _Page(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    List<String> get completeRequestIdsIllust => json['completeRequestIdsIllust'] as List<String>;
+    List<String> get completeRequestIdsManga => json['completeRequestIdsManga'] as List<String>;
+    List<String> get completeRequestIdsNovels => json['completeRequestIdsNovels'] as List<String>;
+    List<String> get inProgressRequestIds => json['inProgressRequestIds'] as List<String>;
+    List<String> get newerCreatorUserIds => json['newerCreatorUserIds'] as List<String>;
+    List<dynamic> get followCreatorUserIds => json['followCreatorUserIds'] as List<dynamic>;
+    List<String> get recommendIllustIdsByCreatorAcceptingRequest => json['recommendIllustIdsByCreatorAcceptingRequest'] as List<String>;
+    List<UserEmbed> get userList => json['userList'] as List<UserEmbed>;
+
+// ----------- SETTERS ----------- 
+    set completeRequestIdsIllust(List<String> value) => json["completeRequestIdsIllust"] = value;
+    set completeRequestIdsManga(List<String> value) => json["completeRequestIdsManga"] = value;
+    set completeRequestIdsNovels(List<String> value) => json["completeRequestIdsNovels"] = value;
+    set inProgressRequestIds(List<String> value) => json["inProgressRequestIds"] = value;
+    set newerCreatorUserIds(List<String> value) => json["newerCreatorUserIds"] = value;
+    set followCreatorUserIds(List<dynamic> value) => json["followCreatorUserIds"] = value;
+    set recommendIllustIdsByCreatorAcceptingRequest(List<String> value) => json["recommendIllustIdsByCreatorAcceptingRequest"] = value;
+    set userList(List<UserEmbed> value) => json["userList"] = value;
+
 }
 
-class Requests {
-  final _Page page;
-  final Map<String, TagTranslation> tagTranslation;
-  final Thumbnails thumbnails;
-  final List<dynamic> illustSeries;
-  final List<Request> requests;
-  final List<PartialUser> users;
-  Requests({
-    required this.page,
-    required this.tagTranslation,
-    required this.thumbnails,
-    required this.illustSeries,
-    required this.requests,
-    required this.users,
-  });
-  factory Requests.fromJson(Map<String, dynamic> json) {
-    return Requests(
-    page: _Page.fromJson(json['page']),
-    tagTranslation: (json['tagTranslation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,TagTranslation.fromJson(v))),
-    thumbnails: Thumbnails.fromJson(json['thumbnails']),
-    illustSeries: (json['illustSeries'] as List<dynamic>),
-    requests: (json['requests'] as List<dynamic>).map((e)=>Request.fromJson(e)).toList(),
-    users: (json['users'] as List<dynamic>).map((e)=>PartialUser.fromJson(e)).toList(),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "page": page.toJson(),
-    "tagTranslation": tagTranslation.map((k,v)=>MapEntry(k,v.toJson())),
-    "thumbnails": thumbnails.toJson(),
-    "illustSeries": illustSeries,
-    "requests": requests.map((e)=>e.toJson()).toList(),
-    "users": users.map((e)=>e.toJson()).toList(),
-  };
+extension type Requests(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    _Page get page => json['page'] as _Page;
+    Map<String, TagTranslation> get tagTranslation => json['tagTranslation'] as Map<String, TagTranslation>;
+    Thumbnails get thumbnails => json['thumbnails'] as Thumbnails;
+    List<dynamic> get illustSeries => json['illustSeries'] as List<dynamic>;
+    List<Request> get requests => json['requests'] as List<Request>;
+    List<PartialUser> get users => json['users'] as List<PartialUser>;
+
+// ----------- SETTERS ----------- 
+    set page(_Page value) => json["page"] = value;
+    set tagTranslation(Map<String, TagTranslation> value) => json["tagTranslation"] = value;
+    set thumbnails(Thumbnails value) => json["thumbnails"] = value;
+    set illustSeries(List<dynamic> value) => json["illustSeries"] = value;
+    set requests(List<Request> value) => json["requests"] = value;
+    set users(List<PartialUser> value) => json["users"] = value;
+
 }
 

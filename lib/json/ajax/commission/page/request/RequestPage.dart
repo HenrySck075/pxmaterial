@@ -3,229 +3,130 @@ import 'package:sofieru/json/ajax/commission/page/requests/Request.dart' show Re
 import 'package:sofieru/json/ajax/shared/Thumbnails.dart' show Thumbnails;
 import 'package:sofieru/json/ajax/shared/TagTranslation.dart' show TagTranslation;
 import 'package:sofieru/json/ajax/shared/UserEmbed.dart' show UserEmbed;
-class _Creator {
-  final String creatorUserId;
-  final bool creatorStoppedFlg;
-  final int requestPriceLowerLimit;
-  final int requestPriceUpperLimit;
-  final String? tokusho;
-  _Creator({
-    required this.creatorUserId,
-    required this.creatorStoppedFlg,
-    required this.requestPriceLowerLimit,
-    required this.requestPriceUpperLimit,
-    required this.tokusho,
-  });
-  factory _Creator.fromJson(Map<String, dynamic> json) {
-    return _Creator(
-    creatorUserId: json['creatorUserId'],
-    creatorStoppedFlg: json['creatorStoppedFlg'],
-    requestPriceLowerLimit: json['requestPriceLowerLimit'],
-    requestPriceUpperLimit: json['requestPriceUpperLimit'],
-    tokusho: json['tokusho'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "creatorUserId": creatorUserId,
-    "creatorStoppedFlg": creatorStoppedFlg,
-    "requestPriceLowerLimit": requestPriceLowerLimit,
-    "requestPriceUpperLimit": requestPriceUpperLimit,
-    "tokusho": tokusho,
-  };
+extension type _Creator(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get creatorUserId => json['creatorUserId'] as String;
+    bool get creatorStoppedFlg => json['creatorStoppedFlg'] as bool;
+    int get requestPriceLowerLimit => json['requestPriceLowerLimit'] as int;
+    int get requestPriceUpperLimit => json['requestPriceUpperLimit'] as int;
+    dynamic get tokusho => json['tokusho'] as dynamic;
+
+// ----------- SETTERS ----------- 
+    set creatorUserId(String value) => json["creatorUserId"] = value;
+    set creatorStoppedFlg(bool value) => json["creatorStoppedFlg"] = value;
+    set requestPriceLowerLimit(int value) => json["requestPriceLowerLimit"] = value;
+    set requestPriceUpperLimit(int value) => json["requestPriceUpperLimit"] = value;
+    set tokusho(dynamic value) => json["tokusho"] = value;
+
 }
 
-class _ConfettiModalStatus {
-  final bool inProgressFan;
-  final bool inProgressCreator;
-  final bool completeFanOrCollaborateUser;
-  _ConfettiModalStatus({
-    required this.inProgressFan,
-    required this.inProgressCreator,
-    required this.completeFanOrCollaborateUser,
-  });
-  factory _ConfettiModalStatus.fromJson(Map<String, dynamic> json) {
-    return _ConfettiModalStatus(
-    inProgressFan: json['inProgressFan'],
-    inProgressCreator: json['inProgressCreator'],
-    completeFanOrCollaborateUser: json['completeFanOrCollaborateUser'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "inProgressFan": inProgressFan,
-    "inProgressCreator": inProgressCreator,
-    "completeFanOrCollaborateUser": completeFanOrCollaborateUser,
-  };
+extension type _ConfettiModalStatus(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    bool get inProgressFan => json['inProgressFan'] as bool;
+    bool get inProgressCreator => json['inProgressCreator'] as bool;
+    bool get completeFanOrCollaborateUser => json['completeFanOrCollaborateUser'] as bool;
+
+// ----------- SETTERS ----------- 
+    set inProgressFan(bool value) => json["inProgressFan"] = value;
+    set inProgressCreator(bool value) => json["inProgressCreator"] = value;
+    set completeFanOrCollaborateUser(bool value) => json["completeFanOrCollaborateUser"] = value;
+
 }
 
-class _Twitter_card {
-  final String card;
-  final String title;
-  final String description;
-  final String image;
-  _Twitter_card({
-    required this.card,
-    required this.title,
-    required this.description,
-    required this.image,
-  });
-  factory _Twitter_card.fromJson(Map<String, dynamic> json) {
-    return _Twitter_card(
-    card: json['card'],
-    title: json['title'],
-    description: json['description'],
-    image: json['image'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "card": card,
-    "title": title,
-    "description": description,
-    "image": image,
-  };
+extension type _Twitter_card(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get card => json['card'] as String;
+    String get title => json['title'] as String;
+    String get description => json['description'] as String;
+    String get image => json['image'] as String;
+
+// ----------- SETTERS ----------- 
+    set card(String value) => json["card"] = value;
+    set title(String value) => json["title"] = value;
+    set description(String value) => json["description"] = value;
+    set image(String value) => json["image"] = value;
+
 }
 
-class _Meta_ogp {
-  final String type;
-  final String title;
-  final String description;
-  final String url;
-  final String image;
-  _Meta_ogp({
-    required this.type,
-    required this.title,
-    required this.description,
-    required this.url,
-    required this.image,
-  });
-  factory _Meta_ogp.fromJson(Map<String, dynamic> json) {
-    return _Meta_ogp(
-    type: json['type'],
-    title: json['title'],
-    description: json['description'],
-    url: json['url'],
-    image: json['image'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "type": type,
-    "title": title,
-    "description": description,
-    "url": url,
-    "image": image,
-  };
+extension type _Meta_ogp(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get type => json['type'] as String;
+    String get title => json['title'] as String;
+    String get description => json['description'] as String;
+    String get url => json['url'] as String;
+    String get image => json['image'] as String;
+
+// ----------- SETTERS ----------- 
+    set type(String value) => json["type"] = value;
+    set title(String value) => json["title"] = value;
+    set description(String value) => json["description"] = value;
+    set url(String value) => json["url"] = value;
+    set image(String value) => json["image"] = value;
+
 }
 
-class _Ogp {
-  final _Twitter_card twitter_card;
-  final _Meta_ogp meta_ogp;
-  final String page_title;
-  final String description;
-  _Ogp({
-    required this.twitter_card,
-    required this.meta_ogp,
-    required this.page_title,
-    required this.description,
-  });
-  factory _Ogp.fromJson(Map<String, dynamic> json) {
-    return _Ogp(
-    twitter_card: _Twitter_card.fromJson(json['twitter_card']),
-    meta_ogp: _Meta_ogp.fromJson(json['meta_ogp']),
-    page_title: json['page_title'],
-    description: json['description'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "twitter_card": twitter_card.toJson(),
-    "meta_ogp": meta_ogp.toJson(),
-    "page_title": page_title,
-    "description": description,
-  };
+extension type _Ogp(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    _Twitter_card get twitter_card => json['twitter_card'] as _Twitter_card;
+    _Meta_ogp get meta_ogp => json['meta_ogp'] as _Meta_ogp;
+    String get page_title => json['page_title'] as String;
+    String get description => json['description'] as String;
+
+// ----------- SETTERS ----------- 
+    set twitter_card(_Twitter_card value) => json["twitter_card"] = value;
+    set meta_ogp(_Meta_ogp value) => json["meta_ogp"] = value;
+    set page_title(String value) => json["page_title"] = value;
+    set description(String value) => json["description"] = value;
+
 }
 
-class _Page {
-  final _Creator creator;
-  final List<int> recommendedUserIds;
-  final _ConfettiModalStatus confettiModalStatus;
-  final List<UserEmbed> userList;
-  final List<String> inProgressRequestIds;
-  final List<dynamic> completeRequestIds;
-  final bool alreadyRequestCollaborate;
-  final String? platformFeeCampaignLabel;
-  final List<dynamic> eligibleCampaignList;
-  final bool isUnlisted;
-  final _Ogp ogp;
-  final bool locationMask;
-  _Page({
-    required this.creator,
-    required this.recommendedUserIds,
-    required this.confettiModalStatus,
-    required this.userList,
-    required this.inProgressRequestIds,
-    required this.completeRequestIds,
-    required this.alreadyRequestCollaborate,
-    required this.platformFeeCampaignLabel,
-    required this.eligibleCampaignList,
-    required this.isUnlisted,
-    required this.ogp,
-    required this.locationMask,
-  });
-  factory _Page.fromJson(Map<String, dynamic> json) {
-    return _Page(
-    creator: _Creator.fromJson(json['creator']),
-    recommendedUserIds: (json['recommendedUserIds'] as List<dynamic>).map((e)=>e as int).toList(),
-    confettiModalStatus: _ConfettiModalStatus.fromJson(json['confettiModalStatus']),
-    userList: (json['userList'] as List<dynamic>).map((e)=>UserEmbed.fromJson(e)).toList(),
-    inProgressRequestIds: (json['inProgressRequestIds'] as List<dynamic>).map((e)=>e as String).toList(),
-    completeRequestIds: (json['completeRequestIds'] as List<dynamic>),
-    alreadyRequestCollaborate: json['alreadyRequestCollaborate'],
-    platformFeeCampaignLabel: json['platformFeeCampaignLabel'],
-    eligibleCampaignList: (json['eligibleCampaignList'] as List<dynamic>),
-    isUnlisted: json['isUnlisted'],
-    ogp: _Ogp.fromJson(json['ogp']),
-    locationMask: json['locationMask'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "creator": creator.toJson(),
-    "recommendedUserIds": recommendedUserIds,
-    "confettiModalStatus": confettiModalStatus.toJson(),
-    "userList": userList.map((e)=>e.toJson()).toList(),
-    "inProgressRequestIds": inProgressRequestIds,
-    "completeRequestIds": completeRequestIds,
-    "alreadyRequestCollaborate": alreadyRequestCollaborate,
-    "platformFeeCampaignLabel": platformFeeCampaignLabel,
-    "eligibleCampaignList": eligibleCampaignList,
-    "isUnlisted": isUnlisted,
-    "ogp": ogp.toJson(),
-    "locationMask": locationMask,
-  };
+extension type _Page(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    _Creator get creator => json['creator'] as _Creator;
+    List<int> get recommendedUserIds => json['recommendedUserIds'] as List<int>;
+    _ConfettiModalStatus get confettiModalStatus => json['confettiModalStatus'] as _ConfettiModalStatus;
+    List<UserEmbed> get userList => json['userList'] as List<UserEmbed>;
+    List<String> get inProgressRequestIds => json['inProgressRequestIds'] as List<String>;
+    List<dynamic> get completeRequestIds => json['completeRequestIds'] as List<dynamic>;
+    bool get alreadyRequestCollaborate => json['alreadyRequestCollaborate'] as bool;
+    dynamic get platformFeeCampaignLabel => json['platformFeeCampaignLabel'] as dynamic;
+    List<dynamic> get eligibleCampaignList => json['eligibleCampaignList'] as List<dynamic>;
+    bool get isUnlisted => json['isUnlisted'] as bool;
+    _Ogp get ogp => json['ogp'] as _Ogp;
+    bool get locationMask => json['locationMask'] as bool;
+
+// ----------- SETTERS ----------- 
+    set creator(_Creator value) => json["creator"] = value;
+    set recommendedUserIds(List<int> value) => json["recommendedUserIds"] = value;
+    set confettiModalStatus(_ConfettiModalStatus value) => json["confettiModalStatus"] = value;
+    set userList(List<UserEmbed> value) => json["userList"] = value;
+    set inProgressRequestIds(List<String> value) => json["inProgressRequestIds"] = value;
+    set completeRequestIds(List<dynamic> value) => json["completeRequestIds"] = value;
+    set alreadyRequestCollaborate(bool value) => json["alreadyRequestCollaborate"] = value;
+    set platformFeeCampaignLabel(dynamic value) => json["platformFeeCampaignLabel"] = value;
+    set eligibleCampaignList(List<dynamic> value) => json["eligibleCampaignList"] = value;
+    set isUnlisted(bool value) => json["isUnlisted"] = value;
+    set ogp(_Ogp value) => json["ogp"] = value;
+    set locationMask(bool value) => json["locationMask"] = value;
+
 }
 
-class RequestPage {
-  final _Page page;
-  final Map<String, TagTranslation> tagTranslation;
-  final Thumbnails thumbnails;
-  final List<dynamic> illustSeries;
-  final List<Request> requests;
-  final List<PartialUser> users;
-  RequestPage({
-    required this.page,
-    required this.tagTranslation,
-    required this.thumbnails,
-    required this.illustSeries,
-    required this.requests,
-    required this.users,
-  });
-  factory RequestPage.fromJson(Map<String, dynamic> json) {
-    return RequestPage(
-    page: _Page.fromJson(json['page']),
-    tagTranslation: (json['tagTranslation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,TagTranslation.fromJson(v))),
-    thumbnails: Thumbnails.fromJson(json['thumbnails']),
-    illustSeries: (json['illustSeries'] as List<dynamic>),
-    requests: (json['requests'] as List<dynamic>).map((e)=>Request.fromJson(e)).toList(),
-    users: (json['users'] as List<dynamic>).map((e)=>PartialUser.fromJson(e)).toList(),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "page": page.toJson(),
-    "tagTranslation": tagTranslation.map((k,v)=>MapEntry(k,v.toJson())),
-    "thumbnails": thumbnails.toJson(),
-    "illustSeries": illustSeries,
-    "requests": requests.map((e)=>e.toJson()).toList(),
-    "users": users.map((e)=>e.toJson()).toList(),
-  };
+extension type RequestPage(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    _Page get page => json['page'] as _Page;
+    Map<String, TagTranslation> get tagTranslation => json['tagTranslation'] as Map<String, TagTranslation>;
+    Thumbnails get thumbnails => json['thumbnails'] as Thumbnails;
+    List<dynamic> get illustSeries => json['illustSeries'] as List<dynamic>;
+    List<Request> get requests => json['requests'] as List<Request>;
+    List<PartialUser> get users => json['users'] as List<PartialUser>;
+
+// ----------- SETTERS ----------- 
+    set page(_Page value) => json["page"] = value;
+    set tagTranslation(Map<String, TagTranslation> value) => json["tagTranslation"] = value;
+    set thumbnails(Thumbnails value) => json["thumbnails"] = value;
+    set illustSeries(List<dynamic> value) => json["illustSeries"] = value;
+    set requests(List<Request> value) => json["requests"] = value;
+    set users(List<PartialUser> value) => json["users"] = value;
+
 }
 

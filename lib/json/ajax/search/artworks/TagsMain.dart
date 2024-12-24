@@ -1,96 +1,58 @@
 import 'package:sofieru/json/ajax/shared/ExtraData.dart' show ExtraData;
 import 'package:sofieru/json/ajax/shared/TagTranslation.dart' show TagTranslation;
 import 'package:sofieru/json/ajax/illust/PartialArtwork.dart' show PartialArtwork;
-class _BookmarkRanges {
-  final int? min;
-  final int? max;
-  _BookmarkRanges({
-    this.min,
-    this.max,
-  });
-  factory _BookmarkRanges.fromJson(Map<String, dynamic> json) {
-    return _BookmarkRanges(
-    min: json['min'],
-    max: json['max'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "min": min,
-    "max": max,
-  };
+extension type _BookmarkRanges(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    int? get min => json['min'];
+    int? get max => json['max'];
+
+// ----------- SETTERS ----------- 
+    set min(int? value) => json["min"] = value;
+    set max(int? value) => json["max"] = value;
+
 }
 
-class _IllustManga {
-  final List<PartialArtwork> data;
-  final int total;
-  final int lastPage;
+extension type _IllustManga(Map<String, dynamic> json) {
   /// what the fuck does this mean?
-  final List<_BookmarkRanges> bookmarkRanges;
-  _IllustManga({
-    required this.data,
-    required this.total,
-    required this.lastPage,
-    required this.bookmarkRanges,
-  });
-  factory _IllustManga.fromJson(Map<String, dynamic> json) {
-    return _IllustManga(
-    data: (json['data'] as List<dynamic>).map((e)=>PartialArtwork.fromJson(e)).toList(),
-    total: json['total'],
-    lastPage: json['lastPage'],
-    bookmarkRanges: (json['bookmarkRanges'] as List<dynamic>).map((e)=>_BookmarkRanges.fromJson(e)).toList(),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "data": data.map((e)=>e.toJson()).toList(),
-    "total": total,
-    "lastPage": lastPage,
-    "bookmarkRanges": bookmarkRanges.map((e)=>e.toJson()).toList(),
-  };
+// ----------- GETTERS ----------- 
+    List<PartialArtwork> get data => json['data'] as List<PartialArtwork>;
+    int get total => json['total'] as int;
+    int get lastPage => json['lastPage'] as int;
+    List<_BookmarkRanges> get bookmarkRanges => json['bookmarkRanges'] as List<_BookmarkRanges>;
+
+// ----------- SETTERS ----------- 
+    set data(List<PartialArtwork> value) => json["data"] = value;
+    set total(int value) => json["total"] = value;
+    set lastPage(int value) => json["lastPage"] = value;
+    set bookmarkRanges(List<_BookmarkRanges> value) => json["bookmarkRanges"] = value;
+
 }
 
-class _Popular {
-  final List<PartialArtwork> recent;
-  final List<PartialArtwork> permanent;
-  _Popular({
-    required this.recent,
-    required this.permanent,
-  });
-  factory _Popular.fromJson(Map<String, dynamic> json) {
-    return _Popular(
-    recent: (json['recent'] as List<dynamic>).map((e)=>PartialArtwork.fromJson(e)).toList(),
-    permanent: (json['permanent'] as List<dynamic>).map((e)=>PartialArtwork.fromJson(e)).toList(),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "recent": recent.map((e)=>e.toJson()).toList(),
-    "permanent": permanent.map((e)=>e.toJson()).toList(),
-  };
+extension type _Popular(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    List<PartialArtwork> get recent => json['recent'] as List<PartialArtwork>;
+    List<PartialArtwork> get permanent => json['permanent'] as List<PartialArtwork>;
+
+// ----------- SETTERS ----------- 
+    set recent(List<PartialArtwork> value) => json["recent"] = value;
+    set permanent(List<PartialArtwork> value) => json["permanent"] = value;
+
 }
 
-class TagsMain {
-  final _IllustManga illustManga;
-  final _Popular popular;
-  final List<String> relatedTags;
-  final Map<String, TagTranslation> tagTranslation;
-  final ExtraData extraData;
-  TagsMain({
-    required this.illustManga,
-    required this.popular,
-    required this.relatedTags,
-    required this.tagTranslation,
-    required this.extraData,
-  });
-  factory TagsMain.fromJson(Map<String, dynamic> json) {
-    return TagsMain(
-    illustManga: _IllustManga.fromJson(json['illustManga']),
-    popular: _Popular.fromJson(json['popular']),
-    relatedTags: (json['relatedTags'] as List<dynamic>).map((e)=>e as String).toList(),
-    tagTranslation: (json['tagTranslation'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,TagTranslation.fromJson(v))),
-    extraData: ExtraData.fromJson(json['extraData']),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "illustManga": illustManga.toJson(),
-    "popular": popular.toJson(),
-    "relatedTags": relatedTags,
-    "tagTranslation": tagTranslation.map((k,v)=>MapEntry(k,v.toJson())),
-    "extraData": extraData.toJson(),
-  };
+extension type TagsMain(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    _IllustManga get illustManga => json['illustManga'] as _IllustManga;
+    _Popular get popular => json['popular'] as _Popular;
+    List<String> get relatedTags => json['relatedTags'] as List<String>;
+    Map<String, TagTranslation> get tagTranslation => json['tagTranslation'] as Map<String, TagTranslation>;
+    ExtraData get extraData => json['extraData'] as ExtraData;
+
+// ----------- SETTERS ----------- 
+    set illustManga(_IllustManga value) => json["illustManga"] = value;
+    set popular(_Popular value) => json["popular"] = value;
+    set relatedTags(List<String> value) => json["relatedTags"] = value;
+    set tagTranslation(Map<String, TagTranslation> value) => json["tagTranslation"] = value;
+    set extraData(ExtraData value) => json["extraData"] = value;
+
 }
 

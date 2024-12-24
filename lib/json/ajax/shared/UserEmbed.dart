@@ -1,18 +1,11 @@
-class UserEmbed {
-  final String id;
-  final List<String> illustIds;
-  UserEmbed({
-    required this.id,
-    required this.illustIds,
-  });
-  factory UserEmbed.fromJson(Map<String, dynamic> json) {
-    return UserEmbed(
-    id: json['id'],
-    illustIds: (json['illustIds'] as List<dynamic>).map((e)=>e as String).toList(),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "id": id,
-    "illustIds": illustIds,
-  };
+extension type UserEmbed(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get id => json['id'] as String;
+    List<String> get illustIds => json['illustIds'] as List<String>;
+
+// ----------- SETTERS ----------- 
+    set id(String value) => json["id"] = value;
+    set illustIds(List<String> value) => json["illustIds"] = value;
+
 }
 

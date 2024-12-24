@@ -1,268 +1,150 @@
 import 'package:sofieru/json/base.dart' show checkFalsy;
-class _Background {
-  final String? repeat;
-  final String? color;
-  final String url;
-  final bool isPrivate;
-  _Background({
-    this.repeat,
-    this.color,
-    required this.url,
-    required this.isPrivate,
-  });
-  factory _Background.fromJson(Map<String, dynamic> json) {
-    return _Background(
-    repeat: json['repeat'],
-    color: json['color'],
-    url: json['url'],
-    isPrivate: json['isPrivate'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "repeat": repeat,
-    "color": color,
-    "url": url,
-    "isPrivate": isPrivate,
-  };
+extension type _Background(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String? get repeat => json['repeat'];
+    String? get color => json['color'];
+    String get url => json['url'] as String;
+    bool get isPrivate => json['isPrivate'] as bool;
+
+// ----------- SETTERS ----------- 
+    set repeat(String? value) => json["repeat"] = value;
+    set color(String? value) => json["color"] = value;
+    set url(String value) => json["url"] = value;
+    set isPrivate(bool value) => json["isPrivate"] = value;
+
 }
 
-class _SocialContent {
-  final String url;
-  _SocialContent({
-    required this.url,
-  });
-  factory _SocialContent.fromJson(Map<String, dynamic> json) {
-    return _SocialContent(
-    url: json['url'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "url": url,
-  };
+extension type _SocialContent(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get url => json['url'] as String;
+
+// ----------- SETTERS ----------- 
+    set url(String value) => json["url"] = value;
+
 }
 
-class _Region {
-  final String? name;
-  final String? region;
-  final String? prefecture;
-  final String? privacyLevel;
-  _Region({
-    this.name,
-    this.region,
-    this.prefecture,
-    this.privacyLevel,
-  });
-  factory _Region.fromJson(Map<String, dynamic> json) {
-    return _Region(
-    name: json['name'],
-    region: json['region'],
-    prefecture: json['prefecture'],
-    privacyLevel: json['privacyLevel'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "name": name,
-    "region": region,
-    "prefecture": prefecture,
-    "privacyLevel": privacyLevel,
-  };
+extension type _Region(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String? get name => json['name'];
+    String? get region => json['region'];
+    String? get prefecture => json['prefecture'];
+    String? get privacyLevel => json['privacyLevel'];
+
+// ----------- SETTERS ----------- 
+    set name(String? value) => json["name"] = value;
+    set region(String? value) => json["region"] = value;
+    set prefecture(String? value) => json["prefecture"] = value;
+    set privacyLevel(String? value) => json["privacyLevel"] = value;
+
 }
 
 /// Represents the data with privacy level
-class PrivacyLeveledData {
+extension type PrivacyLeveledData(Map<String, dynamic> json) {
   /// Value
-  final String? name;
   /// Privacy level. Will be `null` if it's other users
-  final String? privacyLevel;
-  PrivacyLeveledData({
-    this.name,
-    this.privacyLevel,
-  });
-  factory PrivacyLeveledData.fromJson(Map<String, dynamic> json) {
-    return PrivacyLeveledData(
-    name: json['name'],
-    privacyLevel: json['privacyLevel'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "name": name,
-    "privacyLevel": privacyLevel,
-  };
+// ----------- GETTERS ----------- 
+    String? get name => json['name'];
+    String? get privacyLevel => json['privacyLevel'];
+
+// ----------- SETTERS ----------- 
+    set name(String? value) => json["name"] = value;
+    set privacyLevel(String? value) => json["privacyLevel"] = value;
+
 }
 
-class _Workspace {
-  final String? userWorkspacePc;
-  final String? userWorkspaceMonitor;
-  final String? userWorkspaceTool;
-  final String? userWorkspaceScanner;
-  final String? userWorkspaceTablet;
-  final String? userWorkspaceMouse;
-  final String? userWorkspacePrinter;
-  final String? userWorkspaceDesktop;
-  final String? userWorkspaceMusic;
-  final String? userWorkspaceDesk;
-  final String? userWorkspaceChair;
-  _Workspace({
-    this.userWorkspacePc,
-    this.userWorkspaceMonitor,
-    this.userWorkspaceTool,
-    this.userWorkspaceScanner,
-    this.userWorkspaceTablet,
-    this.userWorkspaceMouse,
-    this.userWorkspacePrinter,
-    this.userWorkspaceDesktop,
-    this.userWorkspaceMusic,
-    this.userWorkspaceDesk,
-    this.userWorkspaceChair,
-  });
-  factory _Workspace.fromJson(Map<String, dynamic> json) {
-    return _Workspace(
-    userWorkspacePc: json['userWorkspacePc'],
-    userWorkspaceMonitor: json['userWorkspaceMonitor'],
-    userWorkspaceTool: json['userWorkspaceTool'],
-    userWorkspaceScanner: json['userWorkspaceScanner'],
-    userWorkspaceTablet: json['userWorkspaceTablet'],
-    userWorkspaceMouse: json['userWorkspaceMouse'],
-    userWorkspacePrinter: json['userWorkspacePrinter'],
-    userWorkspaceDesktop: json['userWorkspaceDesktop'],
-    userWorkspaceMusic: json['userWorkspaceMusic'],
-    userWorkspaceDesk: json['userWorkspaceDesk'],
-    userWorkspaceChair: json['userWorkspaceChair'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "userWorkspacePc": userWorkspacePc,
-    "userWorkspaceMonitor": userWorkspaceMonitor,
-    "userWorkspaceTool": userWorkspaceTool,
-    "userWorkspaceScanner": userWorkspaceScanner,
-    "userWorkspaceTablet": userWorkspaceTablet,
-    "userWorkspaceMouse": userWorkspaceMouse,
-    "userWorkspacePrinter": userWorkspacePrinter,
-    "userWorkspaceDesktop": userWorkspaceDesktop,
-    "userWorkspaceMusic": userWorkspaceMusic,
-    "userWorkspaceDesk": userWorkspaceDesk,
-    "userWorkspaceChair": userWorkspaceChair,
-  };
+extension type _Workspace(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String? get userWorkspacePc => json['userWorkspacePc'];
+    String? get userWorkspaceMonitor => json['userWorkspaceMonitor'];
+    String? get userWorkspaceTool => json['userWorkspaceTool'];
+    String? get userWorkspaceScanner => json['userWorkspaceScanner'];
+    String? get userWorkspaceTablet => json['userWorkspaceTablet'];
+    String? get userWorkspaceMouse => json['userWorkspaceMouse'];
+    String? get userWorkspacePrinter => json['userWorkspacePrinter'];
+    String? get userWorkspaceDesktop => json['userWorkspaceDesktop'];
+    String? get userWorkspaceMusic => json['userWorkspaceMusic'];
+    String? get userWorkspaceDesk => json['userWorkspaceDesk'];
+    String? get userWorkspaceChair => json['userWorkspaceChair'];
+
+// ----------- SETTERS ----------- 
+    set userWorkspacePc(String? value) => json["userWorkspacePc"] = value;
+    set userWorkspaceMonitor(String? value) => json["userWorkspaceMonitor"] = value;
+    set userWorkspaceTool(String? value) => json["userWorkspaceTool"] = value;
+    set userWorkspaceScanner(String? value) => json["userWorkspaceScanner"] = value;
+    set userWorkspaceTablet(String? value) => json["userWorkspaceTablet"] = value;
+    set userWorkspaceMouse(String? value) => json["userWorkspaceMouse"] = value;
+    set userWorkspacePrinter(String? value) => json["userWorkspacePrinter"] = value;
+    set userWorkspaceDesktop(String? value) => json["userWorkspaceDesktop"] = value;
+    set userWorkspaceMusic(String? value) => json["userWorkspaceMusic"] = value;
+    set userWorkspaceDesk(String? value) => json["userWorkspaceDesk"] = value;
+    set userWorkspaceChair(String? value) => json["userWorkspaceChair"] = value;
+
 }
 
 /// Represents the [User] object
-class User {
-  final String userId;
-  final String name;
-  final String image;
-  final String imageBig;
-  final bool premium;
-  final bool isFollowed;
-  final bool isMypixiv;
-  final bool isBlocking;
-  final _Background? background;
-  final String? sketchLiveId;
-  final bool acceptRequest;
+extension type User(Map<String, dynamic> json) {
   /// TODO: If you manages to get the sketchLive object, please paste it as a list item of this property
-  final List<dynamic> sketchLives;
-  final int following;
-  final int mypixivCount;
-  final bool followedBack;
-  final String comment;
-  final String commentHtml;
-  final String? webpage;
-  final Map<String, _SocialContent>? social;
-  final bool canSendMessage;
-  final _Region region;
-  final PrivacyLeveledData age;
-  final PrivacyLeveledData birthDay;
-  final PrivacyLeveledData gender;
-  final PrivacyLeveledData job;
   /// User's workspace specs
-  final _Workspace? workspace;
   /// Whether or not the account is pixiv's account
-  final bool official;
-  final String? group;
-  User({
-    required this.userId,
-    required this.name,
-    this.image = 'https://i.pximg.net/user-profile/img/2024/01/06/23/08/52/25361717_78a1808990ec4effc6d8417a09b67725_50.jpg',
-    this.imageBig = 'https://i.pximg.net/user-profile/img/2024/01/06/23/08/52/25361717_78a1808990ec4effc6d8417a09b67725_50.jpg',
-    required this.premium,
-    required this.isFollowed,
-    required this.isMypixiv,
-    required this.isBlocking,
-    this.background,
-    this.sketchLiveId,
-    required this.acceptRequest,
-    required this.sketchLives,
-    required this.following,
-    required this.mypixivCount,
-    required this.followedBack,
-    required this.comment,
-    required this.commentHtml,
-    required this.webpage,
-    this.social,
-    required this.canSendMessage,
-    required this.region,
-    required this.age,
-    required this.birthDay,
-    required this.gender,
-    required this.job,
-    this.workspace,
-    required this.official,
-    required this.group,
-  });
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-    userId: json['userId'],
-    name: json['name'],
-    image: json['image'],
-    imageBig: json['imageBig'],
-    premium: json['premium'],
-    isFollowed: json['isFollowed'],
-    isMypixiv: json['isMypixiv'],
-    isBlocking: json['isBlocking'],
-    background: json['background'] == null?null:_Background.fromJson(json['background']),
-    sketchLiveId: json['sketchLiveId'],
-    acceptRequest: json['acceptRequest'] ?? false,
-    sketchLives: (json['sketchLives'] as List<dynamic>),
-    following: json['following'],
-    mypixivCount: json['mypixivCount'],
-    followedBack: json['followedBack'],
-    comment: json['comment'],
-    commentHtml: json['commentHtml'],
-    webpage: json['webpage'],
-    social: checkFalsy(json['social'])?null:(json['social'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_SocialContent.fromJson(v))),
-    canSendMessage: json['canSendMessage'],
-    region: _Region.fromJson(json['region']),
-    age: PrivacyLeveledData.fromJson(json['age']),
-    birthDay: PrivacyLeveledData.fromJson(json['birthDay']),
-    gender: PrivacyLeveledData.fromJson(json['gender']),
-    job: PrivacyLeveledData.fromJson(json['job']),
-    workspace: json['workspace'] == null?null:_Workspace.fromJson(json['workspace']),
-    official: json['official'],
-    group: json['group'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "userId": userId,
-    "name": name,
-    "image": image,
-    "imageBig": imageBig,
-    "premium": premium,
-    "isFollowed": isFollowed,
-    "isMypixiv": isMypixiv,
-    "isBlocking": isBlocking,
-    "background": background?.toJson(),
-    "sketchLiveId": sketchLiveId,
-    "acceptRequest": acceptRequest,
-    "sketchLives": sketchLives,
-    "following": following,
-    "mypixivCount": mypixivCount,
-    "followedBack": followedBack,
-    "comment": comment,
-    "commentHtml": commentHtml,
-    "webpage": webpage,
-    "social": social?.map((k,v)=>MapEntry(k,v.toJson())),
-    "canSendMessage": canSendMessage,
-    "region": region.toJson(),
-    "age": age.toJson(),
-    "birthDay": birthDay.toJson(),
-    "gender": gender.toJson(),
-    "job": job.toJson(),
-    "workspace": workspace?.toJson(),
-    "official": official,
-    "group": group,
-  };
+// ----------- GETTERS ----------- 
+    String get userId => json['userId'] as String;
+    String get name => json['name'] as String;
+    String get image => json['image'] as String;
+    String get imageBig => json['imageBig'] as String;
+    bool get premium => json['premium'] as bool;
+    bool get isFollowed => json['isFollowed'] as bool;
+    bool get isMypixiv => json['isMypixiv'] as bool;
+    bool get isBlocking => json['isBlocking'] as bool;
+    _Background? get background => json['background'];
+    String? get sketchLiveId => json['sketchLiveId'];
+    bool get acceptRequest => json['acceptRequest'] as bool;
+    List<dynamic> get sketchLives => json['sketchLives'] as List<dynamic>;
+    int get following => json['following'] as int;
+    int get mypixivCount => json['mypixivCount'] as int;
+    bool get followedBack => json['followedBack'] as bool;
+    String get comment => json['comment'] as String;
+    String get commentHtml => json['commentHtml'] as String;
+    dynamic get webpage => json['webpage'] as dynamic;
+    Map<String, _SocialContent>? get social => checkFalsy(json['social'])?null:json['social'] as Map<String, _SocialContent>?;
+    bool get canSendMessage => json['canSendMessage'] as bool;
+    _Region get region => json['region'] as _Region;
+    PrivacyLeveledData get age => json['age'] as PrivacyLeveledData;
+    PrivacyLeveledData get birthDay => json['birthDay'] as PrivacyLeveledData;
+    PrivacyLeveledData get gender => json['gender'] as PrivacyLeveledData;
+    PrivacyLeveledData get job => json['job'] as PrivacyLeveledData;
+    _Workspace? get workspace => json['workspace'];
+    bool get official => json['official'] as bool;
+    dynamic get group => json['group'] as dynamic;
+
+// ----------- SETTERS ----------- 
+    set userId(String value) => json["userId"] = value;
+    set name(String value) => json["name"] = value;
+    set image(String value) => json["image"] = value;
+    set imageBig(String value) => json["imageBig"] = value;
+    set premium(bool value) => json["premium"] = value;
+    set isFollowed(bool value) => json["isFollowed"] = value;
+    set isMypixiv(bool value) => json["isMypixiv"] = value;
+    set isBlocking(bool value) => json["isBlocking"] = value;
+    set background(_Background? value) => json["background"] = value;
+    set sketchLiveId(String? value) => json["sketchLiveId"] = value;
+    set acceptRequest(bool value) => json["acceptRequest"] = value;
+    set sketchLives(List<dynamic> value) => json["sketchLives"] = value;
+    set following(int value) => json["following"] = value;
+    set mypixivCount(int value) => json["mypixivCount"] = value;
+    set followedBack(bool value) => json["followedBack"] = value;
+    set comment(String value) => json["comment"] = value;
+    set commentHtml(String value) => json["commentHtml"] = value;
+    set webpage(dynamic value) => json["webpage"] = value;
+    set social(Map<String, _SocialContent>? value) => json["social"] = value;
+    set canSendMessage(bool value) => json["canSendMessage"] = value;
+    set region(_Region value) => json["region"] = value;
+    set age(PrivacyLeveledData value) => json["age"] = value;
+    set birthDay(PrivacyLeveledData value) => json["birthDay"] = value;
+    set gender(PrivacyLeveledData value) => json["gender"] = value;
+    set job(PrivacyLeveledData value) => json["job"] = value;
+    set workspace(_Workspace? value) => json["workspace"] = value;
+    set official(bool value) => json["official"] = value;
+    set group(dynamic value) => json["group"] = value;
+
 }
 

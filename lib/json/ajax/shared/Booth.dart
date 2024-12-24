@@ -1,34 +1,19 @@
-class Booth {
-  final String id;
-  final String userId;
-  final String title;
-  final String url;
-  final String imageUrl;
-  final bool adult;
-  Booth({
-    required this.id,
-    required this.userId,
-    required this.title,
-    required this.url,
-    required this.imageUrl,
-    required this.adult,
-  });
-  factory Booth.fromJson(Map<String, dynamic> json) {
-    return Booth(
-    id: json['id'],
-    userId: json['userId'],
-    title: json['title'],
-    url: json['url'],
-    imageUrl: json['imageUrl'],
-    adult: json['adult'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "id": id,
-    "userId": userId,
-    "title": title,
-    "url": url,
-    "imageUrl": imageUrl,
-    "adult": adult,
-  };
+extension type Booth(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get id => json['id'] as String;
+    String get userId => json['userId'] as String;
+    String get title => json['title'] as String;
+    String get url => json['url'] as String;
+    String get imageUrl => json['imageUrl'] as String;
+    bool get adult => json['adult'] as bool;
+
+// ----------- SETTERS ----------- 
+    set id(String value) => json["id"] = value;
+    set userId(String value) => json["userId"] = value;
+    set title(String value) => json["title"] = value;
+    set url(String value) => json["url"] = value;
+    set imageUrl(String value) => json["imageUrl"] = value;
+    set adult(bool value) => json["adult"] = value;
+
 }
 

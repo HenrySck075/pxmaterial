@@ -1,507 +1,286 @@
-import 'dart:convert';
-
 import 'package:sofieru/json/base.dart' show checkFalsy;
-import 'package:sofieru/shared.dart';
-class _RequestTranslationProposal {
-  final String requestProposal;
-  final String requestProposalHtml;
-  final String requestProposalLang;
-  _RequestTranslationProposal({
-    required this.requestProposal,
-    required this.requestProposalHtml,
-    required this.requestProposalLang,
-  });
-  factory _RequestTranslationProposal.fromJson(Map<String, dynamic> json) {
-    return _RequestTranslationProposal(
-    requestProposal: json['requestProposal'],
-    requestProposalHtml: json['requestProposalHtml'],
-    requestProposalLang: json['requestProposalLang'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "requestProposal": requestProposal,
-    "requestProposalHtml": requestProposalHtml,
-    "requestProposalLang": requestProposalLang,
-  };
+extension type _RequestTranslationProposal(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get requestProposal => json['requestProposal'] as String;
+    String get requestProposalHtml => json['requestProposalHtml'] as String;
+    String get requestProposalLang => json['requestProposalLang'] as String;
+
+// ----------- SETTERS ----------- 
+    set requestProposal(String value) => json["requestProposal"] = value;
+    set requestProposalHtml(String value) => json["requestProposalHtml"] = value;
+    set requestProposalLang(String value) => json["requestProposalLang"] = value;
+
 }
 
-class _RequestProposal {
-  final String requestOriginalProposal;
-  final String requestOriginalProposalHtml;
-  final String requestOriginalProposalLang;
-  final List<_RequestTranslationProposal> requestTranslationProposal;
-  _RequestProposal({
-    required this.requestOriginalProposal,
-    required this.requestOriginalProposalHtml,
-    required this.requestOriginalProposalLang,
-    required this.requestTranslationProposal,
-  });
-  factory _RequestProposal.fromJson(Map<String, dynamic> json) {
-    return _RequestProposal(
-    requestOriginalProposal: json['requestOriginalProposal'],
-    requestOriginalProposalHtml: json['requestOriginalProposalHtml'],
-    requestOriginalProposalLang: json['requestOriginalProposalLang'],
-    requestTranslationProposal: (json['requestTranslationProposal'] as List<dynamic>).map((e)=>_RequestTranslationProposal.fromJson(e)).toList(),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "requestOriginalProposal": requestOriginalProposal,
-    "requestOriginalProposalHtml": requestOriginalProposalHtml,
-    "requestOriginalProposalLang": requestOriginalProposalLang,
-    "requestTranslationProposal": requestTranslationProposal.map((e)=>e.toJson()).toList(),
-  };
+extension type _RequestProposal(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get requestOriginalProposal => json['requestOriginalProposal'] as String;
+    String get requestOriginalProposalHtml => json['requestOriginalProposalHtml'] as String;
+    String get requestOriginalProposalLang => json['requestOriginalProposalLang'] as String;
+    List<_RequestTranslationProposal> get requestTranslationProposal => json['requestTranslationProposal'] as List<_RequestTranslationProposal>;
+
+// ----------- SETTERS ----------- 
+    set requestOriginalProposal(String value) => json["requestOriginalProposal"] = value;
+    set requestOriginalProposalHtml(String value) => json["requestOriginalProposalHtml"] = value;
+    set requestOriginalProposalLang(String value) => json["requestOriginalProposalLang"] = value;
+    set requestTranslationProposal(List<_RequestTranslationProposal> value) => json["requestTranslationProposal"] = value;
+
 }
 
-class _PlanTranslationTitleContent {
-  final String? planTitle;
-  final String? planTtieLang;
-  _PlanTranslationTitleContent({
-    this.planTitle,
-    this.planTtieLang,
-  });
-  factory _PlanTranslationTitleContent.fromJson(Map<String, dynamic> json) {
-    return _PlanTranslationTitleContent(
-    planTitle: json['planTitle'],
-    planTtieLang: json['planTtieLang'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "planTitle": planTitle,
-    "planTtieLang": planTtieLang,
-  };
+extension type _PlanTranslationTitleContent(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String? get planTitle => json['planTitle'];
+    String? get planTtieLang => json['planTtieLang'];
+
+// ----------- SETTERS ----------- 
+    set planTitle(String? value) => json["planTitle"] = value;
+    set planTtieLang(String? value) => json["planTtieLang"] = value;
+
 }
 
-class _PlanTitle {
-  final String planOriginalTitle;
-  final String planOriginalTitleLang;
-  final Map<String, _PlanTranslationTitleContent>? planTranslationTitle;
-  _PlanTitle({
-    required this.planOriginalTitle,
-    required this.planOriginalTitleLang,
-    this.planTranslationTitle,
-  });
-  factory _PlanTitle.fromJson(Map<String, dynamic> json) {
-    return _PlanTitle(
-    planOriginalTitle: json['planOriginalTitle'],
-    planOriginalTitleLang: json['planOriginalTitleLang'],
-    planTranslationTitle: checkFalsy(json['planTranslationTitle'])?null:(json['planTranslationTitle'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_PlanTranslationTitleContent.fromJson(v))),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "planOriginalTitle": planOriginalTitle,
-    "planOriginalTitleLang": planOriginalTitleLang,
-    "planTranslationTitle": planTranslationTitle?.map((k,v)=>MapEntry(k,v.toJson())),
-  };
+extension type _PlanTitle(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get planOriginalTitle => json['planOriginalTitle'] as String;
+    String get planOriginalTitleLang => json['planOriginalTitleLang'] as String;
+    Map<String, _PlanTranslationTitleContent>? get planTranslationTitle => checkFalsy(json['planTranslationTitle'])?null:json['planTranslationTitle'] as Map<String, _PlanTranslationTitleContent>?;
+
+// ----------- SETTERS ----------- 
+    set planOriginalTitle(String value) => json["planOriginalTitle"] = value;
+    set planOriginalTitleLang(String value) => json["planOriginalTitleLang"] = value;
+    set planTranslationTitle(Map<String, _PlanTranslationTitleContent>? value) => json["planTranslationTitle"] = value;
+
 }
 
-class _PlanTranslationDescriptionContent {
-  final String? planDescription;
-  final String? planDescriptionHtml;
-  final String? planLang;
-  _PlanTranslationDescriptionContent({
-    this.planDescription,
-    this.planDescriptionHtml,
-    this.planLang,
-  });
-  factory _PlanTranslationDescriptionContent.fromJson(Map<String, dynamic> json) {
-    return _PlanTranslationDescriptionContent(
-    planDescription: json['planDescription'],
-    planDescriptionHtml: json['planDescriptionHtml'],
-    planLang: json['planLang'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "planDescription": planDescription,
-    "planDescriptionHtml": planDescriptionHtml,
-    "planLang": planLang,
-  };
+extension type _PlanTranslationDescriptionContent(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String? get planDescription => json['planDescription'];
+    String? get planDescriptionHtml => json['planDescriptionHtml'];
+    String? get planLang => json['planLang'];
+
+// ----------- SETTERS ----------- 
+    set planDescription(String? value) => json["planDescription"] = value;
+    set planDescriptionHtml(String? value) => json["planDescriptionHtml"] = value;
+    set planLang(String? value) => json["planLang"] = value;
+
 }
 
-class _PlanDescription {
-  final String planOriginalDescription;
-  final String planOriginalDescriptionHtml;
-  final String planOriginalLang;
-  final Map<String, _PlanTranslationDescriptionContent>? planTranslationDescription;
-  _PlanDescription({
-    required this.planOriginalDescription,
-    required this.planOriginalDescriptionHtml,
-    required this.planOriginalLang,
-    this.planTranslationDescription,
-  });
-  factory _PlanDescription.fromJson(Map<String, dynamic> json) {
-    return _PlanDescription(
-    planOriginalDescription: json['planOriginalDescription'],
-    planOriginalDescriptionHtml: json['planOriginalDescriptionHtml'],
-    planOriginalLang: json['planOriginalLang'],
-    planTranslationDescription: checkFalsy(json['planTranslationDescription'])?null:(json['planTranslationDescription'] as Map<String,dynamic>).map((k,v)=>MapEntry(k,_PlanTranslationDescriptionContent.fromJson(v))),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "planOriginalDescription": planOriginalDescription,
-    "planOriginalDescriptionHtml": planOriginalDescriptionHtml,
-    "planOriginalLang": planOriginalLang,
-    "planTranslationDescription": planTranslationDescription?.map((k,v)=>MapEntry(k,v.toJson())),
-  };
+extension type _PlanDescription(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get planOriginalDescription => json['planOriginalDescription'] as String;
+    String get planOriginalDescriptionHtml => json['planOriginalDescriptionHtml'] as String;
+    String get planOriginalLang => json['planOriginalLang'] as String;
+    Map<String, _PlanTranslationDescriptionContent>? get planTranslationDescription => checkFalsy(json['planTranslationDescription'])?null:json['planTranslationDescription'] as Map<String, _PlanTranslationDescriptionContent>?;
+
+// ----------- SETTERS ----------- 
+    set planOriginalDescription(String value) => json["planOriginalDescription"] = value;
+    set planOriginalDescriptionHtml(String value) => json["planOriginalDescriptionHtml"] = value;
+    set planOriginalLang(String value) => json["planOriginalLang"] = value;
+    set planTranslationDescription(Map<String, _PlanTranslationDescriptionContent>? value) => json["planTranslationDescription"] = value;
+
 }
 
-class _Urls {
-  final String cover;
-  final String card;
-  _Urls({
-    required this.cover,
-    required this.card,
-  });
-  factory _Urls.fromJson(Map<String, dynamic> json) {
-    return _Urls(
-    cover: json['cover'],
-    card: json['card'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "cover": cover,
-    "card": card,
-  };
+extension type _Urls(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get cover => json['cover'] as String;
+    String get card => json['card'] as String;
+
+// ----------- SETTERS ----------- 
+    set cover(String value) => json["cover"] = value;
+    set card(String value) => json["card"] = value;
+
 }
 
-class _PlanCoverImage {
-  final _Urls urls;
-  _PlanCoverImage({
-    required this.urls,
-  });
-  factory _PlanCoverImage.fromJson(Map<String, dynamic> json) {
-    return _PlanCoverImage(
-    urls: _Urls.fromJson(json['urls']),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "urls": urls.toJson(),
-  };
+extension type _PlanCoverImage(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    _Urls get urls => json['urls'] as _Urls;
+
+// ----------- SETTERS ----------- 
+    set urls(_Urls value) => json["urls"] = value;
+
 }
 
-class _Plan {
-  final String? currentPlanId;
-  final String planId;
-  final String creatorUserId;
-  final bool planAcceptRequestFlg;
-  final int planStandardPrice;
-  final _PlanTitle planTitle;
-  final _PlanDescription planDescription;
-  final bool planAcceptAdultFlg;
-  final bool planAcceptAnonymousFlg;
-  final bool planAcceptIllustFlg;
-  final bool planAcceptUgoiraFlg;
-  final bool planAcceptMangaFlg;
-  final bool planAcceptNovelFlg;
-  final _PlanCoverImage? planCoverImage;
-  final int planAiType;
-  _Plan({
-    required this.currentPlanId,
-    required this.planId,
-    required this.creatorUserId,
-    required this.planAcceptRequestFlg,
-    required this.planStandardPrice,
-    required this.planTitle,
-    required this.planDescription,
-    required this.planAcceptAdultFlg,
-    required this.planAcceptAnonymousFlg,
-    required this.planAcceptIllustFlg,
-    required this.planAcceptUgoiraFlg,
-    required this.planAcceptMangaFlg,
-    required this.planAcceptNovelFlg,
-    this.planCoverImage,
-    required this.planAiType,
-  });
-  factory _Plan.fromJson(Map<String, dynamic> json) {
-    return _Plan(
-    currentPlanId: json['currentPlanId'],
-    planId: json['planId'],
-    creatorUserId: json['creatorUserId'],
-    planAcceptRequestFlg: json['planAcceptRequestFlg'],
-    planStandardPrice: json['planStandardPrice'],
-    planTitle: _PlanTitle.fromJson(json['planTitle']),
-    planDescription: _PlanDescription.fromJson(json['planDescription']),
-    planAcceptAdultFlg: json['planAcceptAdultFlg'],
-    planAcceptAnonymousFlg: json['planAcceptAnonymousFlg'],
-    planAcceptIllustFlg: json['planAcceptIllustFlg'],
-    planAcceptUgoiraFlg: json['planAcceptUgoiraFlg'],
-    planAcceptMangaFlg: json['planAcceptMangaFlg'],
-    planAcceptNovelFlg: json['planAcceptNovelFlg'],
-    planCoverImage: json['planCoverImage'] == null?null:_PlanCoverImage.fromJson(json['planCoverImage']),
-    planAiType: json['planAiType'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "currentPlanId": currentPlanId,
-    "planId": planId,
-    "creatorUserId": creatorUserId,
-    "planAcceptRequestFlg": planAcceptRequestFlg,
-    "planStandardPrice": planStandardPrice,
-    "planTitle": planTitle.toJson(),
-    "planDescription": planDescription.toJson(),
-    "planAcceptAdultFlg": planAcceptAdultFlg,
-    "planAcceptAnonymousFlg": planAcceptAnonymousFlg,
-    "planAcceptIllustFlg": planAcceptIllustFlg,
-    "planAcceptUgoiraFlg": planAcceptUgoiraFlg,
-    "planAcceptMangaFlg": planAcceptMangaFlg,
-    "planAcceptNovelFlg": planAcceptNovelFlg,
-    "planCoverImage": planCoverImage?.toJson(),
-    "planAiType": planAiType,
-  };
+extension type _Plan(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    dynamic get currentPlanId => json['currentPlanId'] as dynamic;
+    String get planId => json['planId'] as String;
+    String get creatorUserId => json['creatorUserId'] as String;
+    bool get planAcceptRequestFlg => json['planAcceptRequestFlg'] as bool;
+    int get planStandardPrice => json['planStandardPrice'] as int;
+    _PlanTitle get planTitle => json['planTitle'] as _PlanTitle;
+    _PlanDescription get planDescription => json['planDescription'] as _PlanDescription;
+    bool get planAcceptAdultFlg => json['planAcceptAdultFlg'] as bool;
+    bool get planAcceptAnonymousFlg => json['planAcceptAnonymousFlg'] as bool;
+    bool get planAcceptIllustFlg => json['planAcceptIllustFlg'] as bool;
+    bool get planAcceptUgoiraFlg => json['planAcceptUgoiraFlg'] as bool;
+    bool get planAcceptMangaFlg => json['planAcceptMangaFlg'] as bool;
+    bool get planAcceptNovelFlg => json['planAcceptNovelFlg'] as bool;
+    _PlanCoverImage? get planCoverImage => json['planCoverImage'];
+    int get planAiType => json['planAiType'] as int;
+
+// ----------- SETTERS ----------- 
+    set currentPlanId(dynamic value) => json["currentPlanId"] = value;
+    set planId(String value) => json["planId"] = value;
+    set creatorUserId(String value) => json["creatorUserId"] = value;
+    set planAcceptRequestFlg(bool value) => json["planAcceptRequestFlg"] = value;
+    set planStandardPrice(int value) => json["planStandardPrice"] = value;
+    set planTitle(_PlanTitle value) => json["planTitle"] = value;
+    set planDescription(_PlanDescription value) => json["planDescription"] = value;
+    set planAcceptAdultFlg(bool value) => json["planAcceptAdultFlg"] = value;
+    set planAcceptAnonymousFlg(bool value) => json["planAcceptAnonymousFlg"] = value;
+    set planAcceptIllustFlg(bool value) => json["planAcceptIllustFlg"] = value;
+    set planAcceptUgoiraFlg(bool value) => json["planAcceptUgoiraFlg"] = value;
+    set planAcceptMangaFlg(bool value) => json["planAcceptMangaFlg"] = value;
+    set planAcceptNovelFlg(bool value) => json["planAcceptNovelFlg"] = value;
+    set planCoverImage(_PlanCoverImage? value) => json["planCoverImage"] = value;
+    set planAiType(int value) => json["planAiType"] = value;
+
 }
 
-class _CollaborateStatus {
-  final bool collaborating;
-  final bool collaborateAnonymousFlg;
-  final int collaboratedCnt;
-  final List<dynamic> collaborateUserSamples;
-  _CollaborateStatus({
-    required this.collaborating,
-    required this.collaborateAnonymousFlg,
-    required this.collaboratedCnt,
-    required this.collaborateUserSamples,
-  });
-  factory _CollaborateStatus.fromJson(Map<String, dynamic> json) {
-    return _CollaborateStatus(
-    collaborating: json['collaborating'],
-    collaborateAnonymousFlg: json['collaborateAnonymousFlg'],
-    collaboratedCnt: json['collaboratedCnt'],
-    collaborateUserSamples: (json['collaborateUserSamples'] as List<dynamic>),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "collaborating": collaborating,
-    "collaborateAnonymousFlg": collaborateAnonymousFlg,
-    "collaboratedCnt": collaboratedCnt,
-    "collaborateUserSamples": collaborateUserSamples,
-  };
+extension type _CollaborateStatus(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    bool get collaborating => json['collaborating'] as bool;
+    bool get collaborateAnonymousFlg => json['collaborateAnonymousFlg'] as bool;
+    int get collaboratedCnt => json['collaboratedCnt'] as int;
+    List<dynamic> get collaborateUserSamples => json['collaborateUserSamples'] as List<dynamic>;
+
+// ----------- SETTERS ----------- 
+    set collaborating(bool value) => json["collaborating"] = value;
+    set collaborateAnonymousFlg(bool value) => json["collaborateAnonymousFlg"] = value;
+    set collaboratedCnt(int value) => json["collaboratedCnt"] = value;
+    set collaborateUserSamples(List<dynamic> value) => json["collaborateUserSamples"] = value;
+
 }
 
-class _Work {
-  final bool isUnlisted;
-  final String? secret;
-  _Work({
-    required this.isUnlisted,
-    required this.secret,
-  });
-  factory _Work.fromJson(Map<String, dynamic> json) {
-    return _Work(
-    isUnlisted: json['isUnlisted'],
-    secret: json['secret'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "isUnlisted": isUnlisted,
-    "secret": secret,
-  };
+extension type _Work(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    bool get isUnlisted => json['isUnlisted'] as bool;
+    dynamic get secret => json['secret'] as dynamic;
+
+// ----------- SETTERS ----------- 
+    set isUnlisted(bool value) => json["isUnlisted"] = value;
+    set secret(dynamic value) => json["secret"] = value;
+
 }
 
-class _PostWork {
-  final String postWorkId;
-  final String postWorkType;
-  final _Work? work;
-  _PostWork({
-    required this.postWorkId,
-    required this.postWorkType,
-    this.work,
-  });
-  factory _PostWork.fromJson(Map<String, dynamic> json) {
-    return _PostWork(
-    postWorkId: json['postWorkId'],
-    postWorkType: json['postWorkType'],
-    work: json['work'] == null?null:_Work.fromJson(json['work']),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "postWorkId": postWorkId,
-    "postWorkType": postWorkType,
-    "work": work?.toJson(),
-  };
+extension type _PostWork(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get postWorkId => json['postWorkId'] as String;
+    String get postWorkType => json['postWorkType'] as String;
+    _Work? get work => json['work'];
+
+// ----------- SETTERS ----------- 
+    set postWorkId(String value) => json["postWorkId"] = value;
+    set postWorkType(String value) => json["postWorkType"] = value;
+    set work(_Work? value) => json["work"] = value;
+
 }
 
-class _Fanbox {
-  final bool fanIsSupporter;
-  _Fanbox({
-    required this.fanIsSupporter,
-  });
-  factory _Fanbox.fromJson(Map<String, dynamic> json) {
-    return _Fanbox(
-    fanIsSupporter: json['fanIsSupporter'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "fanIsSupporter": fanIsSupporter,
-  };
+extension type _Fanbox(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    bool get fanIsSupporter => json['fanIsSupporter'] as bool;
+
+// ----------- SETTERS ----------- 
+    set fanIsSupporter(bool value) => json["fanIsSupporter"] = value;
+
 }
 
-class _Modification {
-  final String? requestPostWorkType;
-  final String? requestAdultFlg;
-  _Modification({
-    required this.requestPostWorkType,
-    required this.requestAdultFlg,
-  });
-  factory _Modification.fromJson(Map<String, dynamic> json) {
-    return _Modification(
-    requestPostWorkType: json['requestPostWorkType'],
-    requestAdultFlg: json['requestAdultFlg'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "requestPostWorkType": requestPostWorkType,
-    "requestAdultFlg": requestAdultFlg,
-  };
+extension type _Modification(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    dynamic get requestPostWorkType => json['requestPostWorkType'] as dynamic;
+    dynamic get requestAdultFlg => json['requestAdultFlg'] as dynamic;
+
+// ----------- SETTERS ----------- 
+    set requestPostWorkType(dynamic value) => json["requestPostWorkType"] = value;
+    set requestAdultFlg(dynamic value) => json["requestAdultFlg"] = value;
+
 }
 
-class _RequestResend {
-  final String? requestResendDeadlineDatetime;
-  final String? requestResendOfferEnabled;
-  final String? requestResendEnabled;
-  final String? requestResendStatus;
-  final _Modification modification;
-  final String? fanAdultSendable;
-  final String? isResentRequest;
-  _RequestResend({
-    required this.requestResendDeadlineDatetime,
-    required this.requestResendOfferEnabled,
-    required this.requestResendEnabled,
-    required this.requestResendStatus,
-    required this.modification,
-    required this.fanAdultSendable,
-    required this.isResentRequest,
-  });
-  factory _RequestResend.fromJson(Map<String, dynamic> json) {
-    return _RequestResend(
-    requestResendDeadlineDatetime: json['requestResendDeadlineDatetime'],
-    requestResendOfferEnabled: json['requestResendOfferEnabled'],
-    requestResendEnabled: json['requestResendEnabled'],
-    requestResendStatus: json['requestResendStatus'],
-    modification: _Modification.fromJson(json['modification']),
-    fanAdultSendable: json['fanAdultSendable'],
-    isResentRequest: json['isResentRequest'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "requestResendDeadlineDatetime": requestResendDeadlineDatetime,
-    "requestResendOfferEnabled": requestResendOfferEnabled,
-    "requestResendEnabled": requestResendEnabled,
-    "requestResendStatus": requestResendStatus,
-    "modification": modification.toJson(),
-    "fanAdultSendable": fanAdultSendable,
-    "isResentRequest": isResentRequest,
-  };
+extension type _RequestResend(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    dynamic get requestResendDeadlineDatetime => json['requestResendDeadlineDatetime'] as dynamic;
+    dynamic get requestResendOfferEnabled => json['requestResendOfferEnabled'] as dynamic;
+    dynamic get requestResendEnabled => json['requestResendEnabled'] as dynamic;
+    dynamic get requestResendStatus => json['requestResendStatus'] as dynamic;
+    _Modification get modification => json['modification'] as _Modification;
+    dynamic get fanAdultSendable => json['fanAdultSendable'] as dynamic;
+    dynamic get isResentRequest => json['isResentRequest'] as dynamic;
+
+// ----------- SETTERS ----------- 
+    set requestResendDeadlineDatetime(dynamic value) => json["requestResendDeadlineDatetime"] = value;
+    set requestResendOfferEnabled(dynamic value) => json["requestResendOfferEnabled"] = value;
+    set requestResendEnabled(dynamic value) => json["requestResendEnabled"] = value;
+    set requestResendStatus(dynamic value) => json["requestResendStatus"] = value;
+    set modification(_Modification value) => json["modification"] = value;
+    set fanAdultSendable(dynamic value) => json["fanAdultSendable"] = value;
+    set isResentRequest(dynamic value) => json["isResentRequest"] = value;
+
 }
 
-class _FanLetter {
-  final bool fanLetterArrived;
-  final bool fanLetterSendEnabled;
-  _FanLetter({
-    required this.fanLetterArrived,
-    required this.fanLetterSendEnabled,
-  });
-  factory _FanLetter.fromJson(Map<String, dynamic> json) {
-    return _FanLetter(
-    fanLetterArrived: json['fanLetterArrived'],
-    fanLetterSendEnabled: json['fanLetterSendEnabled'],
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "fanLetterArrived": fanLetterArrived,
-    "fanLetterSendEnabled": fanLetterSendEnabled,
-  };
+extension type _FanLetter(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    bool get fanLetterArrived => json['fanLetterArrived'] as bool;
+    bool get fanLetterSendEnabled => json['fanLetterSendEnabled'] as bool;
+
+// ----------- SETTERS ----------- 
+    set fanLetterArrived(bool value) => json["fanLetterArrived"] = value;
+    set fanLetterSendEnabled(bool value) => json["fanLetterSendEnabled"] = value;
+
 }
 
-class Request {
-  final String requestId;
-  final String planId;
-  final String? fanUserId;
-  final String creatorUserId;
-  final String requestStatus;
-  final String? requestAcceptStatus;
-  final String requestPostWorkType;
-  final int requestPrice;
-  final _RequestProposal requestProposal;
-  final List<String> requestTags;
-  final bool requestAdultFlg;
-  final bool requestAnonymousFlg;
-  final bool requestRestrictFlg;
-  final bool requestAcceptCollaborateFlg;
-  final String requestResponseDeadlineDatetime;
-  final String requestPostDeadlineDatetime;
-  final String role;
-  final _Plan plan;
-  final _CollaborateStatus collaborateStatus;
-  final String? giftFile;
-  final _PostWork? postWork;
-  final String? notifyBadge;
-  final _Fanbox? fanbox;
-  final _RequestResend? requestResend;
-  final _FanLetter? fanLetter;
-  Request({
-    required this.requestId,
-    required this.planId,
-    required this.fanUserId,
-    required this.creatorUserId,
-    required this.requestStatus,
-    this.requestAcceptStatus,
-    required this.requestPostWorkType,
-    required this.requestPrice,
-    required this.requestProposal,
-    required this.requestTags,
-    required this.requestAdultFlg,
-    required this.requestAnonymousFlg,
-    required this.requestRestrictFlg,
-    required this.requestAcceptCollaborateFlg,
-    required this.requestResponseDeadlineDatetime,
-    required this.requestPostDeadlineDatetime,
-    required this.role,
-    required this.plan,
-    required this.collaborateStatus,
-    required this.giftFile,
-    this.postWork,
-    required this.notifyBadge,
-    this.fanbox,
-    this.requestResend,
-    this.fanLetter,
-  });
-  factory Request.fromJson(Map<String, dynamic> json) {
-    printWrapped(JsonEncoder.withIndent("  ").convert(json));
-    return Request(
-    requestId: json['requestId'],
-    planId: json['planId'],
-    fanUserId: json['fanUserId'],
-    creatorUserId: json['creatorUserId'],
-    requestStatus: json['requestStatus'],
-    requestAcceptStatus: json['requestAcceptStatus'],
-    requestPostWorkType: json['requestPostWorkType'],
-    requestPrice: json['requestPrice'],
-    requestProposal: _RequestProposal.fromJson(json['requestProposal']),
-    requestTags: (json['requestTags'] as List<dynamic>).map((e)=>e as String).toList(),
-    requestAdultFlg: json['requestAdultFlg'],
-    requestAnonymousFlg: json['requestAnonymousFlg'],
-    requestRestrictFlg: json['requestRestrictFlg'],
-    requestAcceptCollaborateFlg: json['requestAcceptCollaborateFlg'],
-    requestResponseDeadlineDatetime: json['requestResponseDeadlineDatetime'],
-    requestPostDeadlineDatetime: json['requestPostDeadlineDatetime'],
-    role: json['role'],
-    plan: _Plan.fromJson(json['plan']),
-    collaborateStatus: _CollaborateStatus.fromJson(json['collaborateStatus']),
-    giftFile: json['giftFile'],
-    postWork: json['postWork'] == null?null:_PostWork.fromJson(json['postWork']),
-    notifyBadge: json['notifyBadge'],
-    fanbox: json['fanbox'] == null?null:_Fanbox.fromJson(json['fanbox']),
-    requestResend: json['requestResend'] == null?null:_RequestResend.fromJson(json['requestResend']),
-    fanLetter: json['fanLetter'] == null?null:_FanLetter.fromJson(json['fanLetter']),
-  );}
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    "requestId": requestId,
-    "planId": planId,
-    "fanUserId": fanUserId,
-    "creatorUserId": creatorUserId,
-    "requestStatus": requestStatus,
-    "requestAcceptStatus": requestAcceptStatus,
-    "requestPostWorkType": requestPostWorkType,
-    "requestPrice": requestPrice,
-    "requestProposal": requestProposal.toJson(),
-    "requestTags": requestTags,
-    "requestAdultFlg": requestAdultFlg,
-    "requestAnonymousFlg": requestAnonymousFlg,
-    "requestRestrictFlg": requestRestrictFlg,
-    "requestAcceptCollaborateFlg": requestAcceptCollaborateFlg,
-    "requestResponseDeadlineDatetime": requestResponseDeadlineDatetime,
-    "requestPostDeadlineDatetime": requestPostDeadlineDatetime,
-    "role": role,
-    "plan": plan.toJson(),
-    "collaborateStatus": collaborateStatus.toJson(),
-    "giftFile": giftFile,
-    "postWork": postWork?.toJson(),
-    "notifyBadge": notifyBadge,
-    "fanbox": fanbox?.toJson(),
-    "requestResend": requestResend?.toJson(),
-    "fanLetter": fanLetter?.toJson(),
-  };
+extension type Request(Map<String, dynamic> json) {
+// ----------- GETTERS ----------- 
+    String get requestId => json['requestId'] as String;
+    String get planId => json['planId'] as String;
+    dynamic get fanUserId => json['fanUserId'] as dynamic;
+    String get creatorUserId => json['creatorUserId'] as String;
+    String get requestStatus => json['requestStatus'] as String;
+    String? get requestAcceptStatus => json['requestAcceptStatus'];
+    String get requestPostWorkType => json['requestPostWorkType'] as String;
+    int get requestPrice => json['requestPrice'] as int;
+    _RequestProposal get requestProposal => json['requestProposal'] as _RequestProposal;
+    List<String> get requestTags => json['requestTags'] as List<String>;
+    bool get requestAdultFlg => json['requestAdultFlg'] as bool;
+    bool get requestAnonymousFlg => json['requestAnonymousFlg'] as bool;
+    bool get requestRestrictFlg => json['requestRestrictFlg'] as bool;
+    bool get requestAcceptCollaborateFlg => json['requestAcceptCollaborateFlg'] as bool;
+    String get requestResponseDeadlineDatetime => json['requestResponseDeadlineDatetime'] as String;
+    String get requestPostDeadlineDatetime => json['requestPostDeadlineDatetime'] as String;
+    String get role => json['role'] as String;
+    _Plan get plan => json['plan'] as _Plan;
+    _CollaborateStatus get collaborateStatus => json['collaborateStatus'] as _CollaborateStatus;
+    dynamic get giftFile => json['giftFile'] as dynamic;
+    _PostWork? get postWork => json['postWork'];
+    dynamic get notifyBadge => json['notifyBadge'] as dynamic;
+    _Fanbox? get fanbox => json['fanbox'];
+    _RequestResend? get requestResend => json['requestResend'];
+    _FanLetter? get fanLetter => json['fanLetter'];
+
+// ----------- SETTERS ----------- 
+    set requestId(String value) => json["requestId"] = value;
+    set planId(String value) => json["planId"] = value;
+    set fanUserId(dynamic value) => json["fanUserId"] = value;
+    set creatorUserId(String value) => json["creatorUserId"] = value;
+    set requestStatus(String value) => json["requestStatus"] = value;
+    set requestAcceptStatus(String? value) => json["requestAcceptStatus"] = value;
+    set requestPostWorkType(String value) => json["requestPostWorkType"] = value;
+    set requestPrice(int value) => json["requestPrice"] = value;
+    set requestProposal(_RequestProposal value) => json["requestProposal"] = value;
+    set requestTags(List<String> value) => json["requestTags"] = value;
+    set requestAdultFlg(bool value) => json["requestAdultFlg"] = value;
+    set requestAnonymousFlg(bool value) => json["requestAnonymousFlg"] = value;
+    set requestRestrictFlg(bool value) => json["requestRestrictFlg"] = value;
+    set requestAcceptCollaborateFlg(bool value) => json["requestAcceptCollaborateFlg"] = value;
+    set requestResponseDeadlineDatetime(String value) => json["requestResponseDeadlineDatetime"] = value;
+    set requestPostDeadlineDatetime(String value) => json["requestPostDeadlineDatetime"] = value;
+    set role(String value) => json["role"] = value;
+    set plan(_Plan value) => json["plan"] = value;
+    set collaborateStatus(_CollaborateStatus value) => json["collaborateStatus"] = value;
+    set giftFile(dynamic value) => json["giftFile"] = value;
+    set postWork(_PostWork? value) => json["postWork"] = value;
+    set notifyBadge(dynamic value) => json["notifyBadge"] = value;
+    set fanbox(_Fanbox? value) => json["fanbox"] = value;
+    set requestResend(_RequestResend? value) => json["requestResend"] = value;
+    set fanLetter(_FanLetter? value) => json["fanLetter"] = value;
+
 }
 
