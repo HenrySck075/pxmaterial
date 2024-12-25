@@ -346,13 +346,14 @@ class _ShellPageState extends State<ShellPage> {
     "jkterjter",
     "tidal wave",
     "is that",
+    "noaka"
   ];
   String MadeWithLoveByHenry = "";
   final List<String> navBarEntries = ["/","/discovery"];
   @override
   void initState() {
     super.initState();
-    pxRequest("https://www.pixiv.net/ajax/user/extra?lang=en&version=cd92ea4e80362d368931ee48c5c33d97577fec4c"); // this has the Set-Cookie header so um cool ig
+    pxRequest("https://www.pixiv.net/ajax/user/extra"); // this has the Set-Cookie header so um cool ig
   }
   @override
   Widget build(BuildContext context) {

@@ -25,7 +25,7 @@ class IllustsPage extends StatelessWidget {
       future:data,
       builder: (ctx,d) {
         // if (d.connectionState == ConnectionState.waiting) return Center(child: CircularProgressIndicator());
-        var mainresp = d.data!;
+        IllustTop mainresp = d.data!;
         
         // this is the equivalent of torture
         final getData = Memoized1<PartialArtwork?, String>(
