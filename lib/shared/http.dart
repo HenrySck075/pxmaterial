@@ -4,9 +4,17 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import "route.dart";
 import 'package:sofieru/appdata.dart';
+
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+
 /// automatically set by tools/version.py
 String apiVersion = "55526bfe1ace7c59b328b3e22c5c78d3a3400d96";
+late WebViewEnvironment environment;
+Future<void> setupWebview() async {
+  environment = await WebViewEnvironment.create();
 
+  var idk = InAppWebViewController.fromPlatform(platform: environment.platform);
+}
 Map<String, http.Response> _cachedResponse = {};
 void clearRequestCache(){
   _cachedResponse.clear();

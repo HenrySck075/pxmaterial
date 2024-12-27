@@ -45,6 +45,7 @@ final Map<String, ThemeMode> themeMode = {
 void dumpErrorToConsole(details)=>FlutterError.dumpErrorToConsole(details,forceReport:true);
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await setupWebview();
   final appLinks = AppLinks();
   Uri initialUri = Uri(path: "/");
   final pa = GlobalKey<NavigatorState>();

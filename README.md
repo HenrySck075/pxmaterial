@@ -82,3 +82,5 @@ Q: hi
 - [sawaratsuki1004](https://twitter.com/sawaratsuki1004): Flutter VTuber logo and our goat
 - [](https://youtube.com/@Endermanch)
 
+# Similar projects
+- [pixez](https://github.com/Notsfsssf/pixez-flutter)
