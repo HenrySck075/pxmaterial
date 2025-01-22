@@ -5,16 +5,9 @@ import 'package:http/http.dart' as http;
 import "route.dart";
 import 'package:sofieru/appdata.dart';
 
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-
 /// automatically set by tools/version.py
 String apiVersion = "55526bfe1ace7c59b328b3e22c5c78d3a3400d96";
-late WebViewEnvironment environment;
-Future<void> setupWebview() async {
-  environment = await WebViewEnvironment.create();
 
-  var idk = InAppWebViewController.fromPlatform(platform: environment.platform);
-}
 Map<String, http.Response> _cachedResponse = {};
 void clearRequestCache(){
   _cachedResponse.clear();
@@ -30,7 +23,13 @@ void updateCookie(String d) {
   d.split(";").forEach((c){
     var g = c.trim();
     int e = g.indexOf("=");
-    updateCookieMap(g.substring(0,e), g.substring(e+1));
+    if (e!=-1) {
+      String k = g.substring(0,e);
+      // stash away security cookies (i wont use this cookies again anyways)
+      if (!["expires", "path", "max-age"].contains(k.toLowerCase())) {
+        updateCookieMap(k, g.substring(e+1));
+      }
+    }
   });
 }
 void updateCookieMap(String key, String value) {
@@ -72,6 +71,7 @@ Future<http.Response> pxRequestUnprocessed(String url, {
 
   var req = http.Request(method.toUpperCase(),parsedUrl);
   req.headers.addAll(headers);
+  req.headers.addAll(otherHeaders);
   req.body = body is Map?jsonEncode(body):body.toString();
   var resp = await client.send(req);
 
@@ -96,6 +96,39 @@ void deletePageRequestCache(String page) {
   });
   _requestsOnPage.remove(page);
 }
+
+Future<dynamic> _attemptRequest(
+  String url, {Map<String, String>? otherHeaders, String method="GET", Object? body, bool noCache = false, Map<String, dynamic> extraData = const {}}
+) {
+  otherHeaders ??= {};
+  otherHeaders.addEntries([
+    MapEntry("Cookie", cooki.substring(0,cooki.isEmpty?0:cooki.length-2)),
+    MapEntry("X-User-Id", userId)
+  ]);
+  // if (cooki == "") await wait((_) => cooki=="");
+  var d = pxRequestUnprocessed(
+    url,
+    otherHeaders: otherHeaders, 
+    method: method, 
+    body:body, 
+    noCache: noCache, 
+    extraData: extraData
+  ).then((v){
+    var decoded = jsonDecode(v.body);
+    if (decoded["error"]) {
+      print(decoded["message"]);
+      print(url);
+      if (v.statusCode == 400 && v.headers.containsKey("set-cookie")) {
+        updateCookie(v.headers["set-cookie"] ?? "");
+      }
+    }
+
+    return decoded["body"];
+  });
+
+  return d;
+}
+
 Future<dynamic> pxRequest(String url, {Map<String, String>? otherHeaders, String method="GET", Object? body, bool noCache = false, Map<String, dynamic> extraData = const {}}) {
   otherHeaders ??= {};
   var uri = Uri.parse(url);
@@ -106,32 +139,18 @@ Future<dynamic> pxRequest(String url, {Map<String, String>? otherHeaders, String
   url = uri.replace(
     queryParameters: b
   ).toString();
-  // if (cooki == "") await wait((_) => cooki=="");
-  var d = pxRequestUnprocessed(
-    url,
-    otherHeaders: otherHeaders..addEntries([
-      MapEntry("Cookie", cooki.trim()),
-      MapEntry("X-User-Id", userId)
-    ]), 
-    method: method, 
-    body:body, 
-    noCache: noCache, 
-    extraData: extraData
-  ).then((v){
-    var decoded = jsonDecode(v.body);
-    if (decoded["error"]) {
-      print(decoded["message"]);
-      print(url);
-      return Future.error(Exception(decoded["message"]));
-      /*if (decoded["message"]=="Invalid request.") {
-        cooki = "";
-        userId = "";
-      }
-      */
-    }
 
-    return decoded["body"];
+  cookiesMap.forEach((k,v){
+    cooki+="$k: $v; ";
   });
+  var d = _attemptRequest(
+    url,
+    otherHeaders: otherHeaders,
+    method: method,
+    body: body,
+    noCache: noCache,
+    extraData: extraData
+  );
   var h = currentRouteURI().path;
   if (_requestsOnPage[h]==null) _requestsOnPage[h] = [];
   _requestsOnPage[h]!.add(url);

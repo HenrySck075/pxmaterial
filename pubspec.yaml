@@ -36,7 +36,6 @@ dependencies:
   url_launcher: ^6.2.2 # keep it here becuase webview_flutter is
   path_provider: ^2.1.2
   http: ^1.1.2
-  flutter_inappwebview: ^6.1.5 # a workaround
   cached_network_image: ^3.3.0
   app_links: ^6.3.3
   # cupertino_icons: ^1.0.2
