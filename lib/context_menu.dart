@@ -6,48 +6,58 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sofieru/appdata.dart';
 
-ButtonStyle _btnStyle = ButtonStyle(shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))));
+ButtonStyle _btnStyle = ButtonStyle(shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))));
 
 class ContextMenuItem extends StatelessWidget {
-  IconData? icon;
-  String label;
+  final IconData? icon;
+  final String label;
   /// does nothing if [items] is non-null
-  LogicalKeyboardKey? shortcut;
-  (bool ctrl, bool alt, bool shift, bool meta) shortcutModifiers;
-  List<ContextMenuItem>? items;
-  VoidCallback? onPressed;
+  final LogicalKeyboardKey? shortcut;
+  final (bool ctrl, bool alt, bool shift, bool meta) shortcutModifiers;
+  final List<ContextMenuItem>? items;
+  final VoidCallback? onPressed;
 
-  ContextMenuItem({super.key, required this.label, this.icon, this.shortcut, this.shortcutModifiers = (false, false, false, false), this.onPressed});
+  ContextMenuItem({
+    super.key,
+    required this.label,
+    this.icon,
+    this.shortcut,
+    this.shortcutModifiers = (false, false, false, false),
+    this.onPressed,
+    this.items = const []
+  });
 
   @override
-  Widget build(ctx)=>items==null
-  ?MenuItemButton( 
-    leadingIcon: icon!=null?Icon(icon):null,
-    shortcut: shortcut!=null ?SingleActivator(shortcut!,control: shortcutModifiers.$1, alt: shortcutModifiers.$2, shift: shortcutModifiers.$3, meta: shortcutModifiers.$4):null,
-    onPressed: onPressed,
-    style: _btnStyle,
-    child: Text(label),
-  )
-  :SubmenuButton(
-    menuChildren: items!, 
-    leadingIcon: icon!=null?Icon(icon):null,
-    style: _btnStyle,
-    child: Text(label),
-  );
+  Widget build(context) {
+    return items==null
+    ? MenuItemButton( 
+      leadingIcon: icon!=null?Icon(icon):null,
+      shortcut: shortcut!=null ?SingleActivator(shortcut!,control: shortcutModifiers.$1, alt: shortcutModifiers.$2, shift: shortcutModifiers.$3, meta: shortcutModifiers.$4):null,
+      onPressed: onPressed,
+      style: _btnStyle,
+      child: Text(label),
+    )
+    : SubmenuButton(
+      menuChildren: items!, 
+      leadingIcon: icon!=null?Icon(icon):null,
+      style: _btnStyle,
+      child: Text(label),
+    );
+  }
 }
 
 /// https://dartpad.dev/?split=60&sample_id=material.MenuAnchor.2&sample_channel=stable&channel=stable
 class ContextMenuWrapper extends StatefulWidget { 
   final List<ContextMenuItem> items;
   final Widget child;
-  ContextMenuWrapper({super.key, required this.items, required this.child});
+  const ContextMenuWrapper({super.key, required this.items, required this.child});
 
   @override
   State<ContextMenuWrapper> createState()=>_ContextMenuWrapperState();
 }
 
 class _ContextMenuWrapperState extends State<ContextMenuWrapper> with SingleTickerProviderStateMixin {
-  MenuController _menuController = MenuController();
+  final MenuController _menuController = MenuController();
   late final AnimationController _animation;
   late final Animation<double> _openAnim;
   late final Animation<double> _closeAnim;
@@ -98,9 +108,7 @@ class _ContextMenuWrapperState extends State<ContextMenuWrapper> with SingleTick
         consumeOutsideTaps: nullOnThrow(() => _menuController.isOpen, [], {})??false,
         onTapOutside: (x)=>_animation.reverse(),
         child: MenuAnchor(
-          // to prevent the TapRegion from internally created (its deprecated so i think consumeOutsideTap will swap this)
-          anchorTapClosesMenu: false,
-          // we manage our own
+          // to prevent the TapRegion from internally created
           consumeOutsideTap: false,
         
           controller: _menuController,

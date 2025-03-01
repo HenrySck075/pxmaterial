@@ -30,11 +30,11 @@ Future<String> initDb() async {
 sql.Database? _globaldb;
 /// hi chat
 class AppData extends InheritedWidget {
-  late sql.Database database;
+  late final sql.Database database;
   
   AppData({required super.child,super.key}) : database = _globaldb!;
-  _yourwatchhistory watchHistoryManager() {
-    return _yourwatchhistory(_globaldb!);
+  _WatchHistory watchHistoryManager() {
+    return _WatchHistory(_globaldb!);
   }
   AppSettings get appSettings => AppSettings();
 
@@ -50,11 +50,11 @@ class AppData extends InheritedWidget {
   bool updateShouldNotify(AppData old) => false;
 }
 
-class _yourwatchhistory {
+class _WatchHistory {
   final sql.PreparedStatement insert;
   final sql.PreparedStatement remove; 
   final sql.Database _datadb;
-  _yourwatchhistory(this._datadb) : insert = _datadb.prepare("INSERT OR IGNORE INTO history (id,jsondata) VALUES (?,?)"), remove = _datadb.prepare("DELETE FROM history WHERE id = ?");
+  _WatchHistory(this._datadb) : insert = _datadb.prepare("INSERT OR IGNORE INTO history (id,jsondata) VALUES (?,?)"), remove = _datadb.prepare("DELETE FROM history WHERE id = ?");
   void addHistory(JSON work) {
     /*
     debugPrint(work["id"].toString());

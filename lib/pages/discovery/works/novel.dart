@@ -10,7 +10,7 @@ class Novel extends StatefulWidget {
 class _NovelState extends State<Novel> {
   var req = pxRequest("https://www.pixiv.net/ajax/discovery/novels?mode=all&limit=60");
   final _scsvCtrl = ScrollController();
-  final yipee = VisibleNotifyNotifier<List<dynamic>>([]);
+  final yipee = ManualNotifier<List<dynamic>>([]);
   @override 
   void initState() {
     super.initState();

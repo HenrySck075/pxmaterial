@@ -28,12 +28,12 @@ class _ArtworkPageState extends State<ArtworkPage> {
   // Future<JSON>? data;
   bool shownAll = false;
   // Future<List<Map<String,String>>>? op;
-  List<dynamic>? op;
+  List<dynamic>? response;
   int illustIndex = 0;
   final current = GlobalKey();
 
   // related artworks
-  var related = VisibleNotifyNotifier([]);
+  var related = ManualNotifier([]);
   List<dynamic> relatedNextIds = []; // bruh
   /// to prevent spamming the request
 
@@ -57,8 +57,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
     id = widget.id;
   }
   // TODO: move this thing outside
-  Widget artworkImageBuilder(idx,i,w,h,{Function()? onTap,double opacity = 1}){
-    
+  Widget artworkImageBuilder(idx,i,w,h,{Function()? onTap,double opacity = 1}) {
     var ver = Padding(
       padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
       child:ConstrainedBox(
@@ -92,46 +91,58 @@ class _ArtworkPageState extends State<ArtworkPage> {
       pxRequest("https://www.pixiv.net/ajax/illust/$id/pages"),
     ];
     return Scaffold(
-      body: futureWidget(placeholder: SingleChildScrollView(child:mainSkel()), future: Future.wait(ed), builder: (context,dd) {
-        var rawData = dd.data![0];
-        var data = rawData;
-        AppData.of(context).watchHistoryManager().addHistory(rawData);
+      body: futureWidget(
+        placeholder: SingleChildScrollView(child: mainSkel()),
+        future: Future.wait(ed),
+        builder: (context, dd) {
+          var rawData = dd.data![0];
+          var data = rawData;
+          AppData.of(context).watchHistoryManager().addHistory(rawData);
 
-        List<dynamic> gang = dd.data![1];
-        op = ((shownAll||data.illustType!=0)?gang:[gang[0]]);
-        const seriesType = {
-          "illust": "artworks",
-          "manga": "artworks",
-          "novel": "novel"
-        };
-        String pathJoin(List<String> segments) => (segments..insert(0, "")).join("/");
-        late final List<Widget> view;
-        if (data.illustType!=2) {view = IllustMangaView(data, context, gang, pathJoin, seriesType);}
-        else {view=[AnimatedArtworkView(id: data.id,w: data.width, h: data.height)];}
-        return WorkLayout( 
-          wtype: WorkType.illust,
-          data: data,
-          // The artwork view
-          view: Column(children:view),
-          // author works
-          authorWorksItemBuilder: (e,k)=> PxSimpleArtwork.fromJson(
-            key: k,
-            payload: e,
-            isCurrent: e["id"]==id,
-          ),
-          relatedWorksItemBuilder: (e) => PxArtwork.fromJson(payload: e)
-      );
-    }));
+          List<dynamic> gang = dd.data![1];
+          response = ((shownAll || data.illustType != 0) ? gang : [gang[0]]);
+          const seriesType = {
+            "illust": "artworks",
+            "manga": "artworks",
+            "novel": "novel"
+          };
+
+          String pathJoin(List<String> segments) => (segments..insert(0, "")).join("/");
+          late final List<Widget> view;
+          if (data.illustType != 2) {
+            view = illustMangaView(data, context, gang, pathJoin, seriesType);
+          } else {
+            view = [
+              AnimatedArtworkView(
+                  id: data.id, w: data.width, h: data.height)
+            ];
+          }
+          return WorkLayout(
+            wtype: WorkType.illust,
+            data: data,
+            // The artwork view
+            view: Column(children: view),
+            // author works
+            authorWorksItemBuilder: (e, k) => PxSimpleArtwork.fromJson(
+                  key: k,
+                  payload: e,
+                  isCurrent: e["id"] == id,
+                ),
+            relatedWorksItemBuilder: (e) =>
+                PxArtwork.fromJson(payload: e));
+        }
+      )
+    );
   }
   
 
-  List<Widget> IllustMangaView(Artwork data, BuildContext context, List<dynamic> gang, String pathJoin(List<String> segments), Map<String, String> seriesType) {
+  List<Widget> illustMangaView(Artwork data, BuildContext context, List<dynamic> gang, String Function(List<String> segments) pathJoin, Map<String, String> seriesType) {
     return [
       Center(
         child:data.illustType==0
         // illust view
         ?Column(
-          children: List.from(enumerate(op!, (idx,i){
+          children: List.from(enumerate(response!, (idx,i){
 
             final (w,h) = calcDim(i["width"],i["height"]);
             return ContextMenuWrapper(
@@ -163,11 +174,11 @@ class _ArtworkPageState extends State<ArtworkPage> {
             },
             onExit: (e){
               for (var i = itemsCount-1; i >= 0; i--) {
-                offsets[i].value=Offset(0,0);
+                offsets[i].value=const Offset(0,0);
               }
             },
             
-            child:GestureDetector(onTap:()=>navigate("/artwork/manga/$id?scrollDirection=${data.bookStyle}",extra:op?.cast<Map<String,dynamic>>()),child:Stack(alignment: alignments[scrollDirection],children: enumerate(trySublist(op!,0,5), (idx, i) {
+            child:GestureDetector(onTap:()=>navigate("/artwork/manga/$id?scrollDirection=${data.bookStyle}",extra:response?.cast<Map<String,dynamic>>()),child:Stack(alignment: alignments[scrollDirection],children: enumerate(trySublist(response!,0,5), (idx, i) {
               final (w,h) = calcDim(i["width"],i["height"]);
               double the = 1-(idx)/10;
               return ListenableBuilder(
@@ -191,7 +202,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
       ),
       // show all button
       if (data.pageCount>1&&data.illustType==0) Center(child:FilledButton(child: Text(shownAll?"Collapse":"Show all"),onPressed: ()=>setState((){
-        op=(shownAll?gang:[gang[0]]);
+        response=(shownAll?gang:[gang[0]]);
         shownAll=!shownAll;
       }))),
       if (data.bookStyle == "0") const SizedBox(height:30),

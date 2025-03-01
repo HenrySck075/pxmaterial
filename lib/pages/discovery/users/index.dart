@@ -12,7 +12,7 @@ class Users extends StatefulWidget {
 class _UsersState extends State<Users> {
   var req = pxRequest("https://www.pixiv.net/ajax/discovery/users?mode=all&limit=10");
   final _scsvCtrl = ScrollController();
-  final yipee = VisibleNotifyNotifier<List<dynamic>>([]);
+  final yipee = ManualNotifier<List<dynamic>>([]);
   @override
   void initState() {
     super.initState();

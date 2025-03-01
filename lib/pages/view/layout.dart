@@ -51,11 +51,11 @@ class _WorkLayoutState extends State<WorkLayout> {
   List<String> authArtworkIds = [];
   List<int> range = [0,0];
   List<int> visibleRange = [-1,-1];
-  var authArtworkData = VisibleNotifyNotifier([]);
+  var authArtworkData = ManualNotifier([]);
   final current = GlobalKey();
 
   // related artworks
-  var related = VisibleNotifyNotifier([]);
+  var related = ManualNotifier([]);
   List<dynamic> relatedNextIds = []; // bruh
   /// to prevent spamming the request
   bool relatedFetching = false;

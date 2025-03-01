@@ -6,7 +6,7 @@ import "route.dart";
 import 'package:sofieru/appdata.dart';
 
 /// automatically set by tools/version.py
-String apiVersion = "55526bfe1ace7c59b328b3e22c5c78d3a3400d96";
+String apiVersion = "682aaada21fd4ff67a78c5beefc5d2ac88fac4a7";
 
 Map<String, http.Response> _cachedResponse = {};
 void clearRequestCache(){
@@ -20,6 +20,7 @@ Map<String, String> cookiesMap = {};
 String userId = "";
 
 void updateCookie(String d) {
+  clearRequestCache();
   d.split(";").forEach((c){
     var g = c.trim();
     int e = g.indexOf("=");
@@ -52,9 +53,10 @@ Future<http.Response> pxRequestUnprocessed(String url, {
 
   var headers = {
     "Referer": "https://www.pixiv.net/en/",
+    "Origin": "https://www.pixiv.net",
     "X-User-Id": userId,
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0",
-    "Baggage": "sentry-environment=production,sentry-release=55526bfe1ace7c59b328b3e22c5c78d3a3400d96,sentry-public_key=7b15ebdd9cf64efb88cfab93783df02a,sentry-trace_id=d9b45a04333c47d1b6ca220b32d539d9,sentry-sample_rate=0.0001"
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+    //"Baggage": "sentry-environment=production,sentry-release=55526bfe1ace7c59b328b3e22c5c78d3a3400d96,sentry-public_key=7b15ebdd9cf64efb88cfab93783df02a,sentry-trace_id=d9b45a04333c47d1b6ca220b32d539d9,sentry-sample_rate=0.0001"
   };
   print("-----");
   print(url);
@@ -72,7 +74,7 @@ Future<http.Response> pxRequestUnprocessed(String url, {
   var req = http.Request(method.toUpperCase(),parsedUrl);
   req.headers.addAll(headers);
   req.headers.addAll(otherHeaders);
-  req.body = body is Map?jsonEncode(body):body.toString();
+  if (method=="POST" || method=="PUT") req.body = body is Map?jsonEncode(body):body.toString();
   var resp = await client.send(req);
 
   final List<int> bytes = [];
@@ -103,7 +105,9 @@ Future<dynamic> _attemptRequest(
   otherHeaders ??= {};
   otherHeaders.addEntries([
     MapEntry("Cookie", cooki.substring(0,cooki.isEmpty?0:cooki.length-2)),
-    MapEntry("X-User-Id", userId)
+    if (!url.startsWith("https://www.pixiv.net/ajax/top/illust")) MapEntry("X-User-Id", userId),
+    //const MapEntry("content-type", "application/json; charset=utf-8"),
+    const MapEntry("Priority", "u=1, i"),
   ]);
   // if (cooki == "") await wait((_) => cooki=="");
   var d = pxRequestUnprocessed(

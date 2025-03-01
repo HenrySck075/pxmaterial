@@ -13,5 +13,5 @@ def findwhere(arr: Iterable[T], pred: Callable[[T],bool]) -> T:
 fucktyping: ResultSet[Tag] = ht.select("head script")
 h = requests.get(findwhere(fucktyping, lambda t: t.has_attr("src") and "https://s.pximg.net/www/js/build/common-path,sentry-setup,urls,web-vitals" in t.attrs["src"]).attrs["src"]).text 
 rege = 'version:"[a-z0-9]*"'
-i = re.sub('Version = "[a-z0-9]*"','Version = "'+re.findall(rege,h)[0][9:-1]+'"',open("../lib/shared.dart").read())
-open("../lib/shared.dart","w").write(i)
+i = re.sub('Version = "[a-z0-9]*"','Version = "'+re.findall(rege,h)[0][9:-1]+'"',open("../lib/shared/http.dart").read())
+open("../lib/shared/http.dart","w").write(i)

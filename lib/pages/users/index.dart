@@ -25,7 +25,7 @@ class _ShellPageState extends State<ShellPage> with TickerProviderStateMixin {
   String type = "all";
 
   TabController? _tabCtrl;
-  final _toggleDesc = VisibleNotifyNotifier(false);
+  final _toggleDesc = ManualNotifier(false);
   @override
   void initState() {
     id = widget.id;

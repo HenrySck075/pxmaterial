@@ -27,11 +27,11 @@ class _NovelPageState extends State<NovelPage> {
   List<String> authNovelIds = [];
   List<int> range = [0,0];
   List<int> visibleRange = [-1,-1];
-  var authNovelData = VisibleNotifyNotifier([]);
+  var authNovelData = ManualNotifier([]);
   final current = GlobalKey();
 
   // related artworks
-  var related = VisibleNotifyNotifier([]);
+  var related = ManualNotifier([]);
   List<dynamic> relatedNextIds = []; // bruh
   /// to prevent spamming the request
   bool relatedFetching = false;

@@ -11,7 +11,7 @@ class IllustManga extends StatefulWidget {
 class _IllustMangaState extends State<IllustManga> {
   var req = pxRequest("https://www.pixiv.net/ajax/discovery/artworks?mode=all&limit=60",extraData: {"id":1});
   final _scsvCtrl = ScrollController();
-  final yipee = VisibleNotifyNotifier<List<dynamic>>([]);
+  final yipee = ManualNotifier<List<dynamic>>([]);
   int id = 1;
   @override 
   void initState() {

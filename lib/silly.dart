@@ -23,9 +23,9 @@ import 'context_menu.dart';
 Text header(String label)=>Text(label,style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold));
 
 /// make `notifyListeners` non-protected :trollskullirl:
-class VisibleNotifyNotifier<T> extends ChangeNotifier {
+class ManualNotifier<T> extends ChangeNotifier {
   T _value;
-  VisibleNotifyNotifier(this._value);
+  ManualNotifier(this._value);
 
   T get value => _value;
   set value(T v) {
