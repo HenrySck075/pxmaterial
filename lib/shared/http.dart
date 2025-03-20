@@ -38,8 +38,8 @@ void updateCookieMap(String key, String value) {
 
   AppSettings().cookie = cooki;
   // ik im dumb
-  if (key == "PHPSESSID") {
-    userId = value.split("_")[0];
+  if (key == "__utmv") {
+    userId = RegExp(r'user_id=(\d+)').firstMatch(value)!.group(1)!;
   }
 }
 
@@ -54,7 +54,7 @@ Future<http.Response> pxRequestUnprocessed(String url, {
   var headers = {
     "Referer": "https://www.pixiv.net/en/",
     "Origin": "https://www.pixiv.net",
-    "X-User-Id": userId,
+    //"X-User-Id": userId,
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
     //"Baggage": "sentry-environment=production,sentry-release=55526bfe1ace7c59b328b3e22c5c78d3a3400d96,sentry-public_key=7b15ebdd9cf64efb88cfab93783df02a,sentry-trace_id=d9b45a04333c47d1b6ca220b32d539d9,sentry-sample_rate=0.0001"
   };
@@ -71,7 +71,9 @@ Future<http.Response> pxRequestUnprocessed(String url, {
 
   Uri parsedUrl = Uri.parse(url);
 
-  var req = http.Request(method.toUpperCase(),parsedUrl);
+  method = method.toUpperCase();
+
+  var req = http.Request(method,parsedUrl);
   req.headers.addAll(headers);
   req.headers.addAll(otherHeaders);
   if (method=="POST" || method=="PUT") req.body = body is Map?jsonEncode(body):body.toString();
